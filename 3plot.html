@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>HPSP131 - Workbook 4 - Data Visualisation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HPSP131</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1intro.html">1. Intro</a>
+</li>
+<li>
+  <a href="2data.html">2. Data 1</a>
+</li>
+<li>
+  <a href="7GLM.html">3. Data 2</a>
+</li>
+<li>
+  <a href="3plot.html">4. Plot</a>
+</li>
+<li>
+  <a href="4LM1.html">5. LM1</a>
+</li>
+<li>
+  <a href="5LM2.html">6. LM2</a>
+</li>
+<li>
+  <a href="6mod_med.html">7. Mod Med</a>
+</li>
+<li>
+  <a href="8sim.html">8. Sim</a>
+</li>
+<li>
+  <a href="9SEM.html">9. SEM</a>
+</li>
+<li>
+  <a href="10mixed.html">10. Mixed</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="exercises.html">Exercises</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">HPSP131 - Workbook 4 - Data Visualisation</h1>
+
+</div>
+
+
+<div id="objectives" class="section level1">
+<h1>Objectives</h1>
+<p>The aim of this week is to introduce you to visualising data with the ggplot2 package. By the end of this workbook, you should be able to:</p>
+<ol style="list-style-type: decimal">
+<li>Understand the importance of visualising your data.</li>
+<li>Understand which types of graphs are best for different types of data.</li>
+<li>Understand the ggplot2 package for data visualisation.</li>
+<li>Create the following types of plots:</li>
+</ol>
+<ul>
+<li>bar plots</li>
+<li>histograms and density plots</li>
+</ul>
+</div>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<p>Here is a list of resources that may help you with this weeks content:</p>
+<p><a href = "files/simulated.data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+</div>
+<div id="content" class="section level1">
+<h1>Content</h1>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<p>These packages are required for today’s workbook. Remember you need to install packages onto your computer if you haven’t used them before.</p>
+<pre class="r"><code>library(tidyverse)
+library(ggplot2)</code></pre>
+</div>
+<div id="visualising-your-data" class="section level2">
+<h2>Visualising Your Data</h2>
+<p>There are lots of good reasons to visualise your data:</p>
+<ol style="list-style-type: decimal">
+<li>It gives you the best idea of the distribution of your data.</li>
+<li>It can help inform the analysis you should conduct.</li>
+<li>It can identify if there is anything weird happening in your data.</li>
+</ol>
+<p>However, there is an art for creating an informative plot. Unfortunately, there are no good rule-of-thumbs that work for all types of data, and each plot requires careful consideration depending on the data and the intended audience. The aim of this week is to give you idea of the tools at your disposal when making plots in R.</p>
+</div>
+<div id="the-philosophy-of-ggplot2" class="section level2">
+<h2>The philosophy of ggplot2</h2>
+<p>R is celebrated for it’s ability to create high quality, publishable graphics. The ggplot2 package is one way you can make graphical representations of your data and is also highly flexible and customisable.</p>
+<p>ggplot2 works by adding layers, which are themselves customisable. Layers are then stacked on top of each other and this can lead to quite complicated looking graphs, even if the components themsevles are fairly simple.</p>
+<p>Think of making a graph in ggplot similar to making a pizza. First, you need a base - in both cases, these act as a blank canvas for your masterpiece. You will then add components; for a pizza, these would be your toppings (e.g., you could add peppers), but for graphs these are known as geometric objects (or geoms for short). Geoms themselves are highly customisable by changing properties known as aesthetics; this is similar to how on a pizza the same toppings can come in different varieties (e.g., you could have green peppers, or red peppers).</p>
+<p>This is what code to make a graph in ggplot looks like:</p>
+<pre class="r"><code>ggplot(data = example.data,aes(x = var1, y = var2)) +
+  geom_point(colour = &quot;red&quot;) +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Let’s break down each of these components:</p>
+<div id="ggplot" class="section level3">
+<h3>ggplot()</h3>
+<p>The <code>ggplot()</code> command can be considered the base of your pizza. Here you specify the parameters of your graph, such as the data you want to visualise (in the case above, a dataset called ‘example.data’), and what variable is on the x- or y-axis (var1 and var2 respectively in the example above). What you specify in this command will be used by all following geoms.</p>
+<p>The first thing you must specify is the data.frame that contains the data you wish to visualise. The other thing you must specify is any aesthetics that you wish to pass to all geoms in the plot. In this example, we specify the variables in the data.frame we want on the x- and y-axis. Whenever you specify an aesthetics that is dependent on something in the data.frame, you must map it using the <code>aes()</code> function.</p>
+<p>Just to reiterate, any aesthetics that you specify here will be passed to all geoms.</p>
+</div>
+<div id="geometric-objects" class="section level3">
+<h3>Geometric Objects</h3>
+<p>Once you have your base, you then add geometric objects (or geoms for short) - in the pizza analogy these are your toppings. Geoms details the type of information you would like to include on your plot. Each geom equates to an additional layer on your plot. You can have one or multiple geoms on a plot. You can add as many geoms as you want simply by using <code>+</code> symbol. In the example above, there are two geoms: <code>geom_point()</code>, which plots the individual points, and <code>geom_smooth()</code>, which plots the line-of-best-fit.</p>
+</div>
+<div id="aesthetics" class="section level3">
+<h3>Aesthetics</h3>
+<p>Within each geom, are aesthetics commands. These are used to customise the look of the plot. In the example above, in <code>geom_point()</code> we changed the ‘colour’ aesthetic to edit the colour of the points to red.</p>
+<p>Here are examples of aesthetics you can change. Note that not all types of aethetics make sense for all types of graphs:</p>
+<ul>
+<li>Position (both along the x- and y- axis)</li>
+<li>Colour</li>
+<li>Shape (for points)</li>
+<li>Size</li>
+<li>Opacity (referred to as alpha)</li>
+</ul>
+<p>Note about aesthetics: as with the <code>ggplot()</code> command above, if aesthetics are dependent on variables in your data.frame, you need to assign it to the mapping argument using <code>aes()</code>. This could be useful if you want different aesthetics to represent differences in your data. Using different aesthetic properties for different variables can lead to visualisations that convey a lot of information, but are still readily interpretable.</p>
+<p>Below is an example of representing data using multiple aesthetics. The data come from Lee, DeBruine, and Jones (2018) and investigate the relationship between a country’s life expectancy, and future discounting (i.e., the proportion of trial where participants choose a larger reward in the future, compared to a smaller, immediate reward). Each point represents a different country in the dataset. The country’s life expectancy is on the x-axis. The region of the world the country falls in is represented by colour, while the number of participants from that country is represented by the size of the point.</p>
+<p>From the code below, can you understand how this plot was put together?</p>
+<pre class="r"><code>ggplot(discounting.data,aes(x = life.expectancy,y = dv)) +
+  geom_point(aes(size = n,colour = region))</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div id="other-things" class="section level4">
+<h4>Other Things…</h4>
+<p>There are also a few other commands that can customise the look of your plot. You can change things like axis text size, labels, or split your graph into multiple panels. These don’t really fit well within the pizza analogy.</p>
+</div>
+</div>
+</div>
+<div id="one-variable-graphs" class="section level2">
+<h2>One Variable Graphs</h2>
+<p>Plotting your variables gives you the best idea of the spread of your data. It can highlight whether there are problematic issues with your variable and help inform which analysis to conduct. For the remaining plots, we will be visualising variables collected as part of the questionnaire associated with this workbook.</p>
+<div id="bar-charts---1-variable-categorical" class="section level3">
+<h3>Bar Charts - 1 Variable Categorical</h3>
+<p>Below is code for a bar chart that visualises the responses to the item asking about your Favourite Australian Animal. Bar charts are ideal for visualising count data. Each category is along the x-axis, while the number of responses associated with that category is on the y-axis.</p>
+<pre class="r"><code>ggplot(data = data,mapping = aes(x = aus.animal)) +
+  geom_bar(fill = &quot;green&quot;)</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="histograms---1-variable-continuous" class="section level3">
+<h3>Histograms - 1 Variable Continuous</h3>
+<p>One way to visualise a continuous variable is via a histogram. Similar to a bar chart, all possible responses (or a range of responses) on the variable are on the x-axis, while the y-axis shows the counts associated with that value. Below is the code to make a histogram of people’s response to height:</p>
+<pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
+  geom_histogram(binwidth = 2)</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Related to this is a density plot. Density plots are slightly different because, rather than represent counts, they represent percentage of responses that fall in a certain bandwidth.</p>
+<pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
+  geom_density(fill = &quot;purple&quot;)</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>By adjusting some of the aesthetic components, we can begin to customise our plot, and make more complicated visualisations. In the code below, we change the ‘fill’ aesthetic to map onto whether participants like to play videogames. We can then visualise the height for videogamers vs non-videogamers separately on the one plot.</p>
+<pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
+  geom_histogram(aes(fill = video.games),binwidth = 2,position = &quot;dodge&quot;)</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Or…</p>
+<pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
+  geom_density(aes(fill = video.games),alpha = .5)</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="in-the-coming-weeks" class="section level3">
+<h3>In The Coming Weeks…</h3>
+<p>In the coming weeks, we will be introducing a number of other geoms that can be used to represent different types of data, and geoms that can visualise the relationship between two variables.</p>
+</div>
+</div>
+</div>
+<div id="exercises-1" class="section level1">
+<h1>Exercises</h1>
+<p>Now that you’ve completed this week’s workbook, why not give this week’s exercises a go? You can download the interactive exercises by clicking the link below.</p>
+<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

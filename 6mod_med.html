@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>HPSP131 - Workbook 7 - Moderation (Interaction Effects) and Mediation</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HPSP131</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1intro.html">1. Intro</a>
+</li>
+<li>
+  <a href="2data.html">2. Data 1</a>
+</li>
+<li>
+  <a href="7GLM.html">3. Data 2</a>
+</li>
+<li>
+  <a href="3plot.html">4. Plot</a>
+</li>
+<li>
+  <a href="4LM1.html">5. LM1</a>
+</li>
+<li>
+  <a href="5LM2.html">6. LM2</a>
+</li>
+<li>
+  <a href="6mod_med.html">7. Mod Med</a>
+</li>
+<li>
+  <a href="8sim.html">8. Sim</a>
+</li>
+<li>
+  <a href="9SEM.html">9. SEM</a>
+</li>
+<li>
+  <a href="10mixed.html">10. Mixed</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="exercises.html">Exercises</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">HPSP131 - Workbook 7 - Moderation (Interaction Effects) and Mediation</h1>
+
+</div>
+
+
+<div id="objectives" class="section level1">
+<h1>Objectives</h1>
+<p>The aim of this week’s workbook is to cover moderation (interaction effects) and mediation analyses in R. By the end of this workbook, you should be able to:</p>
+<ol style="list-style-type: decimal">
+<li>Perform a multiple regression with interactions.</li>
+<li>Perform a mediation analysis.</li>
+<li>Plot relationship between data with two continuous IVs and one continuous DV, including:</li>
+</ol>
+<ul>
+<li>interaction plots</li>
+</ul>
+</div>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<p>Here is a list of resources that may help you with this weeks content:</p>
+<p><a href = "files/simulated.data_2019.csv" download>Click here to download the data used in these workbooks.</a></p>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+</div>
+<div id="content" class="section level1">
+<h1>Content</h1>
+<div id="before-we-begin" class="section level2">
+<h2>Before we begin…</h2>
+<p>Remember, whenever we analyse data, we will roughly be following this procedure:</p>
+<ol style="list-style-type: decimal">
+<li>Clean the data for analysis.</li>
+<li>Run the statistical test.</li>
+<li>Plot the data.</li>
+<li>Write-up analysis.</li>
+</ol>
+<p>We will be using the following packages. If this is your first time using these packages, then remember to install them in R.</p>
+<pre class="r"><code>library(tidyverse)
+library(broom)
+library(lm.beta)
+library(mediation)</code></pre>
+</div>
+<div id="reminder-moderation-interaction-effects" class="section level2">
+<h2>Reminder: Moderation (Interaction Effects)</h2>
+<p>As covered in the Lecture series, moderation is when the effect of one IV on the DV depends on another IV. How we can test this in a linear regression is to include an interaction effect.</p>
+<p>In the example below, we will test the hypothesis that the association between understanding a statistics teacher and stress is moderated by social support. We would predict that anxiety about taking a statistics test would cause high stress, but more so for individuals who do not have good social support.</p>
+</div>
+<div id="regression-with-interaction-effect" class="section level2">
+<h2>Regression with Interaction Effect</h2>
+<div id="clean-the-data-for-analysis." class="section level3">
+<h3>1. Clean the data for analysis.</h3>
+<p>First we must calculate the scores for each scale in the analysis from the variables.</p>
+<p>For more detail on the Statistic Anxiety Rating Scale (STARS), <a href="https://www.sciencedirect.com/science/article/pii/S0191886908000792">click here</a>. For more detail on the Perceived Social Support Scale, <a href="https://www.researchgate.net/publication/240290845_The_Multidimensional_Scale_of_Perceived_Social_Support">click here</a>. For more detail on the Stress Scale, <a href="https://www.jstor.org/stable/2136404?seq=9#metadata_info_tab_contents">click here</a>.</p>
+<pre class="r"><code>data1.clean &lt;- data %&gt;%
+  mutate(stars.test = stars.1 + stars.4 + stars.8 + stars.10 + stars.13 + stars.15 + stars.21 + stars.22,
+         support = support.1 + support.2 + support.3 + support.4 + support.5 + support.6 + support.7 + support.8 + support.9 + support.10 + support.11 + support.12,
+         stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5 + stress.6 + stress.7 + stress.8 + stress.9 + stress.10) %&gt;%
+  dplyr::select(student.no,stars.test,support,stress)</code></pre>
+<p>When dealing with interaction terms, including uncentered variables can be problematic. In order to center the variables, we first need to get the means for all the variables. To do this, we will use the summarise function:</p>
+<pre class="r"><code>data1.summary &lt;- summarise(data1.clean,
+          stars.test_mean = mean(stars.test),
+          support_mean = mean(support),
+          stress_mean = mean(stress),
+          stars.test_sd = sd(stars.test),
+          support_sd = sd(support),
+          stress_sd = sd(stress))
+
+data1.summary</code></pre>
+<pre><code>##   stars.test_mean support_mean stress_mean stars.test_sd support_sd
+## 1        24.03333     48.83333    19.68333      3.732435   6.926164
+##   stress_sd
+## 1  4.188328</code></pre>
+<pre class="r"><code>#Compute centred variables for unstandardised analysis.
+data1.clean &lt;- cbind(data1.clean,data1.summary) %&gt;%
+  mutate(c.stars.test = stars.test - stars.test_mean,
+         c.support = support - support_mean,
+
+#Compute standardised variables for standardised analysis.
+         z.stars.test = (stars.test - stars.test_mean)/stars.test_sd,
+         z.support = (support - support_mean)/support_sd,
+         z.stress = (stress - stress_mean)/stress_sd)</code></pre>
+</div>
+<div id="run-statistical-test" class="section level3">
+<h3>2. Run statistical test</h3>
+<p>Recall that interaction effects are the multiplication of the two variable. Therefore, to specify an interaction, we include the multiplication of the variable whose interaction we are interested in. Make sure you include the centred variables in the formula.</p>
+<pre class="r"><code>#Unstandardised Model
+model1 &lt;- lm(stress ~ c.stars.test*c.support,data = data1.clean)
+summary(model1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = stress ~ c.stars.test * c.support, data = data1.clean)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -9.529 -2.735  0.079  2.562  8.602 
+## 
+## Coefficients:
+##                         Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)            19.692466   0.547713  35.954   &lt;2e-16 ***
+## c.stars.test            0.209624   0.147912   1.417    0.162    
+## c.support              -0.066544   0.083457  -0.797    0.429    
+## c.stars.test:c.support -0.002957   0.022232  -0.133    0.895    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.209 on 56 degrees of freedom
+## Multiple R-squared:  0.04141,    Adjusted R-squared:  -0.009938 
+## F-statistic: 0.8065 on 3 and 56 DF,  p-value: 0.4956</code></pre>
+<p>Notice how R automatically includes the main effects in the model? In most cases, you will want to include the separate main effects when including an interaction term, but in the odd occassion when you want to include the interaction effect without the main effect, you can specify it using the <code>:</code> symbol. In other words:</p>
+<p><code>stress ~ stars.test*support</code> is identical to <code>stress ~ stars.test + support + stars.test:support</code></p>
+<p>Above are the unstandardised coefficients. In order to report in APA format, we require the standardised coefficient. Similar to with an ordinary regression, we can use the <code>lm.beta()</code> function to get the standardised coefficients, like here:</p>
+<pre class="r"><code>#Standardised Model
+lm.beta(model1) %&gt;% summary()</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = stress ~ c.stars.test * c.support, data = data1.clean)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -9.529 -2.735  0.079  2.562  8.602 
+## 
+## Coefficients:
+##                         Estimate Standardized Std. Error t value Pr(&gt;|t|)
+## (Intercept)            19.692466     0.000000   0.547713  35.954   &lt;2e-16
+## c.stars.test            0.209624     0.186807   0.147912   1.417    0.162
+## c.support              -0.066544    -0.110043   0.083457  -0.797    0.429
+## c.stars.test:c.support -0.002957    -0.018234   0.022232  -0.133    0.895
+##                           
+## (Intercept)            ***
+## c.stars.test              
+## c.support                 
+## c.stars.test:c.support    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.209 on 56 degrees of freedom
+## Multiple R-squared:  0.04141,    Adjusted R-squared:  -0.009938 
+## F-statistic: 0.8065 on 3 and 56 DF,  p-value: 0.4956</code></pre>
+</div>
+<div id="plot-data" class="section level3">
+<h3>3. Plot data</h3>
+<p>Interactions can often be difficult to intuit from just looking at the numbers in the model. Therefore, it is almost always necessary to plot them. The most common way to plot an interaction is to split the dataset in two according to the moderator: one with participants who score above the mean on the moderator, and the other with participants who score below the mean on the moderator. In our example, this means splitting the data into participants who are above and below the mean in social support. We can do this using the <code>filter()</code> function:</p>
+<pre class="r"><code>plot.data_modhigh &lt;- filter(data1.clean,z.support &gt; 0)
+plot.data_modlow &lt;- filter(data1.clean,z.support &lt; 0)</code></pre>
+<p>Since we standardised the moderator during the cleaning scale. The mean = 0, so we can split the data on this.</p>
+<p>We then plot the regression line for “high support” (red), and “low support” (blue) separately. This is done by adding two separate <code>geom_smooth()</code> geoms. In each, we specify a different data.frame.</p>
+<pre class="r"><code>ggplot(mapping = aes(x = stars.test,y = stress)) +
+  geom_smooth(data = plot.data_modhigh,method = &quot;glm&quot;,colour = &quot;red&quot;) +
+  geom_smooth(data = plot.data_modlow, method = &quot;glm&quot;,colour = &quot;blue&quot;)</code></pre>
+<p><img src="6mod_med_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Even better is if can visualise the raw data in a scatterplot:</p>
+<pre class="r"><code>ggplot(data = data1.clean,mapping = aes(x = stars.test,y = stress)) +
+  geom_point(aes(colour = support)) +
+  geom_smooth(data = plot.data_modhigh,method = &quot;glm&quot;,colour = &quot;red&quot;) +
+  geom_smooth(data = plot.data_modlow, method = &quot;glm&quot;,colour = &quot;blue&quot;) +
+  scale_colour_gradient(low = &quot;blue&quot;,high = &quot;red&quot;)</code></pre>
+<p><img src="6mod_med_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+<div id="write-up-analysis." class="section level3">
+<h3>4. Write-up analysis.</h3>
+<p>Given that a moderation is exactly the same as a regression, we require the same information to do the write-up. As a reminder, here are the components you need to write up a regression:</p>
+<p>For the model, you need the following information: * the R-squared statistic. * the F-statistic and associated degrees of freedom. * the and p-value for the model.</p>
+<p>For each predictor, you need the following information: * the standardised coefficient. * the t-statistic. * the p-value for that coefficient.</p>
+<p>As mentioned last week, with more than one predictor in the model, it may make more sense to report the statistics in a table. This includes models with interaction effects (in the case above, the interaction effect is our third predictor).</p>
+<p>Here is an example of the write-up:</p>
+<blockquote>
+<p>We used a linear regression to predict stress from the anxiety about taking a statistics test, level of social support, and the interaction between the two. We found that model explained 4.14% of the variance (F(3,56) = 0.81, p = 0.496). Regression coefficients are reported in Table 1. There was no significant main effect of teaching comprehension on stress. There was no significant main effect of perceived social support on stress. The interaction between comprehension of statistics teacher and level of social support was not significant.</p>
+</blockquote>
+<p>Table 1. Regression coefficients for linear model predicting stress.</p>
+<table>
+<thead>
+<tr class="header">
+<th>predictor</th>
+<th>beta</th>
+<th>t</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Teacher Comprehension</td>
+<td>0.21</td>
+<td>1.42</td>
+<td>0.16</td>
+</tr>
+<tr class="even">
+<td>Social Support</td>
+<td>-0.07</td>
+<td>-0.8</td>
+<td>0.43</td>
+</tr>
+<tr class="odd">
+<td>TC * SS</td>
+<td>0</td>
+<td>-0.13</td>
+<td>0.89</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="mediation" class="section level2">
+<h2>Mediation</h2>
+<p>As covered in the Lecture series, mediation describes a relationship where the influence of one variable on another can be explained through a third variable. In the example below, we will test whether the relationship between statistics teacher comprehension and stress can be explained through individual’s anxiety about taking statistics test (i.e., individuals who find statistics teachers hard to understand increase their anxiety about taking statistics tests, which in turn increases stress).</p>
+<div id="clean-data-for-analysis." class="section level3">
+<h3>1. Clean data for analysis.</h3>
+<pre class="r"><code>data2.clean &lt;- data %&gt;%
+  mutate(teacher = stars.30 + stars.32 + stars.43 + stars.44 + stars.46,
+         support = support.1 + support.2 + support.3 + support.4 + support.5 + support.6 + support.7 + support.8 + support.9 + support.10 + support.11 + support.12,
+         stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5 + stress.6 + stress.7 + stress.8 + stress.9 + stress.10,
+         stars.test = stars.1 + stars.4 + stars.8 + stars.10 + stars.13 + stars.15 + stars.21 + stars.22) %&gt;%
+  dplyr::select(student.no,teacher,support,stars.test,stress)</code></pre>
+</div>
+<div id="run-statistical-test-1" class="section level3">
+<h3>2. Run statistical test</h3>
+<p>Remember, mediation is when the effect of one IV could be explained through a third variable (mediation). If effect is there without mediator in model, but is reduced (or disappears) when the mediator is included, there is a chance the mediation is happening. An example of this is below.</p>
+<p>Here we test whether there is an association between the predictor and the outcome variable:</p>
+<pre class="r"><code>model.y &lt;- lm(stress ~ teacher,data = data2.clean)
+summary(model.y)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = stress ~ teacher, data = data2.clean)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.6601  -3.3075   0.1407   2.7393   8.3399 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  16.6723     2.8292   5.893 2.05e-07 ***
+## teacher       0.1992     0.1837   1.084    0.283    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.182 on 58 degrees of freedom
+## Multiple R-squared:  0.01986,    Adjusted R-squared:  0.002966 
+## F-statistic: 1.176 on 1 and 58 DF,  p-value: 0.2828</code></pre>
+<p>Here we test whether including the mediator in the model changes the relationship between the predictor and the outcome variable:</p>
+<pre class="r"><code>model.y2 &lt;- lm(stress ~ teacher + stars.test,data = data2.clean)
+summary(model.y2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = stress ~ teacher + stars.test, data = data2.clean)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.1020  -3.0261   0.2133   2.7268   7.9776 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)  12.4973     4.3298   2.886   0.0055 **
+## teacher       0.1818     0.1833   0.992   0.3254   
+## stars.test    0.1846     0.1455   1.269   0.2096   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.16 on 57 degrees of freedom
+## Multiple R-squared:  0.04679,    Adjusted R-squared:  0.01334 
+## F-statistic: 1.399 on 2 and 57 DF,  p-value: 0.2552</code></pre>
+<p>Also, in order for there to be a mediation, we must observe a relationship between the predictor and the mediator:</p>
+<pre class="r"><code>model.m &lt;- lm(stars.test ~ teacher,data = data2.clean)
+summary(model.m)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = stars.test ~ teacher, data = data2.clean)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7.9282 -2.4135 -0.5224  1.9071  9.1659 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 22.61069    2.53956   8.903 1.91e-12 ***
+## teacher      0.09411    0.16491   0.571     0.57    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.754 on 58 degrees of freedom
+## Multiple R-squared:  0.005584,   Adjusted R-squared:  -0.01156 
+## F-statistic: 0.3257 on 1 and 58 DF,  p-value: 0.5704</code></pre>
+<p>While we may or may not meet the conditions for a mediation above, we will continue with the analysis to demonstrate the process.</p>
+<p>In order to conduct a mediation analysis in R, we will load the <code>medation</code> package, which can test for a mediation via bootstrapping. If you haven’t installed the mediation package yet, run the following code:</p>
+<pre class="r"><code>install.packages(&quot;mediation&quot;)</code></pre>
+<p>Otherwise (or afterwards), load the mediation package:</p>
+<pre class="r"><code>library(mediation)</code></pre>
+<p>The function that runs the mediation analysis is aptly named <code>mediate()</code>. If you read the documentation for this function using <code>help(mediate)</code>, you will see this function takes two mandatory arguments: <code>model.m</code> and <code>model.y</code>, as well as a whole list of other arguments that have defaults. For now, we will go with the defaults.</p>
+<p>The <code>model.m</code> argument is a model where the IV predicts the mediator. The <code>model.y</code> argument is a model where both the iv and mediator predict the dv. As it so happens, we have already created both these models in running the checks above!</p>
+<p>By plugging both these into the <code>mediate()</code> function, and giving additional arguments that tell it the names of the IV (called <code>treat</code> here) and the <code>mediator</code>, it will run the simulations and tell us the proportion mediated.</p>
+<p>For full documentation of the <code>mediate()</code> function, read <code>help(mediate)</code> and <code>help(summary.mediate)</code>.</p>
+<pre class="r"><code>med.model &lt;- mediate(model.y2,model.m,treat = &quot;teacher&quot;,mediator = &quot;stars.test&quot;)
+summary(med.model)</code></pre>
+<pre><code>## 
+## Causal Mediation Analysis 
+## 
+## Quasi-Bayesian Confidence Intervals
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value
+## ACME             0.0000       0.0000         0.00    1.00
+## ADE              0.0843      -0.2317         0.39    0.62
+## Total Effect     0.0843      -0.2317         0.39    0.62
+## Prop. Mediated   0.0000       0.0000         0.00    1.00
+## 
+## Sample Size Used: 60 
+## 
+## 
+## Simulations: 1000</code></pre>
+<p>In the table above, ACME refers to the mediation effect, ADE refers to the direct effect, Total Effect refers to the size of both the mediation and direct effect together, while the Prop. Mediated refers to the Proprotion of the total effect that could be explained by mediation. Note that conducting a mediation analysis this way requires resampling of the data - as such, the exact numbers may vary slightly depending on randomness. As long as there are no issues with the data though, the numbers should all be fairly similar.</p>
+<p>The range between the 95% Confidence Intervals (CI) refers to the range you could expect the estimate to fall within if you were to repeat your experiment 100 times given your data, design, and analysis. If the range between the CIs does not contain zero, then your effect is significant.</p>
+</div>
+<div id="plot-data-1" class="section level3">
+<h3>3. Plot data</h3>
+<div id="path-diagram" class="section level4">
+<h4>Path Diagram</h4>
+<p>For mediation, there’s no good way to plot the raw data that visualises the mediation. The most common way to visualise a mediated effect is through a path diagram. You do not need <code>ggplot2</code> to do this, for instance:</p>
+<div class="figure">
+<img src="" alt="Image currently unavailable." />
+<p class="caption">Image currently unavailable.</p>
+</div>
+<p>In Workbook 9, we will learn a function that can make some crude path diagrams through running a mediation via the <code>lavaan</code> package.</p>
+</div>
+<div id="forrest-plot" class="section level4">
+<h4>Forrest Plot</h4>
+<p>Another (uncommon) way to visualise a mediation is by using a forrest plot. Forrest plots show the estimates of a given model and their standard errors. See if you can follow the code below - there are some quite advanced things happening here, so do not be concerned if you don’t understand what everything does.</p>
+<pre class="r"><code>plot.y.model &lt;- model.y %&gt;%
+  tidy() %&gt;% 
+  mutate(se_low = estimate - std.error,
+         se_high = estimate + std.error,
+         model = &quot;Model without Mediator&quot;) %&gt;%
+  dplyr::select(term,estimate,std.error,se_low,se_high,model)
+
+plot.y2.model &lt;- model.y2 %&gt;%
+  tidy() %&gt;% 
+  mutate(se_low = estimate - std.error,
+         se_high = estimate + std.error,
+         model = &quot;Model with Mediator&quot;) %&gt;%
+  dplyr::select(term,estimate,std.error,se_low,se_high,model)
+
+plot.data &lt;- rbind(plot.y.model,plot.y2.model)
+
+ggplot(data = plot.data,aes(x = term,y = estimate,ymin = se_low,ymax = se_high,colour = model)) +
+    geom_pointrange(
+        size = .5,
+        position = position_dodge(.3)) +
+        geom_hline(yintercept = 0) +
+        coord_flip()</code></pre>
+<p><img src="6mod_med_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+</div>
+<div id="write-up-analysis.-1" class="section level3">
+<h3>4. Write-up analysis.</h3>
+<p>Here is an example of a write-up for the mediation analysis above:</p>
+<blockquote>
+<p>A mediation analysis is reported in Table 2. We found that anxiety related to taking a statistics test did not significantly mediate the relationship between comprehension of statistics teachers and stress.</p>
+</blockquote>
+<p>Table 2. Causal Mediation Analysis testing the mediating effect of anxiety related to taking a statistics test on the relationship between comprehension of statistics teachers and stress.</p>
+<pre><code>                    |Estimate (95% CI)                                                 |p-value</code></pre>
+<p>————————|——————————————————————|——————– Average Mediated Effect |0 (0, 0) |1 Average Direct Effect |0.08 (-0.23, 0.39) |0.62 Total Effect |0.08 (-0.23, 0.39) |0.62 Proportion Mediated |0 (0, 0) |1</p>
+</div>
+</div>
+</div>
+<div id="exercises-1" class="section level1">
+<h1>Exercises</h1>
+<p>Now that you’ve completed this week’s workbook, why not give this week’s exercises a go? You can download the interactive exercises by clicking the link below.</p>
+<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

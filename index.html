@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>HPSP131 - Quantitative Methods in Psychological Research</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HPSP131</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1intro.html">1. Intro</a>
+</li>
+<li>
+  <a href="2data.html">2. Data 1</a>
+</li>
+<li>
+  <a href="7GLM.html">3. Data 2</a>
+</li>
+<li>
+  <a href="3plot.html">4. Plot</a>
+</li>
+<li>
+  <a href="4LM1.html">5. LM1</a>
+</li>
+<li>
+  <a href="5LM2.html">6. LM2</a>
+</li>
+<li>
+  <a href="6mod_med.html">7. Mod Med</a>
+</li>
+<li>
+  <a href="8sim.html">8. Sim</a>
+</li>
+<li>
+  <a href="9SEM.html">9. SEM</a>
+</li>
+<li>
+  <a href="10mixed.html">10. Mixed</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="exercises.html">Exercises</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">HPSP131 - Quantitative Methods in Psychological Research</h1>
+
+</div>
+
+
+<p>This module is designed to teach students the basic skills needed to conduct quantitative research in R. This module covers basic data skills, data tidying, plotting data, and analysing datasets in R. This is not meant to be a comprehensive guide to R (such a thing would be almost impossible!). Rather, this module is designed to be a gentle introduction to R, cover statistical techniques that are common in psychological research, and provide a solid base where you can investigate advanced techniques on your own. This website contains weekly workbooks designed to reinforce materials presented in lectures and demonstrations. Weekly exercises are also provided that are designed for you to practice your R skills, and introduce new concepts for students looking for an additional challenge.</p>
+<div id="syllabus" class="section level1">
+<h1>Syllabus</h1>
+<p>Each week, we will be tackling the following topics:</p>
+<ol style="list-style-type: decimal">
+<li>Introduction to R.</li>
+<li>Datasets in R.</li>
+<li>Data cleaning and data skills.</li>
+<li>Plotting data using ggplot2.</li>
+<li>t-tests and ANOVAs.</li>
+<li>Correlation and regression.</li>
+<li>Multiple regression - moderation and mediation</li>
+<li>Custom functions in R and power</li>
+<li>Structural Equation Modelling (Path Analysis)</li>
+<li>Mixed Effects Modelling (Multilevel Modelling)</li>
+</ol>
+</div>
+<div id="weekly-exercises" class="section level1">
+<h1>Weekly Exercises</h1>
+<p>Exercises are available each week and are designed to reinforce content. These exercises are split into basic and advance sections. It is expected that students can complete the basic sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R. If you can successfully complete these exercises, then you will easily be able to complete the marked assessments.</p>
+<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+</div>
+<div id="assessments" class="section level1">
+<h1>Assessments</h1>
+<p>For this module, there are six assessments spaced out throughout the semester. Five are exercises similar to the exercises provided each week; they begin pretty simple but will get more challenging as the semester continues. The last of these five assessments is designed to be challenging, but also optional. There is also a final exam at the end of semester.</p>
+<ol style="list-style-type: decimal">
+<li>Assessment 1 - Variables (10%)</li>
+<li>Assessment 2 - Hypotheses, Central Tendancy, and Dispersion (10%)</li>
+<li>Assessment 3 - Two Variable Analyses (10%)</li>
+<li>Assessment 4 - Three Variable Analyses (10%)</li>
+<li>Assessment 5 - Advanced Concepts (10%) - This assessment is optional.</li>
+<li>Final Exam (50%)</li>
+</ol>
+</div>
+<div id="before-you-start" class="section level1">
+<h1>Before You Start…</h1>
+<div id="complete-the-survey" class="section level2">
+<h2>Complete The Survey</h2>
+<p>Within these workbooks, we will be analysing real data collected in a survey at the beginning of semester. Before beginning the first workbook, it is a good idea to complete this survey yourself, as 1) it will give you an idea on how the data we are analysing was collected, and 2) if no one does the survey, then we won’t have any data to analyse!</p>
+<p><a href = "https://stirlingpsych.eu.qualtrics.com/jfe/form/SV_bl9BgrlSHYYwHSl">You can access the survey by clicking here.</a></p>
+</div>
+<div id="download-r" class="section level2">
+<h2>Download R</h2>
+<p>R is a free software environment for statstical computing and graphics. If you already have R installed on your computer, make sure you have the latest version. Otherwise, you can follow the instructions below to install R. R can be installed on most computers and laptops, but cannot be installed on tablets and some chromebooks.</p>
+<ol style="list-style-type: decimal">
+<li><a href = "https://cran.ma.imperial.ac.uk" target = "_blank">Click here to go to the R download website (UK)</a></li>
+<li>Select your operating system (Linux, MacOS, or Windows).</li>
+<li>Select the latest release to download to your computer.</li>
+<li>Open the downloaded file and follow the instructions.</li>
+</ol>
+</div>
+<div id="download-rstudio" class="section level2">
+<h2>Download RStudio</h2>
+<p>RStudio provides a graphical user interface for R. It is designed to make R easier to use. All content from this module will be conducted in RStudio.</p>
+<ol style="list-style-type: decimal">
+<li><a href="https://www.rstudio.com/products/rstudio/download/">Click here to go to the RStudio download website.</a>{target = “_blank“}</li>
+<li>Select the FREE RStudio Desktop Open Source License option.</li>
+<li>Select the version for your operating system (Linux, MacOS, Windows, etc.)</li>
+<li>Open the downloaded file and follow the instructions.</li>
+</ol>
+<p>Note: Downloading both R and RStudio will usually results two different icons that can be opened to start R. For all material in this course, make sure to open RStudio, and not R.</p>
+<div class="figure">
+<img src="images/RvsRstudio.png" alt="Make sure to open RStudio and not R" />
+<p class="caption">Make sure to open RStudio and not R</p>
+</div>
+</div>
+</div>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<p>Many online tutorials are available for learning R that can be used to compliment the materials here. If you are feeling overwhelmed, or just looking for additional content, try some of the following courses:</p>
+<ol style="list-style-type: decimal">
+<li><a href="https://swirlstats.com">Swirl</a></li>
+<li><a href="https://resources.rstudio.com/webinars/a-gentle-introduction-to-tidy-statistics-in-r">RStudio Webinars</a></li>
+<li><a href="http://swcarpentry.github.io/r-novice-gapminder/">R for Reproducible Scientific Analysis</a></li>
+<li><a href="https://www.computerworld.com/article/2497143/business-intelligence-beginner-s-guide-to-r-introduction.html">ComputerWorld Tutorial</a></li>
+<li><a href="https://www.datacamp.com/courses/free-introduction-to-r">datacamp</a></li>
+<li><a href="https://www.pluralsight.com/search?q=R">tryR</a></li>
+<li><a href="https://www.coursera.org/learn/r-programming">coursera</a></li>
+<li><a href="https://www.teamleada.com/courses/r-bootcamp">leada</a></li>
+<li>Google “r tutorials” for more.</li>
+</ol>
+<p>Note: Often there are more than one way to do things in R. During this module, I will primarily be teaching R using the tidyverse packages, but you may find other ways to achieve the same objective. In all cases, you should go with the method that makes the most sense to you.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

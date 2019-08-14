@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>HPSP131 - Workbook 3 - Data Skills: Cleaning</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HPSP131</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1intro.html">1. Intro</a>
+</li>
+<li>
+  <a href="2data.html">2. Data 1</a>
+</li>
+<li>
+  <a href="7GLM.html">3. Data 2</a>
+</li>
+<li>
+  <a href="3plot.html">4. Plot</a>
+</li>
+<li>
+  <a href="4LM1.html">5. LM1</a>
+</li>
+<li>
+  <a href="5LM2.html">6. LM2</a>
+</li>
+<li>
+  <a href="6mod_med.html">7. Mod Med</a>
+</li>
+<li>
+  <a href="8sim.html">8. Sim</a>
+</li>
+<li>
+  <a href="9SEM.html">9. SEM</a>
+</li>
+<li>
+  <a href="10mixed.html">10. Mixed</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="exercises.html">Exercises</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">HPSP131 - Workbook 3 - Data Skills: Cleaning</h1>
+
+</div>
+
+
+<div id="objectives" class="section level1">
+<h1>Objectives</h1>
+<p>The aim of this week is to cover analyses tidyverse functions used for data cleaning. By the end of this workbook, you should be able to:</p>
+<ol style="list-style-type: decimal">
+<li>Understand common practices for cleaning a dataset, including:</li>
+</ol>
+<ul>
+<li>Selecting relevant variables</li>
+<li>Removing participants</li>
+<li>Dealing with missing data</li>
+<li>Calculating scores from multiple variables</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Be able to use the following tidyverse functions:</li>
+</ol>
+<ul>
+<li><code>select()</code></li>
+<li><code>filter()</code></li>
+<li><code>mutate()</code></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Understand the pipe: <code>%&gt;%</code></li>
+</ol>
+</div>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<p>Here is a list of resources that may help you with this weeks content:</p>
+<p><a href = "files/simulated.data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+</div>
+<div id="content" class="section level1">
+<h1>Content</h1>
+<div id="tidyverse-functions" class="section level2">
+<h2>Tidyverse Functions</h2>
+<p>Recall from last week that the tidyverse package provides handy functions for data cleaning and manipulation. These functions work like all other functions: they take numerous of arguments, such as a data.frame and instructions, then returns to you an output, which is often another data.frame. In this workbook, we will cover three such functions that are commonly used for data cleaning.</p>
+<p>Data cleaning is the process of getting the data ready for analysis. It usually involves selecting the variables you will use in the analysis, filtering out participants that don’t meet certain criteria, or computing composite variables that will be used in analyses. However, it can also include more complex operations, such as reshaping the data, or joining data from different data files.</p>
+<p>Make sure to load the tidyverse package before starting this workbook.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<div id="select" class="section level3">
+<h3>select()</h3>
+<p>Use the <code>select()</code> to extract columns in a table. Often when loading a dataset, there will be columns/variables that are not relevant to the analysis you want to conduct. This function can be helpful when a dataset contains many columns and you only want to include the variables relevant to your analysis.</p>
+<p>For example, in dataset used in these workbooks, we will only be working with a a few of the many variables each week, so we may want to only include the variables we will be using any given week. In the code below, we are only selecting the columns we are using this week.</p>
+<pre class="r"><code>data.select &lt;- select(data,student.no,program,stats.exp,pathogen1,pathogen2,pathogen3,pathogen4,pathogen5,pathogen6,pathogen7)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["student.no"],"name":[1],"type":["int"],"align":["right"]},{"label":["program"],"name":[2],"type":["chr"],"align":["left"]},{"label":["stats.exp"],"name":[3],"type":["int"],"align":["right"]},{"label":["pathogen1"],"name":[4],"type":["int"],"align":["right"]},{"label":["pathogen2"],"name":[5],"type":["int"],"align":["right"]},{"label":["pathogen3"],"name":[6],"type":["int"],"align":["right"]},{"label":["pathogen4"],"name":[7],"type":["int"],"align":["right"]},{"label":["pathogen5"],"name":[8],"type":["int"],"align":["right"]},{"label":["pathogen6"],"name":[9],"type":["int"],"align":["right"]},{"label":["pathogen7"],"name":[10],"type":["int"],"align":["right"]}],"data":[{"1":"94020918","2":"Other Research MSc","3":"8","4":"6","5":"0","6":"0","7":"2","8":"6","9":"0","10":"5"},{"1":"26382879","2":"Conversion MSc","3":"8","4":"4","5":"6","6":"5","7":"6","8":"6","9":"1","10":"5"},{"1":"57360070","2":"Conversion MSc","3":"3","4":"4","5":"4","6":"5","7":"4","8":"1","9":"5","10":"2"},{"1":"56727409","2":"Other Research MSc","3":"1","4":"2","5":"3","6":"1","7":"1","8":"3","9":"6","10":"6"},{"1":"53392746","2":"Other Research MSc","3":"2","4":"1","5":"1","6":"4","7":"5","8":"0","9":"1","10":"1"},{"1":"27966470","2":"Other Research MSc","3":"2","4":"4","5":"2","6":"4","7":"5","8":"4","9":"4","10":"5"},{"1":"68600488","2":"Health MSc","3":"4","4":"2","5":"5","6":"1","7":"0","8":"2","9":"3","10":"1"},{"1":"74565972","2":"Health MSc","3":"4","4":"1","5":"5","6":"4","7":"4","8":"1","9":"2","10":"2"},{"1":"60849786","2":"Health MSc","3":"5","4":"1","5":"5","6":"5","7":"3","8":"5","9":"4","10":"0"},{"1":"95121289","2":"Other Research MSc","3":"3","4":"1","5":"1","6":"5","7":"4","8":"1","9":"0","10":"0"},{"1":"98652735","2":"Conversion MSc","3":"8","4":"2","5":"4","6":"2","7":"1","8":"4","9":"0","10":"3"},{"1":"54231355","2":"Health MSc","3":"8","4":"6","5":"0","6":"3","7":"0","8":"1","9":"3","10":"3"},{"1":"46375043","2":"Other Research MSc","3":"4","4":"4","5":"3","6":"1","7":"5","8":"3","9":"3","10":"1"},{"1":"44052764","2":"Conversion MSc","3":"8","4":"0","5":"5","6":"4","7":"0","8":"5","9":"3","10":"1"},{"1":"27225861","2":"Conversion MSc","3":"9","4":"4","5":"1","6":"5","7":"0","8":"4","9":"0","10":"4"},{"1":"64497947","2":"Other Research MSc","3":"7","4":"5","5":"3","6":"1","7":"1","8":"4","9":"0","10":"2"},{"1":"79714741","2":"Conversion MSc","3":"3","4":"0","5":"1","6":"1","7":"5","8":"0","9":"0","10":"2"},{"1":"38864189","2":"Other Research MSc","3":"9","4":"0","5":"6","6":"1","7":"6","8":"1","9":"5","10":"4"},{"1":"22387469","2":"Conversion MSc","3":"7","4":"1","5":"0","6":"2","7":"2","8":"5","9":"1","10":"2"},{"1":"82079687","2":"Other Research MSc","3":"7","4":"5","5":"2","6":"5","7":"3","8":"1","9":"0","10":"3"},{"1":"76381343","2":"Other Research MSc","3":"9","4":"3","5":"1","6":"5","7":"1","8":"1","9":"3","10":"1"},{"1":"20572852","2":"Conversion MSc","3":"3","4":"0","5":"1","6":"4","7":"2","8":"5","9":"2","10":"2"},{"1":"61903617","2":"Other Research MSc","3":"2","4":"5","5":"3","6":"2","7":"1","8":"6","9":"3","10":"0"},{"1":"14233305","2":"Health MSc","3":"7","4":"3","5":"5","6":"2","7":"1","8":"5","9":"5","10":"0"},{"1":"63402225","2":"Conversion MSc","3":"4","4":"2","5":"4","6":"4","7":"4","8":"3","9":"2","10":"5"},{"1":"66594604","2":"Conversion MSc","3":"5","4":"1","5":"0","6":"3","7":"6","8":"5","9":"3","10":"2"},{"1":"37837379","2":"Conversion MSc","3":"5","4":"0","5":"6","6":"4","7":"0","8":"6","9":"0","10":"4"},{"1":"27295118","2":"Other Research MSc","3":"3","4":"1","5":"4","6":"6","7":"2","8":"1","9":"5","10":"0"},{"1":"71978504","2":"Other Research MSc","3":"1","4":"1","5":"0","6":"0","7":"4","8":"3","9":"4","10":"1"},{"1":"92830333","2":"Other Research MSc","3":"6","4":"4","5":"5","6":"6","7":"6","8":"0","9":"2","10":"1"},{"1":"59607042","2":"Conversion MSc","3":"7","4":"5","5":"1","6":"1","7":"4","8":"2","9":"5","10":"1"},{"1":"67893098","2":"Health MSc","3":"4","4":"1","5":"0","6":"5","7":"5","8":"1","9":"6","10":"1"},{"1":"33266486","2":"Health MSc","3":"1","4":"4","5":"6","6":"2","7":"4","8":"0","9":"1","10":"4"},{"1":"50263793","2":"Conversion MSc","3":"5","4":"1","5":"5","6":"1","7":"2","8":"5","9":"4","10":"1"},{"1":"75678094","2":"Other Research MSc","3":"1","4":"5","5":"4","6":"0","7":"5","8":"2","9":"5","10":"1"},{"1":"73993571","2":"Other Research MSc","3":"6","4":"5","5":"6","6":"4","7":"2","8":"2","9":"1","10":"6"},{"1":"52550243","2":"Other Research MSc","3":"3","4":"6","5":"0","6":"4","7":"3","8":"4","9":"5","10":"6"},{"1":"62532387","2":"Health MSc","3":"2","4":"6","5":"6","6":"1","7":"1","8":"1","9":"3","10":"0"},{"1":"10536041","2":"Conversion MSc","3":"1","4":"2","5":"5","6":"3","7":"6","8":"2","9":"5","10":"3"},{"1":"78393244","2":"Other Research MSc","3":"6","4":"3","5":"5","6":"5","7":"5","8":"4","9":"0","10":"2"},{"1":"29999259","2":"Other Research MSc","3":"6","4":"3","5":"3","6":"0","7":"5","8":"4","9":"0","10":"1"},{"1":"22243132","2":"Health MSc","3":"1","4":"5","5":"2","6":"6","7":"3","8":"3","9":"4","10":"6"},{"1":"19665820","2":"Other Research MSc","3":"6","4":"4","5":"0","6":"2","7":"4","8":"1","9":"4","10":"1"},{"1":"68130262","2":"Health MSc","3":"4","4":"0","5":"2","6":"5","7":"1","8":"2","9":"6","10":"6"},{"1":"28902827","2":"Other Research MSc","3":"8","4":"1","5":"0","6":"5","7":"4","8":"1","9":"6","10":"3"},{"1":"91847626","2":"Other Research MSc","3":"3","4":"2","5":"2","6":"4","7":"5","8":"2","9":"2","10":"0"},{"1":"97470023","2":"Health MSc","3":"8","4":"5","5":"3","6":"3","7":"2","8":"0","9":"1","10":"4"},{"1":"43047846","2":"Other Research MSc","3":"5","4":"4","5":"0","6":"2","7":"1","8":"5","9":"0","10":"1"},{"1":"80346494","2":"Conversion MSc","3":"8","4":"1","5":"3","6":"3","7":"6","8":"4","9":"4","10":"3"},{"1":"51409597","2":"Health MSc","3":"6","4":"2","5":"2","6":"5","7":"0","8":"2","9":"4","10":"6"},{"1":"14514371","2":"Health MSc","3":"3","4":"5","5":"6","6":"6","7":"2","8":"5","9":"0","10":"5"},{"1":"84999363","2":"Conversion MSc","3":"3","4":"0","5":"4","6":"0","7":"0","8":"0","9":"6","10":"2"},{"1":"19044092","2":"Other Research MSc","3":"9","4":"6","5":"6","6":"4","7":"3","8":"3","9":"2","10":"3"},{"1":"91935991","2":"Other Research MSc","3":"3","4":"5","5":"2","6":"0","7":"1","8":"1","9":"1","10":"4"},{"1":"56075842","2":"Other Research MSc","3":"6","4":"1","5":"3","6":"1","7":"1","8":"2","9":"4","10":"1"},{"1":"83890347","2":"Health MSc","3":"6","4":"6","5":"6","6":"3","7":"2","8":"6","9":"6","10":"0"},{"1":"16149000","2":"Other Research MSc","3":"4","4":"0","5":"5","6":"3","7":"2","8":"0","9":"1","10":"2"},{"1":"62200989","2":"Health MSc","3":"9","4":"6","5":"6","6":"6","7":"2","8":"5","9":"6","10":"1"},{"1":"23836107","2":"Health MSc","3":"5","4":"5","5":"5","6":"6","7":"0","8":"4","9":"3","10":"1"},{"1":"49293643","2":"Other Research MSc","3":"1","4":"0","5":"0","6":"6","7":"2","8":"6","9":"1","10":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="filter" class="section level3">
+<h3>filter()</h3>
+<p>Use the <code>filter()</code> function to extract rows from a table. This is useful if you need to exclude participants from your analysis for some reason.</p>
+<p>For example, let’s say that we are only interested in responses from participants completing the Health Psychology MSc. We can use the filter function to only select these participants.</p>
+<pre class="r"><code>data.filter1 &lt;- filter(data.select,program == &quot;Health MSc&quot;)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["student.no"],"name":[1],"type":["int"],"align":["right"]},{"label":["program"],"name":[2],"type":["chr"],"align":["left"]},{"label":["stats.exp"],"name":[3],"type":["int"],"align":["right"]},{"label":["pathogen1"],"name":[4],"type":["int"],"align":["right"]},{"label":["pathogen2"],"name":[5],"type":["int"],"align":["right"]},{"label":["pathogen3"],"name":[6],"type":["int"],"align":["right"]},{"label":["pathogen4"],"name":[7],"type":["int"],"align":["right"]},{"label":["pathogen5"],"name":[8],"type":["int"],"align":["right"]},{"label":["pathogen6"],"name":[9],"type":["int"],"align":["right"]},{"label":["pathogen7"],"name":[10],"type":["int"],"align":["right"]}],"data":[{"1":"68600488","2":"Health MSc","3":"4","4":"2","5":"5","6":"1","7":"0","8":"2","9":"3","10":"1"},{"1":"74565972","2":"Health MSc","3":"4","4":"1","5":"5","6":"4","7":"4","8":"1","9":"2","10":"2"},{"1":"60849786","2":"Health MSc","3":"5","4":"1","5":"5","6":"5","7":"3","8":"5","9":"4","10":"0"},{"1":"54231355","2":"Health MSc","3":"8","4":"6","5":"0","6":"3","7":"0","8":"1","9":"3","10":"3"},{"1":"14233305","2":"Health MSc","3":"7","4":"3","5":"5","6":"2","7":"1","8":"5","9":"5","10":"0"},{"1":"67893098","2":"Health MSc","3":"4","4":"1","5":"0","6":"5","7":"5","8":"1","9":"6","10":"1"},{"1":"33266486","2":"Health MSc","3":"1","4":"4","5":"6","6":"2","7":"4","8":"0","9":"1","10":"4"},{"1":"62532387","2":"Health MSc","3":"2","4":"6","5":"6","6":"1","7":"1","8":"1","9":"3","10":"0"},{"1":"22243132","2":"Health MSc","3":"1","4":"5","5":"2","6":"6","7":"3","8":"3","9":"4","10":"6"},{"1":"68130262","2":"Health MSc","3":"4","4":"0","5":"2","6":"5","7":"1","8":"2","9":"6","10":"6"},{"1":"97470023","2":"Health MSc","3":"8","4":"5","5":"3","6":"3","7":"2","8":"0","9":"1","10":"4"},{"1":"51409597","2":"Health MSc","3":"6","4":"2","5":"2","6":"5","7":"0","8":"2","9":"4","10":"6"},{"1":"14514371","2":"Health MSc","3":"3","4":"5","5":"6","6":"6","7":"2","8":"5","9":"0","10":"5"},{"1":"83890347","2":"Health MSc","3":"6","4":"6","5":"6","6":"3","7":"2","8":"6","9":"6","10":"0"},{"1":"62200989","2":"Health MSc","3":"9","4":"6","5":"6","6":"6","7":"2","8":"5","9":"6","10":"1"},{"1":"23836107","2":"Health MSc","3":"5","4":"5","5":"5","6":"6","7":"0","8":"4","9":"3","10":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>What if we were interested in the reverse? Here is the code to select responses NOT from Health MSc participants.</p>
+<pre class="r"><code>data.filter2 &lt;- filter(data.select,program != &quot;Health MSc&quot;)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["student.no"],"name":[1],"type":["int"],"align":["right"]},{"label":["program"],"name":[2],"type":["chr"],"align":["left"]},{"label":["stats.exp"],"name":[3],"type":["int"],"align":["right"]},{"label":["pathogen1"],"name":[4],"type":["int"],"align":["right"]},{"label":["pathogen2"],"name":[5],"type":["int"],"align":["right"]},{"label":["pathogen3"],"name":[6],"type":["int"],"align":["right"]},{"label":["pathogen4"],"name":[7],"type":["int"],"align":["right"]},{"label":["pathogen5"],"name":[8],"type":["int"],"align":["right"]},{"label":["pathogen6"],"name":[9],"type":["int"],"align":["right"]},{"label":["pathogen7"],"name":[10],"type":["int"],"align":["right"]}],"data":[{"1":"94020918","2":"Other Research MSc","3":"8","4":"6","5":"0","6":"0","7":"2","8":"6","9":"0","10":"5"},{"1":"26382879","2":"Conversion MSc","3":"8","4":"4","5":"6","6":"5","7":"6","8":"6","9":"1","10":"5"},{"1":"57360070","2":"Conversion MSc","3":"3","4":"4","5":"4","6":"5","7":"4","8":"1","9":"5","10":"2"},{"1":"56727409","2":"Other Research MSc","3":"1","4":"2","5":"3","6":"1","7":"1","8":"3","9":"6","10":"6"},{"1":"53392746","2":"Other Research MSc","3":"2","4":"1","5":"1","6":"4","7":"5","8":"0","9":"1","10":"1"},{"1":"27966470","2":"Other Research MSc","3":"2","4":"4","5":"2","6":"4","7":"5","8":"4","9":"4","10":"5"},{"1":"95121289","2":"Other Research MSc","3":"3","4":"1","5":"1","6":"5","7":"4","8":"1","9":"0","10":"0"},{"1":"98652735","2":"Conversion MSc","3":"8","4":"2","5":"4","6":"2","7":"1","8":"4","9":"0","10":"3"},{"1":"46375043","2":"Other Research MSc","3":"4","4":"4","5":"3","6":"1","7":"5","8":"3","9":"3","10":"1"},{"1":"44052764","2":"Conversion MSc","3":"8","4":"0","5":"5","6":"4","7":"0","8":"5","9":"3","10":"1"},{"1":"27225861","2":"Conversion MSc","3":"9","4":"4","5":"1","6":"5","7":"0","8":"4","9":"0","10":"4"},{"1":"64497947","2":"Other Research MSc","3":"7","4":"5","5":"3","6":"1","7":"1","8":"4","9":"0","10":"2"},{"1":"79714741","2":"Conversion MSc","3":"3","4":"0","5":"1","6":"1","7":"5","8":"0","9":"0","10":"2"},{"1":"38864189","2":"Other Research MSc","3":"9","4":"0","5":"6","6":"1","7":"6","8":"1","9":"5","10":"4"},{"1":"22387469","2":"Conversion MSc","3":"7","4":"1","5":"0","6":"2","7":"2","8":"5","9":"1","10":"2"},{"1":"82079687","2":"Other Research MSc","3":"7","4":"5","5":"2","6":"5","7":"3","8":"1","9":"0","10":"3"},{"1":"76381343","2":"Other Research MSc","3":"9","4":"3","5":"1","6":"5","7":"1","8":"1","9":"3","10":"1"},{"1":"20572852","2":"Conversion MSc","3":"3","4":"0","5":"1","6":"4","7":"2","8":"5","9":"2","10":"2"},{"1":"61903617","2":"Other Research MSc","3":"2","4":"5","5":"3","6":"2","7":"1","8":"6","9":"3","10":"0"},{"1":"63402225","2":"Conversion MSc","3":"4","4":"2","5":"4","6":"4","7":"4","8":"3","9":"2","10":"5"},{"1":"66594604","2":"Conversion MSc","3":"5","4":"1","5":"0","6":"3","7":"6","8":"5","9":"3","10":"2"},{"1":"37837379","2":"Conversion MSc","3":"5","4":"0","5":"6","6":"4","7":"0","8":"6","9":"0","10":"4"},{"1":"27295118","2":"Other Research MSc","3":"3","4":"1","5":"4","6":"6","7":"2","8":"1","9":"5","10":"0"},{"1":"71978504","2":"Other Research MSc","3":"1","4":"1","5":"0","6":"0","7":"4","8":"3","9":"4","10":"1"},{"1":"92830333","2":"Other Research MSc","3":"6","4":"4","5":"5","6":"6","7":"6","8":"0","9":"2","10":"1"},{"1":"59607042","2":"Conversion MSc","3":"7","4":"5","5":"1","6":"1","7":"4","8":"2","9":"5","10":"1"},{"1":"50263793","2":"Conversion MSc","3":"5","4":"1","5":"5","6":"1","7":"2","8":"5","9":"4","10":"1"},{"1":"75678094","2":"Other Research MSc","3":"1","4":"5","5":"4","6":"0","7":"5","8":"2","9":"5","10":"1"},{"1":"73993571","2":"Other Research MSc","3":"6","4":"5","5":"6","6":"4","7":"2","8":"2","9":"1","10":"6"},{"1":"52550243","2":"Other Research MSc","3":"3","4":"6","5":"0","6":"4","7":"3","8":"4","9":"5","10":"6"},{"1":"10536041","2":"Conversion MSc","3":"1","4":"2","5":"5","6":"3","7":"6","8":"2","9":"5","10":"3"},{"1":"78393244","2":"Other Research MSc","3":"6","4":"3","5":"5","6":"5","7":"5","8":"4","9":"0","10":"2"},{"1":"29999259","2":"Other Research MSc","3":"6","4":"3","5":"3","6":"0","7":"5","8":"4","9":"0","10":"1"},{"1":"19665820","2":"Other Research MSc","3":"6","4":"4","5":"0","6":"2","7":"4","8":"1","9":"4","10":"1"},{"1":"28902827","2":"Other Research MSc","3":"8","4":"1","5":"0","6":"5","7":"4","8":"1","9":"6","10":"3"},{"1":"91847626","2":"Other Research MSc","3":"3","4":"2","5":"2","6":"4","7":"5","8":"2","9":"2","10":"0"},{"1":"43047846","2":"Other Research MSc","3":"5","4":"4","5":"0","6":"2","7":"1","8":"5","9":"0","10":"1"},{"1":"80346494","2":"Conversion MSc","3":"8","4":"1","5":"3","6":"3","7":"6","8":"4","9":"4","10":"3"},{"1":"84999363","2":"Conversion MSc","3":"3","4":"0","5":"4","6":"0","7":"0","8":"0","9":"6","10":"2"},{"1":"19044092","2":"Other Research MSc","3":"9","4":"6","5":"6","6":"4","7":"3","8":"3","9":"2","10":"3"},{"1":"91935991","2":"Other Research MSc","3":"3","4":"5","5":"2","6":"0","7":"1","8":"1","9":"1","10":"4"},{"1":"56075842","2":"Other Research MSc","3":"6","4":"1","5":"3","6":"1","7":"1","8":"2","9":"4","10":"1"},{"1":"16149000","2":"Other Research MSc","3":"4","4":"0","5":"5","6":"3","7":"2","8":"0","9":"1","10":"2"},{"1":"49293643","2":"Other Research MSc","3":"1","4":"0","5":"0","6":"6","7":"2","8":"6","9":"1","10":"2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div id="operators" class="section level4">
+<h4>Operators</h4>
+<p>Here is a good time to talk about logical operators. Logical operators are expressions that, when evaluated, return either a <code>TRUE</code> or <code>FALSE</code> value.</p>
+<p>You have already been exposed to two logical operators in the code above, but here are a few more:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>==</code></td>
+<td>Exactly equal to</td>
+</tr>
+<tr class="even">
+<td><code>!=</code></td>
+<td>Not equal to</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;</code></td>
+<td>Less than</td>
+</tr>
+<tr class="even">
+<td><code>&gt;</code></td>
+<td>Greater than</td>
+</tr>
+<tr class="odd">
+<td><code>&lt;=</code></td>
+<td>Less than or equal to</td>
+</tr>
+<tr class="even">
+<td><code>&gt;=</code></td>
+<td>Greater than or equal to</td>
+</tr>
+</tbody>
+</table>
+<p>These are some of the basic ones, but there are more. For a full list of operators, <a href="https://www.statmethods.net/management/operators.html">click here</a>.</p>
+<p>Notice that some of these operators only work with numerical values. So for example, in the following numerical vector, we can test whether the number is less than 3.</p>
+<pre class="r"><code>c(1,2,3,4,5) &lt; 3</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE FALSE FALSE</code></pre>
+<p>What we find is that the first two responses are less than 3, so return a <code>TRUE</code> value, while the rest are not less than 3 (including 3 itself!), and therefore return a <code>FALSE</code> value.</p>
+<p>This can be used to filter participants based on a numerical threshold. For example, if we were only interested in participants with a lot of experience in statistics, we can use the greater than or equal to <code>&gt;=</code> operator to select participants who rated this item a 7, 8, or 9.</p>
+<pre class="r"><code>data.filter3 &lt;- filter(data.select,stats.exp &gt;= 7)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["student.no"],"name":[1],"type":["int"],"align":["right"]},{"label":["program"],"name":[2],"type":["chr"],"align":["left"]},{"label":["stats.exp"],"name":[3],"type":["int"],"align":["right"]},{"label":["pathogen1"],"name":[4],"type":["int"],"align":["right"]},{"label":["pathogen2"],"name":[5],"type":["int"],"align":["right"]},{"label":["pathogen3"],"name":[6],"type":["int"],"align":["right"]},{"label":["pathogen4"],"name":[7],"type":["int"],"align":["right"]},{"label":["pathogen5"],"name":[8],"type":["int"],"align":["right"]},{"label":["pathogen6"],"name":[9],"type":["int"],"align":["right"]},{"label":["pathogen7"],"name":[10],"type":["int"],"align":["right"]}],"data":[{"1":"94020918","2":"Other Research MSc","3":"8","4":"6","5":"0","6":"0","7":"2","8":"6","9":"0","10":"5"},{"1":"26382879","2":"Conversion MSc","3":"8","4":"4","5":"6","6":"5","7":"6","8":"6","9":"1","10":"5"},{"1":"98652735","2":"Conversion MSc","3":"8","4":"2","5":"4","6":"2","7":"1","8":"4","9":"0","10":"3"},{"1":"54231355","2":"Health MSc","3":"8","4":"6","5":"0","6":"3","7":"0","8":"1","9":"3","10":"3"},{"1":"44052764","2":"Conversion MSc","3":"8","4":"0","5":"5","6":"4","7":"0","8":"5","9":"3","10":"1"},{"1":"27225861","2":"Conversion MSc","3":"9","4":"4","5":"1","6":"5","7":"0","8":"4","9":"0","10":"4"},{"1":"64497947","2":"Other Research MSc","3":"7","4":"5","5":"3","6":"1","7":"1","8":"4","9":"0","10":"2"},{"1":"38864189","2":"Other Research MSc","3":"9","4":"0","5":"6","6":"1","7":"6","8":"1","9":"5","10":"4"},{"1":"22387469","2":"Conversion MSc","3":"7","4":"1","5":"0","6":"2","7":"2","8":"5","9":"1","10":"2"},{"1":"82079687","2":"Other Research MSc","3":"7","4":"5","5":"2","6":"5","7":"3","8":"1","9":"0","10":"3"},{"1":"76381343","2":"Other Research MSc","3":"9","4":"3","5":"1","6":"5","7":"1","8":"1","9":"3","10":"1"},{"1":"14233305","2":"Health MSc","3":"7","4":"3","5":"5","6":"2","7":"1","8":"5","9":"5","10":"0"},{"1":"59607042","2":"Conversion MSc","3":"7","4":"5","5":"1","6":"1","7":"4","8":"2","9":"5","10":"1"},{"1":"28902827","2":"Other Research MSc","3":"8","4":"1","5":"0","6":"5","7":"4","8":"1","9":"6","10":"3"},{"1":"97470023","2":"Health MSc","3":"8","4":"5","5":"3","6":"3","7":"2","8":"0","9":"1","10":"4"},{"1":"80346494","2":"Conversion MSc","3":"8","4":"1","5":"3","6":"3","7":"6","8":"4","9":"4","10":"3"},{"1":"19044092","2":"Other Research MSc","3":"9","4":"6","5":"6","6":"4","7":"3","8":"3","9":"2","10":"3"},{"1":"62200989","2":"Health MSc","3":"9","4":"6","5":"6","6":"6","7":"2","8":"5","9":"6","10":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="removing-participants-with-missing-data" class="section level4">
+<h4>Removing Participants with Missing Data</h4>
+<p>A common thing you are required to do when cleaning data is to remove participants that have missing data on a variable. As covered last week, by default, R codes missing data as <code>NA</code>. Also covered last week, there is a function in R that tells you if a value is missing - that function is <code>is.na()</code>. We can use this function within the <code>filter()</code> function to remove participants from a dataset that has missing data on a variable.</p>
+<pre class="r"><code>data_remove.missing &lt;- filter(data,!is.na(var1))</code></pre>
+<p>In the code above, the <code>!</code> can be translated to <code>not</code>. So here we are only including participants that do NOT have missing data for <code>var1</code>.</p>
+<p>Note: it is possible that your data could code missing data as a different value (e.g., a common practice is to code missing values as ‘-99’) - in these instances you would want to remove participants with this value, rather than use <code>is.na()</code>.</p>
+</div>
+</div>
+<div id="mutate" class="section level3">
+<h3>mutate()</h3>
+<p>We can use the <code>mutate()</code> function to calculate a new variable (column) from existing variables. Mutate applies vectorised function, which mean operations are conducted separately per row. This is useful for making aggregate scores (e.g., summing all items in a scale).</p>
+<p>In the example below, we wish to calculate a total score of pathogen disgust from 7 separate items (Click <a href="https://pdfs.semanticscholar.org/bf02/5a6fda071d2e9302e2401becca91be30c165.pdf">here</a> for further details on the disgust scale). We can add the responses to each item of the pathogen disgust scale to compute each participant’s pathogen digust score. Let’s do it on the dataset with only Health MSc participants:</p>
+<pre class="r"><code>data.mutate &lt;- mutate(data.filter1,pathogen.disgust = pathogen1 + pathogen2 + pathogen3 + pathogen4 + pathogen5 + pathogen6 + pathogen7)</code></pre>
+</div>
+<div id="pipes" class="section level3">
+<h3>Pipes (%&gt;%)</h3>
+<p>Often when data cleaning you will have to do a number of operations to a dataset concurrently. One way to do this is to list the operations one after another, like we have done above. I have re-created the code below.</p>
+<pre class="r"><code>data.select &lt;- select(data,program,stats.exp,pathogen1,pathogen2,pathogen3,pathogen4,pathogen5,pathogen6,pathogen7)
+data.filter1 &lt;- filter(data.select,program == &quot;Health MSc&quot;)
+data.mutate &lt;- mutate(data.filter1,pathogen.disgust = pathogen1 + pathogen2 + pathogen3 + pathogen4 + pathogen5 + pathogen6 + pathogen7)</code></pre>
+<p>There is nothing wrong with the code above, but sometimes doing this can make your code hard to read. Also, you are required to save intermediate datasets as objects, which can clutter up your workspace.</p>
+<p>A Pipe (<code>%&gt;%</code>) is a special type of function used to string multiple commands in R together. Pipes can be confusing at first, but they will make code more readable and efficient, so it is worth learning if you want to become an expert R coder. You can load the pipe by loading the tidyverse package.</p>
+<p>How pipes work is that it passess an intermediate result onto the next function. In other words, the result from one function is passed as the first argument of the next function. One way to conceptualise it is think of it as an “AND THEN” statement. Tidyverse functions return a data.frame, and accept a data.frame as its first argument, so they are ideal for chaining together using a pipe. So, the code above becomes the following when using pipes:</p>
+<pre class="r"><code>data.analysis &lt;- data %&gt;%                                     #Select our raw dataset
+  select(program,stats.exp,pathogen1,pathogen2,pathogen3,     #Select the variables
+         pathogen4,pathogen5,pathogen6,pathogen7) %&gt;%
+  filter(program == &quot;Health MSc&quot;) %&gt;%                         #Select Health MSc participants
+  mutate(pathogen.disgust = pathogen1 + pathogen2 +           #Compute pathogen disgust score
+           pathogen3 + pathogen4 + pathogen5 + pathogen6 + pathogen7)</code></pre>
+<p>The real advantage of piping is apparent when dealing with nested functions (i.e., functions that take arguments which themselves include a function). So for instance, if you wanted to do the above without saving intermediate datasets, you would end up with the code below, which is a hot mess.</p>
+<pre class="r"><code>hot.mess &lt;- mutate(select(filter(data,program == &quot;Health MSc&quot;),program,stats.exp,pathogen1,pathogen2,pathogen3,pathogen4,pathogen5,pathogen6,pathogen7),pathogen.disgust = pathogen1 + pathogen2 + pathogen3 + pathogen4 + pathogen5 + pathogen6 + pathogen7)</code></pre>
+</div>
+</div>
+</div>
+<div id="exercises-1" class="section level1">
+<h1>Exercises</h1>
+<p>Now that you’ve completed this week’s workbook, why not give this week’s exercises a go? You can download the interactive exercises by clicking the link below.</p>
+<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

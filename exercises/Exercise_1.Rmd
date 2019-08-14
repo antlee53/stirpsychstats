@@ -1,0 +1,452 @@
+---
+title: "Exercise 1"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+
+checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
+  
+  envir_result
+  out <- list(message = sample(c("Good Job!",
+                                 "Well done!",
+                                 "Great stuff!",
+                                 "That is correct!",
+                                 "Correct! You are really good at this."),1), correct = TRUE, location = "append")
+  
+  #Question 2
+  if(label == "question_2"){
+    if(exists("x")){
+          if(x != 7){
+      out <- list(message = "The code doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
+          }
+    } else {
+      out <- list(message = "No object saved as x. Remember, you can save an object named `x` using: `x <-`", correct = FALSE, location = "append")
+    }
+  }
+  
+    #Question 3
+  if(label == "question_3"){
+    if(exists("z")){
+      if(z != 24){
+      out <- list(message = "The code to do with `z` doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
+          }
+    } else {
+      out <- list(message = "No object saved as z. Remember, you can save an object named `z` using: `x <-`", correct = FALSE, location = "append")
+    }
+    if(exists("y")){
+      if(y != 6){
+      out <- list(message = "The code to do with `y` doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
+          }
+    } else {
+      out <- list(message = "No object saved as y. Remember, you can save an object named `y` using: `y <-`", correct = FALSE, location = "append")
+    }
+    if(exists("x")){
+      if(x != 4){
+      out <- list(message = "The code to do with `x` doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
+          }
+    } else {
+      out <- list(message = "No object saved as x. Remember, you can save an object named `x` using: `x <-`", correct = FALSE, location = "append")
+    }
+  }
+  
+  #Question 4
+  if(label == "question_4"){
+    if(exists("y")){
+      if(y != floor(3.14)){
+      out <- list(message = "The code to do with `y` doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
+          }
+    } else {
+      out <- list(message = "No object saved as y.", correct = FALSE, location = "append")
+    }
+    if(exists("x")){
+      if(x != 3.14){
+      out <- list(message = "The code to do with `x` doesn't seem to be correct. You do not need to edit this line...", correct = FALSE, location = "append")
+          }
+    } else {
+      out <- list(message = "No object saved as x.", correct = FALSE, location = "append")
+    }
+  }
+
+  #Question 5
+  if(label == "question_5"){
+    if(exists("y")){
+      if(y != 3.1416){
+      out <- list(message = "The code to do with `y` doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
+          }
+    } else {
+      out <- list(message = "No object saved as y.", correct = FALSE, location = "append")
+    }
+    if(exists("x")){
+      if(x != 3.14159265359){
+      out <- list(message = "The code to do with `x` doesn't seem to be correct. You do not need to edit this line...", correct = FALSE, location = "append")
+          }
+    } else {
+      out <- list(message = "No object saved as x.", correct = FALSE, location = "append")
+    }
+  }  
+
+  #Question 6
+  if(label == "question_6"){
+    if(exists("my_fav_colours")){
+      if(length(my_fav_colours) != 3){
+      out <- list(message = "The object `my_fav_colours` is not a vector with a length of 3.", correct = FALSE, location = "append")
+      } else {
+            if(!is.character(my_fav_colours)){
+              out <- list(message = "The object `my_fav_colours` is not a character vector.", correct = FALSE, location = "append")
+            }
+          }
+    } else {
+      out <- list(message = "No object saved as `my_fav_colours`.", correct = FALSE, location = "append")
+    }
+    if(exists("my_fav_numbers")){
+      if(length(my_fav_numbers) != 3){
+      out <- list(message = "The object `my_fav_numbers` is not a vector with a length of 3.", correct = FALSE, location = "append")
+      } else {
+            if(!is.numeric(my_fav_numbers)){
+              out <- list(message = "The object `my_fav_numbers` is not a numeric vector.", correct = FALSE, location = "append")
+            }
+          }
+    } else {
+      out <- list(message = "No object saved as `my_fav_colours`.", correct = FALSE, location = "append")
+    }
+  } 
+
+  #Question 8
+if (label == "question_8"){
+	if(!exists("fav_numbers_times_3")){
+		out <- list(message = "No object saved as `fav_numbers_times_3`.", correct = FALSE, location = "append")
+	} else {
+		if(!exists("my_fav_numbers")){
+			out <- list(message = "No object saved as `my_fav_numbers`.", correct = FALSE, location = "append")
+		} else {
+			if(length(my_fav_numbers) != 3){
+				out <- list(message = "The object `my_fav_numbers` is not a vector with a length of 3.", correct = FALSE, location = "append")
+			} else {
+				if(length(fav_numbers_times_3) != 3){
+					out <- list(message = "The object `fav_numbers_times_3` is not a vector with a length of 3.", correct = FALSE, location = "append")
+				} else {
+					if(!identical(fav_numbers_times_3/3,my_fav_numbers)){
+						out <- list(message = "The object `fav_numbers_times_3` does not contain elements that are three times that of `my_fav_numbers`.", correct = FALSE, location = "append")
+					}
+				}
+			}
+		}
+	}
+}
+
+#Question 9
+if (label == "question_9"){
+	if(!exists("numbers")){
+		out <- list(message = "Do not alter the numbers object. Please click the 'Start Over` button and try again.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(numbers,c(1,-2,6,-53,-88,100,3.14,-13))){
+			out <- list(message = "Looks like you've written over the numbers object. Please click the 'Start Over` button and try again.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("abs_numbers")){
+				out <- list(message = "There is no object saved as `abs_numbers`.", correct = FALSE, location = "append")
+			} else {
+				if(!identical(abs(numbers),abs_numbers)){
+					out <- list(message = "The result saved as `abs_numbers` doesn't appear to be correct. Please try again.", correct = FALSE, location = "append")
+				}
+			}
+		}
+	}
+}
+  
+  return(out)
+}
+
+tutorial_options(exercise.checker = checker)
+```
+
+## Introduction
+
+This is the first of the weekly exercises. These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R.If you are struggling, each exercise comes with a number of hints that may be helpful.
+
+## Basic Exercises
+
+### Question 1
+
+```{r question_1}
+quiz(
+  question("If you're struggling with R and coding, where can you find help? Select all correct answers.",
+    answer("Google.",correct = TRUE),
+    answer("Using the help() function.",correct = TRUE),
+    answer("Ask your fellow classmates.",correct = TRUE),
+    answer("Ask your lecturer (contactable after class or via email).",correct = TRUE),allow_retry = TRUE
+  )
+)
+```
+
+### Question 2
+
+The following code calculates two plus two and saves the object as `x`. Edit the code so that the code add two plus five and save the result as object `x`:
+
+```{r question_2, exercise=TRUE}
+x <- 2 + 2
+```
+
+```{r question_2-hint-1}
+Remember, R is like a calculator.
+```
+
+```{r question_2-hint-2}
+Use `<-` to save objects.
+
+Next hint will show the solution...
+```
+
+```{r question_2-solution}
+x <- 2 + 5
+```
+
+```{r question_2-check}
+checker()
+```
+
+### Question 3
+
+The following code calculates two plus two and saves the object as `x`. Add to this by writing additional code that adds three plus three and saves the result as `y`, then multiplies `x` and `y` and save the result as `z`:
+
+```{r question_3, exercise=TRUE,exercise.lines = 5}
+x <- 2 + 2
+```
+
+```{r question_3-hint-1}
+You can put new commands on separate lines.
+```
+
+```{r question_3-hint-2}
+Use the `*` symbol to multiply two numbers.
+
+Next hint will show the solution...
+```
+
+```{r question_3-solution}
+x <- 2 + 2
+y <- 3 + 3
+z <- x * y
+```
+
+```{r question_3-check}
+checker()
+```
+
+### Question 4
+
+The following code save 3.14 as the object `x`. Use the `floor()` function to round this number down to the nearest whole number and save the result as `y`.
+
+```{r question_4, exercise=TRUE,exercise.lines = 5}
+x <- 3.14
+
+```
+
+```{r question_4-hint-1}
+Using a function follows this template: function_name(argument)
+```
+
+```{r question_4-hint-2}
+You may want to google how to use the `floor()` function.
+
+Next hint will show the solution...
+```
+
+```{r question_4-solution}
+x <- 3.14
+y <- floor(x)
+```
+
+```{r question_4-check}
+checker()
+```
+
+### Question 5
+
+The following code saves a number with many decimal places as the object `x`. Use a function that rounds `x` to four decimal places and save the result as `y`.
+
+```{r question_5, exercise=TRUE,exercise.lines = 5}
+x <- 3.14159265359
+
+```
+
+```{r question_5-hint-1}
+Try googling to find a function that rounds numbers to decimal places.
+```
+
+```{r question_5-hint-2}
+Some functions take more than one argument...
+
+Next hint will show the solution...
+```
+
+```{r question_5-solution}
+x <- 3.14159265359
+y <- round(x,digits = 4)
+```
+
+```{r question_5-check}
+checker()
+```
+
+### Question 6
+
+Edit the following code to save a numeric vector with your three favourite numbers to `my_fav_numbers`. Also, save a character vector with your three favourite colours to `my_fav_colours`.
+
+```{r question_6, exercise=TRUE,exercise.lines = 5}
+my_fav_numbers <- c()
+my_fav_colours <- c()
+
+```
+
+```{r question_6-hint-1}
+A vector is a list of ordered elements. You can create a vector using the function: `c(element1,element2,etc.)`, where each element is separated by a comma.
+```
+
+```{r question_6-hint-2}
+To create a character, put the words in quotation marks (e.g., "This is now a character.")
+
+Next hint will show the solution...
+```
+
+```{r question_6-solution}
+my_fav_numbers <- c(53,8,42)
+my_fav_colours <- c("blue","gold","maroon")
+
+#Note: your favourite numbers and colours could be different from mine.
+```
+
+```{r question_6-check}
+checker()
+```
+
+### Question 7
+
+Below, an object is saved as `mystery.object`.
+
+```{r question_7-setup, include = FALSE}
+mystery.object <- factor(c("what class does this object have?","it is a mystery!","super spooky..."),levels = c("what class does this object have?","it is a mystery!","super spooky..."))
+```
+
+```{r question_7, exercise=TRUE,exercise.lines = 5}
+mystery.object
+
+```
+
+```{r question_7-hint-1}
+Running the code below may give you some insight...
+```
+
+```{r question_7-hint-2}
+Is there a function that allows you to determine the class of an object?
+
+Next hint will show the solution...
+```
+
+```{r question_7-solution}
+class(mystery.object)
+```
+
+```{r question_7-quiz}
+quiz(
+  question("What class does `mystery.object` have?",
+    answer("Numeric"),
+    answer("Character"),
+    answer("Factor",correct = TRUE),
+    answer("Logical")
+  )
+)
+```
+
+### Question 8
+
+First, write code that save a numeric vector with your three favourite numbers to `my_fav_numbers`. Then, use vector operations to multiply your three favourite numbers by 3 and save the result as `fav_numbers_times_3`.
+
+```{r question_8, exercise=TRUE,exercise.lines = 5}
+
+
+```
+
+```{r question_8-hint-1}
+`fav_numbers_times_3` should be a numeric vector with a length of three.
+```
+
+```{r question_8-hint-2}
+You can use vector operations to multiply your three favourite numbers at once.
+
+Next hint will show the solution...
+```
+
+```{r question_8-solution}
+my_fav_numbers <- c(53,8,42)
+fav_numbers_times_3 <- my_fav_numbers * 3
+
+#Note: your favourite numbers could be different from mine.
+```
+
+```{r question_8-check}
+checker()
+```
+
+### Question 9
+
+Below, the object `numbers` is saved, which is a numeric vector. Use a function to get the absolute values of `numbers` and save the result as `abs_numbers`. (The absolute value of a number is the size of the number, regardless of whether it is positive or negative (e.g., the absolute value of -5 is 5))
+
+```{r question_9-setup, include = FALSE}
+numbers <- c(1,-2,6,-53,-88,100,3.14,-13)
+```
+
+```{r question_9, exercise=TRUE,exercise.lines = 5}
+numbers
+
+```
+
+```{r question_9-hint-1}
+You may need to google what R function calculates the absolute value of a vector...
+```
+
+```{r question_9-hint-2}
+Some functions take a vector as an argument. For example, `sqrt()` can take a numeric vector to calculate the square root of many numbers at once.
+
+Next hint will show the solution...
+```
+
+```{r question_9-solution}
+abs_numbers <- abs(numbers)
+```
+
+```{r question_9-check}
+checker()
+```
+
+### Question 10
+
+Here are some quiz questions about data tables (or data.frames in R).
+
+```{r question_10-quiz}
+quiz(
+  question("Typically, each column in a data table represents:",
+    answer("A variable.", correct = TRUE),
+    answer("Data from a single participant."),
+    answer("The number of participants."),
+    answer("A numeric value."),allow_retry = TRUE,random_answer_order = TRUE
+  )
+)
+quiz(
+  question("Typically, each row in a data table represents:",
+    answer("A variable."),
+    answer("Data from a single participant.",correct = TRUE),
+    answer("The number of participants."),
+    answer("A numeric value."),allow_retry = TRUE,random_answer_order = TRUE
+  )
+)
+```
+
+Congrats! This is end of the basic exercises for this week. If you looking for an extra challenge, or wish to practice your R skills a bit more, why not try the advanced exercises?
+
+## Advanced Exercises
+
+

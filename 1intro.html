@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>HPSP131 - Workbook 1 - Introduction to R</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HPSP131</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1intro.html">1. Intro</a>
+</li>
+<li>
+  <a href="2data.html">2. Data 1</a>
+</li>
+<li>
+  <a href="7GLM.html">3. Data 2</a>
+</li>
+<li>
+  <a href="3plot.html">4. Plot</a>
+</li>
+<li>
+  <a href="4LM1.html">5. LM1</a>
+</li>
+<li>
+  <a href="5LM2.html">6. LM2</a>
+</li>
+<li>
+  <a href="6mod_med.html">7. Mod Med</a>
+</li>
+<li>
+  <a href="8sim.html">8. Sim</a>
+</li>
+<li>
+  <a href="9SEM.html">9. SEM</a>
+</li>
+<li>
+  <a href="10mixed.html">10. Mixed</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="exercises.html">Exercises</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">HPSP131 - Workbook 1 - Introduction to R</h1>
+
+</div>
+
+
+<div id="objectives" class="section level1">
+<h1>Objectives</h1>
+<p>The aim of this week is the familiarise you with how R works, the Rstudio User Interface, and the language of R. It will also cover some basics needed to effectively program in R. By the end of this workbook, you should be able to:</p>
+<ol style="list-style-type: decimal">
+<li>Understand the R console.</li>
+<li>Understand the RStudio User Interface.</li>
+<li>Use R for simple calculations.</li>
+<li>Store objects in R.</li>
+<li>Understand class types.</li>
+<li>Understand vectors and vectorised operations.</li>
+<li>Understand functions.</li>
+<li>Understand data.frames.</li>
+<li>Find help.</li>
+</ol>
+</div>
+<div id="resources" class="section level1">
+<h1>Resources</h1>
+<p>Here is a list of resources that may help you with this weeks content</p>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+</div>
+<div id="content" class="section level1">
+<h1>Content</h1>
+<div id="r" class="section level2">
+<h2>R</h2>
+<p>R is a programming language and free software environment for statistical computing and graphics. R is widely used by statisticians and data scientists. The use of R in psychological research has shown a substantial increase in popularity recently, given Rs superior ability to conduct advance statistical techniques, high level of community support, and ability to promote reproducible research.</p>
+<p>“Base R” consists of a “Read Evaluate Print Loop” (REPL) command interpreter, in which you type in text commands, which are evaluated, and the results of which are printed to the screen. This “R Console” window looks something like this (don’t worry about the details for now):</p>
+<div class="figure">
+<img src="images/BaseR%20Console.png" alt="BaseR Console" />
+<p class="caption">BaseR Console</p>
+</div>
+</div>
+<div id="rstudio" class="section level2">
+<h2>Rstudio</h2>
+<p>“Base R” can be unwieldy and lacks some quality-of-life features that makes using R difficult. In particular, when you are developing a script, you will want to work in a text editor and send commands to the console, rather than typing directly into the console. Thankfully, RStudio, which is a wrapper for Base R, provides this additional functionality and a graphical user interface that can make programming in R much easier. All teaching for this module will be done using RStudio. This is what the RStudio User Interface looks like (again, don’t worry about the details for now):</p>
+<div class="figure">
+<img src="images/RStudio%20Interface.jpg" alt="RStudio User Interface" />
+<p class="caption">RStudio User Interface</p>
+</div>
+<p>The user interface provides multiple windows in additional to the console that greatly facilitate developing code in R. We will go through each window and their function below:</p>
+<p>The bottom left window is the Console. This is where you execute code.</p>
+<p>The top left window is the script editor. This is where you write and edit your code before sending it to the console. This is what you save when saving your work.</p>
+<p>The top right window shows objects in the environment. When coding in R, you will need to save objects to call upon later. Don’t worry too much about this now - we will cover this later in this week’s workbook.</p>
+<p>Finally, the bottom right window can have various functions, including showing plots, files in the working directory, or show help documentation. We will cover these things in the coming weeks.</p>
+</div>
+<div id="before-we-start" class="section level2">
+<h2>Before we start…</h2>
+<p>We are about to start coding. If you are anxious about coding, know that there are no penalties for making mistakes. R will be good at telling you if something doesn’t work, and when that happens, you will be given unlimited opportunities to try again. A valid coding strategy is just to change something and see what happens.</p>
+<p>Also, be prepared to make a lot of typos. At times, it may get frustrating, but your ability to spot typos will come with more experience. You will also be exposed to many error messages, and at first they will probably not make a lot of sense to you (copying an error message into Google is an easy way to help find a solution!). Again, your ability to understand error messages will come with exposure to them.</p>
+</div>
+<div id="r-as-a-calculator" class="section level2">
+<h2>R as a calculator</h2>
+<p>We are first going to learn about how to interact with the console (bottom left window). Generally, you will be writing R scripts rather than working directly in the console window. We will be covering more about scripts next week, but a good way to think about it for now is that code entered into the console will happen immediately, while code you draft in a script can be saved for later.</p>
+<p>One simple way to learn about the R console is to use it as a calculator. Enter the lines of code below and see if your results match.</p>
+<pre class="r"><code>1+2</code></pre>
+<pre><code>## [1] 3</code></pre>
+<p>Remeber, R will “read” the command you have typed into the console, evaluated it in the background, and then print the response back to you.</p>
+<p>R is not sensitive to spaces, so you can put as many spaces in between your commands as you’d like. This is helpful for long commands, which you can break up over multiple lines.</p>
+<p>This…</p>
+<pre class="r"><code>1 + 2 + 3</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p>… is the same as this…</p>
+<pre class="r"><code>1+2+3</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p>You can also break up commands over multiple lines - this is useful for long commands. When the symbol in the console before the cursor shows a <code>&gt;</code> symbol, it will accept a new command. If it shows a <code>+</code> symbol, R is waiting to receive the end of the previous command. If you want to cancel, press the esc key. For complex functions, it may take R a while to evaluate some code. When R is still thinking, there will be no symbol.</p>
+<p>Try running the code below one line at a time.</p>
+<pre class="r"><code>1 + 2 + 3 +
+  4 + 5</code></pre>
+<pre><code>## [1] 15</code></pre>
+</div>
+<div id="objects" class="section level2">
+<h2>Objects</h2>
+<p>Often when coding, you will want to store the result of some computation for later use. You can store it as an object. To save something as an object, use the ‘less than’ symbol followed by a dash: <code>&lt;-</code> to assign the name on the right, the value on the left (think of it as an arrow).</p>
+<p>The code below saves the evaluation of 1+2 to the object name “x”. Note that when saving an object, it does not print the result back at you.</p>
+<pre class="r"><code>x &lt;- 1+2</code></pre>
+<p>You can then call upon this object later:</p>
+<pre class="r"><code>x</code></pre>
+<pre><code>## [1] 3</code></pre>
+<p>You can also use this object in future commands. The following command takes the object “x” and multiplies it by 2.</p>
+<pre class="r"><code>x * 2</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p>Notice that when you save an object, it is added to the list in the top right window of RStudio. This window displays your workspace. Objects in your workspace exist until you overwrite them, clear your workpsace, or until you end your R session. For big projects, it may be helpful to save your workspace, but in general, best practice for reproducible psychological research is to clear your workspace at the end of each session.</p>
+<p>Some things to be aware of when naming objects: * Capitalisation matters (e.g., <code>myObject</code> is different to <code>myobject</code>). * You cannot use symbols or spaces, except for underscores <code>_</code>, and periods <code>.</code>. * You can use letters and numbers, but the object name must begin with a letter (<code>b2</code> is valid, but 2b is not).</p>
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<p>A lot of what you do in R involves calling functions and storing the results. Generally, functions accept objects as an arguments, executes a set computations on those objects, then return the result of that procedure.</p>
+<p>Functions will always follow this general syntax:</p>
+<p><code>function_name(argument1,argument2,argument3,...)</code></p>
+<p>Functions can do different things, depending on the function. Most functions will take an argument (or several arguments), does a specified computation, then return a value. For instance, the <code>sqrt()</code> function below takes one argument (called “x”), which is a number and returns the square root of that number:</p>
+<pre class="r"><code>sqrt(x = 4)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<p>Some functions can do quite complicated things. For example, the function <code>rnorm()</code> generates random numbers from the standard normal distribution. This function takes three arguments, where n is the number of randomly generated numbers you want, mean is the mean of the distribution, and sd is the standard deviation. The default mean is 0, and the default standard deviation is 1. So if you want to randomly generate 10 numbers, you can run this code:</p>
+<pre class="r"><code>rnorm(n = 10,mean = 0,sd = 1)</code></pre>
+<pre><code>##  [1]  0.30959751 -0.66875271  0.03524187  0.62537214 -0.79367828
+##  [6] -1.55705175 -1.36693171  1.60067576  0.45635149 -0.30356303</code></pre>
+<p>As mentioned above, some arguments have default values, in which case you do not have to specify them. The code below does the same as above, but we do not have to name all the arguments because the defaults for mean and sd are 0 and 1 respectively. It is necessary to provide a value for n, as there is no default.</p>
+<pre class="r"><code>rnorm(n = 10)</code></pre>
+<pre><code>##  [1] -1.2991338  0.2152341 -0.5618157 -0.7158288 -0.8373576  0.9009922
+##  [7]  1.2898451  0.4520024 -0.6377170 -0.1110682</code></pre>
+<p>If you want to be even more efficient, if you specify your arguments in the order listed for the function, you don’t have to even name them. For example, the code below does the same thing as the two lines above, but since we are specifying the arguments in the specific order, we don’t have to name them.</p>
+<pre class="r"><code>rnorm(10,0,1)</code></pre>
+<pre><code>##  [1] -0.03733906  1.31283338  0.05204205 -0.55364978  0.67743970
+##  [6]  0.96025524 -1.30477635  0.10103249 -1.52754475 -0.16073453</code></pre>
+<p>Base R comes with a lot of in-built functions, but one of the great things about R is that there is a large community writing functions and including them in packages for free. Packages are like add-ons that can expand the number of functions you can use in R. We will be covering more about packages next week.</p>
+</div>
+<div id="classes" class="section level2">
+<h2>Classes</h2>
+<p>Up to this point, we have exclusively been dealing with numeric objects, but R can handle various data types (known as classes). There are two that are key to understanding programing in R.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Class</th>
+<th>Descrption</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>numeric</td>
+<td>Numbers</td>
+<td>1, .5, -.33</td>
+</tr>
+<tr class="even">
+<td>character</td>
+<td>text string</td>
+<td>“hello world”, “something else”</td>
+</tr>
+</tbody>
+</table>
+<p>The general rule is that numeric objects must be a number, and character objects must be contained within quotations (e.g., “this is a character string”).</p>
+<p>There are some other class types that are useful to know:</p>
+<table>
+<colgroup>
+<col width="24%" />
+<col width="54%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Class</th>
+<th>Descrption</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>factors</td>
+<td>A special type of character class where each unique text string represents a separate group.</td>
+<td>“this is a group”,“this is a different group”</td>
+</tr>
+<tr class="even">
+<td>logical (or boolean)</td>
+<td>A special type of factor class where the only two valid groups are TRUE and FALSE</td>
+<td><code>TRUE</code>, <code>FALSE</code></td>
+</tr>
+</tbody>
+</table>
+<p>There are also some other classes (e.g., different types of numeric classes, such as double, and integer), but you don’t have to worry about those for now.</p>
+<p>Some functions only work on certain types of classes, so it is useful to know what type of class your data is. You can use the <code>class()</code> function to find out.</p>
+<pre class="r"><code>class(1)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>class(&quot;this is a character&quot;)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code>class(TRUE)</code></pre>
+<pre><code>## [1] &quot;logical&quot;</code></pre>
+</div>
+<div id="vectors" class="section level2">
+<h2>Vectors</h2>
+<p>Up to now, we have only been dealing with single values. Often it is necessary to perform a function on several values at once.</p>
+<p>Vectors are one of the key structures in R. A vector is like a list of ordered elements. All the elements in a vector must be the same class (e.g., numeric, character). You can create a vector by using the function <code>c()</code>, where each element in your vector is separated by a comma.</p>
+<p>The following code makes a numeric vector three elements long.</p>
+<pre class="r"><code>c(1,2,3)</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<p>This code makes a character vector five elements long.</p>
+<pre class="r"><code>c(&quot;I&quot;,&quot;love&quot;,&quot;statistics&quot;,&quot;so&quot;,&quot;much&quot;)</code></pre>
+<pre><code>## [1] &quot;I&quot;          &quot;love&quot;       &quot;statistics&quot; &quot;so&quot;         &quot;much&quot;</code></pre>
+<p>Vectors are useful because it allows R to perform an operation on several values at once. For example, the following code creates an object called “v”, which is a numeric vector. We can then multiply all elements in a vector by three in one line of code. The output of the following code is a three element numeric vector with the answers.</p>
+<pre class="r"><code>v &lt;- c(1,4,9)
+
+v * 3</code></pre>
+<pre><code>## [1]  3 12 27</code></pre>
+<p>Some functions can be applied to vectors to perform the operation on all elements at once. For example, the following code gets the square root of each of the numbers in the object <code>v</code>.</p>
+<pre class="r"><code>sqrt(v)</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+</div>
+<div id="data.frames" class="section level2">
+<h2>data.frames</h2>
+<p>In psychological research, one of the main data structures we deal with are data tables (called data.frame in R). This is what one looks like:</p>
+<pre class="r"><code>data</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["ID"],"name":[1],"type":["int"],"align":["right"]},{"label":["age"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sex"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["var1"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["var2"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["var3"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"19","3":"female","4":"0.11","5":"1.54","6":"-0.09"},{"1":"2","2":"22","3":"male","4":"1.32","5":"-1.17","6":"-1.18"},{"1":"3","2":"22","3":"male","4":"0.46","5":"1.84","6":"0.07"},{"1":"4","2":"26","3":"male","4":"2.48","5":"-1.24","6":"-0.24"},{"1":"5","2":"20","3":"male","4":"0.27","5":"1.98","6":"-0.05"},{"1":"6","2":"30","3":"female","4":"-0.54","5":"-0.40","6":"-0.72"},{"1":"7","2":"23","3":"female","4":"-0.60","5":"1.14","6":"0.97"},{"1":"8","2":"21","3":"male","4":"1.17","5":"1.96","6":"-0.07"},{"1":"9","2":"31","3":"female","4":"-1.27","5":"-1.58","6":"2.03"},{"1":"10","2":"19","3":"male","4":"-0.68","5":"0.06","6":"-0.91"},{"1":"11","2":"21","3":"male","4":"0.60","5":"-0.06","6":"0.69"},{"1":"12","2":"20","3":"female","4":"-0.70","5":"0.55","6":"0.74"},{"1":"13","2":"23","3":"female","4":"0.29","5":"0.79","6":"0.76"},{"1":"14","2":"25","3":"male","4":"0.47","5":"0.93","6":"-0.05"},{"1":"15","2":"20","3":"female","4":"0.39","5":"-0.20","6":"-1.26"},{"1":"16","2":"18","3":"female","4":"0.72","5":"0.10","6":"0.45"},{"1":"17","2":"18","3":"male","4":"-0.15","5":"-0.82","6":"2.52"},{"1":"18","2":"18","3":"female","4":"0.89","5":"-1.73","6":"1.47"},{"1":"19","2":"20","3":"female","4":"0.21","5":"-0.64","6":"-1.02"},{"1":"20","2":"24","3":"female","4":"-1.10","5":"1.66","6":"-0.59"},{"1":"21","2":"19","3":"male","4":"0.98","5":"-1.74","6":"1.07"},{"1":"22","2":"35","3":"female","4":"-1.00","5":"-0.22","6":"-1.21"},{"1":"23","2":"30","3":"male","4":"-0.28","5":"1.00","6":"-0.66"},{"1":"24","2":"18","3":"male","4":"-0.16","5":"-0.21","6":"0.92"},{"1":"25","2":"24","3":"male","4":"-0.14","5":"-0.30","6":"-0.67"},{"1":"26","2":"20","3":"male","4":"-0.38","5":"0.83","6":"0.91"},{"1":"27","2":"19","3":"male","4":"-0.44","5":"0.52","6":"-0.59"},{"1":"28","2":"22","3":"male","4":"-0.57","5":"1.80","6":"1.12"},{"1":"29","2":"20","3":"female","4":"0.15","5":"0.55","6":"0.05"},{"1":"30","2":"18","3":"female","4":"-0.39","5":"1.03","6":"1.70"},{"1":"31","2":"20","3":"female","4":"-0.40","5":"-0.53","6":"-0.17"},{"1":"32","2":"20","3":"male","4":"-0.60","5":"-0.15","6":"-0.04"},{"1":"33","2":"24","3":"male","4":"-0.07","5":"0.95","6":"-1.21"},{"1":"34","2":"21","3":"male","4":"2.19","5":"-0.27","6":"-0.43"},{"1":"35","2":"21","3":"female","4":"-0.08","5":"-0.84","6":"-2.19"},{"1":"36","2":"22","3":"male","4":"0.76","5":"0.50","6":"-2.19"},{"1":"37","2":"31","3":"male","4":"0.28","5":"0.20","6":"0.28"},{"1":"38","2":"19","3":"male","4":"0.69","5":"0.50","6":"2.05"},{"1":"39","2":"23","3":"female","4":"0.76","5":"-0.78","6":"-1.94"},{"1":"40","2":"20","3":"male","4":"-0.82","5":"1.87","6":"0.76"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Typically in psychological research, how to read a data table is that each participant is represents a separate row, while different variables that participants can vary on our represented by separate columns (including ID, age, sex, and three other random variables).</p>
+<p>So in the data.frame above, participant 1 is a 19-year-old female, while participant 2 is a 22-year-old male. Can you see how to get this information from looking at the table above?</p>
+<p>One way of thinking about a data.frame in R is that it is made up of several vectors stacked up next to each other. If we think of it this way, we can create a data table in R using the <code>data.frame()</code> function, where each argument is a new column, which is a vector with the values. Data.frames can be saved as an object in R.</p>
+<pre class="r"><code>data &lt;- data.frame(ID = c(1,2,3,4,5),
+                   age = c(18,20,21,19,29),
+                   sex = c(&quot;male&quot;,&quot;female&quot;,&quot;female&quot;,&quot;male&quot;,&quot;female&quot;),
+                   var1 = c(1,4,5,3,7))
+data</code></pre>
+<pre><code>##   ID age    sex var1
+## 1  1  18   male    1
+## 2  2  20 female    4
+## 3  3  21 female    5
+## 4  4  19   male    3
+## 5  5  29 female    7</code></pre>
+<p>Manually entering data like this is not a particularly efficient way of loading data, and is prone to errors through typos. We will be covering how you can enter data saved on your computer next week.</p>
+<p>There are two ways you can view an entire data.frame in RStudio. The first way, like above, is to type the data.frame object name into the console. However, for big data.frames, this becomes unweildy. A better way is toto use the <code>View()</code> function. Try typing the following code into your console:</p>
+<pre class="r"><code>View(data)</code></pre>
+</div>
+<div id="looking-for-help" class="section level2">
+<h2>Looking For Help</h2>
+<p>We have covered a lot of the basics today, and it’s a lot to take in. While it is good to learn the basic syntax of R coding, note that it is also impossible to commit to memory what every function does in R, and even experienced R programmers will need to look up help or documentation. This can be done in several ways.</p>
+<p>Using the <code>help()</code> function. Try running the code below and see what happens. You should see in the bottom right window of RStudio some documentation for the function you’ve asked for help. It will give you a list of arguements the function accepts, and detail on what will be produced. If you scroll to the bottom, you will also see some examples of the function in action.</p>
+<pre class="r"><code>help(rnorm)</code></pre>
+<p>Another way to find help is to Google things. Some useful phrases to Google include: “how to do x in R” or “x function in R”. If you are getting an error message you can’t solve, try copying it into a Google Search.</p>
+<p>Often, someone on the Internet has previously asked the same question as you, and someone else has already answered it! A good website for this is <a href="https://stackoverflow.com">StackOverflow</a>.</p>
+</div>
+</div>
+<div id="exercises-1" class="section level1">
+<h1>Exercises</h1>
+<p>Now that you’ve completed this week’s workbook, why not give this week’s exercises a go? You can download the interactive exercises by clicking the link below.</p>
+<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

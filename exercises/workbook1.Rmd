@@ -1,0 +1,69 @@
+---
+title: "1intro_workbook"
+output: html_document
+---
+
+#Beginner
+
+## Question 1.
+In the chunk below, create an object called `numbers` which is a numeric vector containing your three favourite numbers.
+
+```{r w1q1}
+numbers <- NULL
+```
+
+## Question 2
+
+Using vectorised operation, create an object called `numbers3` that multiplies the object `numbers` by 3.
+
+The chunk below creates an integer vector `ages` with the ages of five people. (Note: defining a number with the sufficx `L`, e.g., `26L`, defines `26` as type integer rather than type double.)  Calculate how old they will be in ten years using a vectorized operation and store the result in the variable `ages_10`.
+
+```{r Q2}
+numbers3 <- NULL
+```
+
+## Question 3
+
+Make a function that adds the elements of numbers3 together called `numbers_add`.
+
+```{r}
+numbers_add <- NULL
+```
+
+## Question 4
+
+The code below has an error. Find and fix the error.
+```{r}
+
+```
+
+## Question 5
+
+Google... Class?
+
+```{r}
+
+```
+
+#Intermediate
+
+## Question 6
+
+```{r}
+
+```
+#Advance
+
+Create a data.frame called `data` with the following variables. Realistic values (e.g., age cannot be 1000 years).
+
+age
+marriage
+
+
+For continuous variables, class as numeric.
+For ordinal variables, class as...
+For categorical variables, class as character or factor.
+
+```{r}
+
+```

@@ -1,0 +1,535 @@
+---
+title: "Exercise 1"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE,message = FALSE}
+library(learnr)
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE)
+
+checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
+  
+  envir_result
+  out <- list(message = sample(c("Good Job!",
+                                 "Well done!",
+                                 "Great stuff!",
+                                 "That is correct!",
+                                 "Correct! You are really good at this."),1), correct = TRUE, location = "append")
+  
+#Question 1
+if(label == "question_1"){
+    if(!exists("x")){
+    	out <- list(message = "No object saved as x. If there is a typo in the code, R will give you an error message and the line will not run.", correct = FALSE, location = "append")
+    } else {
+		if(!is.numeric(x)){
+			out <- list(message = "x is not a numeric vector.", correct = FALSE, location = "append")
+		}
+	}
+}
+
+#Question 2
+if(label == "question_2"){
+    if(!exists("x")){
+    	out <- list(message = "No object saved as x. If there is a typo in the code, R will give you an error message and the line will not run.", correct = FALSE, location = "append")
+    } else {
+		if(!is.character(x)){
+			out <- list(message = "x is not a character vector.", correct = FALSE, location = "append")
+		}
+	}
+}  
+
+#Question 4
+if(label == "question_4"){
+    if(!exists("numbers")){
+    	out <- list(message = "No object saved as numbers. Do not alter the numeric vector saved as numbers.", correct = FALSE, location = "append")
+    } else {
+		if(!identical(numbers,c(4,1,29,0,53,31))){
+			out <- list(message = "The numeric vector saved as numbers does not match the original input. Do not edit the line that saves the object `numbers`. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("mean_of_numbers")){
+				out <- list(message = "No object saved as `mean_of_numbers` was found.", correct = FALSE, location = "append")
+			} else {
+				if(mean_of_numbers != mean(numbers)){
+					out <- list(message = "The number saved as `mean_of_numbers` does not match the correct mean.", correct = FALSE, location = "append")
+				}
+			}
+		}
+	}
+}
+
+if(label == "question_5"){
+    if(!exists("numbers")){
+    	out <- list(message = "No object saved as numbers. Do not alter the numeric vector saved as numbers.", correct = FALSE, location = "append")
+    } else {
+		if(!identical(numbers,c(1,2,2,3,3,3,4,4,4,4,5,5,5,6,6,7,NA,NA,NA))){
+			out <- list(message = "The numeric vector saved as numbers does not match the original input. Do not edit the line that saves the object `numbers`. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("sd_of_numbers")){
+				out <- list(message = "No object saved as `sd_of_numbers` was found.", correct = FALSE, location = "append")
+			} else {
+				if(is.na(sd_of_numbers)){
+					out <- list(message = "The number saved as `sd_of_numbers` is missing. Certain functions don't deal well with missing data. Have you accounted for this?", correct = FALSE, location = "append")
+				} else {
+					if(sd_of_numbers != sd(numbers,na.rm = TRUE)){
+						out <- list(message = "The number saved as `sd_of_numbers` does not match the correct standard deviation.", correct = FALSE, location = "append")
+					}
+				}
+			}
+		}
+	}
+}  
+
+#Question 6
+if(label == "question_6"){
+    if(!exists("numbers")){
+    	out <- list(message = "No object saved as numbers. Do not alter the numeric vector saved as numbers.", correct = FALSE, location = "append")
+    } else {
+		if(!identical(numbers,c(34958,293487,123874,98475,47389,3847,4897,75639))){
+			out <- list(message = "The numeric vector saved as numbers does not match the original input. Do not edit the line that saves the object `numbers`. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("range_of_numbers")){
+				out <- list(message = "No object saved as `range_of_numbers` was found.", correct = FALSE, location = "append")
+			} else {
+				if(range_of_numbers != max(numbers,na.rm = TRUE) - min(numbers,na.rm = TRUE)){
+						out <- list(message = "The number saved as `range_of_numbers` does not match the correct range.", correct = FALSE, location = "append")
+				}
+			}
+		}
+	}
+}
+
+#Question 7
+if(label == "question_7"){
+    if(!exists("data")){
+    	out <- list(message = "No object saved as data. Do not alter the data.frame as data.", correct = FALSE, location = "append")
+    } else {
+		  correct_data <- data.frame(ID = c(1,2,3,4,5,6,7,8,9,10),
+                   var1 = c(10,29,38,47,56,13,24,35,46,57),
+                   var2 = c(10.5,11,2,9,4,6,8,5.3,2.9,10))
+      if(!identical(data,correct_data)){
+			out <- list(message = "The data.frame saved as data does not match the original input. Do not edit the object saved as `data`. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("descript_stats")){
+				out <- list(message = "No object saved as `descript_stats` was found.", correct = FALSE, location = "append")
+			} else {
+				
+				correct_answer <- summarise(data,	mean_var1 = mean(var1),
+											sd_var1 = sd(var1),
+											mean_var2 = mean(var2),
+											sd_var2 = sd(var2))
+				
+				if(!identical(descript_stats,correct_answer)){
+						out <- list(message = "The data.frame saved as `correct_answer` does not match the correct answer.", correct = FALSE, location = "append")
+				}
+			}
+		}
+	}
+}
+
+#Question 8
+if(label == "question_8"){
+
+	if(!exists("data")){
+    	out <- list(message = "No object saved as data. Do not alter the data.frame as data.",
+    				correct = FALSE,
+    				location = "append")
+    } else {
+		correct_data <- data.frame(ID = c(1,2,3,4,5,6,7,8,9,10),
+                   var1 = c(10,92,NA,74,65,31,42,53,64,75),
+                   var2 = c(10.5,11,2,9,4,6,8,5.3,2.9,10))
+		if(!identical(data,correct_data)){
+			out <- list(message = "The data.frame saved as data does not match the original input. Do not edit the object saved as `data`. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("data_minmax")){
+				out <- list(message = "No object saved as `data_minmax` was found.", correct = FALSE, location = "append")
+			} else {
+				correct_answer <- summarise(data,
+                          max_var1 = max(var1,na.rm = TRUE),
+                          min_var1 = min(var1,na.rm = TRUE),
+                          max_var2 = max(var2,na.rm = TRUE),
+                          min_var2 = min(var2,na.rm = TRUE)
+                          )
+				if(!identical(colnames(data_minmax),colnames(correct_answer))){
+					out <- list(message = "The column names of `data_minmax` is not detected to be in the same order as specified above.", correct = FALSE, location = "append")
+				} else {
+					if(!identical(data_minmax,correct_answer)){
+						out <- list(message = "The data.frame saved as `correct_answer` does not match the correct answer.", correct = FALSE, location = "append")
+					}
+				}
+			}
+		}
+	}
+}
+
+#Question 9
+if(label == "question_9"){
+    if(!exists("missing_values")){
+    	out <- list(message = "No object saved as `missing_values`.", correct = FALSE, location = "append")
+    } else {
+		if(is.character(missing_values)){
+			out <- list(message = "Something is wrong with the code. Edit the code such that `is.na(missing values)` returns a correct response of three `FALSE` and three `TRUE`.", correct = FALSE, location = "append")
+		} else {
+			if(!identical(is.na(missing_values),c(FALSE,FALSE,FALSE,TRUE,TRUE,TRUE))){
+				out <- list(message = "You seem to be on the correct track, but the code is not entirely correct. Edit the code such that `is.na(missing values)` returns a correct response of three `FALSE` and three `TRUE`.", correct = FALSE, location = "append")
+			}
+		}
+	}
+}
+  
+#Question 10
+if(label == "question_10"){
+    if(!exists("animals")){
+    	out <- list(message = "No object saved as `animals`. Do not alter the character vector saved as animals.", correct = FALSE, location = "append")
+    } else {
+		if(!identical(animals,c("cat","magpie","lion","eagle","tiger",NA,"crow",NA,NA,"bulldog","hawk","kangaroo",NA,"swan",NA,NA,NA,NA))){
+			out <- list(message = "The vector saved as animals does not match the original input. Do not edit the object saved as `animals`. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("NA_total")){
+				out <- list(message = "No object saved as `NA_total` was found.", correct = FALSE, location = "append")
+			} else {
+				if(!identical(NA_total,sum(is.na(animals)))){
+					out <- list(message = "The number saved as `NA_total` is incorrect.", correct = FALSE, location = "append")
+				}
+			}
+		}
+	}
+}
+        
+return(out)
+}
+
+tutorial_options(exercise.checker = checker)
+```
+
+## Introduction
+
+This is the second of the weekly exercises. These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R.If you are struggling, each exercise comes with a number of hints that may be helpful.
+
+## Basic Exercises
+
+### Question 1
+
+There is a typo in the following code that is preventing it from running successfully. Fix the typo to save a numeric vector to `x`.
+
+```{r question_1, exercise=TRUE}
+x <- c(1, 2, 3 4, 5)
+```
+
+```{r question_1-hint-1}
+Very common typos include missing components that make the code run successfully.
+```
+
+```{r question_1-hint-2}
+Elements in a function are separated by commas.
+
+Next hint will show the solution...
+```
+
+```{r question_1-solution}
+#The comma after the 3 is missing.
+x <- c(1, 2, 3, 4, 5)
+```
+
+```{r question_1-check}
+checker()
+```
+
+### Question 2
+
+The following code is attempting to save a character vector as `x`. However, the code is not running successfully. Find the error and fix it.
+
+```{r question_2, exercise=TRUE}
+x <- c(Maroon, Blue, Gold)
+```
+
+```{r question_2-hint-1}
+Very common typos include missing components that make the code run successfully.
+```
+
+```{r question_2-hint-2}
+R differentiates character strings and object names from the use of quotation marks... 
+
+Next hint will show the solution...
+```
+
+```{r question_2-solution}
+#The character strings are missing quotation marks.
+x <- c("Maroon", "Blue", "Gold")
+```
+
+```{r question_2-check}
+checker()
+```
+
+
+### Question 3
+
+```{r question_3-quiz}
+quiz(
+  question("What are the advantages of using a script to analyse data? Select all correct answers.",
+    answer("Reduces human error.",correct = TRUE),
+    answer("Keeps a record of manipulations on datasets.",correct = TRUE),
+    answer("Is easily shareable and reproducible.",correct = TRUE),
+    answer("A change can be introduced in the analysis pipeline without re-doing the whole process.", correct = TRUE),allow_retry = TRUE ,random_answer_order = TRUE
+  )
+)
+```
+
+### Question 4
+
+Calculate the mean of the following numbers, and save the result as an object named `mean_of_numbers`.
+
+```{r question_4, exercise=TRUE}
+numbers <- c(4,1,29,0,53,31)
+
+mean_of_numbers <- 
+```
+
+```{r question_4-hint-1}
+Base R has a function that can compute the mean for you.
+```
+
+```{r question_4-hint-2}
+The function `mean()` takes a numeric vector as the first argument.
+
+Next hint will show the solution...
+```
+
+```{r question_4-solution}
+numbers <- c(4,1,29,0,53,31)
+
+mean_of_numbers <- mean(numbers)
+```
+
+```{r question_4-check}
+checker()
+```
+
+###Question 5
+
+Below is an object called `numbers` that is a numeric vector. Calculate the standard deviation of this vector and save the results as an object called `sd_of_numbers`.
+
+```{r question_5-setup, include = FALSE}
+numbers <- c(1,2,2,3,3,3,4,4,4,4,5,5,5,6,6,7,NA,NA,NA)
+```
+
+```{r question_5, exercise=TRUE,exercise.lines = 5}
+numbers
+
+```
+
+```{r question_5-hint-1}
+Base R has a function that calculates the standard deviation of a numeric vector.
+```
+
+```{r question_5-hint-2}
+Is there any missing values in the numeric vector `numbers`?
+
+Next hint will show the solution...
+```
+
+```{r question_5-solution}
+#You are required to set `na.rm = TRUE` to ignore missing values.
+sd_of_numbers <- sd(numbers,na.rm = TRUE)
+```
+
+```{r question_5-check}
+checker()
+```
+
+###Question 6
+
+Below is an object called `numbers` that is a numeric vector. Calculate the range of this vector and save the results as an object called `range_of_numbers`.
+
+```{r question_6-setup, include = FALSE}
+numbers <- c(34958,293487,123874,98475,47389,3847,4897,75639)
+```
+
+```{r question_6, exercise=TRUE,exercise.lines = 7}
+numbers
+
+```
+
+```{r question_6-hint-1}
+The range of a set of numbers is the largest number of the set minus the smallest number of the set.
+```
+
+```{r question_6-hint-2}
+Once you have saved the results of a function to an object, you can perform operations on them like with any other object.
+
+Next hint will show the solution...
+```
+
+```{r question_6-solution}
+max_of_numbers <- max(numbers,na.rm = TRUE)
+min_of_numbers <- min(numbers,na.rm = TRUE)
+
+range_of_numbers <- max_of_numbers - min_of_numbers
+
+#The above code can also be written in one line:
+range_of_numbers <- max(numbers,na.rm = TRUE) - min(numbers,na.rm = TRUE)
+```
+
+```{r question_6-check}
+checker()
+```
+
+###Question 7
+
+Below is a data.frame called `data`. Edit the code below to use the summarise function to calculate the mean and standard deviation of `var1` and `var2`. Save the result as `descript_stats`. Do not adjust the new variable names in the summarise function.
+
+```{r question_7-setup, include = FALSE}
+data <- data.frame(ID = c(1,2,3,4,5,6,7,8,9,10),
+                   var1 = c(10,29,38,47,56,13,24,35,46,57),
+                   var2 = c(10.5,11,2,9,4,6,8,5.3,2.9,10))
+```
+
+```{r question_7, exercise=TRUE,exercise.lines = 12}
+descript_stats <- summarise(data,
+                            mean_var1 =
+                            sd_var1 =
+                            mean_var2 =
+                            sd_var2 =
+                            )
+
+#Note: the summarise() function above has been separated onto multiple lines to help with legiability.
+
+```
+
+```{r question_7-hint-1}
+If you're unsure of how to use the `summarise()` function, type help(summarise) into the console, or use Google.
+```
+
+```{r question_7-hint-2}
+Arguments in a function are separated by commas.
+
+Next hint will show the solution...
+```
+
+```{r question_7-solution}
+descript_stats <- summarise(data,
+                            mean_var1 = mean(var1),
+                            sd_var1 = sd(var1),
+                            mean_var2 = mean(var2),
+                            sd_var2 = sd(var2)
+                            )
+```
+
+```{r question_7-check}
+checker()
+```
+
+###Question 8
+
+Below is a data.frame called `data`. Use the `summarise()` function to calculate the maximum and minimum values from `var1` and `var2`. Save the resulting data.frame as `data_minmax` and name the new variables computed by the `summarise()` function in the following order: max_var1, min_var1, max_var2, and min_var2.
+
+```{r question_8-setup, include = FALSE}
+data <- data.frame(ID = c(1,2,3,4,5,6,7,8,9,10),
+                   var1 = c(10,92,NA,74,65,31,42,53,64,75),
+                   var2 = c(10.5,11,2,9,4,6,8,5.3,2.9,10))
+```
+
+```{r question_8, exercise=TRUE,exercise.lines = 12}
+data_minmax <-
+
+```
+
+```{r question_8-hint-1}
+Remember to deal with missing data if necessary.
+```
+
+```{r question_8-hint-2}
+Check that there are no typos in the new variable names. Also check that the new variables are in the order as specified above (this just helps check that you have the correct answer).
+
+Next hint will show the solution...
+```
+
+```{r question_8-solution}
+data_minmax <- summarise(data,
+                          max_var1 = max(var1,na.rm = TRUE),
+                          min_var1 = min(var1,na.rm = TRUE),
+                          max_var2 = max(var2,na.rm = TRUE),
+                          min_var2 = min(var2,na.rm = TRUE)
+                          )
+```
+
+```{r question_8-check}
+checker()
+```
+
+###Question 9
+
+Below, we are attempting to make a numeric vector with three missing values. However, when we run `is.na(missing_values)`, R is telling us there are 0 missing values. Fix the code below so that `is.na(missing_values)` gives us the correct answer of three `FALSE` followed by three `TRUE`.
+
+```{r question_9, exercise=TRUE,exercise.lines = 12}
+missing_values <- c(4, 5, 6, "NA","NA","NA")
+
+is.na(missing_values)
+
+```
+
+```{r question_9-hint-1}
+Try running the code `class(missing_values)`. Does something seem wrong here?
+```
+
+```{r question_9-hint-2}
+R differentiates character strings and object names from the use of quotation marks...
+
+Next hint will show the solution...
+```
+
+```{r question_9-solution}
+missing_values <- c(4, 5, 6, NA,NA,NA)
+
+#quotation marks are removed around NA values.
+
+is.na(missing_values)
+```
+
+```{r question_9-check}
+checker()
+```
+
+###Question 10
+
+Below is a character vector named `animals`. Determine how many missing values are in `aniamls` by using the functions `is.na()` and `sum()` and save the result as `NA_total`.
+
+```{r question_10-setup, include = FALSE}
+animals <- c("cat","magpie","lion","eagle","tiger",NA,"crow",NA,NA,"bulldog","hawk","kangaroo",NA,"swan",NA,NA,NA,NA)
+```
+
+```{r question_10, exercise=TRUE,exercise.lines = 12}
+animals
+
+NA_total <-
+
+```
+
+```{r question_10-hint-1}
+`is.na()` returns a logical vector. Logical vectors are a special type of Factor class that at times can be treated as numeric, with FALSE = 0 and TRUE = 1.
+```
+
+```{r question_10-hint-2}
+Check that there are no typos in the new variable names. Also check that the new variables are in the order as specified above (this just helps check that you have the correct answer).
+
+Next hint will show the solution...
+```
+
+```{r question_10-solution}
+temp <- is.na(animals)
+NA_total <- sum(temp)
+
+#The above can be represented in one line of code:
+
+NA_total <- sum(is.na(animals))
+```
+
+```{r question_10-check}
+checker()
+```
+
+## Advanced Exercises
+
+
