@@ -442,10 +442,6 @@ div.tocify {
 <li>Find help.</li>
 </ol>
 </div>
-<div id="resources" class="section level1">
-<h1>Resources</h1>
-<p>Here is a list of resources that may help you with this weeks content</p>
-</div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
 <p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
@@ -454,11 +450,11 @@ div.tocify {
 <h1>Content</h1>
 <div id="r" class="section level2">
 <h2>R</h2>
-<p>R is a programming language and free software environment for statistical computing and graphics. R is widely used by statisticians and data scientists. The use of R in psychological research has shown a substantial increase in popularity recently, given Rs superior ability to conduct advance statistical techniques, high level of community support, and ability to promote reproducible research.</p>
+<p>R is a programming language and free software environment for statistical computing and graphics. R is widely used by statisticians and data scientists. The use of R in psychological research has shown a substantial increase in popularity recently, given R’s superior ability to conduct advance statistical techniques, high level of community support, and ability to promote reproducible research.</p>
 <p>“Base R” consists of a “Read Evaluate Print Loop” (REPL) command interpreter, in which you type in text commands, which are evaluated, and the results of which are printed to the screen. This “R Console” window looks something like this (don’t worry about the details for now):</p>
 <div class="figure">
-<img src="images/BaseR%20Console.png" alt="BaseR Console" />
-<p class="caption">BaseR Console</p>
+<img src="images/BaseR%20Console.png" alt="Base R Console" />
+<p class="caption">Base R Console</p>
 </div>
 </div>
 <div id="rstudio" class="section level2">
@@ -485,7 +481,7 @@ div.tocify {
 <p>One simple way to learn about the R console is to use it as a calculator. Enter the lines of code below and see if your results match.</p>
 <pre class="r"><code>1+2</code></pre>
 <pre><code>## [1] 3</code></pre>
-<p>Remeber, R will “read” the command you have typed into the console, evaluated it in the background, and then print the response back to you.</p>
+<p>Remember, R will “read” the command you have typed into the console, evaluated it in the background, and then print the response back to you.</p>
 <p>R is not sensitive to spaces, so you can put as many spaces in between your commands as you’d like. This is helpful for long commands, which you can break up over multiple lines.</p>
 <p>This…</p>
 <pre class="r"><code>1 + 2 + 3</code></pre>
@@ -493,6 +489,8 @@ div.tocify {
 <p>… is the same as this…</p>
 <pre class="r"><code>1+2+3</code></pre>
 <pre><code>## [1] 6</code></pre>
+<p>However, you cannot include a space in the middle of the object, so if you are trying to add the numbers “12” and “3” together, the following code will give you an error message.</p>
+<pre class="r"><code>1 2 + 3</code></pre>
 <p>You can also break up commands over multiple lines - this is useful for long commands. When the symbol in the console before the cursor shows a <code>&gt;</code> symbol, it will accept a new command. If it shows a <code>+</code> symbol, R is waiting to receive the end of the previous command. If you want to cancel, press the esc key. For complex functions, it may take R a while to evaluate some code. When R is still thinking, there will be no symbol.</p>
 <p>Try running the code below one line at a time.</p>
 <pre class="r"><code>1 + 2 + 3 +
@@ -511,11 +509,11 @@ div.tocify {
 <pre class="r"><code>x * 2</code></pre>
 <pre><code>## [1] 6</code></pre>
 <p>Notice that when you save an object, it is added to the list in the top right window of RStudio. This window displays your workspace. Objects in your workspace exist until you overwrite them, clear your workpsace, or until you end your R session. For big projects, it may be helpful to save your workspace, but in general, best practice for reproducible psychological research is to clear your workspace at the end of each session.</p>
-<p>Some things to be aware of when naming objects: * Capitalisation matters (e.g., <code>myObject</code> is different to <code>myobject</code>). * You cannot use symbols or spaces, except for underscores <code>_</code>, and periods <code>.</code>. * You can use letters and numbers, but the object name must begin with a letter (<code>b2</code> is valid, but 2b is not).</p>
+<p>Some things to be aware of when naming objects: * Capitalisation matters (e.g., <code>myObject</code> is different to <code>myobject</code>). * You cannot use symbols or spaces, except for underscores <code>_</code>, and periods <code>.</code>. * You can use letters and numbers, but the object name must begin with a letter (<code>b2</code> is valid, but <code>2b</code> is not).</p>
 </div>
 <div id="functions" class="section level2">
 <h2>Functions</h2>
-<p>A lot of what you do in R involves calling functions and storing the results. Generally, functions accept objects as an arguments, executes a set computations on those objects, then return the result of that procedure.</p>
+<p>A lot of what you do in R involves calling functions and storing the results. Generally, functions accept objects as an arguments, executes a pre-specified set of computations on those objects, then return the result of those computations.</p>
 <p>Functions will always follow this general syntax:</p>
 <p><code>function_name(argument1,argument2,argument3,...)</code></p>
 <p>Functions can do different things, depending on the function. Most functions will take an argument (or several arguments), does a specified computation, then return a value. For instance, the <code>sqrt()</code> function below takes one argument (called “x”), which is a number and returns the square root of that number:</p>
@@ -523,16 +521,17 @@ div.tocify {
 <pre><code>## [1] 2</code></pre>
 <p>Some functions can do quite complicated things. For example, the function <code>rnorm()</code> generates random numbers from the standard normal distribution. This function takes three arguments, where n is the number of randomly generated numbers you want, mean is the mean of the distribution, and sd is the standard deviation. The default mean is 0, and the default standard deviation is 1. So if you want to randomly generate 10 numbers, you can run this code:</p>
 <pre class="r"><code>rnorm(n = 10,mean = 0,sd = 1)</code></pre>
-<pre><code>##  [1] -0.13054394 -1.15988841  0.21740489  0.55445790 -1.04296823
-##  [6]  1.61353710  0.19496999 -0.55611554 -0.01962275 -0.37378213</code></pre>
+<pre><code>##  [1] -0.8943169 -0.4969902  0.9899750  2.6673730 -1.0570584 -1.3504568
+##  [7]  1.2244246  0.5857735 -1.0101869  0.6319938</code></pre>
 <p>As mentioned above, some arguments have default values, in which case you do not have to specify them. The code below does the same as above, but we do not have to name all the arguments because the defaults for mean and sd are 0 and 1 respectively. It is necessary to provide a value for n, as there is no default.</p>
 <pre class="r"><code>rnorm(n = 10)</code></pre>
-<pre><code>##  [1] -0.6634006 -0.3373080  1.0352446  1.1837702 -1.2556545  1.7653608
-##  [7]  0.9256738 -2.6495225 -0.9112280 -0.4098146</code></pre>
+<pre><code>##  [1]  0.17071429 -0.44849555 -0.14156219 -1.02731266  0.53220633
+##  [6] -1.01331643 -1.28096406 -0.12621111  0.35209664  0.02981946</code></pre>
 <p>If you want to be even more efficient, if you specify your arguments in the order listed for the function, you don’t have to even name them. For example, the code below does the same thing as the two lines above, but since we are specifying the arguments in the specific order, we don’t have to name them.</p>
 <pre class="r"><code>rnorm(10,0,1)</code></pre>
-<pre><code>##  [1] -1.01832508 -0.42142056 -1.68704209  1.18553719 -0.51523227
-##  [6] -0.48264045  0.38193825 -0.09404399  1.94730235 -0.88832304</code></pre>
+<pre><code>##  [1]  0.6736874  0.8997794  0.1310630 -1.3616392 -0.5967298  1.0031662
+##  [7]  0.2778412  0.1061980 -1.3057009  0.8898423</code></pre>
+<p>If you have trouble remembering the arguments a particular function takes, you can hover your mouse over the function.</p>
 <p>Base R comes with a lot of in-built functions, but one of the great things about R is that there is a large community writing functions and including them in packages for free. Packages are like add-ons that can expand the number of functions you can use in R. We will be covering more about packages next week.</p>
 </div>
 <div id="classes" class="section level2">
@@ -550,12 +549,12 @@ div.tocify {
 <tr class="odd">
 <td>numeric</td>
 <td>Numbers</td>
-<td>1, .5, -.33</td>
+<td><code>1</code>, <code>.5</code>, <code>-.33</code></td>
 </tr>
 <tr class="even">
 <td>character</td>
-<td>text string</td>
-<td>“hello world”, “something else”</td>
+<td>Text String</td>
+<td><code>&quot;hello world&quot;</code>, <code>&quot;something else&quot;</code></td>
 </tr>
 </tbody>
 </table>
@@ -577,8 +576,8 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td>factors</td>
-<td>A special type of character class where each unique text string represents a separate group.</td>
-<td>“this is a group”,“this is a different group”</td>
+<td>A special type of character class where each unique text string represents a separate group (i.e., categories).</td>
+<td><code>&quot;this is a group&quot;</code>, <code>&quot;this is a different group&quot;</code></td>
 </tr>
 <tr class="even">
 <td>logical (or boolean)</td>
@@ -599,7 +598,7 @@ div.tocify {
 <div id="vectors" class="section level2">
 <h2>Vectors</h2>
 <p>Up to now, we have only been dealing with single values. Often it is necessary to perform a function on several values at once.</p>
-<p>Vectors are one of the key structures in R. A vector is like a list of ordered elements. All the elements in a vector must be the same class (e.g., numeric, character). You can create a vector by using the function <code>c()</code>, where each element in your vector is separated by a comma.</p>
+<p>Vectors are one of the key structures in R. A vector is like a list of ordered values (called elements). All the elements in a vector must be the same class (e.g., numeric, character). You can create a vector by using the function <code>c()</code>, where each element in your vector is separated by a comma.</p>
 <p>The following code makes a numeric vector three elements long.</p>
 <pre class="r"><code>c(1,2,3)</code></pre>
 <pre><code>## [1] 1 2 3</code></pre>
@@ -621,7 +620,7 @@ v * 3</code></pre>
 <pre class="r"><code>data</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["ID"],"name":[1],"type":["int"],"align":["right"]},{"label":["age"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sex"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["var1"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["var2"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["var3"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"19","3":"female","4":"0.22","5":"0.03","6":"-0.33"},{"1":"2","2":"22","3":"male","4":"1.71","5":"0.31","6":"1.00"},{"1":"3","2":"28","3":"female","4":"0.48","5":"0.97","6":"0.13"},{"1":"4","2":"29","3":"male","4":"-0.59","5":"2.65","6":"-0.26"},{"1":"5","2":"32","3":"female","4":"1.19","5":"1.90","6":"-0.16"},{"1":"6","2":"32","3":"female","4":"-0.15","5":"-1.37","6":"-0.52"},{"1":"7","2":"20","3":"female","4":"0.02","5":"-0.13","6":"-1.00"},{"1":"8","2":"24","3":"female","4":"-0.29","5":"-1.09","6":"-0.45"},{"1":"9","2":"20","3":"male","4":"-0.72","5":"1.28","6":"-0.79"},{"1":"10","2":"22","3":"male","4":"2.32","5":"-0.77","6":"-0.83"},{"1":"11","2":"26","3":"female","4":"0.26","5":"-0.82","6":"-1.75"},{"1":"12","2":"19","3":"male","4":"-0.92","5":"0.05","6":"-0.23"},{"1":"13","2":"23","3":"male","4":"0.51","5":"-1.99","6":"-0.03"},{"1":"14","2":"21","3":"female","4":"-0.19","5":"0.93","6":"-1.81"},{"1":"15","2":"32","3":"male","4":"-0.70","5":"-0.38","6":"0.00"},{"1":"16","2":"21","3":"male","4":"2.03","5":"-0.82","6":"-0.78"},{"1":"17","2":"25","3":"male","4":"-0.40","5":"-0.81","6":"-0.12"},{"1":"18","2":"21","3":"female","4":"0.41","5":"1.97","6":"-0.97"},{"1":"19","2":"20","3":"male","4":"-1.19","5":"-0.39","6":"0.13"},{"1":"20","2":"27","3":"female","4":"-1.81","5":"1.96","6":"-0.28"},{"1":"21","2":"20","3":"male","4":"2.11","5":"1.09","6":"-0.15"},{"1":"22","2":"23","3":"male","4":"-0.68","5":"-0.16","6":"1.24"},{"1":"23","2":"20","3":"female","4":"0.23","5":"0.41","6":"-0.41"},{"1":"24","2":"22","3":"female","4":"0.11","5":"-0.64","6":"0.54"},{"1":"25","2":"20","3":"female","4":"-0.44","5":"0.35","6":"1.10"},{"1":"26","2":"32","3":"female","4":"1.32","5":"0.27","6":"1.24"},{"1":"27","2":"24","3":"female","4":"1.68","5":"0.35","6":"-0.20"},{"1":"28","2":"21","3":"female","4":"-0.77","5":"0.76","6":"0.19"},{"1":"29","2":"18","3":"male","4":"-0.34","5":"-1.02","6":"-0.40"},{"1":"30","2":"18","3":"male","4":"0.02","5":"0.51","6":"-0.87"},{"1":"31","2":"23","3":"female","4":"-0.53","5":"-0.86","6":"-1.31"},{"1":"32","2":"20","3":"female","4":"-1.14","5":"-1.57","6":"-0.71"},{"1":"33","2":"20","3":"male","4":"1.62","5":"0.28","6":"0.09"},{"1":"34","2":"22","3":"female","4":"1.70","5":"-0.65","6":"0.94"},{"1":"35","2":"23","3":"male","4":"-0.90","5":"0.13","6":"-2.15"},{"1":"36","2":"21","3":"female","4":"-1.05","5":"-0.68","6":"0.16"},{"1":"37","2":"25","3":"male","4":"0.21","5":"-0.95","6":"-1.22"},{"1":"38","2":"20","3":"male","4":"0.62","5":"0.21","6":"-0.09"},{"1":"39","2":"19","3":"female","4":"-0.33","5":"-1.16","6":"0.63"},{"1":"40","2":"21","3":"male","4":"0.09","5":"1.19","6":"1.20"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["ID"],"name":[1],"type":["int"],"align":["right"]},{"label":["age"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sex"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["var1"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["var2"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["var3"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"19","3":"female","4":"-0.45","5":"-0.19","6":"0.46"},{"1":"2","2":"22","3":"male","4":"1.74","5":"-1.31","6":"1.10"},{"1":"3","2":"21","3":"male","4":"-0.59","5":"2.22","6":"1.30"},{"1":"4","2":"18","3":"female","4":"-0.28","5":"-0.16","6":"0.53"},{"1":"5","2":"23","3":"male","4":"0.92","5":"-0.44","6":"0.28"},{"1":"6","2":"25","3":"female","4":"-1.60","5":"-0.76","6":"-2.02"},{"1":"7","2":"25","3":"male","4":"-0.38","5":"1.03","6":"1.29"},{"1":"8","2":"27","3":"female","4":"-1.31","5":"-0.18","6":"-0.09"},{"1":"9","2":"23","3":"male","4":"-1.73","5":"-0.51","6":"-0.56"},{"1":"10","2":"30","3":"female","4":"0.79","5":"-0.22","6":"-0.45"},{"1":"11","2":"22","3":"male","4":"-0.42","5":"1.45","6":"0.55"},{"1":"12","2":"30","3":"male","4":"-1.32","5":"-0.85","6":"0.54"},{"1":"13","2":"21","3":"male","4":"-0.79","5":"0.94","6":"-0.62"},{"1":"14","2":"26","3":"male","4":"1.16","5":"0.47","6":"0.40"},{"1":"15","2":"25","3":"female","4":"0.14","5":"-0.65","6":"1.50"},{"1":"16","2":"20","3":"male","4":"-1.77","5":"-0.50","6":"0.17"},{"1":"17","2":"22","3":"male","4":"-0.49","5":"-0.31","6":"-1.22"},{"1":"18","2":"30","3":"female","4":"-0.79","5":"0.20","6":"0.45"},{"1":"19","2":"20","3":"female","4":"-0.37","5":"-0.99","6":"1.04"},{"1":"20","2":"34","3":"male","4":"-0.18","5":"-0.04","6":"-0.07"},{"1":"21","2":"34","3":"male","4":"0.21","5":"-0.34","6":"-2.61"},{"1":"22","2":"24","3":"male","4":"-0.01","5":"0.80","6":"0.43"},{"1":"23","2":"18","3":"female","4":"-2.38","5":"1.77","6":"0.17"},{"1":"24","2":"19","3":"male","4":"0.22","5":"0.32","6":"-0.36"},{"1":"25","2":"27","3":"female","4":"0.51","5":"1.03","6":"-0.11"},{"1":"26","2":"24","3":"male","4":"1.84","5":"-1.43","6":"0.41"},{"1":"27","2":"23","3":"male","4":"2.31","5":"-0.32","6":"-0.76"},{"1":"28","2":"20","3":"male","4":"-0.31","5":"-0.81","6":"-1.40"},{"1":"29","2":"19","3":"male","4":"1.42","5":"-0.38","6":"-1.08"},{"1":"30","2":"30","3":"male","4":"2.03","5":"1.56","6":"1.12"},{"1":"31","2":"18","3":"female","4":"-0.90","5":"1.45","6":"-0.76"},{"1":"32","2":"22","3":"female","4":"0.00","5":"-1.13","6":"1.21"},{"1":"33","2":"25","3":"male","4":"0.67","5":"-0.15","6":"-0.60"},{"1":"34","2":"20","3":"female","4":"-0.61","5":"0.22","6":"-0.31"},{"1":"35","2":"19","3":"female","4":"-0.86","5":"0.40","6":"-2.07"},{"1":"36","2":"22","3":"male","4":"0.80","5":"0.15","6":"-0.54"},{"1":"37","2":"19","3":"female","4":"0.05","5":"0.55","6":"0.44"},{"1":"38","2":"19","3":"male","4":"0.39","5":"0.84","6":"-0.52"},{"1":"39","2":"22","3":"female","4":"-0.48","5":"-0.42","6":"0.33"},{"1":"40","2":"20","3":"female","4":"-0.57","5":"0.41","6":"-1.01"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>Typically in psychological research, how to read a data table is that each participant is represents a separate row, while different variables that participants can vary on our represented by separate columns (including ID, age, sex, and three other random variables).</p>

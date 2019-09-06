@@ -1,5 +1,5 @@
 ---
-title: "Exercise 1"
+title: "Exercise 2"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
@@ -532,4 +532,224 @@ checker()
 
 ## Advanced Exercises
 
+Sometimes, you will want to analyse data, but the variables of interest are in separate data.frames - maybe the data are from different sources, or collected using different programs. This week's advanced exercises focuses on merging two separate data.frames in R.
 
+###Question A1 - Joining Data.frames
+
+The R package `tidyverse` provides some handy functions for joining data.frames. Join functions are most useful in situations where different variables from the same participants are stored in separate data.frames. Here are some of the more useful join functions:
+
+Function name|
+-------------|------------------------------------------------------------------------
+left_join()  |Keeps all the data in the first table, and adds columns from the second to rows that match.
+right_join() |Keeps all the data in the second table, and adds columns from the first to rows that match.
+inner_join() |Only returns rows that have a match in both tables.
+full_join()  |Retains all information from both tables. If a row does not have a match in one table, it will receive a NA value for the other table's columns.
+
+All of the above join functions have the same syntax:
+
+```{r,echo = TRUE,eval = FALSE}
+XXX_join(x, y, by = NULL, suffix = c(".x",".y"))
+```
+
+Let's break down each or the arguments
+
+Argument|Description
+--------|--------------------------------------------------------------
+x       |The first table you want to join, known as the "left" table.
+y       |The second table you want to join, known as the "right" table.
+by      |The columns (variable names) you wish to join the two tables on (i.e., the variable you are 'matching' on). There must be a variable with this name in both tables.
+suffix  |If columns have the same name in the two tables, you can add a suffix so you can distinguish between the two. The default for this is ".x" for the left table, and ".y" for the right table.
+
+In this and the following questions, we will give examples of how these join functions work.
+
+In the code below, we use a `full_join()` function to join the two data.frames `data.left` and `data.right`. Edit this code so that the columns "match" on the participant ID column. (Note: If you do not specify any columns to join on, these functions are smart enough to determine the best variable to match on, but it best to get in the habit of always specifying a column using the 'by' argument)
+
+```{r question_a1-setup, include = FALSE}
+data.left <- data.frame(participant_id = c(1:6),age = c(24,25,24,31,19,18),country_of_birth = c("Scotland","Scotland","England","Ireland","Scotland","England"),stringsAsFactors = FALSE)
+
+data.right <- data.frame(participant_id = c(1:6),creativity = c(4,2,5,3,4,6),logical_reasoning = c(5,2,6,5,5,4),stringsAsFactors = FALSE)      
+```
+
+```{r question_a1, exercise=TRUE,exercise.lines = 5}
+#data.left
+#data.right
+
+joined.data <- full_join(data.left,data.right,by = )
+
+joined.data
+```
+
+```{r question_a1-hint-1}
+Check the column names for each of the data.frames to see what variable distinguishes participants.
+```
+
+```{r question_a1-hint-2}
+Make sure you specify the column within quotations (e.g., by = "variable_name").
+
+Next hint will show the solution...
+```
+
+```{r question_a1-solution}
+joined.data <- full_join(data.left,data.right,by = "participant_id")
+```
+
+###Question A2 - left_join()
+
+`left_join()` is one of the more useful join functions. This function keeps all data from the first (left) table and joins all columns that match in the second (right) table. This is particularly helpful if there are cases (rows) in the right table that are not in the left (and is therefore not of interest). By carefully considering which data.frame is on the left vs. right, in almost all cases, `left_join()` will suit your needs.
+
+In the box below, there are two data.frames. The `data.left` table from Question A1, and a new data.frame with country-level statistics called `data.countries`. Use `left_join()` to join these data.frames.
+
+```{r question_a2-setup, include = FALSE}
+data.left <- data.frame(participant_id = c(1:6),age = c(24,25,24,31,19,18),country_of_birth = c("Scotland","Scotland","England","Northern Ireland","Scotland","England"),stringsAsFactors = FALSE)
+
+data.countries <- data.frame(country_of_birth = c("England","Northern Ireland","Scotland","Wales"),number_of_murders = c(484,24,59,242),stringsAsFactors = FALSE)      
+```
+
+```{r question_a2, exercise=TRUE,exercise.lines = 5}
+#data.left
+#data.countries
+
+joined.data <- left_join(x, y, by = )
+
+joined.data
+```
+
+```{r question_a2-hint-1}
+Check the column names for each of the data.frames to see what variable distinguishes participants.
+```
+
+```{r question_a2-hint-2}
+We are interested in keeping all data for our participants, so this data.frame should be on the left.
+
+Next hint will show the solution...
+```
+
+```{r question_a2-solution}
+joined.data <- left_join(data.left,data.countries,by = "country_of_birth")
+```
+
+Notice when using `left_join()`, there are no matches for "Wales" in the left data.frame, so this information is removed when using `left_join()`. Also, there are multiple matches for one country (e.g., Scotland); this function matches will join on both matches appropriately. Re-run the code above, but instead use `full_join()`, and compare the results to when you use `left_join()`.
+
+###Question A3 - Matching on Multiple Variables
+
+What if you need the join function to match on more than one variable? Thankfully, the join functions can accomodate this. Using the 'by' argument, rather than specifying one column, you can specify any number by putting the column names in a character vector. Remember, both data.frames need to have all match variables.
+
+Below is data collected from three participants, who were tested in two countries. Currently, the data is in two separate data.frames. Use `left_join()` to merge the two data.frames correctly.
+
+```{r question_a3-setup, include = FALSE}
+data.1 <- data.frame(participant_id = c(1,2,3,1,2,3),age = c(24,25,24,31,19,18),country_of_birth = c("Scotland","Scotland","Scotland","Northern Ireland","Northern Ireland","Northern Ireland"),stringsAsFactors = FALSE)
+
+data.2 <- data.frame(participant_id = c(1,2,3,1,2,3),country_of_birth = c("Scotland","Scotland","Scotland","Northern Ireland","Northern Ireland","Northern Ireland"),friendliness = c(1,7,6,4,5,3),stringsAsFactors = FALSE)  
+```
+
+```{r question_a3, exercise=TRUE,exercise.lines = 5}
+#data.1
+#data.2
+
+joined.data <- 
+
+joined.data
+```
+
+```{r question_a3-hint-1}
+To create a vector, use the `c()` function. 
+E.g., to create a character vector, you could use the code: `c("a","b")`
+```
+
+```{r question_a3-hint-2}
+Make sure to specify all columns you wish to match on. If you need to check column names, call the data.frames.
+
+Next hint will show the solution...
+```
+
+```{r question_a3-solution}
+joined.data <- left_join(data.1,data.2,by = c("participant_id","country_of_birth"))
+```
+
+###Question A4 - Suffixes
+
+How about a situation where both data.frames have variables with the same name, but you aren't joining on these variables. By taking advantage of the 'suffix' argument in the join functions, you can create a way to unambiguously distinguish between the variables from the different data.frames. This argument accepts a character vector with a length of two. The first element of the vector will be pasted on the end of the variables from the left data.frame, while the second element will be pasted on the end of the variables on the right data.frame.
+
+A common situation where this could occur is data collected from the same participant at two different time points. In the box below, there are two data.frames collected from 6 participants, each data.frame representing data collected at a separate time point. Edit the code below to correctly join the data.frames.
+
+```{r question_a4-setup, include = FALSE}
+data.time1 <- data.frame(participant_id = c(1:6),age = c(24,25,24,31,19,18),satisfaction = c(4,3,4,5,4,5),stringsAsFactors = FALSE)
+
+data.time2 <- data.frame(participant_id = c(1:6),age = c(26,27,26,33,21,20),satisfaction = c(6,6,5,5,2,7),stringsAsFactors = FALSE)
+```
+
+```{r question_a4, exercise=TRUE,exercise.lines = 5}
+#data.time1
+#data.time2
+
+joined.data <- XXX_join(x, y, by = ,suffix = c(".time1",".time2"))
+
+joined.data
+```
+
+```{r question_a4-hint-1}
+Check the column names for each of the data.frames to see what variable distinguishes participants.
+```
+
+```{r question_a4-hint-2}
+We are interested in keeping all data for our participants, so this data.frame should be on the left.
+
+Next hint will show the solution...
+```
+
+```{r question_a4-solution}
+joined.data <- left_join(data.time1, data.time2, by = "participant_id",suffix = c(".time1",".time2"))
+```
+
+To see what the suffix argument does, call the `joined.data` data.frame.
+
+###Question A5 - bind_rows()
+
+Up to now, we have exclusively dealt join functions, which adds variables from one data.frame to another. A totally different type of merging data.frames together is combining rows. This is common when you have two data.frames with the same variable that include different participants. This can be achieved by using the `bind_rows()` function. This function simply accepts two arguments: the two data.frames you wish to join.
+
+In the example below, we have two data.frames that were taken from two different computers running the same experiment. We wish to combine the data.frames by adding the rows of one data.frame to another so that we can analyse the data altogether.
+
+```{r,echo = TRUE,eval = FALSE}
+complete.data <- bind_rows(data_computer1,data_computer2)
+```
+
+A couple of things to note. First, between the data.frames, the number of columns must be the same and they must have the same names (though they don't necessarily have to be in the same order). Second, if a row is duplicated between the two tables, the row will also be duplicated in the resulting table.
+
+In the box below, use the `bind_row()` function to join the two data.frames about planets.
+
+```{r question_a5-setup, include = FALSE}
+planets_within_belt <- data.frame(planet = c("Mercury","Venus","Earth","Mars"),
+                                  diameter_km = c(4878,12104,12756,6794),
+                                  orbit_days = c(88,224,365.25,687),
+                                  average.temp_c = c(427,480,14,-63),
+                                  moons = c(0,0,1,2),stringsAsFactors = FALSE)
+
+planets_beyond_belt <- data.frame(planet = c("Jupiter","Saturn","Uranus","Neptune"),
+                                  diameter_km = c(142984,120536,51118,49532),
+                                  orbit_days = c(11.86*365,29*365,84*365,1164.8*365),
+                                  average.temp_c = c(-130,-130,-200,-200),
+                                  moons = c(79,62,27,14),stringsAsFactors = FALSE)     
+```
+
+```{r question_a5, exercise=TRUE,exercise.lines = 5}
+#planets_within_belt
+#planets_beyond_belt
+
+all_planets <-
+
+all_planets
+```
+
+```{r question_a5-hint-1}
+Use the `bind_rows()` functions. Make sure to include both data.frames as arguments.
+```
+
+```{r question_a5-hint-2}
+Why not call the merged data.frame and learn some planet facts?
+
+Next hint will show the solution...
+```
+
+```{r question_a5-solution}
+all_planets <- bind_rows(planets_within_belt,planets_beyond_belt)
+```

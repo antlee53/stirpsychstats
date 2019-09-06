@@ -337,7 +337,7 @@ mystery.object
 ```
 
 ```{r question_7-hint-1}
-Running the code below may give you some insight...
+Running the code may give you some insight...
 ```
 
 ```{r question_7-hint-2}
@@ -400,7 +400,7 @@ numbers <- c(1,-2,6,-53,-88,100,3.14,-13)
 ```
 
 ```{r question_9, exercise=TRUE,exercise.lines = 5}
-numbers
+#numbers
 
 ```
 
@@ -449,4 +449,274 @@ Congrats! This is end of the basic exercises for this week. If you looking for a
 
 ## Advanced Exercises
 
+This week's advanced exercises focuses on introducing two other object classes (lists and matrices) and syntax for selecting specific elements in vectors and data.frames. This knowledge is particularly helpful for advanced procedures (e.g., creating your own functions), but can also provide helpful shortcuts for every day coding.
 
+###Question 1A - Lists in R
+
+Lists are the most flexible objects in R. Similar to vectors, lists are an ordered set of elements; however, unlike vectors, the elements within a list can contain different classes of objects. For example, the first element of a list could be a single numeric vector, the second could be a character vector, the third could an entire data.frame, and fourth could be another list!
+
+To create a list, use the `list()` function, where each argument is a separate element in the list.
+```{r,eval = FALSE,echo = TRUE}
+list(element1,element2,etc)
+```
+
+In the code box below, create a list where the first element is a vector with your three favourite numbers, the second element is a vector with your three favourite colours, and the third is a logical value answering this question: "Do you love coding in R?" Save the list as an object called 'responses'.
+
+```{r question_a1, exercise=TRUE,exercise.lines = 5}
+
+
+```
+
+```{r question_a1-hint-1}
+Remember, to create a vector, use the `c()` function.
+```
+
+```{r question_a1-hint-2}
+To complete the task, you will need to fill in the following code:
+  
+list(c(),c(),TRUE)
+
+Next hint will show the solution...
+```
+
+```{r question_a1-solution}
+responses <- list(c(53,8,42),c("blue","maroon","gold"),TRUE)
+
+#Note: your favourite numbers and colours could be different from mine.
+```
+
+###Question 2A - Selecting Elements in a List
+
+Elements of a list can be accessed individually by using indexing. In a list, this involves using double square brackets `[[]]` that contains the number of the element you wish to select.
+
+So, if you wish to select the third element of a list called `this_list`, you would run the following code. You could then run any operations or functions on this object as if it were any ordinary object.
+
+```{r,eval = FALSE,echo = TRUE}
+this_list[[3]]
+```
+
+In the code box below, there is an object called `elements5`. Using indexing, select the 5th element of this list. If it is a numeric object, multiply it by 3 and save the result as `the_5th_element`. If it is a character object, simply save the object as `the_5th_element`.
+
+```{r question_a2-setup, include = FALSE}
+elements5 <- list("earth","fire","wind","water","heart")
+```
+
+```{r question_a2, exercise=TRUE,exercise.lines = 5}
+#elements5
+
+the_5th_element <-
+
+```
+
+```{r question_a2-hint-1}
+You can use the following functions to determine if an object is a numeric or a character object:
+  
+is.numeric()
+is.character()
+```
+
+```{r question_a2-hint-2}
+To determine if the 5th element of a list is a numeric object, you could use the following code:
+  
+is.numeric(element5[[5]])
+
+Next hint will show the solution...
+```
+
+```{r question_a2-solution}
+is.numeric(element5[[5]])
+is.character(element5[[5]])
+#Note: this code determines that the 5th element is a character.
+
+the_5th_element <- element5[[5]]
+```
+
+###Question A3 - Selecting Elements from a Vector
+
+Similar to how elements of a list can be accessed individually by using indexing, indexing can also be used to select individual elements of a vector. The difference between indexing for lists and vectors, however, is that vectors only use single square brackets.
+
+So, if you wish to select the third element of a list called `this_vector`, you would run the following code.
+
+```{r,eval = FALSE,echo = TRUE}
+this_vector[3]
+```
+
+In the code box below, there is an object called `numeric_vector`, which is a vector of numbers. Using indexing, multiply the 53rd and 88th element of the vector. Save the result as an object called `product`.
+
+```{r question_a3-setup, include = FALSE}
+numeric_vector <- 1:100 * 7
+```
+
+```{r question_a3, exercise=TRUE,exercise.lines = 5}
+#numeric_vector
+
+product <- 
+
+```
+
+```{r question_a3-hint-1}
+The following code will tell you the 4th element of the vector...
+  
+numeric_vector[4]
+```
+
+```{r question_a3-hint-2}
+A vector element that has been indexed can have operations performed on it as normal...
+
+Next hint will show the solution...
+```
+
+```{r question_a3-solution}
+product <- numeric_vector[53] * numeric_vector[88]
+```
+
+###Question A4 - Matrices in R
+
+Matrices are R objects in which the elements are arranged in a two-dimensional rectangular layout, similar to a data.frame. However, unlike a data.frame, all elements within a matrix is of the same class. Matrices are helpful when you need to store multi-dimensional data, but we tend not to use them in psychological research. In almost all cases, a data.frame will suit our needs better.
+
+You can create a matrix from scratch using the `matrix()` function. The first argument is a vector input which will become the elements of the matrix. You will also need to specify the number of rows, and columns, and whether you want the input to be read in by row or by column.
+
+The following code makes a 2 x 3 matrix that is read in by row.
+```{r,echo = TRUE}
+the_matrix <- matrix(c(1,2,3,4,5,6),nrow = 2,ncol = 2,byrow = TRUE)
+```
+
+You can also convert data.frames to matrices and vice versa using the following functions.
+
+```{r,echo = TRUE}
+the_matrix <- matrix(c(1,2,3,4,5,6),nrow = 2,ncol =2,byrow = TRUE)
+
+#Convert to data.frame
+matrix_reloaded <- as.data.frame(the_matrix)
+
+#Convert back to matrix
+matrix_revolutions <- as.matrix(matrix_reloaded)
+```
+
+Below, ratings of anxiety were recorded from a single participant 4 times a day for 7 days. These ratings were recorded in chronological order in a numeric vector. Convert this vector into a matrix, so that each column represents a day, while each row represents the 4 times a day. Then convert the matrix to a data.frame. Save the final data.frame as `anxiety.data`.
+
+```{r question_a4-setup, include = FALSE}
+anxiety_ratings <- c(4,3,6,4,2,3,4,3,6,5,6,4,2,3,1,2,4,4,3,3,7,6,7,7,6,6,5,5)
+```
+
+```{r question_a4, exercise=TRUE,exercise.lines = 5}
+#anxiety_ratings
+
+anxiety.matrix <-
+
+anxiety.data <-
+
+```
+
+```{r question_a4-hint-1}
+Use the `matrix()` function to create a matrix from a vector.
+Set the number of rows to the number of days.
+```
+
+```{r question_a4-hint-2}
+Since ratings were collected in chronological order, you will need to tell the `matrix()` function to read the input by column...
+
+Next hint will show the solution...
+```
+
+```{r question_a4-solution}
+anxiety_ratings
+
+anxiety.matrix <- matrix(anxiety_ratings,nrow = 4,ncol = 7,byrow = FALSE)
+
+anxiety.data <- as.data.frame(anxiety.matrix)
+```
+
+###Question A5 - Indexing Matrices and Data.frames
+
+Simiar to lists and vectors, individual elements of matrices and data.frames can be accessed via indexing. Indexing is the same for both matrices and data.frames. To select an individual element, use the square brackets followed by the row number, then column number, separated by a comma.
+
+So to select the element in the 2nd row and the 3rd column from the following data.frame, you would use the following code:
+```{r,eval = FALSE,echo = TRUE}
+this.data[2,3]
+```
+
+In the anxiety data above, you wish to add the anxiety ratings from the afteroon and evening (rows 3 and 4) for the weekends only (columns 6 and 7). Use indexing to achieve this and save the final result as `total.anxiety`.
+
+```{r question_a5-setup, include = FALSE}
+anxiety_ratings <- c(4,3,6,4,2,3,4,3,6,5,6,4,2,3,1,2,4,4,3,3,7,6,7,7,6,6,5,5)
+
+anxiety.matrix <- matrix(anxiety_ratings,nrow = 4,ncol = 7,byrow = FALSE)
+
+anxiety.data <- as.data.frame(anxiety.matrix)
+colnames(anxiety.data) <- c("Mon","Tue","Wed","Thur","Fri","Sat","Sun")
+```
+
+```{r question_a5, exercise=TRUE,exercise.lines = 5}
+#anxiety.data
+
+total.anxiety
+```
+
+```{r question_a5-hint-1}
+Once you have index a single element, you can perform operations (such as addition) like it is an ordinary object.
+```
+
+```{r question_a5-hint-2}
+To add the afternoon and evening ratings for Sunday, you could use the following code:
+
+anxiety.data[3,7] + anxiety.data[4,7]
+
+Next hint will show the solution...
+```
+
+```{r question_a5-solution}
+anxiety.data[3,6] + anxiety.data[4,6] + anxiety.data[3,7] + anxiety.data[4,7]
+```
+
+###Question A6 - Indexing Columns from Data.frames
+
+Rather than indexing a single element from a data.frame, you can also index an entire column. This is a handy shortcut to select all responses on a variable in a data.frame. This is done by calling the data.frame and variable you want to select, and separating them using the '$' symbol.
+
+For example, if you wanted to select the variable `var2` in the data.frame called `this.data`, you could use the following code:
+```{r,eval = FALSE,echo = TRUE}
+this.data$var2
+```
+
+In the anxiety data above, you wish to determine which time (morning, midday, afternoon, or evening; rows 1 through 4 respectively) during the weekdays (Mon through Fri) were given the highest total anxiety ratings. Use indexing to achieve this.
+
+```{r question_a6-setup, include = FALSE}
+anxiety_ratings <- c(4,3,6,4,2,3,4,3,6,5,6,4,2,3,1,2,4,4,3,3,7,6,7,7,6,6,5,5)
+
+anxiety.matrix <- matrix(anxiety_ratings,nrow = 4,ncol = 7,byrow = FALSE)
+
+anxiety.data <- as.data.frame(anxiety.matrix)
+colnames(anxiety.data) <- c("Mon","Tue","Wed","Thur","Fri","Sat","Sun")
+```
+
+```{r question_a6, exercise=TRUE,exercise.lines = 5}
+#anxiety.data
+
+total.anxiety
+```
+
+```{r question_a6-hint-1}
+If two vectors of equal length are added together, the additions are done element-wise
+(ie. element 1 is added to element 1, element 2 is added to element 2, etc.).
+```
+
+```{r question_a6-hint-2}
+You could add each element together and see which time received the highest total rating.
+
+Next hint will show the solution...
+```
+
+```{r question_a6-solution}
+anxiety.data$Mon + anxiety.data$Tue + anxiety.data$Wed + anxiety.data$Thur + anxiety.data$Fri
+```
+
+```{r question_a6-quiz}
+quiz(
+  question("Which timeslot received the highest total rating?",
+    answer("Morning"),
+    answer("Midday"),
+    answer("Afternoon",correct = TRUE),
+    answer("Evening"),allow_retry = TRUE,random_answer_order = TRUE
+  )
+)
+```
