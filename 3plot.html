@@ -525,18 +525,26 @@ library(ggplot2)</code></pre>
 <pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
   geom_histogram(binwidth = 2)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>Related to this is a density plot. Density plots are slightly different because, rather than represent counts, they represent percentage of responses that fall in a certain bandwidth.</p>
-<pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
-  geom_density(fill = &quot;purple&quot;)</code></pre>
+<p>The first thing that should be clear is that there are responses that are far below what we could reasonably expect someone’s height to be. This could be because participants misunderstood the question. This demonstrates one of the key reasons you should visualise your data - it is easy to identify whether there are potential issues you need to deal with.</p>
+<p>Let’s replot the data, but exclude participants who are report being less than 100cm tall.</p>
+<pre class="r"><code>plot.data &lt;- filter(data,height &gt; 100)
+
+ggplot(data = plot.data,mapping = aes(x = height)) +
+  geom_histogram(binwidth = 2)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>By adjusting some of the aesthetic components, we can begin to customise our plot, and make more complicated visualisations. In the code below, we change the ‘fill’ aesthetic to map onto whether participants like to play videogames. We can then visualise the height for videogamers vs non-videogamers separately on the one plot.</p>
-<pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
-  geom_histogram(aes(fill = video.games),binwidth = 2,position = &quot;dodge&quot;)</code></pre>
+<p>This looks more reasonable. We will continue plotting height excluding these participants.</p>
+<p>Related to this is a density plot. Density plots are slightly different because, rather than represent counts, they represent percentage of responses that fall in a certain bandwidth.</p>
+<pre class="r"><code>ggplot(data = plot.data,mapping = aes(x = height)) +
+  geom_density(fill = &quot;purple&quot;)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>Or…</p>
-<pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
-  geom_density(aes(fill = video.games),alpha = .5)</code></pre>
+<p>By adjusting some of the aesthetic components, we can begin to customise our plot, and make more complicated visualisations. In the code below, we change the ‘fill’ aesthetic to map onto whether participants like to play videogames. We can then visualise the height for videogamers vs non-videogamers separately on the one plot.</p>
+<pre class="r"><code>ggplot(data = plot.data,mapping = aes(x = height)) +
+  geom_histogram(aes(fill = video.games),binwidth = 2,position = &quot;dodge&quot;)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>Or…</p>
+<pre class="r"><code>ggplot(data = plot.data,mapping = aes(x = height)) +
+  geom_density(aes(fill = video.games),alpha = .5)</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div id="in-the-coming-weeks" class="section level3">
 <h3>In The Coming Weeks…</h3>
