@@ -432,16 +432,15 @@ div.tocify {
 <li>Understand the importance of visualising your data.</li>
 <li>Understand which types of graphs are best for different types of data.</li>
 <li>Understand the ggplot2 package for data visualisation.</li>
-<li>Create the following types of plots:</li>
+<li>Create the following types of one-variable plots:</li>
 </ol>
 <ul>
 <li>bar plots</li>
 <li>histograms and density plots</li>
 </ul>
 </div>
-<div id="resources" class="section level1">
-<h1>Resources</h1>
-<p>Here is a list of resources that may help you with this weeks content:</p>
+<div id="class-data" class="section level1">
+<h1>Class Data</h1>
 <p><a href = "files/simulated.data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
@@ -467,7 +466,7 @@ library(ggplot2)</code></pre>
 <p>However, there is an art for creating an informative plot. Unfortunately, there are no good rule-of-thumbs that work for all types of data, and each plot requires careful consideration depending on the data and the intended audience. The aim of this week is to give you idea of the tools at your disposal when making plots in R.</p>
 </div>
 <div id="the-philosophy-of-ggplot2" class="section level2">
-<h2>The philosophy of ggplot2</h2>
+<h2>The Philosophy of ggplot2</h2>
 <p>R is celebrated for it’s ability to create high quality, publishable graphics. The ggplot2 package is one way you can make graphical representations of your data and is also highly flexible and customisable.</p>
 <p>ggplot2 works by adding layers, which are themselves customisable. Layers are then stacked on top of each other and this can lead to quite complicated looking graphs, even if the components themsevles are fairly simple.</p>
 <p>Think of making a graph in ggplot similar to making a pizza. First, you need a base - in both cases, these act as a blank canvas for your masterpiece. You will then add components; for a pizza, these would be your toppings (e.g., you could add peppers), but for graphs these are known as geometric objects (or geoms for short). Geoms themselves are highly customisable by changing properties known as aesthetics; this is similar to how on a pizza the same toppings can come in different varieties (e.g., you could have green peppers, or red peppers).</p>
@@ -522,7 +521,7 @@ library(ggplot2)</code></pre>
 </div>
 <div id="histograms---1-variable-continuous" class="section level3">
 <h3>Histograms - 1 Variable Continuous</h3>
-<p>One way to visualise a continuous variable is via a histogram. Similar to a bar chart, all possible responses (or a range of responses) on the variable are on the x-axis, while the y-axis shows the counts associated with that value. Below is the code to make a histogram of people’s response to height:</p>
+<p>One way to visualise a continuous variable is via a histogram. Similar to a bar chart, all possible responses (or a range of responses) of a variable are on the x-axis, while the y-axis shows the counts associated with that value. Below is the code to make a histogram of people’s response to height:</p>
 <pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
   geom_histogram(binwidth = 2)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
@@ -541,7 +540,7 @@ library(ggplot2)</code></pre>
 </div>
 <div id="in-the-coming-weeks" class="section level3">
 <h3>In The Coming Weeks…</h3>
-<p>In the coming weeks, we will be introducing a number of other geoms that can be used to represent different types of data, and geoms that can visualise the relationship between two variables.</p>
+<p>In the coming weeks, we will be introducing a number of other geoms that can be used to represent different types of data, and geoms that can visualise the relationship between two variables. Like with all things covered in this module, if want to do a specific thing using ggplot, but we have not covered it here, you can find the answer by Googling how to do it (E.g., you could search for “ggplot how to change y-axis label”).</p>
 </div>
 </div>
 </div>

@@ -433,16 +433,15 @@ div.tocify {
 <li>Install and load packages.</li>
 <li>Understand the working directory.</li>
 <li>Import a dataset from the working directory (CSV and Excel files).</li>
-<li>Calculate descriptive statistics for a variable using the <code>summarise()</code> function such as:</li>
+<li>Calculate descriptive statistics for a variable using the <code>summarise()</code> function, including:</li>
 </ol>
 <ul>
 <li>Mean</li>
 <li>Standard Deviation</li>
 </ul>
 </div>
-<div id="resources" class="section level1">
-<h1>Resources</h1>
-<p>Here is a list of resources that may help you with this weeks content</p>
+<div id="class-data" class="section level1">
+<h1>Class Data</h1>
 <p><a href = "files/simulated.data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
@@ -486,8 +485,8 @@ x &lt;- 2 #This line save the object &#39;x&#39; as the number 2.</code></pre>
 <p>Base R comes with a lot of in-built functions, but one of the great things about R is that there is a large community writing functions and including them in packages for free. Packages are like add-ons that can expand the number of functions you can use in R. There are thousands of packages that different R users have created to solve many different kinds of problems. If you want to do something in R, it is highly likely there’s already a package for that.</p>
 <p>Packages have to be downloaded and installed onto your computer before you can use them in R. You can install packages from the main R repository (CRAN) using the <code>install.packages()</code> function.</p>
 <p>There is an important distinction between installing a package and loading a package. Installing a package is done using <code>install.packages()</code>. This is like installing an app on your smartphone: you only have to do it once and the app will remain installed until you remove it. Likewise, when you install a package, the package will be available (but not loaded) every time you open up R.</p>
-<p>Once a package has been installed, you can load a package using the <code>library()</code> function. This is like launching an app on your phone. Likewise, if you were to run the code <code>library(packagename)</code>, you will load the functions in the package called ‘packagename’ and will be available to you for the rest of your R session. However, the next time you start R, you will need to run the <code>library(packagename)</code> function again if you want access to its functionality.</p>
-<p>A package we will use frequently is called ‘tidyverse’. ‘tidyverse’ is actually a group of packages that are useful for cleaning and organising data.frames. Install and load ‘tidyverse’ using the following commands. When installing a package, you may be asked to select a CRAN. This is the repository files will be downloaded from. Select a sever in the UK.</p>
+<p>Once a package has been installed, you can load a package using the <code>library()</code> function. This is like launching an app on your phone. Likewise, if you were to run the code <code>library(packagename)</code>, you will load all the functions in the package called ‘packagename’ and they will be available to you for the rest of your R session. However, the next time you start R, you will need to run the <code>library(packagename)</code> function again if you want access to those functions again.</p>
+<p>A package we will use frequently is called ‘tidyverse’. ‘tidyverse’ is actually a group of packages that are useful for cleaning and organising data.frames. Install and load ‘tidyverse’ using the following commands. When installing a package, you may be asked to select a CRAN. This is the repository files will be downloaded from. Select a sever in the UK. Remember, you only need to install the ‘tidyverse’ package onto your computer once, but you will need to load it every time you start a new R session.</p>
 <pre class="r"><code>install.packages(&quot;tidyverse&quot;)   #This line installs tidyverse onto your computer
 
 library(tidyverse)              #This line loads tidyverse for this session</code></pre>
@@ -540,12 +539,12 @@ library(tidyverse)              #This line loads tidyverse for this session</cod
 <pre class="r"><code>#Remember to load the tidyverse library if you haven&#39;t already.
 #The exact directory the file is in may differ depending on where the data file is on your computer.
 
-data &lt;- read.csv(&quot;files/simulated.data_2019.csv&quot;,stringsAsFactors = FALSE)</code></pre>
+data &lt;- read_csv(&quot;files/simulated.data_2019.csv&quot;)</code></pre>
 <p>Once data is loaded, you can view the data.frame by either clicking on the dataframe icon in the work space, or using the <code>View()</code> function in the console. This will open a tab in the top left window, and clicking on this will show you the data.frame. This can be handy to make sure your data has loaded correctly, or double-checking whether functions used to clean your data has worked as intended.</p>
 </div>
-<div id="calculate-descriptive-variables" class="section level2">
-<h2>Calculate Descriptive Variables</h2>
-<p>In the lecture series, we covered measures of central tendancy and dispersion. In particular, important statistics that you will need to calculate often are the mean, and the standard deviation for a variable. Handily, there are simple functions in R that can calculate these for you. In both cases, the first argument of the function accepts a numeric vector.</p>
+<div id="calculate-descriptive-statistics" class="section level2">
+<h2>Calculate Descriptive Statistics</h2>
+<p>In the lecture series, we covered measures of central tendancy and dispersion. In particular, important statistics that you will need to calculate often are the mean, and the standard deviation of a variable. Thankfully, there are simple functions in R that can calculate these for you. In both cases, the first argument of the function accepts a numeric vector.</p>
 <p>In the following examples, we will calculate the mean and standard deviation for the following numeric vectors:</p>
 <pre class="r"><code>prime.numbers &lt;- c(1,2,3,5,7,11,13,17,19,53)
 
@@ -609,30 +608,34 @@ prime.numbers.na &lt;- c(1,NA,3,5,7,NA,17,NA,53)</code></pre>
 </div>
 <div id="tidyverse-functions" class="section level2">
 <h2>Tidyverse Functions</h2>
-<p>The tidyverse package provides handy functions for data cleaning and manipulation. Remember, these functions work like all other functions: they take a number of arguments, such as a data.frame and instructions, then gives you an output that can be saved as an object, such as another data.frame. In this workbook, we will cover one function that you can use to calculate descriptive statistics; however, there are many more tidyverse functions. We will cover a few more next week, but for a full list, see <img src="https://www.rstudio.com/resources/cheatsheets/#dplyr" alt="the tidyverse cheatsheets" />, or view the help documentation using <code>help()</code>.</p>
+<p>The tidyverse package provides handy functions for data cleaning and manipulation. Remember, these functions work like all other functions: they take a number of arguments, such as a data.frame and instructions, then gives you an output that can be saved as an object, such as another data.frame. In this workbook, we will cover one function that you can use to calculate descriptive statistics; however, there are many more tidyverse functions. We will cover a few more next week, but for a full list, see <a href="https://www.rstudio.com/resources/cheatsheets/#dplyr">the tidyverse cheatsheets</a>, or view the help documentation using <code>help()</code>.</p>
 <p>All tidyverse functions to do with data cleaning follow the same structure:</p>
 <p><code>function_name(data.frame,instructions)</code></p>
 <p>where the first argument is always the data.frame you wish to perform the function on, and the remaining arguments are instructions on how you wish to perform that function.</p>
 <div id="summarise" class="section level3">
 <h3>summarise()</h3>
 <p>Functions like <code>mean()</code> and <code>sd()</code> are great when you want to calculate descriptive statistics from a vector, but more often than not, you will need to get these values from a variable in a dataset. One way to do this is use the <code>summarise()</code> function from the tidyverse package.</p>
-<p>So how does the <code>summarise()</code> function work? This function takes multiple arguments. The first argument of the function is the data.frame that has the variables you’re interested in. The remaining arguments tells R which descriptive statistics you would like it to calculate (i.e., multiple descriptive statistics can be calculated at once). You can tell summarise which stats you are after using the same functions we covered above (e.g., <code>mean()</code>,<code>sd()</code>, etc.). In return, <code>summarise()</code> will return another data.frame with the statistics you’ve asked for. Threfore, for each stat that you calculate, you will need to provide a new variable name. For each descriptive stat that you want to calculate using <code>summarise()</code>, you will need to provide an additional argument that takes the following form:</p>
+<p>So how does the <code>summarise()</code> function work? This function takes multiple arguments. The first argument of the function is the data.frame that has the variables you’re interested in. The remaining arguments tells R which descriptive statistics you would like it to calculate (i.e., multiple descriptive statistics can be calculated at once). You can tell <code>summarise()</code> which stats you want it to calculate using the same functions we covered above (e.g., <code>mean()</code>,<code>sd()</code>, etc.). In return, <code>summarise()</code> will return another data.frame with the descriptive statistics you’ve asked for. Threfore, for each stat that you calculate, you will need to provide a new variable name. For each descriptive stat that you want to calculate using <code>summarise()</code>, you will need to provide an additional argument that takes the following form:</p>
 <p><code>variable_name = function(variable)</code></p>
 <p>This may sound confusing, but it helps to see it in action. Below is the code to calculate the mean and standard deviation of the variable <code>stats_exp</code> in the data.frame called <code>data</code>.</p>
 <pre class="r"><code>summarise(data,
           stats_exp.mean = mean(stats.exp, na.rm = TRUE),
           stats_exp.sd = sd(stats.exp, na.rm = TRUE))</code></pre>
-<pre><code>##   stats_exp.mean stats_exp.sd
-## 1       4.916667     2.519696</code></pre>
+<pre><code>## # A tibble: 1 x 2
+##   stats_exp.mean stats_exp.sd
+##            &lt;dbl&gt;        &lt;dbl&gt;
+## 1           4.92         2.52</code></pre>
 <p>A couple of things to note. First, I have broken the above code across several lines. This is just to make it easier to read (remember R ignores white space inside an incomplete command). Second, it doesn’t matter what you name the new variable (but ideally you want a label that is helpful).</p>
-<p>As mentioned, you are not limited to the number of stats you can compute using the <code>summarise()</code> function, so by expanding the code above, we can calculate the means and standard deviations of multiple variables:</p>
+<p>As mentioned, you are not limited in the number of stats you can compute using the <code>summarise()</code> function, so by expanding the code above, we can calculate the means and standard deviations of multiple variables:</p>
 <pre class="r"><code>summarise(data,
           stats_exp.mean = mean(stats.exp, na.rm = TRUE),
           stats_exp.sd = sd(stats.exp, na.rm = TRUE),
           stats_anx.mean = mean(stats.anx,na.rm = TRUE),
           stats_anx.sd = sd(stats.anx,na.rm = TRUE))</code></pre>
-<pre><code>##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
-## 1       4.916667     2.519696       4.883333      2.70023</code></pre>
+<pre><code>## # A tibble: 1 x 4
+##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
+##            &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;
+## 1           4.92         2.52           4.88         2.70</code></pre>
 </div>
 </div>
 </div>

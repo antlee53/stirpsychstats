@@ -451,9 +451,8 @@ div.tocify {
 <li>Understand the pipe: <code>%&gt;%</code></li>
 </ol>
 </div>
-<div id="resources" class="section level1">
-<h1>Resources</h1>
-<p>Here is a list of resources that may help you with this weeks content:</p>
+<div id="class-data" class="section level1">
+<h1>Class Data</h1>
 <p><a href = "files/simulated.data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
@@ -462,16 +461,20 @@ div.tocify {
 </div>
 <div id="content" class="section level1">
 <h1>Content</h1>
-<div id="tidyverse-functions" class="section level2">
-<h2>Tidyverse Functions</h2>
-<p>Recall from last week that the tidyverse package provides handy functions for data cleaning and manipulation. These functions work like all other functions: they take numerous of arguments, such as a data.frame and instructions, then returns to you an output, which is often another data.frame. In this workbook, we will cover three such functions that are commonly used for data cleaning.</p>
+<div id="overview---data-cleaning" class="section level2">
+<h2>Overview - Data Cleaning</h2>
 <p>Data cleaning is the process of getting the data ready for analysis. It usually involves selecting the variables you will use in the analysis, filtering out participants that don’t meet certain criteria, or computing composite variables that will be used in analyses. However, it can also include more complex operations, such as reshaping the data, or joining data from different data files.</p>
+<p>In psychology, there are three general key principles you want to follow when cleaning a data.frame: 1. Make sure each participant is on a separate row. 1. Make sure each variable (or measurement) is in a separate column. 1. Make sure each cell has one and only one value.</p>
+</div>
+<div id="recap-tidyverse" class="section level2">
+<h2>Recap: Tidyverse</h2>
+<p>Recall from last week that the tidyverse package provides handy functions for data cleaning and manipulation. These functions work like all other functions: they take numerous of arguments, such as a data.frame and instructions, then returns to you an output, which is often another data.frame. In this workbook, we will cover three such functions that are commonly used for data cleaning.</p>
 <p>Make sure to load the tidyverse package before starting this workbook.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <div id="select" class="section level3">
 <h3>select()</h3>
 <p>Use the <code>select()</code> to extract columns in a table. Often when loading a dataset, there will be columns/variables that are not relevant to the analysis you want to conduct. This function can be helpful when a dataset contains many columns and you only want to include the variables relevant to your analysis.</p>
-<p>For example, in dataset used in these workbooks, we will only be working with a a few of the many variables each week, so we may want to only include the variables we will be using any given week. In the code below, we are only selecting the columns we are using this week.</p>
+<p>For example, in dataset used in these workbooks, we measured a large number of variables; however, we will only be working with a few of the many variables any given week. Therefore, we may want to select the variables we will be using in a given week. In the code below, we are only selecting the columns we are using this week.</p>
 <pre class="r"><code>data.select &lt;- select(data,student.no,program,stats.exp,pathogen1,pathogen2,pathogen3,pathogen4,pathogen5,pathogen6,pathogen7)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -481,7 +484,8 @@ div.tocify {
 </div>
 <div id="filter" class="section level3">
 <h3>filter()</h3>
-<p>Use the <code>filter()</code> function to extract rows from a table. This is useful if you need to exclude participants from your analysis for some reason.</p>
+<p>Similar to how the <code>select()</code> function select for certain columns, you can use the <code>filter()</code> function to select for certain rows from a table. This is useful if you need to exclude participants from your analysis for some reason.</p>
+<p>To use the <code>filter()</code> function works, you will need to specify a certain condition (or test). If a row passes that test, then it is kept. If a row fails that test, then it is excluded.</p>
 <p>For example, let’s say that we are only interested in responses from participants completing the Health Psychology MSc. We can use the filter function to only select these participants.</p>
 <pre class="r"><code>data.filter1 &lt;- filter(data.select,program == &quot;Health MSc&quot;)</code></pre>
 <div data-pagedtable="false">
@@ -559,7 +563,13 @@ div.tocify {
 <h3>mutate()</h3>
 <p>We can use the <code>mutate()</code> function to calculate a new variable (column) from existing variables. Mutate applies vectorised function, which mean operations are conducted separately per row. This is useful for making aggregate scores (e.g., summing all items in a scale).</p>
 <p>In the example below, we wish to calculate a total score of pathogen disgust from 7 separate items (Click <a href="https://pdfs.semanticscholar.org/bf02/5a6fda071d2e9302e2401becca91be30c165.pdf">here</a> for further details on the disgust scale). We can add the responses to each item of the pathogen disgust scale to compute each participant’s pathogen digust score. Let’s do it on the dataset with only Health MSc participants:</p>
-<pre class="r"><code>data.mutate &lt;- mutate(data.filter1,pathogen.disgust = pathogen1 + pathogen2 + pathogen3 + pathogen4 + pathogen5 + pathogen6 + pathogen7)</code></pre>
+<pre class="r"><code>data.mutate &lt;- mutate(data.filter1,
+                      pathogen.disgust = pathogen1 + pathogen2 + pathogen3 + pathogen4 + pathogen5 + pathogen6 + pathogen7)</code></pre>
+<p>Let me draw your attention to a few things with the code above. First, like a tidyverse functions, the first argument of the <code>mutate()</code> function is the data.frame we want to calculate the new variable in. Second, we specify the name of the new variable, followed by how that variable will be calculate. This syntax is very similar to that used by the <code>summarise()</code> function last week.</p>
+</div>
+<div id="other-tidyverse-functions" class="section level3">
+<h3>Other tidyverse Functions</h3>
+<p>We have covered three basic tidyverse functions here, but there are many more that are useful for data cleaning. These include functions to separate and unite variables, or reshape the data. To see the full list of tidyverse functions, check out <a href="https://www.rstudio.com/resources/cheatsheets/#dplyr">the tidyverse cheatsheets</a>.</p>
 </div>
 <div id="pipes" class="section level3">
 <h3>Pipes (%&gt;%)</h3>
@@ -569,7 +579,7 @@ data.filter1 &lt;- filter(data.select,program == &quot;Health MSc&quot;)
 data.mutate &lt;- mutate(data.filter1,pathogen.disgust = pathogen1 + pathogen2 + pathogen3 + pathogen4 + pathogen5 + pathogen6 + pathogen7)</code></pre>
 <p>There is nothing wrong with the code above, but sometimes doing this can make your code hard to read. Also, you are required to save intermediate datasets as objects, which can clutter up your workspace.</p>
 <p>A Pipe (<code>%&gt;%</code>) is a special type of function used to string multiple commands in R together. Pipes can be confusing at first, but they will make code more readable and efficient, so it is worth learning if you want to become an expert R coder. You can load the pipe by loading the tidyverse package.</p>
-<p>How pipes work is that it passess an intermediate result onto the next function. In other words, the result from one function is passed as the first argument of the next function. One way to conceptualise it is think of it as an “AND THEN” statement. Tidyverse functions return a data.frame, and accept a data.frame as its first argument, so they are ideal for chaining together using a pipe. So, the code above becomes the following when using pipes:</p>
+<p>How pipes work is that it passes an intermediate object from one function onto the next function. More specifically, the output from one function is passed to the first argument of the next function. One way to conceptualise it is think of it as an “AND THEN” statement. Tidyverse functions return a data.frame, and accept a data.frame as its first argument, so they are ideal for chaining together using a pipe. So, the code above becomes the following when using pipes:</p>
 <pre class="r"><code>data.analysis &lt;- data %&gt;%                                     #Select our raw dataset
   select(program,stats.exp,pathogen1,pathogen2,pathogen3,     #Select the variables
          pathogen4,pathogen5,pathogen6,pathogen7) %&gt;%
