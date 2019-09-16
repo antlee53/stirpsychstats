@@ -624,7 +624,7 @@ prime.numbers.na &lt;- c(1,NA,3,5,7,NA,17,NA,53)</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##   stats_exp.mean stats_exp.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.02         2.16</code></pre>
+## 1              4         2.17</code></pre>
 <p>A couple of things to note. First, I have broken the above code across several lines. This is just to make it easier to read (remember R ignores white space inside an incomplete command). Second, it doesn’t matter what you name the new variable (but ideally you want a label that is helpful).</p>
 <p>As mentioned, you are not limited in the number of stats you can compute using the <code>summarise()</code> function, so by expanding the code above, we can calculate the means and standard deviations of multiple variables:</p>
 <pre class="r"><code>summarise(data,
@@ -635,7 +635,7 @@ prime.numbers.na &lt;- c(1,NA,3,5,7,NA,17,NA,53)</code></pre>
 <pre><code>## # A tibble: 1 x 4
 ##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.02         2.16           5.58         2.18</code></pre>
+## 1              4         2.17           5.58         2.15</code></pre>
 </div>
 </div>
 </div>

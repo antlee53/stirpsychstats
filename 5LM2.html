@@ -483,13 +483,13 @@ library(lm.beta)</code></pre>
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  attitude and intention
-## t = 8.6127, df = 98, p-value = 1.229e-13
+## t = 9.1087, df = 107, p-value = 5.294e-15
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.528027 0.755400
+##  0.5398797 0.7551031
 ## sample estimates:
 ##       cor 
-## 0.6563703</code></pre>
+## 0.6608687</code></pre>
 </div>
 <div id="plot-data" class="section level3">
 <h3>3. Plot data</h3>
@@ -506,10 +506,15 @@ library(lm.beta)</code></pre>
 </div>
 <div id="write-up-analysis." class="section level3">
 <h3>4. Write-up analysis.</h3>
-<p>In order to write-up a correlation in APA format, you need the following information: * The number of participants. * The correlation coefficient (i.e., the test statistic). * The p-value.</p>
+<p>In order to write-up a correlation in APA format, you need the following information:</p>
+<ul>
+<li>The number of participants.</li>
+<li>The correlation coefficient (i.e., the test statistic).</li>
+<li>The p-value.</li>
+</ul>
 <p>Here is an example of a write-up for the correlation above (can you see where each of the numbers came from?):</p>
 <blockquote>
-<p>There was a significant correlation between attitudes toward exercise and intentions to exercise, <em>r</em>(108) = 0.66, <em>p</em> &lt; .001.</p>
+<p>There was a significant correlation between attitudes toward exercise and intentions to exercise, <em>r</em>(118) = 0.66, <em>p</em> &lt; .001.</p>
 </blockquote>
 </div>
 </div>
@@ -538,19 +543,19 @@ model2</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -35.406  -4.824  -0.039   5.112  19.354 
+## -35.477  -4.834  -0.288   5.374  19.354 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -0.42832    1.31566  -0.326    0.745    
-## attitude     0.40495    0.04702   8.613 1.23e-13 ***
+## (Intercept) -0.29626    1.21185  -0.244    0.807    
+## attitude     0.39612    0.04349   9.109 5.29e-15 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.663 on 98 degrees of freedom
-##   (8 observations deleted due to missingness)
-## Multiple R-squared:  0.4308, Adjusted R-squared:  0.425 
-## F-statistic: 74.18 on 1 and 98 DF,  p-value: 1.229e-13</code></pre>
+## Residual standard error: 8.522 on 107 degrees of freedom
+##   (9 observations deleted due to missingness)
+## Multiple R-squared:  0.4367, Adjusted R-squared:  0.4315 
+## F-statistic: 82.97 on 1 and 107 DF,  p-value: 5.294e-15</code></pre>
 <p>In order to report a regression in APA format, we are required to have standardised coefficients. There are two ways we could do this. First, we could standardise the variables ourselves. Recall from the lecture that to standardise a variable, we need to subtract the mean and divide by the standard deviation. We can use <code>summarise()</code> function (covered in previous weeks) to first get these values.</p>
 <pre class="r"><code>#Get means and standard deviation for both variables.
 summary.stats &lt;- summarise(data2.clean,
@@ -561,7 +566,7 @@ summary.stats &lt;- summarise(data2.clean,
 
 summary.stats</code></pre>
 <pre><code>##   intention.mean intention.sd attitude.mean attitude.sd
-## 1       8.057692     11.27746      21.46078     18.5636</code></pre>
+## 1       7.831858     11.16988      20.96429    18.81677</code></pre>
 <p>Then, using the <code>mutate()</code> function (again, covered in previous weeks), we can standardise the variables ourselves.</p>
 <pre class="r"><code>data2.standardised &lt;- cbind(data2.clean,summary.stats) %&gt;%
   mutate(z.intention = (intention - intention.mean)/intention.sd,
@@ -576,20 +581,20 @@ model2.standardised1</code></pre>
 ## lm(formula = z.intention ~ z.attitude, data = data2.standardised)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -3.13957 -0.42773 -0.00342  0.45333  1.71617 
+##     Min      1Q  Median      3Q     Max 
+## -3.1761 -0.4328 -0.0258  0.4811  1.7327 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  0.01814    0.07683   0.236    0.814    
-## z.attitude   0.66659    0.07740   8.613 1.23e-13 ***
+## (Intercept)  0.01578    0.07309   0.216    0.829    
+## z.attitude   0.66731    0.07326   9.109 5.29e-15 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 0.7682 on 98 degrees of freedom
-##   (8 observations deleted due to missingness)
-## Multiple R-squared:  0.4308, Adjusted R-squared:  0.425 
-## F-statistic: 74.18 on 1 and 98 DF,  p-value: 1.229e-13</code></pre>
+## Residual standard error: 0.763 on 107 degrees of freedom
+##   (9 observations deleted due to missingness)
+## Multiple R-squared:  0.4367, Adjusted R-squared:  0.4315 
+## F-statistic: 82.97 on 1 and 107 DF,  p-value: 5.294e-15</code></pre>
 <p>Alternatively, we can use the <code>lm.beta()</code> function from the lm.beta package. The <code>lm.beta()</code> function takes the original unstandardised model as its first argument, then returns the standardised coefficients. The simplist way to use it is to add it to the pipeline before the <code>summary()</code> function.</p>
 <pre class="r"><code>model2.standardised2 &lt;- lm(intention ~ attitude,data = data2.clean) %&gt;%
 lm.beta() %&gt;%
@@ -602,19 +607,19 @@ model2.standardised2</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -35.406  -4.824  -0.039   5.112  19.354 
+## -35.477  -4.834  -0.288   5.374  19.354 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -0.42832      0.00000    1.31566  -0.326    0.745    
-## attitude     0.40495      0.65637    0.04702   8.613 1.23e-13 ***
+## (Intercept) -0.29626      0.00000    1.21185  -0.244    0.807    
+## attitude     0.39612      0.66087    0.04349   9.109 5.29e-15 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.663 on 98 degrees of freedom
-##   (8 observations deleted due to missingness)
-## Multiple R-squared:  0.4308, Adjusted R-squared:  0.425 
-## F-statistic: 74.18 on 1 and 98 DF,  p-value: 1.229e-13</code></pre>
+## Residual standard error: 8.522 on 107 degrees of freedom
+##   (9 observations deleted due to missingness)
+## Multiple R-squared:  0.4367, Adjusted R-squared:  0.4315 
+## F-statistic: 82.97 on 1 and 107 DF,  p-value: 5.294e-15</code></pre>
 <p>Notice that in the summary table above, an additional column named <code>Standardized</code> is added. Also notice that no matter which method you use, the standardised coefficients are the same (once you account for rounding). Everytime you calculate the standardised coefficients, the estimate for the intercept will equal 0. Therefore, you do not need to report the estimated intercept when reporting standardised coefficients.</p>
 </div>
 <div id="plot-data-1" class="section level3">
@@ -629,7 +634,7 @@ model2.standardised2</code></pre>
 <p>Note, if reporting standardised coefficient, there is no need to report the estimate for the intercept (because it is always 0).</p>
 <p>So the write-up for the regression above would look something like this below. Again, with only one predictor, the results from a regression is identical to a correlation, so you’re better off reporting it that way to avoid confusion and the extra hassle, but we will go through the write-up below just to demonstrate:</p>
 <blockquote>
-<p>Linear regression indicated that 43.08% of variance of intention to exercise could be explained by the predictors, (<em>F</em>(1, 98) = 74.18, <em>p</em> &lt; .001). Attitudes significantly predicted intentions to exercise (<em>Beta</em> = 0.66, <em>p</em> = &lt; .001).</p>
+<p>Linear regression indicated that 43.67% of variance of intention to exercise could be explained by the predictors, (<em>F</em>(1, 107) = 82.97, <em>p</em> &lt; .001). Attitudes significantly predicted intentions to exercise (<em>Beta</em> = 0.66, <em>p</em> = &lt; .001).</p>
 </blockquote>
 <p>For one or two predictors, it is simple enough to include the coefficients and p-value of predictors in-text like above. However, as your model becomes more complicated, it may be more useful to include a table instead. More on this later.</p>
 </div>
@@ -656,20 +661,20 @@ summary(model3)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -31.965  -4.509  -0.417   5.688  18.711 
+## -31.921  -4.773  -0.327   5.659  18.894 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -4.40128    2.97229  -1.481    0.142    
-## attitude     0.35221    0.05904   5.966 4.06e-08 ***
-## control      0.45058    0.30315   1.486    0.140    
+## (Intercept) -4.38951    2.88889  -1.519    0.132    
+## attitude     0.34612    0.05507   6.285 7.77e-09 ***
+## control      0.44408    0.29385   1.511    0.134    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.653 on 96 degrees of freedom
-##   (9 observations deleted due to missingness)
-## Multiple R-squared:  0.4433, Adjusted R-squared:  0.4317 
-## F-statistic: 38.22 on 2 and 96 DF,  p-value: 6.174e-13</code></pre>
+## Residual standard error: 8.488 on 104 degrees of freedom
+##   (11 observations deleted due to missingness)
+## Multiple R-squared:  0.4533, Adjusted R-squared:  0.4428 
+## F-statistic: 43.11 on 2 and 104 DF,  p-value: 2.313e-14</code></pre>
 <pre class="r"><code>#Standardised Model
 lm.beta(model3) %&gt;% summary()</code></pre>
 <pre><code>## 
@@ -678,20 +683,20 @@ lm.beta(model3) %&gt;% summary()</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -31.965  -4.509  -0.417   5.688  18.711 
+## -31.921  -4.773  -0.327   5.659  18.894 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -4.40128      0.00000    2.97229  -1.481    0.142    
-## attitude     0.35221      0.57023    0.05904   5.966 4.06e-08 ***
-## control      0.45058      0.14207    0.30315   1.486    0.140    
+## (Intercept) -4.38951      0.00000    2.88889  -1.519    0.132    
+## attitude     0.34612      0.57857    0.05507   6.285 7.77e-09 ***
+## control      0.44408      0.13911    0.29385   1.511    0.134    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.653 on 96 degrees of freedom
-##   (9 observations deleted due to missingness)
-## Multiple R-squared:  0.4433, Adjusted R-squared:  0.4317 
-## F-statistic: 38.22 on 2 and 96 DF,  p-value: 6.174e-13</code></pre>
+## Residual standard error: 8.488 on 104 degrees of freedom
+##   (11 observations deleted due to missingness)
+## Multiple R-squared:  0.4533, Adjusted R-squared:  0.4428 
+## F-statistic: 43.11 on 2 and 104 DF,  p-value: 2.313e-14</code></pre>
 </div>
 <div id="plot-data-2" class="section level3">
 <h3>3. Plot data</h3>
@@ -709,7 +714,7 @@ lm.beta(model3) %&gt;% summary()</code></pre>
 <h3>4. Write-up analysis.</h3>
 <p>When reporting regression coefficients in a table, you do not need to report the statistics in-text, though you still need to describe the pattern of results in words.</p>
 <blockquote>
-<p>We used multiple regression to predict intention to exercise from attitudes to fitness and behavioural control. We found that both predictors explained 44.33% of the variance (<em>F</em>(2, 96) = 38.22, <em>p</em> &lt; .001). Regression coefficients are reported in Table 1. Attitudes to fitness positively predicted intention to exercise. There was no significant effect of behavioural control.</p>
+<p>We used multiple regression to predict intention to exercise from attitudes to fitness and behavioural control. We found that both predictors explained 45.33% of the variance (<em>F</em>(2, 104) = 43.11, <em>p</em> &lt; .001). Regression coefficients are reported in Table 1. Attitudes to fitness positively predicted intention to exercise. There was no significant effect of behavioural control.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting intention to exercise.</p>
 <table>
@@ -724,15 +729,15 @@ lm.beta(model3) %&gt;% summary()</code></pre>
 <tbody>
 <tr class="odd">
 <td>Attitudes to Fitness</td>
-<td>0.57</td>
-<td>5.97</td>
+<td>0.58</td>
+<td>6.29</td>
 <td>&lt; .001</td>
 </tr>
 <tr class="even">
 <td>Behavioural Control</td>
 <td>0.14</td>
-<td>1.49</td>
-<td>0.14</td>
+<td>1.51</td>
+<td>0.13</td>
 </tr>
 </tbody>
 </table>

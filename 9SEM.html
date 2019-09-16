@@ -573,13 +573,13 @@ total := direct + indirect
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)
 
 summary(med.sem.model)</code></pre>
-<pre><code>## lavaan 0.6-3 ended normally after 18 iterations
+<pre><code>## lavaan 0.6-3 ended normally after 19 iterations
 ## 
 ##   Optimization method                           NLMINB
 ##   Number of free parameters                          5
 ## 
 ##                                                   Used       Total
-##   Number of observations                           105         108
+##   Number of observations                           114         118
 ## 
 ##   Estimator                                         ML
 ##   Model Fit Test Statistic                       0.000
@@ -595,21 +595,21 @@ summary(med.sem.model)</code></pre>
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)
 ##   stress ~                                            
-##     teacher    (c)   -0.131    0.114   -1.153    0.249
-##     stars.test (b)   -0.014    0.045   -0.298    0.765
+##     teacher    (c)   -0.103    0.109   -0.947    0.344
+##     stars.test (b)    0.008    0.043    0.181    0.856
 ##   stars.test ~                                        
-##     teacher    (a)    0.502    0.240    2.096    0.036
+##     teacher    (a)    0.631    0.229    2.759    0.006
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)
-##    .stress            9.360    1.292    7.246    0.000
-##    .stars.test       43.101    5.949    7.246    0.000
+##    .stress            9.169    1.214    7.550    0.000
+##    .stars.test       43.219    5.725    7.550    0.000
 ## 
 ## Defined Parameters:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)
-##     indirect         -0.007    0.023   -0.295    0.768
-##     direct           -0.131    0.114   -1.153    0.249
-##     total            -0.138    0.112   -1.238    0.216</code></pre>
+##     indirect          0.005    0.027    0.181    0.856
+##     direct           -0.103    0.109   -0.947    0.344
+##     total            -0.098    0.105   -0.931    0.352</code></pre>
 <p>If we compare the results here to that of Workbook 7, we should see that we get the same results.</p>
 </div>
 <div id="plot-the-model." class="section level3">
@@ -649,49 +649,49 @@ behaviour ~ intention + control
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data2.clean)
 summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-3 ended normally after 22 iterations
+<pre><code>## lavaan 0.6-3 ended normally after 20 iterations
 ## 
 ##   Optimization method                           NLMINB
 ##   Number of free parameters                          7
 ## 
 ##                                                   Used       Total
-##   Number of observations                            98         108
+##   Number of observations                           106         118
 ## 
 ##   Estimator                                         ML
-##   Model Fit Test Statistic                      19.757
+##   Model Fit Test Statistic                      23.981
 ##   Degrees of freedom                                 2
 ##   P-value (Chi-square)                           0.000
 ## 
 ## Model test baseline model:
 ## 
-##   Minimum Function Test Statistic              135.350
+##   Minimum Function Test Statistic              150.999
 ##   Degrees of freedom                                 7
 ##   P-value                                        0.000
 ## 
 ## User model versus baseline model:
 ## 
-##   Comparative Fit Index (CFI)                    0.862
-##   Tucker-Lewis Index (TLI)                       0.516
+##   Comparative Fit Index (CFI)                    0.847
+##   Tucker-Lewis Index (TLI)                       0.466
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)               -710.744
-##   Loglikelihood unrestricted model (H1)       -700.866
+##   Loglikelihood user model (H0)               -768.240
+##   Loglikelihood unrestricted model (H1)       -756.250
 ## 
 ##   Number of free parameters                          7
-##   Akaike (AIC)                                1435.489
-##   Bayesian (BIC)                              1453.584
-##   Sample-size adjusted Bayesian (BIC)         1431.479
+##   Akaike (AIC)                                1550.480
+##   Bayesian (BIC)                              1569.124
+##   Sample-size adjusted Bayesian (BIC)         1547.009
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
-##   RMSEA                                          0.301
-##   90 Percent Confidence Interval          0.190  0.428
+##   RMSEA                                          0.322
+##   90 Percent Confidence Interval          0.215  0.443
 ##   P-value RMSEA &lt;= 0.05                          0.000
 ## 
 ## Standardized Root Mean Square Residual:
 ## 
-##   SRMR                                           0.058
+##   SRMR                                           0.060
 ## 
 ## Parameter Estimates:
 ## 
@@ -702,22 +702,22 @@ summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   intention ~                                                           
-##     attitude          0.310    0.061    5.051    0.000    0.310    0.500
-##     norms             0.247    0.128    1.932    0.053    0.247    0.157
-##     control           0.509    0.294    1.733    0.083    0.509    0.159
+##     attitude          0.304    0.057    5.319    0.000    0.304    0.508
+##     norms             0.238    0.119    1.991    0.047    0.238    0.154
+##     control           0.499    0.285    1.752    0.080    0.499    0.155
 ##   behaviour ~                                                           
-##     intention         0.372    0.100    3.707    0.000    0.372    0.328
-##     control           1.511    0.320    4.716    0.000    1.511    0.418
+##     intention         0.380    0.099    3.834    0.000    0.380    0.328
+##     control           1.553    0.319    4.869    0.000    1.553    0.417
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .intention        69.546    9.935    7.000    0.000   69.546    0.528
-##    .behaviour        98.223   14.032    7.000    0.000   98.223    0.582
+##    .intention        67.104    9.217    7.280    0.000   67.104    0.519
+##    .behaviour       100.796   13.845    7.280    0.000  100.796    0.581
 ## 
 ## R-Square:
 ##                    Estimate
-##     intention         0.472
-##     behaviour         0.418</code></pre>
+##     intention         0.481
+##     behaviour         0.419</code></pre>
 <p>Notice above in the <code>summary()</code> function, we have included additional arguments to get extra statistics that are helpful when it comes to report the analysis.</p>
 </div>
 <div id="plot-the-model.-1" class="section level3">

@@ -205,7 +205,7 @@ tutorial_options(exercise.checker = checker)
 
 ## Introduction
 
-This is the second of the weekly exercises. These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R.If you are struggling, each exercise comes with a number of hints that may be helpful.
+This is the second of the weekly exercises. These exercises are designed to reinforce content taught in the second demonstration. Typically, they consist of quiz questions and/or R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R. If you are struggling, each exercise comes with a number of hints that may be helpful.
 
 ## Basic Exercises
 
@@ -214,7 +214,7 @@ This is the second of the weekly exercises. These exercises are designed to rein
 There is a typo in the following code that is preventing it from running successfully. Fix the typo to save a numeric vector to `x`.
 
 ```{r question_1, exercise=TRUE}
-x <- c(1, 2, 3 4, 5)
+x <- c(1, 2, 3  4, 5)
 ```
 
 ```{r question_1-hint-1}
@@ -388,9 +388,9 @@ data <- data.frame(ID = c(1,2,3,4,5,6,7,8,9,10),
 
 ```{r question_7, exercise=TRUE,exercise.lines = 12}
 descript_stats <- summarise(data,
-                            mean_var1 =
-                            sd_var1 =
-                            mean_var2 =
+                            mean_var1 = ,
+                            sd_var1 = ,
+                            mean_var2 = ,
                             sd_var2 =
                             )
 
@@ -534,6 +534,8 @@ checker()
 
 Sometimes, you will want to analyse data, but the variables of interest are in separate data.frames - maybe the data are from different sources, or collected using different programs. This week's advanced exercises focuses on merging two separate data.frames in R.
 
+NOTE: There is no code checking for advanced exercises - you are required to evaluate whether the code meets the objective on your own. However, if you want an example of a possible answer, you can click through the hints.
+
 ###Question A1 - Joining Data.frames
 
 The R package `tidyverse` provides some handy functions for joining data.frames. Join functions are most useful in situations where different variables from the same participants are stored in separate data.frames. Here are some of the more useful join functions:
@@ -545,7 +547,7 @@ right_join() |Keeps all the data in the second table, and adds columns from the 
 inner_join() |Only returns rows that have a match in both tables.
 full_join()  |Retains all information from both tables. If a row does not have a match in one table, it will receive a NA value for the other table's columns.
 
-All of the above join functions have the same syntax:
+Each of the above functions joins two data.frames together. How they differ is what rows the function decides to retain/exclude. All of the above join functions have the same syntax:
 
 ```{r,echo = TRUE,eval = FALSE}
 XXX_join(x, y, by = NULL, suffix = c(".x",".y"))
@@ -595,7 +597,7 @@ joined.data <- full_join(data.left,data.right,by = "participant_id")
 
 ###Question A2 - left_join()
 
-`left_join()` is one of the more useful join functions. This function keeps all data from the first (left) table and joins all columns that match in the second (right) table. This is particularly helpful if there are cases (rows) in the right table that are not in the left (and is therefore not of interest). By carefully considering which data.frame is on the left vs. right, in almost all cases, `left_join()` will suit your needs.
+`left_join()` is one of the more useful join functions. This function keeps all data from the first (left) table and joins all columns that has a matching row in the second (right) table. This is particularly helpful if there are cases (rows) in the right table that are not in the left (and is therefore not of interest to us), or if columns in the right table apply to multiple rows in the left table. By carefully considering which data.frame is on the left vs. right, in almost all cases, `left_join()` or `full_join()` will suit your needs.
 
 In the box below, there are two data.frames. The `data.left` table from Question A1, and a new data.frame with country-level statistics called `data.countries`. Use `left_join()` to join these data.frames.
 
@@ -628,7 +630,7 @@ Next hint will show the solution...
 joined.data <- left_join(data.left,data.countries,by = "country_of_birth")
 ```
 
-Notice when using `left_join()`, there are no matches for "Wales" in the left data.frame, so this information is removed when using `left_join()`. Also, there are multiple matches for one country (e.g., Scotland); this function matches will join on both matches appropriately. Re-run the code above, but instead use `full_join()`, and compare the results to when you use `left_join()`.
+Notice when using `left_join()`, there are no matches for "Wales" in the left data.frame, so this information is removed when using `left_join()`. Also, there are multiple matches for one country (e.g., Scotland); this function will join on both matched rows appropriately. Re-run the code above, but instead use `full_join()`, and compare the results to when you use `left_join()`.
 
 ###Question A3 - Matching on Multiple Variables
 
@@ -705,7 +707,7 @@ To see what the suffix argument does, call the `joined.data` data.frame.
 
 ###Question A5 - bind_rows()
 
-Up to now, we have exclusively dealt join functions, which adds variables from one data.frame to another. A totally different type of merging data.frames together is combining rows. This is common when you have two data.frames with the same variable that include different participants. This can be achieved by using the `bind_rows()` function. This function simply accepts two arguments: the two data.frames you wish to join.
+Up to now, we have exclusively dealt with join functions, which adds variables from one data.frame to another. A totally different way of merging data.frames together is combining rows. This is common when you have two data.frames with the same variables but different rows, e.g. data collected from different participants on the same task. This can be achieved by using the `bind_rows()` function. This function simply accepts two arguments: the two data.frames you wish to join.
 
 In the example below, we have two data.frames that were taken from two different computers running the same experiment. We wish to combine the data.frames by adding the rows of one data.frame to another so that we can analyse the data altogether.
 

@@ -490,9 +490,9 @@ library(mediation)</code></pre>
 
 data1.summary</code></pre>
 <pre><code>##   stars.test_mean support_mean stress_mean stars.test_sd support_sd
-## 1        27.33645     67.85714    23.83019       6.72077   13.71652
+## 1        27.11207     68.04386    23.82609      6.807632   13.42062
 ##   stress_sd
-## 1  3.124318</code></pre>
+## 1  3.078678</code></pre>
 <pre class="r"><code>#Compute centred variables for analysis.
 data1.clean &lt;- cbind(data1.clean,data1.summary) %&gt;%
   mutate(c.stars.test = stars.test - stars.test_mean,
@@ -515,21 +515,21 @@ summary(model1)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -8.2852 -2.0905 -0.2178  1.8632  7.1981 
+## -8.2128 -2.0827 -0.0388  1.8891  6.9207 
 ## 
 ## Coefficients:
 ##                         Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)            23.811740   0.301084  79.087  &lt; 2e-16 ***
-## c.stars.test           -0.034867   0.045660  -0.764  0.44689    
-## c.support               0.062842   0.022022   2.854  0.00526 ** 
-## c.stars.test:c.support  0.002301   0.003303   0.697  0.48766    
+## (Intercept)            23.798183   0.283661  83.897  &lt; 2e-16 ***
+## c.stars.test           -0.010807   0.042083  -0.257  0.79782    
+## c.support               0.061856   0.021262   2.909  0.00439 ** 
+## c.stars.test:c.support  0.003578   0.003150   1.136  0.25863    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.058 on 100 degrees of freedom
-##   (4 observations deleted due to missingness)
-## Multiple R-squared:  0.08573,    Adjusted R-squared:  0.0583 
-## F-statistic: 3.126 on 3 and 100 DF,  p-value: 0.02919</code></pre>
+## Residual standard error: 3.004 on 109 degrees of freedom
+##   (5 observations deleted due to missingness)
+## Multiple R-squared:  0.08818,    Adjusted R-squared:  0.06308 
+## F-statistic: 3.514 on 3 and 109 DF,  p-value: 0.01768</code></pre>
 <p>Notice how R automatically includes the main effects in the model? In most cases, you will want to include the separate main effects when including an interaction term, but in the odd occassion when you want to include the interaction effect without the main effect, you can specify it using the <code>:</code> symbol. In other words:</p>
 <p><code>stress ~ stars.test*support</code> is identical to <code>stress ~ stars.test + support + stars.test:support</code></p>
 <p>Above are the unstandardised coefficients. In order to report in APA format, we require the standardised coefficient. Similar to with an ordinary regression, we can use the <code>lm.beta()</code> function to get the standardised coefficients, like here:</p>
@@ -541,14 +541,14 @@ lm.beta(model1) %&gt;% summary()</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -8.2852 -2.0905 -0.2178  1.8632  7.1981 
+## -8.2128 -2.0827 -0.0388  1.8891  6.9207 
 ## 
 ## Coefficients:
 ##                         Estimate Standardized Std. Error t value Pr(&gt;|t|)
-## (Intercept)            23.811740     0.000000   0.301084  79.087  &lt; 2e-16
-## c.stars.test           -0.034867    -0.074982   0.045660  -0.764  0.44689
-## c.support               0.062842     0.274491   0.022022   2.854  0.00526
-## c.stars.test:c.support  0.002301     0.068201   0.003303   0.697  0.48766
+## (Intercept)            23.798183     0.000000   0.283661  83.897  &lt; 2e-16
+## c.stars.test           -0.010807    -0.023892   0.042083  -0.257  0.79782
+## c.support               0.061856     0.268392   0.021262   2.909  0.00439
+## c.stars.test:c.support  0.003578     0.105625   0.003150   1.136  0.25863
 ##                           
 ## (Intercept)            ***
 ## c.stars.test              
@@ -557,10 +557,10 @@ lm.beta(model1) %&gt;% summary()</code></pre>
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.058 on 100 degrees of freedom
-##   (4 observations deleted due to missingness)
-## Multiple R-squared:  0.08573,    Adjusted R-squared:  0.0583 
-## F-statistic: 3.126 on 3 and 100 DF,  p-value: 0.02919</code></pre>
+## Residual standard error: 3.004 on 109 degrees of freedom
+##   (5 observations deleted due to missingness)
+## Multiple R-squared:  0.08818,    Adjusted R-squared:  0.06308 
+## F-statistic: 3.514 on 3 and 109 DF,  p-value: 0.01768</code></pre>
 </div>
 <div id="plot-data" class="section level3">
 <h3>3. Plot data</h3>
@@ -589,7 +589,7 @@ plot.data_modlow &lt;- filter(data1.clean,z.support &lt; 0)</code></pre>
 <p>As mentioned last week, with more than one predictor in the model, it may make more sense to report the statistics in a table. This includes models with interaction effects (in the case above, the interaction effect is our third predictor).</p>
 <p>Here is an example of the write-up:</p>
 <blockquote>
-<p>We used a linear regression to predict stress from the anxiety about taking a statistics test, level of social support, and the interaction between the two. We found that model explained 8.57% of the variance (F(3,100) = 3.13, p = 0.029). Regression coefficients are reported in Table 1. There was no significant main effect of teaching comprehension on stress. There was a significant, positive main effect of perceived social support on stress. The interaction between comprehension of statistics teacher and level of social support was not significant.</p>
+<p>We used a linear regression to predict stress from the anxiety about taking a statistics test, level of social support, and the interaction between the two. We found that model explained 8.82% of the variance (F(3,109) = 3.51, p = 0.018). Regression coefficients are reported in Table 1. There was no significant main effect of teaching comprehension on stress. There was a significant, positive main effect of perceived social support on stress. The interaction between comprehension of statistics teacher and level of social support was not significant.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting stress.</p>
 <table>
@@ -604,21 +604,21 @@ plot.data_modlow &lt;- filter(data1.clean,z.support &lt; 0)</code></pre>
 <tbody>
 <tr class="odd">
 <td>Teacher Comprehension</td>
-<td>0.05</td>
-<td>-0.76</td>
-<td>0.447</td>
+<td>0.04</td>
+<td>-0.26</td>
+<td>0.798</td>
 </tr>
 <tr class="even">
 <td>Social Support</td>
 <td>0.02</td>
-<td>2.85</td>
-<td>0.005</td>
+<td>2.91</td>
+<td>0.004</td>
 </tr>
 <tr class="odd">
 <td>TC * SS</td>
 <td>0</td>
-<td>0.7</td>
-<td>0.488</td>
+<td>1.14</td>
+<td>0.259</td>
 </tr>
 </tbody>
 </table>
@@ -650,19 +650,19 @@ summary(model.y)</code></pre>
 ## lm(formula = stress ~ teacher, data = data2.clean)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -8.317 -2.040  0.098  1.821  7.374 
+##     Min      1Q  Median      3Q     Max 
+## -8.1611 -2.0385  0.0842  1.8096  7.3295 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  25.0077     1.0451  23.928   &lt;2e-16 ***
-## teacher      -0.1382     0.1127  -1.226    0.223    
+## (Intercept) 24.65168    0.98602  25.001   &lt;2e-16 ***
+## teacher     -0.09811    0.10629  -0.923    0.358    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.09 on 103 degrees of freedom
-## Multiple R-squared:  0.01438,    Adjusted R-squared:  0.004813 
-## F-statistic: 1.503 on 1 and 103 DF,  p-value: 0.223</code></pre>
+## Residual standard error: 3.055 on 112 degrees of freedom
+## Multiple R-squared:  0.00755,    Adjusted R-squared:  -0.001311 
+## F-statistic: 0.852 on 1 and 112 DF,  p-value: 0.358</code></pre>
 <p>Here we test whether including the mediator in the model changes the relationship between the predictor and the outcome variable:</p>
 <pre class="r"><code>model.y2 &lt;- lm(stress ~ teacher + stars.test,data = data2.clean)
 summary(model.y2)</code></pre>
@@ -671,20 +671,20 @@ summary(model.y2)</code></pre>
 ## lm(formula = stress ~ teacher + stars.test, data = data2.clean)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -8.227 -2.041  0.086  1.769  7.380 
+##     Min      1Q  Median      3Q     Max 
+## -8.2186 -2.0540  0.0899  1.7750  7.3358 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 25.31806    1.48841  17.010   &lt;2e-16 ***
-## teacher     -0.13139    0.11558  -1.137    0.258    
-## stars.test  -0.01357    0.04614  -0.294    0.769    
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 24.483436   1.365212  17.934   &lt;2e-16 ***
+## teacher     -0.103053   0.110261  -0.935    0.352    
+## stars.test   0.007827   0.043718   0.179    0.858    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.104 on 102 degrees of freedom
-## Multiple R-squared:  0.01522,    Adjusted R-squared:  -0.004092 
-## F-statistic: 0.7881 on 2 and 102 DF,  p-value: 0.4575</code></pre>
+## Residual standard error: 3.069 on 111 degrees of freedom
+## Multiple R-squared:  0.007837,   Adjusted R-squared:  -0.01004 
+## F-statistic: 0.4384 on 2 and 111 DF,  p-value: 0.6462</code></pre>
 <p>Also, in order for there to be a mediation, we must observe a relationship between the predictor and the mediator:</p>
 <pre class="r"><code>model.m &lt;- lm(stars.test ~ teacher,data = data2.clean)
 summary(model.m)</code></pre>
@@ -693,19 +693,19 @@ summary(model.m)</code></pre>
 ## lm(formula = stars.test ~ teacher, data = data2.clean)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -17.880  -3.896   0.610   4.606  13.622 
+##      Min       1Q   Median       3Q      Max 
+## -17.2811  -3.7662   0.1951   4.4183  14.3499 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  22.8678     2.2418  10.201   &lt;2e-16 ***
-## teacher       0.5020     0.2418   2.076   0.0404 *  
+## (Intercept)  21.4953     2.1404  10.043  &lt; 2e-16 ***
+## teacher       0.6310     0.2307   2.735  0.00726 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.629 on 103 degrees of freedom
-## Multiple R-squared:  0.04016,    Adjusted R-squared:  0.03084 
-## F-statistic:  4.31 on 1 and 103 DF,  p-value: 0.04038</code></pre>
+## Residual standard error: 6.633 on 112 degrees of freedom
+## Multiple R-squared:  0.06259,    Adjusted R-squared:  0.05422 
+## F-statistic: 7.478 on 1 and 112 DF,  p-value: 0.007264</code></pre>
 <p>While we may or may not meet the conditions for a mediation above, we will continue with the analysis to demonstrate the process.</p>
 <p>In order to conduct a mediation analysis in R, we will load the <code>medation</code> package, which can test for a mediation via bootstrapping. If you haven’t installed the mediation package yet, run the following code:</p>
 <pre class="r"><code>install.packages(&quot;mediation&quot;)</code></pre>
@@ -723,14 +723,14 @@ summary(med.model)</code></pre>
 ## Quasi-Bayesian Confidence Intervals
 ## 
 ##                Estimate 95% CI Lower 95% CI Upper p-value  
-## ACME             0.0000       0.0000         0.00   1.000  
-## ADE              0.5037       0.0217         0.96   0.036 *
-## Total Effect     0.5037       0.0217         0.96   0.036 *
-## Prop. Mediated   0.0000       0.0000         0.00   1.000  
+## ACME              0.000        0.000         0.00   1.000  
+## ADE               0.619        0.140         1.12   0.012 *
+## Total Effect      0.619        0.140         1.12   0.012 *
+## Prop. Mediated    0.000        0.000         0.00   1.000  
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Sample Size Used: 105 
+## Sample Size Used: 114 
 ## 
 ## 
 ## Simulations: 1000</code></pre>
@@ -799,13 +799,13 @@ ggplot(data = plot.data,aes(x = term,y = estimate,ymin = se_low,ymax = se_high,c
 </tr>
 <tr class="even">
 <td>Average Direct Effect</td>
-<td>0.5 (0.02, 0.96)</td>
-<td>0.036</td>
+<td>0.62 (0.14, 1.12)</td>
+<td>0.012</td>
 </tr>
 <tr class="odd">
 <td>Total Effect</td>
-<td>0.5 (0.02, 0.96)</td>
-<td>0.036</td>
+<td>0.62 (0.14, 1.12)</td>
+<td>0.012</td>
 </tr>
 <tr class="even">
 <td>Proportion Mediated</td>
