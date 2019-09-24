@@ -6,7 +6,7 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE,message = FALSE}
 library(learnr)
-library(tidyverse)
+require(tidyverse)
 knitr::opts_chunk$set(echo = FALSE)
 
 checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
@@ -307,7 +307,7 @@ mean_of_numbers <- mean(numbers)
 checker()
 ```
 
-###Question 5
+### Question 5
 
 Below is an object called `numbers` that is a numeric vector. Calculate the standard deviation of this vector and save the results as an object called `sd_of_numbers`.
 
@@ -339,7 +339,7 @@ sd_of_numbers <- sd(numbers,na.rm = TRUE)
 checker()
 ```
 
-###Question 6
+### Question 6
 
 Below is an object called `numbers` that is a numeric vector. Calculate the range of this vector and save the results as an object called `range_of_numbers`.
 
@@ -376,7 +376,7 @@ range_of_numbers <- max(numbers,na.rm = TRUE) - min(numbers,na.rm = TRUE)
 checker()
 ```
 
-###Question 7
+### Question 7
 
 Below is a data.frame called `data`. Edit the code below to use the summarise function to calculate the mean and standard deviation of `var1` and `var2`. Save the result as `descript_stats`. Do not adjust the new variable names in the summarise function.
 
@@ -421,7 +421,7 @@ descript_stats <- summarise(data,
 checker()
 ```
 
-###Question 8
+### Question 8
 
 Below is a data.frame called `data`. Use the `summarise()` function to calculate the maximum and minimum values from `var1` and `var2`. Save the resulting data.frame as `data_minmax` and name the new variables computed by the `summarise()` function in the following order: max_var1, min_var1, max_var2, and min_var2.
 
@@ -459,7 +459,7 @@ data_minmax <- summarise(data,
 checker()
 ```
 
-###Question 9
+### Question 9
 
 Below, we are attempting to make a numeric vector with three missing values. However, when we run `is.na(missing_values)`, R is telling us there are 0 missing values. Fix the code below so that `is.na(missing_values)` gives us the correct answer of three `FALSE` followed by three `TRUE`.
 
@@ -492,7 +492,7 @@ is.na(missing_values)
 checker()
 ```
 
-###Question 10
+### Question 10
 
 Below is a character vector named `animals`. Determine how many missing values are in `aniamls` by using the functions `is.na()` and `sum()` and save the result as `NA_total`.
 
@@ -536,7 +536,7 @@ Sometimes, you will want to analyse data, but the variables of interest are in s
 
 NOTE: There is no code checking for advanced exercises - you are required to evaluate whether the code meets the objective on your own. However, if you want an example of a possible answer, you can click through the hints.
 
-###Question A1 - Joining Data.frames
+### Question A1 - Joining Data.frames
 
 The R package `tidyverse` provides some handy functions for joining data.frames. Join functions are most useful in situations where different variables from the same participants are stored in separate data.frames. Here are some of the more useful join functions:
 
@@ -595,7 +595,7 @@ Next hint will show the solution...
 joined.data <- full_join(data.left,data.right,by = "participant_id")
 ```
 
-###Question A2 - left_join()
+### Question A2 - left_join()
 
 `left_join()` is one of the more useful join functions. This function keeps all data from the first (left) table and joins all columns that has a matching row in the second (right) table. This is particularly helpful if there are cases (rows) in the right table that are not in the left (and is therefore not of interest to us), or if columns in the right table apply to multiple rows in the left table. By carefully considering which data.frame is on the left vs. right, in almost all cases, `left_join()` or `full_join()` will suit your needs.
 
@@ -632,7 +632,7 @@ joined.data <- left_join(data.left,data.countries,by = "country_of_birth")
 
 Notice when using `left_join()`, there are no matches for "Wales" in the left data.frame, so this information is removed when using `left_join()`. Also, there are multiple matches for one country (e.g., Scotland); this function will join on both matched rows appropriately. Re-run the code above, but instead use `full_join()`, and compare the results to when you use `left_join()`.
 
-###Question A3 - Matching on Multiple Variables
+### Question A3 - Matching on Multiple Variables
 
 What if you need the join function to match on more than one variable? Thankfully, the join functions can accomodate this. Using the 'by' argument, rather than specifying one column, you can specify any number by putting the column names in a character vector. Remember, both data.frames need to have all match variables.
 
@@ -668,7 +668,7 @@ Next hint will show the solution...
 joined.data <- left_join(data.1,data.2,by = c("participant_id","country_of_birth"))
 ```
 
-###Question A4 - Suffixes
+### Question A4 - Suffixes
 
 How about a situation where both data.frames have variables with the same name, but you aren't joining on these variables. By taking advantage of the 'suffix' argument in the join functions, you can create a way to unambiguously distinguish between the variables from the different data.frames. This argument accepts a character vector with a length of two. The first element of the vector will be pasted on the end of the variables from the left data.frame, while the second element will be pasted on the end of the variables on the right data.frame.
 
@@ -705,7 +705,7 @@ joined.data <- left_join(data.time1, data.time2, by = "participant_id",suffix = 
 
 To see what the suffix argument does, call the `joined.data` data.frame.
 
-###Question A5 - bind_rows()
+### Question A5 - bind_rows()
 
 Up to now, we have exclusively dealt with join functions, which adds variables from one data.frame to another. A totally different way of merging data.frames together is combining rows. This is common when you have two data.frames with the same variables but different rows, e.g. data collected from different participants on the same task. This can be achieved by using the `bind_rows()` function. This function simply accepts two arguments: the two data.frames you wish to join.
 

@@ -453,7 +453,7 @@ This week's advanced exercises focuses on introducing two other object classes (
 
 NOTE: There is no code checking for advanced exercises - you are required to evaluate whether the code meets the objective on your own. However, if you want an example of a possible answer, you can click through the hints.
 
-###Question 1A - Lists in R
+### Question 1A - Lists in R
 
 Lists are the most flexible objects in R. Similar to vectors, lists are an ordered set of elements; however, unlike vectors, the elements within a list can contain different classes of objects. For example, the first element of a list could be a single numeric vector, the second could be a character vector, the third could an entire data.frame, and fourth could be another list!
 
@@ -487,7 +487,7 @@ responses <- list(c(53,8,42),c("blue","maroon","gold"),TRUE)
 #Note: your favourite numbers and colours could be different from mine.
 ```
 
-###Question 2A - Selecting Elements in a List
+### Question 2A - Selecting Elements in a List
 
 Elements of a list can be accessed individually by using indexing. In a list, this involves using double square brackets `[[]]` that contains the number of the element you wish to select.
 
@@ -533,7 +533,7 @@ is.character(element5[[5]])
 the_5th_element <- element5[[5]]
 ```
 
-###Question A3 - Selecting Elements from a Vector
+### Question A3 - Selecting Elements from a Vector
 
 Similar to how elements of a list can be accessed individually by using indexing, indexing can also be used to select individual elements of a vector. The difference between indexing for lists and vectors, however, is that vectors only use single square brackets.
 
@@ -572,7 +572,7 @@ Next hint will show the solution...
 product <- numeric_vector[53] * numeric_vector[88]
 ```
 
-###Question A4 - Matrices in R
+### Question A4 - Matrices in R
 
 Matrices are R objects in which the elements are arranged in a two-dimensional rectangular layout, similar to a data.frame. However, unlike a data.frame, all elements within a matrix is of the same class. Matrices are helpful when you need to store multi-dimensional data, but we tend not to use them in psychological research. In almost all cases, a data.frame will suit our needs better.
 
@@ -629,7 +629,7 @@ anxiety.matrix <- matrix(anxiety_ratings,nrow = 4,ncol = 7,byrow = FALSE)
 anxiety.data <- as.data.frame(anxiety.matrix)
 ```
 
-###Question A5 - Indexing Matrices and Data.frames
+### Question A5 - Indexing Matrices and Data.frames
 
 Simiar to lists and vectors, individual elements of matrices and data.frames can be accessed via indexing. Indexing is the same for both matrices and data.frames. To select an individual element, use the square brackets after the name of the matrix/data.frame followed by the row number, then a comma, then the column number.
 
@@ -671,7 +671,7 @@ Next hint will show the solution...
 anxiety.data[3,6] + anxiety.data[4,6] + anxiety.data[3,7] + anxiety.data[4,7]
 ```
 
-###Question A6 - Indexing Columns from Data.frames
+### Question A6 - Indexing Columns from Data.frames
 
 Rather than indexing a single element from a data.frame, you can also index an entire column. This is a handy shortcut to select all responses on a variable in a data.frame. This is done by calling the data.frame and variable you want to select, and separating them using the '$' symbol.
 
