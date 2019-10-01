@@ -6,7 +6,8 @@ runtime: shiny_prerendered
 
 ```{r setup, include=FALSE}
 library(learnr)
-library(tidyverse)
+require(tidyverse)
+
 knitr::opts_chunk$set(echo = FALSE)
 
 checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
@@ -833,7 +834,7 @@ In the data.frame above, there are three columns; however, multiple values are s
 
 Below is the code that separates the 'age_y_m' variable into two:
 
-```{r,echo = TRUE}
+```{r,echo = TRUE,eval = FALSE}
 imported.data2 <- separate(imported.data,
                            col = age_y_m,
                            into = c("age_y","age_m"),
@@ -883,14 +884,14 @@ Occassionally, you will need to do the opposite of the `separate()` function, an
 
 The code below reverses the what we did in the last question. Note: this exact process is not something you will want to do for data cleaning, but is included here for illustrative purposes.
 
-```{r}
+```{r,echo = TRUE,eval = FALSE}
 imported.data3 <- separate(imported.data2,
                            col = mean_sd,
                            into = c("mean","sd"),
                            sep = " sd=")
 ```
 
-```{r,echo = TRUE}
+```{r,echo = TRUE,eval = FALSE}
 imported.data2 <- unite(imported.data3,
                        col = "age_y_m",
                        age_y,
@@ -957,7 +958,7 @@ data.to.recode <- data.frame(ID = 1:6,
 data.to.recode
 ```
 
-```{r,echo = TRUE}
+```{r,echo = TRUE,eval = FALSE}
 data.recoded <- mutate(data.to.recode,
                        complete_logical = recode(complete,
                                                  "Yes" = TRUE,
