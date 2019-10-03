@@ -382,6 +382,8 @@ checker()
 Below is a data.frame called `data`. Edit the code below to use the summarise function to calculate the mean and standard deviation of `var1` and `var2`. Save the result as `descript_stats`. Do not adjust the new variable names in the summarise function.
 
 ```{r question_7-setup, include = FALSE}
+#source("https://raw.githubusercontent.com/antlee53/stirpsychstats/master/exercises/dependencies.R")
+
 data <- data.frame(ID = c(1,2,3,4,5,6,7,8,9,10),
                    var1 = c(10,29,38,47,56,13,24,35,46,57),
                    var2 = c(10.5,11,2,9,4,6,8,5.3,2.9,10))
