@@ -245,7 +245,7 @@ rt = c(0.76,1.18,0.46,1.47,0.88,1.32,0.28,1.45,0.04,0.51,1.46,0.61,0.79,2.2,0.84
 ```
 
 ```{r question_2, exercise=TRUE,exercise.lines = 8}
-coffee.data
+#coffee.data
 
 coffee.summary <- 
   
@@ -284,7 +284,7 @@ rt = c(0.76,1.18,0.46,1.47,0.88,1.32,0.28,1.45,0.04,0.51,1.46,0.61,0.79,2.2,0.84
 ```
 
 ```{r question_3, exercise=TRUE,exercise.lines = 8}
-coffee.data
+#coffee.data
 
 coffee.t.test <- 
   
@@ -302,11 +302,20 @@ Next hint will show the solution...
 ```
 
 ```{r question_3-solution}
-coffee.t.test <- t.test(rt ~ coffee_condition,data = correct_coffee.data)
+coffee.t.test <- t.test(rt ~ coffee_condition,data = coffee.data)
 ```
 
 ```{r question_3-check}
 checker()
+```
+
+```{r question_3-quiz}
+quiz(
+  question("Is the result above statistically significant?",
+    answer("Yes, p < .05"),
+    answer("No, p > .05",correct = TRUE),
+  allow_retry = TRUE)
+)
 ```
 
 ### Question 4
@@ -320,12 +329,12 @@ coffee.data2 <- coffee.data2 <- data.frame(ID = 1:40,
 ```
 
 ```{r question_4, exercise=TRUE,exercise.lines = 8}
-coffee.data2
+#coffee.data2
 
 ```
 
 ```{r question_4-hint-1}
-There are two ways to conduct a paired-samples t-test in R. One way requires you to reshape the data. You can use the code below:
+There are two ways to conduct a paired-samples t-test in R. One way requires you to reshape the data. You can use the code below to do this:
   
 coffee.data2_reshaped <- coffee.data2 %>%
   gather(key = "time",value = "rt",rt_before,rt_after)
@@ -343,10 +352,10 @@ Next hint will show the solution...
 coffee.data2_reshaped <- coffee.data2 %>%
   gather(key = "time",value = "rt",rt_before,rt_after)
 
-coffee.t.test <- t.test(rt ~ time,data = coffee.data2_reshaped,paired = TRUE)
+t.test(rt ~ time,data = coffee.data2_reshaped,paired = TRUE)
 
 #Solution 2:
-coffee.t.test <- t.test(coffee.data2$rt_before,coffee.data2$rt_after,paired = TRUE)
+t.test(coffee.data2$rt_before,coffee.data2$rt_after,paired = TRUE)
 ```
 
 ```{r question_4-quiz}
@@ -441,7 +450,7 @@ checker()
 
 ### Question 7
 
-You're interested in the development of mental time travel across species. You develop a comparative behavioural test and collect data on 40 individuals across 5 species (data.frame saved as `time.data`. Run a One-Way ANOVA to determine if there is a difference in performance on the task across species. Save the results from the `aov()` function to an object called `time.aov`.
+You're interested in the development of mental time travel across species. You develop a comparative behavioural test and collect data on 40 individuals across 5 species (data.frame saved as `time.data`. Run a One-Way ANOVA to determine if there is a difference in performance on the task across species. Save the results from the `aov()` function (after it has been tidied using the `tidy()` function) to an object called `time.aov`.
 
 ```{r question_7-setup}
 time.data <- data.frame(ID = 1:40,
@@ -519,4 +528,201 @@ checker()
 
 ## Advanced Exercises
 
+This week's advanced exercises focuses on conducting non-parametric tests in R.
+
+### Question A1 - Non-parametric Tests
+
+As covered in the lecture series, non-parametric tests are distribution-free tests. They are useful if your data does not meet the assumptions of the parametric test - particularly the assumption about normally distributed data.
+
+```{r question_a1-quiz}
+quiz(
+  question("As covered in the lecture series, what are valid reasons for choosing a non-parametric test over a parametric test? Select all valid reasons.",
+    answer("When central tendency is better measured by the median than the mean.",correct = TRUE),
+    answer("When you have small sample sizes.",correct = TRUE),
+    answer("The dependent variable is ordinal/ranked/contains outliers and sample sizes are not sufficiently large.",correct = TRUE),
+    answer("You want increased statistical power."),
+    answer("The data is skewed/non-normal, but you have a large sample size."),
+  allow_retry = TRUE,random_answer_order = TRUE)
+)
+```
+
+In the code box below, there are three data.frames named `data1`, `data2`, and `data3`. Each data.frame has a categorical IV and a continuous DV. Determine whether a parametric or non-parametric test is appropriate for each data.frame. You may need to call the data.frame or plot the variables to determine their properties.
+
+```{r question_a1-setup}
+data1 <- data.frame(IV_cat = c(rep("group1",40),rep("group2",40)),
+                    DV_cont = round(c(rnorm(40,100,15),rnorm(40,90,15)),0))
+
+data2 <- data.frame(IV_cat = c(rep("group1",8),rep("group2",8)),
+                    DV_cont = round(rnorm(16,100,15),0))
+
+data3 <- data.frame(IV_cat = c(rep("group1",100),rep("group2",100)),
+                    DV_cont = sample(75:125,200,replace = TRUE))
+```
+
+```{r question_a1, exercise=TRUE,exercise.lines = 8}
+#data1
+
+#data2
+
+#data3
+```
+
+```{r question_a1-hint-1}
+You may want to plot the DV to get an idea of the distributions.
+
+```
+
+```{r question_a1-hint-2}
+Sample size is another important factor when making the decision to use a parametric or non-parametric test.
+
+Next hint will show the solution...
+```
+
+```{r question_a1-solution}
+#data1 has sufficient sample sizes and normally distributed data - parametric test is best.
+
+#data2 has normally distributed data; however, quite small sample sizes - should consider a non-parametric test.
+
+#data3 has a DV with a uniform distribution, however, a large sample size, so parametric test may be sufficient.
+
+#The code below will give you the sample size of each group (you could also just see how many rows are in the data.frame).
+
+data1 %>%
+  group_by(IV_cat) %>%
+  summarise(n = n())
+
+#The code below will plot the DV separated by the IV to give you an idea of the distribution.
+
+ggplot(data2,aes(x = DV_cont,group = IV_cat,colour = IV_cat)) +
+  geom_density()
+```
+
+`data1` has sufficient sample sizes and normally distributed data - parametric test is best. `data2` has normally distributed data; however, quite small sample sizes - should consider a non-parametric test. `data3` has a DV with a uniform distribution, however, a large sample size, so parametric test may be sufficient.
+
+###Question A2 - Mann-Whitney U Test
+
+The Mann-Whitney U Test is a non-parametric test for when you have a categorical IV (with two levels) and a continuous DV. The equivalent parametric test is an independent-samples t-test. The function that runs a Mann-Whitney U Test is the `wilcox.test()` function. It's a bit confusing that the Mann-Whitney U Test uses a function with a different name, but the reason for this is because the Mann-Whitney U Test could be considered as an 'unpaired' version of the Wilcoxon Signed Rank Test.
+
+To conduct a Mann-Whitney U Test, you need to specify the two things needed for all analysis functions: the formula, and the data.frame.
+
+```{r,echo = TRUE,eval = FALSE}
+wilcox.test(DV ~ IV,data = data)
+```
+
+You attempt to conduct an exact replication the same study from Question 2 and 3, investigating the effects of coffee vs no coffee on reaction time. However, you are not able to collect a big sample size this second time around, so you're considering whether a non-parametric test is more appropriate. This data is saved as a data.frame named `coffee.data2`.
+
+Conduct a Mann-Whitney U Test to determine whether there is a significant difference between reaction time between the coffee and no coffee groups.
+
+```{r question_a2-setup}
+coffee.data2 <- data.frame(ID = 1:16,
+coffee_condition = c('no_coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee'),
+rt = c(4.23,3.93,2.01,3.14,2.81,3.23,4.46,1.92,4.41,2.37,2.77,2.86,4.75,4.48,2.22,2.41)) %>%
+  mutate(rt = ifelse(coffee_condition == "coffee",rt,rt + 1))
+```
+
+```{r question_a2, exercise=TRUE,exercise.lines = 8}
+#coffee.data2
+```
+
+```{r question_a2-hint-1}
+Use the `wilcox.test()` function to conduct a Mann-Whitney U Test.
+
+```
+
+```{r question_a2-hint-2}
+Make sure you provide the correct formula and data.frame to the function...
+
+Next hint will show the solution...
+```
+
+```{r question_a2-solution}
+wilcox.test(rt ~ coffee_condition,data = coffee.data2)
+```
+
+In the code box above, you may want to compare the p-values from when you conduct a Mann-Whitney U Test and the parametric counterpart, an independent-samples t.test. You will see the the p-values are actually quite similar.
+
+###Question A3 - Wilcoxon Signed Rank Test
+
+The Wilcoxon Signed Rank Test is a non-parametric test for when you have a within-subjects categorical IV (with two levels) and a continuous DV. The equivalent parametric test is an paired-samples t-test. Similar to how an indpendent-samples t-test and a paired-samples t-test use the same function, the Mann-Whitney U Test and the Wilcoxon Signed Rank Test also use the same function: `wilcox.test()`. The difference here is the `paired` argument must be set to `TRUE` - the same as if you were conducting a paired-samples t-test with the `t.test()` function.
+
+```{r,echo = TRUE,eval = FALSE}
+wilcox.test(DV ~ IV,data = data,paired = TRUE)
+```
+
+In the code box below, you run a study investigating the amount of sleep patients with sleep apnoea get before and after a treatment. However, it is difficult to find participants that meet this criteria, so you are only able to collect data on 8 participants. This data.frame is named `sleep.data`.
+
+Conduct a Wilcoxon Signed Rank Test to determine whether there is a significant difference between the amount of sleep patients get before and after treatment.
+
+```{r question_a3-setup}
+sleep.data <- data.frame(ID = 1:8,
+sleep_before = c(1.2,1.4,5,2.2,2.6,2.5,3,1.1),
+e = c(-0.8,0.7,-0.6,1,0.2,-0.6,1.5,0.6)) %>%
+  mutate(sleep_after = sleep_before + 2 + e) %>%
+  select(-e)
+```
+
+```{r question_a3, exercise=TRUE,exercise.lines = 8}
+#sleep.data
+```
+
+```{r question_a3-hint-1}
+You may need to reshape the data...
+
+```
+
+```{r question_a3-hint-2}
+Make sure you set the `paired` argument to TRUE in the `wilcox.test()`.
+
+Next hint will show the solution...
+```
+
+```{r question_a3-solution}
+#Solution 1:
+sleep.data_reshaped <- sleep.data %>%
+  gather(key = "time",value = "sleep",sleep_before,sleep_after)
+
+wilcox.test(sleep ~ time,data = sleep.data_reshaped,paired = TRUE)
+
+#Solution 2:
+wilcox.test(sleep.data$sleep_before,sleep.data$sleep_after,paired = TRUE)
+```
+
+Again, you may want to compare the p-values you receive above with a paired-sample t-test in the example above.
+
+###Question A4 - Kruskal-Wallis Test
+
+The Kruskal-Wallis test is a non-parametric alternative to the one-way ANOVA, meaning it is used when you have a categorical IV with more than 2 groups, and a continuous DV. The function to conduct the Kruskal-Wallis test is `kruskal.test()`. Again, with all statistical test functions, you need to supply the formula and the data.frame you wish to analyse.
+
+```{r,echo = TRUE,eval = FALSE}
+kruskal.test(DV ~ IV,data = data)
+```
+
+In the code box below, you have run a study investigating unhealthy mobile phone usage between two separate interventions with a control group. This data.frame is saved as `mobile.data`. Data appears to be skewed, so you consider running a non-parametric test.
+
+Conduct a Kruskal-Wallis Test to determine whether there is a significant difference the three groups.
+
+```{r question_a4-setup}
+mobile.data <- data.frame(ID = 1:30,
+                          group = c(rep("control",10),rep("treatment1",10),rep("treatment2",10)),
+                          mobile.usage = c(7,5,9,7,8,5,10,8,9,7,8,5,6,9,8,7,6,3,2,8,7,5,9,8,7,4,10,6,9,9))
+```
+
+```{r question_a4, exercise=TRUE,exercise.lines = 8}
+#mobile.data
+```
+
+```{r question_a4-hint-1}
+Use the `kruskal.test()` function to conduct this analysis.
+
+```
+
+```{r question_a4-hint-2}
+Using this function is almost exactly the same as any other statistical test function.
+
+Next hint will show the solution...
+```
+
+```{r question_a4-solution}
+kruskal.test(mobile.usage ~ group,data = mobile.data)
+```
 

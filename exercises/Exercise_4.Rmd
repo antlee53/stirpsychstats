@@ -1,14 +1,15 @@
 ---
-title: "Exercise 4"
 output: learnr::tutorial
 runtime: shiny_prerendered
 ---
-
 ```{r setup, include=FALSE}
 library(learnr)
-library(tidyverse)
-knitr::opts_chunk$set(echo = FALSE)
+require(tidyverse)
+require(ggplot2)
 
+knitr::opts_chunk$set(echo = FALSE)
+```
+```{r eval = FALSE}
 checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
   
   envir_result
@@ -223,7 +224,7 @@ plot.output <- ggplot(data = plot.data,aes(x = var_x, y = var_y)) +
 ```
 
 ```{r question_2-check}
-checker()
+#checker()
 ```
 
 ### Question 3
@@ -262,7 +263,7 @@ plot.output <- ggplot(data = plot.data,aes(x = var_x, y = var_y)) +
 ```
 
 ```{r question_3-check}
-checker()
+#checker()
 ```
 
 ### Question 4
@@ -302,7 +303,7 @@ plot.output <- ggplot(data = plot.data,aes(x = var1, y = var2)) +
 ```
 
 ```{r question_4-check}
-checker()
+#checker()
 ```
 
 ### Question 5
@@ -340,7 +341,7 @@ plot.output
 ```
 
 ```{r question_5-check}
-checker()
+#checker()
 ```
 
 ### Question 6
@@ -382,7 +383,7 @@ plot.output <- ggplot(looking.data,aes(x = looking.time)) +
 ```
 
 ```{r question_6-check}
-checker()
+#checker()
 ```
 
 ## Advanced Exercises
@@ -398,7 +399,7 @@ looking.data <- data.frame(ID = 1:30,
 looking.time = c(11.88,19.11,13.32,23.96,10.91,7.44,13.89,11.01,11.36,16.34,9.49,4.29,3.59,3.42,12,6.95,13,8.63,3.01,5.09,13.58,3.07,26.14,10.5,17.87,14.78,1.33,11.05,3.53,0.68))
 ```
 
-```{r,echo = TRUE}
+```{r,echo = TRUE,eval = FALSE}
 ggplot(looking.data,aes(x = looking.time)) +
   geom_density() +
   xlab("Time (in Seconds)") +
@@ -484,7 +485,7 @@ To facet your graph by a single variable, add `facet_wrap()` to your plot. The f
 
 Below is an example of a scatterplot between the a car's engine displacement (in litres) and its fuel-efficiency driving on a motorway. We have split the plot by the type of car.
 
-```{r,echo = TRUE}
+```{r,echo = TRUE,eval = FALSE}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy)) + 
   facet_wrap(~ class)

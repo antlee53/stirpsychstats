@@ -478,7 +478,7 @@ Next hint will show the solution...
 ```
 
 ```{r question_4-solution}
-personality_cleaned <- filter(personality,ID,conscientiousness,neuroticism)
+personality_cleaned <- select(personality,ID,conscientiousness,neuroticism)
 ```
 
 ```{r question_4-check}
