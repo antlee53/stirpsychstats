@@ -722,11 +722,11 @@ summary(med.model)</code></pre>
 ## 
 ## Quasi-Bayesian Confidence Intervals
 ## 
-##                Estimate 95% CI Lower 95% CI Upper p-value    
-## ACME              0.000        0.000         0.00       1    
-## ADE               0.645        0.219         1.11  &lt;2e-16 ***
-## Total Effect      0.645        0.219         1.11  &lt;2e-16 ***
-## Prop. Mediated    0.000        0.000         0.00       1    
+##                Estimate 95% CI Lower 95% CI Upper p-value   
+## ACME              0.000        0.000         0.00   1.000   
+## ADE               0.631        0.171         1.05   0.008 **
+## Total Effect      0.631        0.171         1.05   0.008 **
+## Prop. Mediated    0.000        0.000         0.00   1.000   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -799,13 +799,13 @@ ggplot(data = plot.data,aes(x = term,y = estimate,ymin = se_low,ymax = se_high,c
 </tr>
 <tr class="even">
 <td>Average Direct Effect</td>
-<td>0.65 (0.22, 1.11)</td>
-<td>0</td>
+<td>0.63 (0.17, 1.05)</td>
+<td>0.008</td>
 </tr>
 <tr class="odd">
 <td>Total Effect</td>
-<td>0.65 (0.22, 1.11)</td>
-<td>0</td>
+<td>0.63 (0.17, 1.05)</td>
+<td>0.008</td>
 </tr>
 <tr class="even">
 <td>Proportion Mediated</td>
