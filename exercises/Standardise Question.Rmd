@@ -1,0 +1,62 @@
+---
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r}
+if(label == "question_4.1"){
+	correct_numbers <- numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
+	
+	correct_z.numbers <- (correct_numbers - 96.825)/11.96766
+	if(!exists("numbers")){
+		out <- list(message = "The object `numbers` appears to be altered. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(numbers,correct_numbers)){
+			out <- list(message = "The object `numbers` appears to be altered. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("z.numbers")){
+				out <- list(message = "There is no object saved as `z.numbers`. Make sure to save the standardised vector as this.", correct = FALSE, location = "append")
+			} else {
+				if(round(z.numbers[1],2) != round(correct_z.numbers[1],2)){
+					out <- list(message = "There object saved as `z.numbers` does not match the correct answer. Check there are no errors in the code.", correct = FALSE, location = "append")
+				}
+			}
+		}
+	}
+}
+```
+
+##Question 4
+
+Below is a vector of numbers. Standardise the numbers in this vector and save the result as `z.numbers`.
+
+```{r question_4.1-setup}
+numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
+```
+
+```{r question_4.1, exercise=TRUE,exercise.lines = 12}
+numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
+
+z.numbers
+```
+
+```{r question_4.1-hint-1}
+To standardise a list of numbers, you will need to calculate the mean and standard deviation of the numbers.
+```
+
+```{r question_4.1-hint-2}
+The equation to standardise a number is to subtract the mean, then divide the standard deviation.
+
+Next hint will show the solution...
+```
+
+```{r question_4.1-solution}
+numbers.mean <- mean(numbers)
+numbers.sd <- sd(numbers)
+
+z.numbers <- (numbers - numbers.mean)/numbers.sd
+```
+
+```{r question_4.1-check}
+checker()
+```

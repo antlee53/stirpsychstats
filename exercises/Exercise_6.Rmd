@@ -199,27 +199,6 @@ correct_memory.summary <- lm(recall ~ condition + age,data = memory.data) %>%
 		}
 	}
 }
-
-if(label == "question_4.1"){
-	correct_numbers <- numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
-	
-	correct_z.numbers <- (correct_numbers - 96.825)/11.96766
-	if(!exists("numbers")){
-		out <- list(message = "The object `numbers` appears to be altered. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-	} else {
-		if(!identical(numbers,correct_numbers)){
-			out <- list(message = "The object `numbers` appears to be altered. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("z.numbers")){
-				out <- list(message = "There is no object saved as `z.numbers`. Make sure to save the standardised vector as this.", correct = FALSE, location = "append")
-			} else {
-				if(round(z.numbers[1],2) != round(correct_z.numbers[1],2)){
-					out <- list(message = "There object saved as `z.numbers` does not match the correct answer. Check there are no errors in the code.", correct = FALSE, location = "append")
-				}
-			}
-		}
-	}
-}  
             
 return(out)
 }
@@ -355,41 +334,6 @@ checker()
 
 ### Question 4
 
-Below is a vector of numbers. Standardise the numbers in this vector and save the result as `z.numbers`.
-
-```{r question_4.1-setup}
-numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
-```
-
-```{r question_4.1, exercise=TRUE,exercise.lines = 12}
-numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
-
-z.numbers
-```
-
-```{r question_4.1-hint-1}
-To standardise a list of numbers, you will need to calculate the mean and standard deviation of the numbers.
-```
-
-```{r question_4.1-hint-2}
-The equation to standardise a number is to subtract the mean, then divide the standard deviation.
-
-Next hint will show the solution...
-```
-
-```{r question_4.1-solution}
-numbers.mean <- mean(numbers)
-numbers.sd <- sd(numbers)
-
-z.numbers <- (numbers - numbers.mean)/numbers.sd
-```
-
-```{r question_4.1-check}
-checker()
-```
-
-### Question 5
-
 Below is the code that runs an unstandardised linear regression between two variables from the data.frame `lm.data`. Edit the code to include a second predictor, `IV2`, to the model. Save the `summary()` output as `lm.summary`.
 
 ```{r question_4-setup}
@@ -426,7 +370,7 @@ lm.summary <- summary(lm.model)
 checker()
 ```
 
-### Question 6
+### Question 5
 
 You are interested in factors that predict women's engagement in collective action. You measure a number of personality traits, including Social Dominance Orientation (SDO), Hostile Sexism (HS) and Benevolent Sexism (BS). Run an unstandardised linear regression to determine the unique contribution each has on women's likelihood of engaging in collective action (CA). Save the regression output as `CA.summary`.
 
@@ -467,7 +411,7 @@ CA.summary <- summary(CA.model)
 checker()
 ```
 
-### Question 7
+### Question 6
 
 You want to know which predictor from the analysis in Question 6 has the biggest effect; however, the measures of SDO, HS, and BS are on different scales. Therefore, you are required to get standardised coefficients to determine which predictor has the largest effect. For the analysis in Question 6, get the standardised coefficients.
 
@@ -510,7 +454,7 @@ quiz(question("Which predictor has the largest effect on women's likelihood of e
         answer("None of the above"),allow_retry = TRUE))
 ```
 
-### Question 8
+### Question 7
 
 Using ggplot functions, create a scatterplot with a line-of-best-fit from the data from Question 5 and 6 between Social Dominance Orientation and likelihood of engaging in Collective Action.
 
@@ -547,7 +491,7 @@ ggplot(data = CA.data,aes(x = SDO,y = CA)) +
   geom_smooth(method = "lm")
 ```
 
-### Question 9
+### Question 8
 
 You conducted a study investigating whether priming participants with words about childhood increases the speed of recollection of childhood memory. Participants were assigned to either a prime or no prime condition (coded as -.5 and .5 respectively) before being asked to recall a childhood memory, with recall time being recorded. Run a standardised linear regression using the `lm()` and `lm.beta()` functions to determine whether recall time is associated with the priming condition, while controlling for participant's age. The data.frame for this question is called `memory.data`, save the output of the standardised linear regression as `memory.summary`.
 
