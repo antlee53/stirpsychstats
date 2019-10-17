@@ -167,11 +167,9 @@ correct_memory.data <- data.frame(ID = 1:34,
 	mutate(recall = abs(e) + 10*(age-25.76) + .2*condition) %>%
 	select(-e)
 
-correct_memory.lm <- lm(recall ~ condition + age,data = correct_memory.data)
-
-correct_memory.summary <- summary(correct_memory.lm)
-
-correct_memory.beta <- lm.beta(correct_memory.lm)
+correct_memory.summary <- lm(recall ~ condition + age,data = memory.data) %>%
+  lm.beta() %>%
+  summary()
 
 	if(!exists("memory.data")){
 			out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `memory.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
@@ -182,8 +180,8 @@ correct_memory.beta <- lm.beta(correct_memory.lm)
 			if(!exists("memory.summary")){
 				out <- list(message = "There is no object saved as `memory.summary`. Save the regression output as this object.", correct = FALSE, location = "append")
 			} else {
-				if(class(memory.summary) != "summary.lm"){
-					out <- list(message = "The object saved as `memory.summary` is not the output of a regression. Remember to use the `summary()` function.", correct = FALSE, location = "append")
+				if(!any(class(memory.summary) == "summary.lm")){
+					out <- list(message = "The object saved as `memory.summary` is not the output of a regression summary. Remember to use the `summary()` function.", correct = FALSE, location = "append")
 				} else {
 					if(!("condition" %in% rownames(memory.summary$coefficients))){
 						out <- list(message = "The predictor `condition` was not detected in the regression output. Make sure to add this variable in the formula within the `lm()` function.", correct = FALSE, location = "append")
@@ -192,19 +190,7 @@ correct_memory.beta <- lm.beta(correct_memory.lm)
 							out <- list(message = "Age does not appear to be controlled for in the model. Make sure to add this variable in the formula within the `lm()` function.", correct = FALSE, location = "append")
 						} else {
 							if(round(memory.summary$coefficients["age","Estimate"],2) != round(correct_memory.summary$coefficients["age","Estimate"],2)){
-								out <- list(message = "There appears to be an error in the output saved as `memory.summary`. The estimates in the model do not match the correct answer. Make sure this is the unstandardised linear regression.", correct = FALSE, location = "append")
-							} else {
-								if(!exists("memory.beta")){
-									out <- list(message = "There is no object saved as `memory.beta`. Save the output from the `lm.beta()` function as this object.", correct = FALSE, location = "append")
-								} else {
-									if(!("age" %in% names(memory.beta$standardized.coefficients)) | !("condition" %in% names(memory.beta$standardized.coefficients))){
-										out <- list(message = "The standardised variables do not match that of the original linear regression. Check there are no errors in the code.", correct = FALSE, location = "append")
-									} else {
-										if(round(memory.beta$standardized.coefficients["age"],2) != round(correct_memory.beta$standardized.coefficients["age"],2)){
-										out <- list(message = "There appears to be an error in the standardised coefficients saved as `memory.beta`. The estimates in the model do not match the correct answer. Check there are no errors in the code.", correct = FALSE, location = "append")
-										}
-									}
-								}
+								out <- list(message = "There appears to be an error in the output saved as `memory.summary`. The estimates in the model do not match the correct answer. Make sure this is the standardised linear regression and that there are no errors in the code.", correct = FALSE, location = "append")
 							}
 						}
 					}
@@ -243,7 +229,7 @@ tutorial_options(exercise.checker = checker)
 
 ## Introduction
 
-This is the sixth of the weekly exercises. These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R.If you are struggling, each exercise comes with a number of hints that may be helpful.
+This is the sixth of the weekly exercises. These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R. If you are struggling, each exercise comes with a number of hints that may be helpful.
 
 ## Basic Exercises
 
@@ -295,7 +281,7 @@ psychopathy = c(0.86,2.08,-1.18,-0.66,0.09,0.25,-0.92,-1.05,0.92,1.52,0.74,0.72,
 ```
 
 ```{r question_2, exercise=TRUE,exercise.lines = 8}
-darktriad.data
+#darktriad.data
 ```
 
 ```{r question_2-hint-1}
@@ -340,7 +326,7 @@ pain.data <- data.frame(pain1 = c(1,3,4,3,5,5,2,4,3,2,3,5,1,3,2,2,2,1,4,3,3,2,4,
 ```
 
 ```{r question_3, exercise=TRUE,exercise.lines = 12}
-pain.data
+#pain.data
 ```
 
 ```{r question_3-hint-1}
@@ -371,6 +357,10 @@ checker()
 
 Below is a vector of numbers. Standardise the numbers in this vector and save the result as `z.numbers`.
 
+```{r question_4.1-setup}
+numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
+```
+
 ```{r question_4.1, exercise=TRUE,exercise.lines = 12}
 numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
 
@@ -388,10 +378,10 @@ Next hint will show the solution...
 ```
 
 ```{r question_4.1-solution}
-mean(numbers)
-sd(numbers)
+numbers.mean <- mean(numbers)
+numbers.sd <- sd(numbers)
 
-z.numbers <- (numbers - 96.825)/11.96766
+z.numbers <- (numbers - numbers.mean)/numbers.sd
 ```
 
 ```{r question_4.1-check}
@@ -409,7 +399,7 @@ lm.data <- data.frame(DV = c(0.94,0.51,0.72,-0.27,1.76,1.72,1.85,-1.21,0.5,0.16,
 ```
 
 ```{r question_4, exercise=TRUE,exercise.lines = 6}
-lm.data
+#lm.data
 
 lm.model <- lm(DV ~ IV1,data = lm.data)
 
@@ -427,8 +417,6 @@ Next hint will show the solution...
 ```
 
 ```{r question_4-solution}
-lm.data
-
 lm.model <- lm(DV ~ IV1 + IV2,data = lm.data)
 
 lm.summary <- summary(lm.model)
@@ -453,7 +441,7 @@ CA.data <- data.frame(ID = 1:60,
 ```
 
 ```{r question_5, exercise=TRUE,exercise.lines = 8}
-CA.data
+#CA.data
 
 ```
 
@@ -499,39 +487,19 @@ CA.data <- data.frame(ID = 1:60,
 ```
 
 ```{r question_6-hint-1}
-You could manually compute standardised variables and enter them into a regression...
+The `lm.beta()` function takes the output of a linear regression from the `lm()` output and includes standardised coefficients.
 ```
 
 ```{r question_6-hint-2}
-The `lm.beta()` function takes the output of a linear regression from the `lm()` output.
+Remember to use the `summary()` function to see the results of the regression.
 
 Next hint will show the solution...
 ```
 
 ```{r question_6-solution}
-#Manually calculating standardised variables:
-summarise(CA.data,
-          CA.mean = mean(CA), CA.sd = sd(CA),
-          SDO.mean = mean(SDO), SDO.sd = sd(SDO),
-          HS.mean = mean(HS), HS.sd = sd(HS),
-          BS.mean = mean(BS), BS.sd = sd(BS))
-
-zCA.data <- mutate(CA.data,
-                   z.CA = (CA - -0.02416667)/1.040271,
-                   z.SDO = (SDO - 67.2)/26.4529,
-                   z.HS = (HS - 43.58333)/19.33846,
-                   z.BS = (BS - 44.28333)/16.30337)
-
-##Numbers above are taken from the `summarise()` output.
-
-CA.model <- lm(z.CA ~ z.SDO + z.HS + z.BS,data = zCA.data)
-
-CA.summary <- summary(CA.model)
-
-#Using `lm.beta()` function:
-CA.model <- lm(CA ~ SDO + HS + BS,data = CA.data)
-
-lm.beta(CA.model)
+lm(CA ~ SDO + HS + BS,data = CA.data) %>%
+  lm.beta() %>%
+  summary()
 ```
 
 ```{r question_6-quiz}
@@ -544,7 +512,7 @@ quiz(question("Which predictor has the largest effect on women's likelihood of e
 
 ### Question 8
 
-Using ggplot functions, create a scatterplot with a line-of-best-fit from the data from Question 5 and 6 between Social Dominance Orientation and likelihood of engaging in Collective Action. Save the plot as `CA.plot`.
+Using ggplot functions, create a scatterplot with a line-of-best-fit from the data from Question 5 and 6 between Social Dominance Orientation and likelihood of engaging in Collective Action.
 
 ```{r question_7-setup}
 CA.data <- data.frame(ID = 1:60,
@@ -574,16 +542,14 @@ Next hint will show the solution...
 ```
 
 ```{r question_7-solution}
-CA.plot <- ggplot(data = CA.data,aes(x = SDO,y = CA)) +
+ggplot(data = CA.data,aes(x = SDO,y = CA)) +
   geom_point() +
   geom_smooth(method = "lm")
-
-CA.plot
 ```
 
 ### Question 9
 
-You conducted a study investigating whether priming participants with words about childhood increases the speed of recollection of childhood memory. Participants were assigned to either a prime or no prime condition (coded as -.5 and .5 respectively) before being asked to recall a childhood memory, with recall time being recorded. Run an standardised linear regression using the `lm.beta()` function to determine whether recall time is associated with the priming condition, while controlling for participant's age. The data.frame for this question is called `memory.data`, save the output of the unstandardised linear regression as `memory.summary`, and save the output from the `lm.beta()` function as `memory.beta`.
+You conducted a study investigating whether priming participants with words about childhood increases the speed of recollection of childhood memory. Participants were assigned to either a prime or no prime condition (coded as -.5 and .5 respectively) before being asked to recall a childhood memory, with recall time being recorded. Run a standardised linear regression using the `lm()` and `lm.beta()` functions to determine whether recall time is associated with the priming condition, while controlling for participant's age. The data.frame for this question is called `memory.data`, save the output of the standardised linear regression as `memory.summary`.
 
 ```{r question_8-setup}
 memory.data <- data.frame(ID = 1:34,
@@ -610,11 +576,11 @@ Next hint will show the solution...
 ```
 
 ```{r question_8-solution}
-memory.lm <- lm(recall ~ condition + age,data = memory.data)
+memory.summary <- lm(recall ~ condition + age,data = memory.data) %>%
+  lm.beta() %>%
+  summary()
 
-memory.summary <- summary(memory.lm)
-
-memory.beta <- lm.beta(memory.lm)
+memory.summary
 ```
 
 ```{r question_8-check}
@@ -623,4 +589,185 @@ checker()
 
 ## Advanced Exercises
 
+This week's advanced exercises focuses on conducting analyses with a categorical DV.
 
+### Question A1 - Chi-Square Goodness of Fit Test
+
+As covered in the lecture series, the chi-square goodness of fit test is used to compare the observed distribution of a single categorical variable with an expected distribution.
+
+The function that performs a chi-square goodness of fit test is the `chisq.test()` function. There are two inputs we require. First, is a numeric vector with the observed frequencies. Second, is the probability of the expected frequencies (argument named `p`).
+
+For instance, if we conducted a study that counted the frequency of 100 people's favourite colour, and observed 20 people reported "red", 35 people reported "green", and 45 people reported "blue", then the first argument would be:
+
+```{r,echo = TRUE}
+c(20,35,45)
+```
+
+If we expect an equal distribution amongst the three colours, our expected probabilities would be represented as:
+
+```{r,echo = TRUE}
+c(1/3,1/3,1/3)
+```
+
+Altogether, to conduct the chi-square goodness of fit test, we input these vectors into the `chisq.test()` function:
+
+```{r,echo = TRUE}
+chisq.test(c(20,35,45),p = c(1/3,1/3,1/3))
+```
+
+In the code box below, you have conducted a study investigating people's choices when donating to four different charities. You expect that people would donate to each charity equally. Calculate the frequencies from the data, and conduct a chi-square goodness of fit test. To get the observed frequencies from a vector, you could use the `table()` function.
+
+```{r question_a1-setup}
+charity.data <- data.frame(ID = 1:80,
+                           charity = c(rep("Red Cross",24),rep("Marie Curie",22),rep("British Heart",18),rep("Anthony Nolan",16)))
+```
+
+```{r question_a1, exercise=TRUE,exercise.lines = 8}
+#charity.data
+```
+
+```{r question_a1-hint-1}
+To get the observed frequencies from the `table()` function, you need to enter the vector with the observed data. You can index a column from a data.frame using the `$` symbol.
+```
+
+```{r question_a1-hint-2}
+The expected frequency if we expect people would donate to each charity equally would be .25 for each charity. Make sure to set it to the argument named `p`.
+
+Next hint will show the solution...
+```
+
+```{r question_a1-solution}
+#The following code gets the observed frequencies
+table(charity.data$charity)
+
+#Putting this into the chisq.test() function gives:
+chisq.test(table(charity.data$charity),p = c(.25,.25,.25,.25))
+```
+
+### Question A2 - Chi-Square Test of Independence
+
+The chi-square test of independence is used to determine if the distribution of frequencies of a categorical DV are different at different levels of the IV.
+
+The chi-square test of independence uses the same function as the chi-square goodness of fit test, but the inputs are different. The function is smart enough to know which test to conduct given which inputs it receives.
+
+If you input a contingency table that has 2 variables, then the function knows to conduct a chi-square test of independence. Contingency tables can be created using the `table()` function. A two-variable contingency table will be created from a data.frame that only has two variables in it. Therefore, you can use the `select()` function (covered in Workbook 3) to create a data.frame that only includes the two variables that you're interested in.
+
+For example, the following code will create a contingency table of `var1` and `var2` in the data.frame called `data`:
+```{r,eval = FALSE,echo = TRUE}
+c.table <- select(data,var1,var2) %>%
+  table()
+```
+
+In the code box below, you measure the exercise levels (categorised into 4 categories) of a group of smokers and non-smokers. You predict that non-smokers are more likely to exercise than non-smokers.
+
+```{r question_a2-setup}
+smoker.data <- data.frame(ID = 1:150,
+                          smoker = c(rep("smoker",59),rep("non-smoker",91)),
+                          exercise = c('medium','low','low','none','medium','high','medium','low','none','none','low','low','high','medium','low','none','medium','high','medium','medium','none','high','medium','low','none','low','low','high','low','medium','low','medium','medium','medium','high','low','low','high','medium','low','low','medium','medium','low','medium','low','high','medium','low','high','low','low','medium','high','none','none','medium','low','high','low','medium','high','high','high','low','high','low','medium','medium','high','low','high','high','medium','medium','low','high','low','medium','high','low','low','high','low','medium','medium','low','low','medium','none','none','none','low','high','low','low','high','medium','high','medium','low','medium','medium','low','low','low','high','low','medium','high','high','high','low','medium','low','medium','low','medium','high','medium','low','high','none','low','none','low','none','low','low','low','high','high','low','high','high','low','low','medium','none','high','low','none','low','high','low','low','high','medium','medium','none'))
+```
+
+```{r question_a2, exercise=TRUE,exercise.lines = 8}
+#smoker.data
+```
+
+```{r question_a2-hint-1}
+Use the `table()` function to create a contingency table to use as the input for the `chisq.test()` function.
+```
+
+```{r question_a2-hint-2}
+You can use the following code to create the contingency table:
+  
+c.table <- select(smoker.data,smoker,exercise) %>%
+  table()
+
+Next hint will show the solution...
+```
+
+```{r question_a2-solution}
+c.table <- select(smoker.data,smoker,exercise) %>%
+  table()
+
+chisq.test(c.table)
+```
+
+### Question A3 - Logistic Regression
+
+A logistic regression is used when you have a categorical DV and a continuous IV. The most simple scenario is when the DV is binary (i.e., only has two categories). The two categories of the DV are usually coded as `0` and `1` (if it is not coded this way, R will usually recode it for you!).
+
+To conduct a logistic regression in R, you can use the `glm()` function. In this instance, 'glm' stands for Generalised Linear Model, and can be used for many different types of analysis. Like most analysis functions, the `glm()` function accepts a formula and a data.frame. We also need to tell the function which type of analysis to conduct. This is done via the `family` argument. To conduct a binomial logistic regression, we set this argument to "binomial". Much like with the `lm()` function, to view the results in an interpretable way you must use the `summary()` function.
+
+Altogether, this becomes:
+```{r,echo = TRUE,eval = FALSE}
+#The DV must be a categorical variable with two levels.
+model <- glm(DV ~ IV,data = data,family = "binomial")
+summary(model)
+```
+
+In the code box below, you have conducted a study on factors the predict whether someone is admitted to the emergency clinic at a hospital. You predict that the higher level of pain someone reports, the more likely they are to be admitted compared to refused. Conduct a logistic regression to test this hypothesis.
+
+```{r question_a3-setup}
+ae.data <- data.frame(ID = 1:80,
+                      admitted = c('Yes','Yes','No','No','No','Yes','No','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','No','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','No','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','Yes','Yes','Yes','No','No','No','Yes','Yes','Yes'),
+                      pain = c('4','3','5','3','-3','5','4','5','1','9','7','3','3','2','3','1','8','8','2','7','1','5','7','5','6','5','1','6','9','3','5','4','3','10','5','3','5','2','2','4','5','7','5','2','4','5','5','2','2','7','8','5','6','3','4','6','7','6','5','2','2','7','10','7','4','5','4','5','6','1','9','5','2','7','4','3','9','4','3','5'),
+                      blood.loss = c('0','460','0','0','0','0','142','0','0','0','438','0','247','0','389','0','0','27','355','0','354','0','0','229','0','0','0','0','0','0','183','353','106','0','25','161','0','466','262','0','155','70','0','204','281','0','0','364','486','341','98','157','329','0','62','0','0','33','93','0','0','0','0','387','331','0','314','0','218','202','0','411','0','255','0','438','74','398','359','471'),
+                      consciousness = c('8','4','8','8','1','2','9','7','9','3','7','5','1','7','7','2','5','1','4','6','3','9','7','7','6','9','7','5','2','7','6','4','9','1','4','6','7','4','9','9','3','9','6','5','1','6','2','7','9','8','4','1','6','7','8','2','5','9','6','5','4','7','8','9','4','6','1','3','3','5','1','5','7','3','9','4','2','9','2','4')
+                      )
+```
+
+```{r question_a3, exercise=TRUE,exercise.lines = 8}
+#ae.data
+```
+
+```{r question_a3-hint-1}
+Remember to include the `family` argument in the `glm()` function.
+```
+
+```{r question_a3-hint-2}
+Remember to use the `summary()` function to view the results of the model.
+
+Next hint will show the solution...
+```
+
+```{r question_a3-solution}
+model <- glm(admitted ~ pain,data = ae.data,family = "binomial")
+summary(model)
+```
+
+### Question A4 - Logistic Regression with Multiple Predictors
+
+Much like with a normal regression, there can be multiple predictors in a logistic regression.
+
+In the code box below, adapt the code to conduct a logistic regression to find the unique effects of pain ratings, amount of blood loss, and level of consciousness on frequency of being admitted to an emergency clinic.
+
+```{r question_a4-setup}
+ae.data <- data.frame(ID = 1:80,
+                      admitted = c('Yes','Yes','No','No','No','Yes','No','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','No','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','No','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','Yes','Yes','Yes','No','No','No','Yes','Yes','Yes'),
+                      pain = c('4','3','5','3','-3','5','4','5','1','9','7','3','3','2','3','1','8','8','2','7','1','5','7','5','6','5','1','6','9','3','5','4','3','10','5','3','5','2','2','4','5','7','5','2','4','5','5','2','2','7','8','5','6','3','4','6','7','6','5','2','2','7','10','7','4','5','4','5','6','1','9','5','2','7','4','3','9','4','3','5'),
+                      blood.loss = c('0','460','0','0','0','0','142','0','0','0','438','0','247','0','389','0','0','27','355','0','354','0','0','229','0','0','0','0','0','0','183','353','106','0','25','161','0','466','262','0','155','70','0','204','281','0','0','364','486','341','98','157','329','0','62','0','0','33','93','0','0','0','0','387','331','0','314','0','218','202','0','411','0','255','0','438','74','398','359','471'),
+                      consciousness = c('8','4','8','8','1','2','9','7','9','3','7','5','1','7','7','2','5','1','4','6','3','9','7','7','6','9','7','5','2','7','6','4','9','1','4','6','7','4','9','9','3','9','6','5','1','6','2','7','9','8','4','1','6','7','8','2','5','9','6','5','4','7','8','9','4','6','1','3','3','5','1','5','7','3','9','4','2','9','2','4')
+                      )
+```
+
+```{r question_a4, exercise=TRUE,exercise.lines = 8}
+#ae.data
+
+model <- glm(admitted ~ pain,data = ae.data,family = "binomial")
+summary(model)
+```
+
+```{r question_a4-hint-1}
+Adding additional predictors in the `glm()` function is identical to adding additional predictors in the `lm()` function.
+```
+
+```{r question_a4-hint-2}
+The formula becomes:
+  
+  admitted ~ pain + blood.loss + consciousness
+
+Next hint will show the solution...
+```
+
+```{r question_a4-solution}
+model <- glm(admitted ~ pain + blood.loss + consciousness,data = ae.data,family = "binomial")
+summary(model)
+```
