@@ -395,7 +395,7 @@ div.tocify {
   <a href="5LM2.html">6. LM2</a>
 </li>
 <li>
-  <a href="6mod_med.html">7. Mod Med</a>
+  <a href="6mod_med2.html">7. Mod Med</a>
 </li>
 <li>
   <a href="8sim.html">8. Sim</a>
@@ -572,7 +572,7 @@ total := direct + indirect
 <p>To run the SEM, we use the <code>sem()</code> function. Like all analyses done previously, we need to specify two things: the formula (which we saved as the object <code>sem.formula</code>) and the dataset.</p>
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)
 
-summary(med.sem.model)</code></pre>
+summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)</code></pre>
 <pre><code>## lavaan 0.6-3 ended normally after 19 iterations
 ## 
 ##   Optimization method                           NLMINB
@@ -586,6 +586,37 @@ summary(med.sem.model)</code></pre>
 ##   Degrees of freedom                                 0
 ##   Minimum Function Value               0.0000000000000
 ## 
+## Model test baseline model:
+## 
+##   Minimum Function Test Statistic                8.265
+##   Degrees of freedom                                 3
+##   P-value                                        0.041
+## 
+## User model versus baseline model:
+## 
+##   Comparative Fit Index (CFI)                    1.000
+##   Tucker-Lewis Index (TLI)                       1.000
+## 
+## Loglikelihood and Information Criteria:
+## 
+##   Loglikelihood user model (H0)               -664.498
+##   Loglikelihood unrestricted model (H1)       -664.498
+## 
+##   Number of free parameters                          5
+##   Akaike (AIC)                                1338.996
+##   Bayesian (BIC)                              1352.677
+##   Sample-size adjusted Bayesian (BIC)         1336.874
+## 
+## Root Mean Square Error of Approximation:
+## 
+##   RMSEA                                          0.000
+##   90 Percent Confidence Interval          0.000  0.000
+##   P-value RMSEA &lt;= 0.05                             NA
+## 
+## Standardized Root Mean Square Residual:
+## 
+##   SRMR                                           0.000
+## 
 ## Parameter Estimates:
 ## 
 ##   Information                                 Expected
@@ -593,23 +624,28 @@ summary(med.sem.model)</code></pre>
 ##   Standard Errors                             Standard
 ## 
 ## Regressions:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)
-##   stress ~                                            
-##     teacher    (c)   -0.103    0.109   -0.947    0.344
-##     stars.test (b)    0.008    0.043    0.181    0.856
-##   stars.test ~                                        
-##     teacher    (a)    0.631    0.229    2.759    0.006
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   stress ~                                                              
+##     teacher    (c)   -0.103    0.109   -0.947    0.344   -0.103   -0.091
+##     stars.test (b)    0.008    0.043    0.181    0.856    0.008    0.017
+##   stars.test ~                                                          
+##     teacher    (a)    0.631    0.229    2.759    0.006    0.631    0.250
 ## 
 ## Variances:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)
-##    .stress            9.169    1.214    7.550    0.000
-##    .stars.test       43.219    5.725    7.550    0.000
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .stress            9.169    1.214    7.550    0.000    9.169    0.992
+##    .stars.test       43.219    5.725    7.550    0.000   43.219    0.937
+## 
+## R-Square:
+##                    Estimate
+##     stress            0.008
+##     stars.test        0.063
 ## 
 ## Defined Parameters:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)
-##     indirect          0.005    0.027    0.181    0.856
-##     direct           -0.103    0.109   -0.947    0.344
-##     total            -0.098    0.105   -0.931    0.352</code></pre>
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##     indirect          0.005    0.027    0.181    0.856    0.005    0.004
+##     direct           -0.103    0.109   -0.947    0.344   -0.103   -0.091
+##     total            -0.098    0.105   -0.931    0.352   -0.098   -0.087</code></pre>
 <p>If we compare the results here to that of Workbook 7, we should see that we get the same results.</p>
 </div>
 <div id="plot-the-model." class="section level3">

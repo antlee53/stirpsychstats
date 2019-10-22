@@ -461,7 +461,7 @@ div.tocify {
 <pre class="r"><code>library(tidyverse)
 library(broom)
 library(lm.beta)
-library(mediation)</code></pre>
+library(psych)</code></pre>
 </div>
 <div id="reminder-moderation-interaction-effects" class="section level2">
 <h2>Reminder: Moderation (Interaction Effects)</h2>
@@ -473,7 +473,9 @@ library(mediation)</code></pre>
 <div id="clean-the-data-for-analysis." class="section level3">
 <h3>1. Clean the data for analysis.</h3>
 <p>First we must calculate the scores for each scale in the analysis from the individual items. As we have done previously, we can do this by using the <code>mutate()</code> function. More information about how these scales are scored can be found in the following research papers:</p>
-<p><a href="https://www.sciencedirect.com/science/article/pii/S0191886908000792">For more detail on the Statistic Anxiety Rating Scale (STARS), click here</a>. <a href="https://www.researchgate.net/publication/240290845_The_Multidimensional_Scale_of_Perceived_Social_Support">For more detail on the Perceived Social Support Scale, click here</a>. <a href="https://www.jstor.org/stable/2136404?seq=9#metadata_info_tab_contents">For more detail on the Stress Scale, click here</a>.</p>
+<p><a href="https://www.sciencedirect.com/science/article/pii/S0191886908000792">For more detail on the Statistic Anxiety Rating Scale (STARS), click here</a>.</p>
+<p><a href="https://www.researchgate.net/publication/240290845_The_Multidimensional_Scale_of_Perceived_Social_Support">For more detail on the Perceived Social Support Scale, click here</a>.</p>
+<p><a href="https://www.jstor.org/stable/2136404?seq=9#metadata_info_tab_contents">For more detail on the Stress Scale, click here</a>.</p>
 <pre class="r"><code>data1.vars &lt;- data %&gt;%
   mutate(stars.test = stars.1 + stars.4 + stars.8 + stars.10 + stars.13 + stars.15 + stars.21 + stars.22,
          support = support.1 + support.2 + support.3 + support.4 + support.5 + support.6 + support.7 + support.8 + support.9 + support.10 + support.11 + support.12,
@@ -577,12 +579,12 @@ lm.beta(model1) %&gt;% summary()</code></pre>
 <p>We then can plot the regression line adding in a ‘group’ and ‘colour’ aesthetic to separate our data of participants with high and low support.</p>
 <pre class="r"><code>ggplot(plot.data,mapping = aes(x = stars.test,y = stress,group = cat.support,colour = cat.support)) +
   geom_smooth(method = &quot;lm&quot;)</code></pre>
-<p><img src="6mod_med_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="6mod_med2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>Even better is if can visualise the raw data in a scatterplot:</p>
 <pre class="r"><code>ggplot(plot.data,mapping = aes(x = stars.test,y = stress,group = cat.support,colour = cat.support)) +
   geom_smooth(method = &quot;lm&quot;) +
   geom_point()</code></pre>
-<p><img src="6mod_med_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="6mod_med2_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 <div id="write-up-analysis." class="section level3">
 <h3>4. Write-up analysis.</h3>
@@ -655,10 +657,13 @@ lm.beta(model1) %&gt;% summary()</code></pre>
 </div>
 <div id="run-statistical-test-1" class="section level3">
 <h3>2. Run statistical test</h3>
-<p>Remember, mediation is when the effect of one IV could be explained through a third variable (mediation). If there is an effect in a model without the mediator, but that effect is reduced (or disappears) when the mediator is included, there is a chance the mediation is happening.</p>
+<p>Remember, mediation is when the effect of one IV could be explained through a third variable (mediation). If there is an effect in a model without the mediator, but that effect is reduced (or disappears) when the mediator is included, there is a chance the mediation is happening. In order to check whether our variables meet these conditions, we need to conduct a number of linear regressions.</p>
+<div id="model-1" class="section level4">
+<h4>Model 1</h4>
 <p>Here, we test whether there is an association between the predictor (teacher comprehension) and the outcome variable (stress):</p>
-<pre class="r"><code>model.y &lt;- lm(stress ~ teacher,data = data2.clean)
-summary(model.y)</code></pre>
+<pre class="r"><code>lm(stress ~ teacher,data = data2.clean) %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = stress ~ teacher, data = data2.clean)
@@ -668,18 +673,22 @@ summary(model.y)</code></pre>
 ## -8.1611 -2.0385  0.0842  1.8096  7.3295 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 24.65168    0.98602  25.001   &lt;2e-16 ***
-## teacher     -0.09811    0.10629  -0.923    0.358    
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 24.65168      0.00000    0.98602  25.001   &lt;2e-16 ***
+## teacher     -0.09811     -0.08689    0.10629  -0.923    0.358    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 3.055 on 112 degrees of freedom
 ## Multiple R-squared:  0.00755,    Adjusted R-squared:  -0.001311 
 ## F-statistic: 0.852 on 1 and 112 DF,  p-value: 0.358</code></pre>
+</div>
+<div id="model-2" class="section level4">
+<h4>Model 2</h4>
 <p>Here, we test whether including the mediator (anxiety about taking a stats exam) in the model changes the relationship between the predictor (teacher comprehension) and the outcome variable (stress):</p>
-<pre class="r"><code>model.y2 &lt;- lm(stress ~ teacher + stars.test,data = data2.clean)
-summary(model.y2)</code></pre>
+<pre class="r"><code>lm(stress ~ teacher + stars.test,data = data2.clean) %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = stress ~ teacher + stars.test, data = data2.clean)
@@ -689,19 +698,23 @@ summary(model.y2)</code></pre>
 ## -8.2186 -2.0540  0.0899  1.7750  7.3358 
 ## 
 ## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 24.483436   1.365212  17.934   &lt;2e-16 ***
-## teacher     -0.103053   0.110261  -0.935    0.352    
-## stars.test   0.007827   0.043718   0.179    0.858    
+##              Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 24.483436     0.000000   1.365212  17.934   &lt;2e-16 ***
+## teacher     -0.103053    -0.091265   0.110261  -0.935    0.352    
+## stars.test   0.007827     0.017483   0.043718   0.179    0.858    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 3.069 on 111 degrees of freedom
 ## Multiple R-squared:  0.007837,   Adjusted R-squared:  -0.01004 
 ## F-statistic: 0.4384 on 2 and 111 DF,  p-value: 0.6462</code></pre>
+</div>
+<div id="model-3" class="section level4">
+<h4>Model 3</h4>
 <p>Also, in order for there to be a mediation, we must observe a relationship between the predictor (teacher comprehension) and the mediator (anxiety about taking a stats exam):</p>
-<pre class="r"><code>model.m &lt;- lm(stars.test ~ teacher,data = data2.clean)
-summary(model.m)</code></pre>
+<pre class="r"><code>lm(stars.test ~ teacher,data = data2.clean) %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = stars.test ~ teacher, data = data2.clean)
@@ -711,123 +724,58 @@ summary(model.m)</code></pre>
 ## -17.2811  -3.7662   0.1951   4.4183  14.3499 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  21.4953     2.1404  10.043  &lt; 2e-16 ***
-## teacher       0.6310     0.2307   2.735  0.00726 ** 
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  21.4953       0.0000     2.1404  10.043  &lt; 2e-16 ***
+## teacher       0.6310       0.2502     0.2307   2.735  0.00726 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## Residual standard error: 6.633 on 112 degrees of freedom
 ## Multiple R-squared:  0.06259,    Adjusted R-squared:  0.05422 
 ## F-statistic: 7.478 on 1 and 112 DF,  p-value: 0.007264</code></pre>
+</div>
+<div id="mediation-analysis" class="section level4">
+<h4>Mediation Analysis</h4>
 <p>While we may or may not meet the conditions for a mediation above, we will continue with the analysis to demonstrate the process of conducting a mediation analysis.</p>
-<p>In order to conduct a mediation analysis in R, we will load the <code>medation</code> package, which can test for a mediation via bootstrapping. If you haven’t installed the <code>mediation</code> package yet, make sure to do this before loading the <code>mediation</code> package.</p>
-<pre class="r"><code>library(mediation)</code></pre>
-<p>The function that runs the mediation analysis is aptly named <code>mediate()</code>. If you read the documentation for this function using <code>help(mediate)</code>, you will see this function takes two mandatory arguments: <code>model.m</code> and <code>model.y</code>, as well as a whole list of other arguments that have defaults. For now, we will go with the defaults.</p>
-<p>The <code>model.m</code> argument is a model where the IV predicts the mediator. The <code>model.y</code> argument is a model where both the IV and mediator predict the DV. As it so happens, we have already created both these models in running the checks above!</p>
-<p>By plugging both these into the <code>mediate()</code> function, and including additional arguments that tells the function the variable names of the IV (called <code>treat</code> here) and the <code>mediator</code>, it will run the simulations and tell us the proportion mediated.</p>
-<p>For full documentation of the <code>mediate()</code> function, read <code>help(mediate)</code> and <code>help(summary.mediate)</code>. Note: the mediation function does not work with output that has gone through the <code>lm.beta()</code> function.</p>
-<pre class="r"><code>set.seed(53)
-
-med.model &lt;- mediate(model.y2,model.m,treat = &quot;teacher&quot;,mediator = &quot;stars.test&quot;)
-summary(med.model)</code></pre>
+<p>In order to conduct a mediation analysis in R, we will load the <code>psych</code> package. If you haven’t installed the <code>psych</code> package yet, make sure to do this before loading the <code>psych</code> package.</p>
+<pre class="r"><code>library(psych)</code></pre>
+<p>The function that runs the mediation analysis is aptly named <code>mediate()</code>. Like all analysis functions, the <code>mediate()</code> function accepts a formula and a data.frame, but also a couple of options that we will want to change. For the formula, the mediate function takes a specific form, where the mediator is put inside brackets on the right-hand side of the <code>~</code> symbol:</p>
+<pre class="r"><code>DV ~ IV + (Mediator)</code></pre>
+<p>So for our analysis, the code becomes the following. Note, we also want to set the ‘std’ argument to <code>TRUE</code> to ensure we receive standardised estimates, and the ‘plot’ argument to <code>FALSE</code> so we are only seeing the numeric output (we will see the plot later).</p>
+<pre class="r"><code>mediate(stress ~ teacher + (stars.test),data = data2.clean,std = TRUE,plot = FALSE)</code></pre>
 <pre><code>## 
-## Causal Mediation Analysis 
+## Mediation/Moderation Analysis 
+## Call: mediate(y = stress ~ teacher + (stars.test), data = data2.clean, 
+##     std = TRUE, plot = FALSE)
 ## 
-## Quasi-Bayesian Confidence Intervals
+## The DV (Y) was  stress . The IV (X) was  teacher . The mediating variable(s) =  stars.test .
 ## 
-##                Estimate 95% CI Lower 95% CI Upper p-value   
-## ACME              0.000        0.000         0.00   1.000   
-## ADE               0.634        0.167         1.08   0.002 **
-## Total Effect      0.634        0.167         1.08   0.002 **
-## Prop. Mediated    0.000        0.000         0.00   1.000   
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Total effect(c) of  teacher  on  stress  =  -0.09   S.E. =  0.09  t  =  -0.92  df=  112   with p =  0.36
+## Direct effect (c&#39;) of  teacher  on  stress  removing  stars.test  =  -0.09   S.E. =  0.1  t  =  -0.93  df=  111   with p =  0.35
+## Indirect effect (ab) of  teacher  on  stress  through  stars.test   =  0 
+## Mean bootstrapped indirect effect =  0  with standard error =  0.03  Lower CI =  -0.04    Upper CI =  0.06
+## R = 0.09 R2 = 0.01   F = 0.44 on 2 and 111 DF   p-value:  0.646 
 ## 
-## Sample Size Used: 114 
-## 
-## 
-## Simulations: 1000</code></pre>
-<p>In the table above, ‘ACME’ refers to the mediation effect, ‘ADE’ refers to the direct effect, ‘Total Effect’ refers to the size of both the mediation and direct effect together, while the ‘Prop. Mediated’ refers to the proprotion of the total effect that could be explained by mediation. Note that conducting a mediation analysis this way requires resampling of the data - as such, the exact numbers may vary slightly depending on randomness. As long as there are no issues with the data though, the numbers should all be fairly similar. If you want to check whether you have the exact same numbers as above, run the line of code <code>set.seed(53)</code> before the <code>mediate()</code> function.</p>
+##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
+<p>Most of the information above is what we have encountered previously. The main information we are interested in this output is the line on the mean bootstrapped indirect effect. A large indirect effect (and consequently a greater drop between the total effect and the direct effect) would indicate that mediation is occuring. Since we are bootstrapping, we can tell the significance through confidence intervals. If the range between the lower CI and the upper CI contains zero, then the indirect effect is not significant. If this range does not contain zero, then we have a significant mediation effect.</p>
+</div>
 </div>
 <div id="plot-data-1" class="section level3">
 <h3>3. Plot data</h3>
 <div id="path-diagram" class="section level4">
 <h4>Path Diagram</h4>
-<p>For mediation, there’s no good way to plot the raw data that visualises the mediation. The most common way to visualise a mediated effect is through a path diagram. You do not need <code>ggplot2</code> to do this, for instance, the plot below was made using powerpoint:</p>
-<div class="figure">
-<img src="" alt="Image currently unavailable." />
-<p class="caption">Image currently unavailable.</p>
-</div>
-<p>In Workbook 9, we will learn a function that can make some crude path diagrams through running a mediation via the <code>lavaan</code> package.</p>
-</div>
-<div id="forrest-plot" class="section level4">
-<h4>Forrest Plot</h4>
-<p>Another (uncommon) way to visualise a mediation is by using a forrest plot. Forrest plots show the estimates of a given model and their standard errors. If there is a mediation, we should expect the estimate for the IV to drop in the model with the mediator compared to the model without the mediator. See if you can follow the code below - there are some quite advanced things happening here, so do not be concerned if you don’t understand what everything does.</p>
-<pre class="r"><code>plot.y.model &lt;- model.y %&gt;% 
-  tidy() %&gt;%
-  mutate(se_low = estimate - std.error,
-         se_high = estimate + std.error,
-         model = &quot;Model without Mediator&quot;) %&gt;%
-  dplyr::select(term,estimate,std.error,se_low,se_high,model)
-
-plot.y2.model &lt;- model.y2 %&gt;%
-  tidy() %&gt;% 
-  mutate(se_low = estimate - std.error,
-         se_high = estimate + std.error,
-         model = &quot;Model with Mediator&quot;) %&gt;%
-  dplyr::select(term,estimate,std.error,se_low,se_high,model)
-
-plot.data &lt;- rbind(plot.y.model,plot.y2.model) %&gt;%
-  filter(term != &quot;(Intercept)&quot;)
-
-ggplot(data = plot.data,aes(x = term,y = estimate,ymin = se_low,ymax = se_high,colour = model)) +
-    geom_pointrange(
-        size = .5,
-        position = position_dodge(.3)) +
-        geom_hline(yintercept = 0) +
-        coord_flip()</code></pre>
-<p><img src="6mod_med_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>For mediation, there’s no good way to plot the raw data that visualises the mediation. The most common way to visualise a mediated effect is through a path diagram. You can do this directly in the <code>mediate()</code> function by setting the ‘plot’ argument to <code>TRUE</code>.</p>
+<pre class="r"><code>mediate(stress ~ teacher + (stars.test),data = data2.clean,std = TRUE,plot = TRUE) %&gt;% plot()</code></pre>
+<p><img src="6mod_med2_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 </div>
 </div>
 <div id="write-up-analysis.-1" class="section level3">
 <h3>4. Write-up analysis.</h3>
-<p>Here is an example of a write-up for the mediation analysis above:</p>
+<p>There are several things you need to include when writing up a mediation analysis. Writing up a mediation analysis includes the write-up for each individual models with and without the mediator (Model 1 and Model 2 above - these numbers are also included in the output for the <code>mediate()</code> function), and also the estimated indirect effect and associated confidence intervals. Usually, you would want to accompany the write-up with a path diagram such as the one above. It does not make much sense to write-up the analysis above (as we failed to meet the criteria for a mediation in the first instance!), but if we were to do it anyway, it may go something like this:</p>
 <blockquote>
-<p>A mediation analysis is reported in Table 2. We found that anxiety related to taking a statistics test did not significantly mediate the relationship between comprehension of statistics teachers and stress.</p>
+<p>In the model where teacher comprehension predicted variance in stress, the effect of teacher comprehension was not significant (beta = -.09, p = 358). When including anxiety about taking a statistics exam into the model, the effect of teacher comprehension did not change (beta = -.09, p = 352). Mediation analysis revealled a non-significant mediating effect of anxiety of taking a statistics exam on the association between teacher comprehension and stress (mean bootstrapped indirect effect = .01, 95% CI = -.05, .06).</p>
 </blockquote>
-<p>Table 2. Causal Mediation Analysis testing the mediating effect of anxiety related to taking a statistics test on the relationship between comprehension of statistics teachers and stress.</p>
-<table>
-<thead>
-<tr class="header">
-<th>Effect</th>
-<th>Estimate (95% CI)</th>
-<th>p-value</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Average Mediated Effect</td>
-<td>0 (0, 0)</td>
-<td>1</td>
-</tr>
-<tr class="even">
-<td>Average Direct Effect</td>
-<td>0.63 (0.17, 1.08)</td>
-<td>0.002</td>
-</tr>
-<tr class="odd">
-<td>Total Effect</td>
-<td>0.63 (0.17, 1.08)</td>
-<td>0.002</td>
-</tr>
-<tr class="even">
-<td>Proportion Mediated</td>
-<td>0 (0, 0)</td>
-<td>1</td>
-</tr>
-</tbody>
-</table>
+<p>Note: Many of the associations for mediation to occur are not significant above, so this write-up may not make a lot of sense. It is sometimes also easier to report the separate models in a table.</p>
 </div>
 </div>
 </div>

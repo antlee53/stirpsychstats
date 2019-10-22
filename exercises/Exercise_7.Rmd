@@ -5,7 +5,7 @@ runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
-library(mediation)
+library(psych)
 library(learnr)
 library(lm.beta)
 library(tidyverse)
@@ -63,9 +63,9 @@ correct_marmoset.data <- data.frame(ID = 1:100,
 			assertiveness = round(-.8*i + assertiveness,2)) %>%
 	dplyr::select(-i)
 
-correct_marmoset.data.c <- mutate(correct_marmoset.data,
-					c.patience = patience - -0.2334,
-					c.age = age - 7.54)
+correct_marmoset.data.c <- mutate(marmoset.data,
+                    c.patience = scale(patience) %>% as.vector(),
+                    c.age = scale(age) %>% as.vector())
 
 correct_marmoset.beta <- lm(assertiveness ~ c.patience*c.age,data = correct_marmoset.data.c) %>%
   lm.beta() %>%
@@ -79,12 +79,12 @@ if(!exists("marmoset.data")){
 		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `marmoset.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
 	} else {
 		if(!exists("marmoset.beta")){
-			out <- list(message = "Make sure to save the standardised betas from the `lm.beta()` function as the object `marmoset.beta`.", correct = FALSE, location = "append")
+			out <- list(message = "Make sure to save the standardised betas from the `lm.beta()` and `summary()` function as the object `marmoset.beta`.", correct = FALSE, location = "append")
 		} else {
 			if(!("summary.lm.beta" %in% class(marmoset.beta))){
-				out <- list(message = "Make sure to save the standardised betas from the `lm.beta()` function as the object `marmoset.beta`.", correct = FALSE, location = "append")
+				out <- list(message = "Make sure to save the standardised betas from the `lm.beta()` and `summary()` function as the object `marmoset.beta`.", correct = FALSE, location = "append")
 			} else {
-				if(!(.31 %in% round(marmoset.beta$coefficients[,"Standardized"],2))){
+				if(!(-.70 %in% round(marmoset.beta$coefficients[,"Standardized"],2))){
 					out <- list(message = "The estimated coefficients saved as `lm.beta` do not match the correct answer. Check there are no errors in the code.", correct = FALSE, location = "append")
 				}
 			}
@@ -101,11 +101,17 @@ correct_imitation.data <- data.frame(ID = 1:60,
 	imitation = c(0.7,0.79,0.72,0.73,0.26,0.46,0.23,0.56,0.06,0.86,0.68,0.94,0.55,0.75,0.13,1,0.35,0.49,0.05,1,0,0,0.34,0.38,0,0.49,0.57,0.34,0.8,0.52,0.5,0.29,0.48,0.45,0.54,0,1,0.16,0.31,0.34,0.21,0.16,0.2,0.75,0.73,0.3,0.47,0.22,0.29,0.25,0.2,0.36,0.33,0.45,0.7,0,0.25,0.55,0.58,0.58),
 	problem_solving = c(7,6,7,6,4,2,0,2,5,6,6,10,5,7,0,9,7,4,9,9,1,3,1,2,5,3,12,10,13,11,3,1,0,12,6,1,20,0,6,9,2,3,6,16,10,3,1,2,0,3,6,1,4,1,7,2,7,10,1,0))
 	
-correct_y.model <- lm(problem_solving ~ age,data = correct_imitation.data)
+correct_y.model <- lm(problem_solving ~ age,data = correct_imitation.data) %>%
+  lm.beta() %>%
+  summary()
 
-correct_y2.model <- lm(problem_solving ~ age + imitation,data = correct_imitation.data)
+correct_y2.model <- lm(problem_solving ~ age + imitation,data = correct_imitation.data) %>%
+  lm.beta() %>%
+  summary()
 
-correct_m.model <- lm(imitation ~ age,data = correct_imitation.data)
+correct_m.model <- lm(imitation ~ age,data = correct_imitation.data) %>%
+  lm.beta() %>%
+  summary()
 
 if (!exists("imitation.data")){
 	out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
@@ -122,16 +128,16 @@ if (!exists("imitation.data")){
 				if(!exists("m.model")){
 					out <- list(message = "No object saved as `m.model`.", correct = FALSE, location = "append")
 				} else {
-					if((class(y.model) != "lm") | (class(y2.model) != "lm") | (class(m.model) != "lm")){
-						out <- list(message = "One of `y.model`, `y2.model`, or `m.model` is not the output from the `lm()` function. Ensure that this is the case.", correct = FALSE, location = "append")
+					if(!("summary.lm.beta" %in% class(y.model)) | !("summary.lm.beta" %in% class(y2.model)) | !("summary.lm.beta" %in% class(m.model))){
+						out <- list(message = "One of `y.model`, `y2.model`, or `m.model` is not the output from the `lm()` function after using the `lm.beta()` and `summary()` functions. Ensure that this is the case.", correct = FALSE, location = "append")
 					} else {
-						if(!("age" %in% names(y.model$coefficients) & !("imitation" %in% names(y.model$coefficients)))){
+						if(!(.29 %in% round(y.model$coefficients[,"Standardized"],2))){
 							out <- list(message = "The object `y.model` does not match the correct answer.", correct = FALSE, location = "append")
 						} else {
-							if(!("age" %in% names(y2.model$coefficients) & ("imitation" %in% names(y2.model$coefficients)))){
+							if(!(.56 %in% round(y2.model$coefficients[,"Standardized"],2))){
 								out <- list(message = "The object `y2.model` does not match the correct answer.", correct = FALSE, location = "append")
 							} else {
-								if(!("age" %in% names(m.model$coefficients))){
+								if(!(.56 %in% round(m.model$coefficients[,"Standardized"],2))){
 									out <- list(message = "The object `m.model` does not match the correct answer.", correct = FALSE, location = "append")
 								}
 							}
@@ -152,12 +158,6 @@ correct_imitation.data <- data.frame(ID = 1:60,
 	age = c(9,8,4,10,8,9,3,9,5,7,9,9,10,7,6,8,4,7,5,10,3,3,8,8,6,10,6,7,9,5,9,5,8,3,7,4,10,5,4,5,7,3,6,9,7,9,5,7,8,6,7,5,5,3,8,4,9,8,8,3),
 	imitation = c(0.7,0.79,0.72,0.73,0.26,0.46,0.23,0.56,0.06,0.86,0.68,0.94,0.55,0.75,0.13,1,0.35,0.49,0.05,1,0,0,0.34,0.38,0,0.49,0.57,0.34,0.8,0.52,0.5,0.29,0.48,0.45,0.54,0,1,0.16,0.31,0.34,0.21,0.16,0.2,0.75,0.73,0.3,0.47,0.22,0.29,0.25,0.2,0.36,0.33,0.45,0.7,0,0.25,0.55,0.58,0.58),
 	problem_solving = c(7,6,7,6,4,2,0,2,5,6,6,10,5,7,0,9,7,4,9,9,1,3,1,2,5,3,12,10,13,11,3,1,0,12,6,1,20,0,6,9,2,3,6,16,10,3,1,2,0,3,6,1,4,1,7,2,7,10,1,0))
-	
-correct_y.model <- lm(problem_solving ~ age,data = correct_imitation.data)
-
-correct_y2.model <- lm(problem_solving ~ age + imitation,data = correct_imitation.data)
-
-correct_m.model <- lm(imitation ~ age,data = correct_imitation.data)
 
 if (!exists("imitation.data")){
 	out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
@@ -165,59 +165,19 @@ if (!exists("imitation.data")){
 	if(!identical(imitation.data,correct_imitation.data)){
 		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
 	} else {
-		if(!exists("y.model")){
-			out <- list(message = "No object saved as `y.model`.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("y2.model")){
-				out <- list(message = "No object saved as `y2.model`.", correct = FALSE, location = "append")
-			} else {
-				if(!exists("m.model")){
-					out <- list(message = "No object saved as `m.model`.", correct = FALSE, location = "append")
-				} else {
-					if((class(y.model) != "lm") | (class(y2.model) != "lm") | (class(m.model) != "lm")){
-						out <- list(message = "One of `y.model`, `y2.model`, or `m.model` is not the output from the `lm()` function. Ensure that this is the case.", correct = FALSE, location = "append")
-					} else {
-						if(!("age" %in% names(y.model$coefficients) & !("imitation" %in% names(y.model$coefficients)))){
-							out <- list(message = "The object `y.model` appears to have been altered. Do not alter this object.", correct = FALSE, location = "append")
-						} else {
-							if(!("age" %in% names(y2.model$coefficients) & ("imitation" %in% names(y2.model$coefficients)))){
-								out <- list(message = "The object `y2.model` appears to have been altered. Do not alter this object.", correct = FALSE, location = "append")
-							} else {
-								if(!("age" %in% names(m.model$coefficients))){
-									out <- list(message = "The object `m.model` appears to have been latered. Do not alter this object.", correct = FALSE, location = "append")
-								} else {
 									if(!exists("med.model")){
 										out <- list(message = "No object saved as `med.model`. Save the output from the `mediate()` function as `med.model`.", correct = FALSE, location = "append")
 									} else {
-										if(class(med.model) != "mediate"){
+										if(!("mediate" %in% class(med.model))){
 											out <- list(message = "The object saved as `med.model` does not appear to be the output from the `mediate()` function. Check that there are no errors in the code.", correct = FALSE, location = "append")
 										} else {
-											if(!identical(med.model$model.m,m.model)){
-												out <- list(message = "The model specified for the 'model.m' argument does not match the correct answer.", correct = FALSE, location = "append")
-											} else {
-												if(!identical(med.model$model.y,y2.model)){
-													out <- list(message = "The model specified for the 'model.y' argument does not match the correct answer.", correct = FALSE, location = "append")
-												} else {
-													if(med.model$treat != "age"){
-														out <- list(message = "The IV specified in the `mediate()` function does not match the correct answer.", correct = FALSE, location = "append")
-													} else {
-														if(med.model$mediator != "imitation"){
-															out <- list(message = "The mediator specified in the `mediate()` function does not match the correct answer.", correct = FALSE, location = "append")
-														}
-													}
-												}
+											if(round(med.model$ab,2) != .31){
+												out <- list(message = "There results from the mediate() function does not match the correct answer. Please check there are no errors in the code.", correct = FALSE, location = "append")
 											}
 										}
 									}
 								}
 							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
 	
 }
     
@@ -263,16 +223,17 @@ Next hint will show the solution...
 ```
 
 ```{r question_1-solution}
-#A possible solution:
-
-summarise(data,
-          var1_mean = mean(var1),
-          var2_mean = mean(var2))
-
-data2 <- mutate(data,c.var1 = var1 - 53.9625,
-                c.var2 = var2 - 53.0875)
+data2 <- mutate(data,c.var1 = scale(var1,center = TRUE) %>% as.vector(),
+                c.var2 = scale(var2,center = TRUE) %>% as.vector())
 lm.model <- lm(DV ~ c.var1*c.var2,data = data2)
-#Values listed above are the means for each variables. Subtracting these from the values is the same a centering them.
+
+summary(lm.model)
+
+#To get standardised results:
+lm.model <- lm(DV ~ c.var1*c.var2,data = data2) %>%
+  lm.beta()
+
+summary(lm.model)
 ```
 
 ```{r question_1-check}
@@ -301,35 +262,27 @@ marmoset.data <- data.frame(ID = 1:100,
 ```
 
 ```{r question_2-hint-1}
-When including an interaction term, the variables need to be rescaled in some way...
+The variables need to be centred to ensure that the main effect and the interaction term are not too highly correlated.
 ```
 
 ```{r question_2-hint-2}
-The variables need to be centred to ensure that the main effect and the interaction term are not too highly correlated.
+Use the `lm.beta()` function to get the standardised coefficients.
 
 Next hint will show the solution...
 ```
 
 ```{r question_2-solution}
-#A possible solution:
-
-##Get means to center variables.
-marmoset.data2 <- summarise(marmoset.data,
-					patience_m = mean(assertiveness),
-					age_m = mean(age))
-
-marmoset.data2
-
 ##Center Variables.
 marmoset.data.c <- mutate(marmoset.data,
-					c.patience = patience - -0.2334,
-					c.age = age - 7.54)
+					c.patience = scale(patience) %>% as.vector(),
+					c.age = scale(age) %>% as.vector())
 
 ##Run regression and get standardised coefficients.
 marmoset.beta <- lm(assertiveness ~ c.patience*c.age,data = marmoset.data.c) %>%
   lm.beta() %>%
   summary()
 
+marmoset.beta
 ```
 
 ```{r question_2-check}
@@ -337,6 +290,8 @@ checker()
 ```
 
 ### Question 3
+
+Plot the analysis from Question 2 to determine the correct pattern of results.
 
 ```{r question_3-setup}
 marmoset.data <- data.frame(ID = 1:100,
@@ -362,16 +317,13 @@ A good way to determine the nature of an interaction is to plot the data...
 ```{r question_3-hint-2}
 You can use the following code to plot the data:
 
+#Get mean to split the plot by the moderator.
 mean(marmoset.data$patience)  
   
-plot.data_modhigh <- filter(marmoset.data,patience > -0.0043)
-plot.data_modlow <- filter(marmoset.data,patience < -0.0043)
+plot.data <- mutate(marmoset.data,cat.patience = ifelse(patience > -0.0043,"high patience","low patience"))
 
-ggplot(mapping = aes(x = age, y = assertiveness)) +
-  geom_smooth(data = plot.data_modhigh,method = "lm",colour = "red") +
-  geom_point(data = plot.data_modhigh,colour = "red") +
-  geom_smooth(data = plot.data_modlow, method = "glm",colour = "blue") +
-  geom_point(data = plot.data_modlow,colour = "blue")
+ggplot(plot.data,mapping = aes(x = age, y = assertiveness,group = cat.patience,colour = cat.patience)) +
+  geom_smooth(method = "lm")
 
 #The plot above splits the dataset into high and low scorers on patience, then plots the relationship between age and assertiveness for each. Note that red denotes high patience, while blue denotes low patience.
 ```
@@ -379,14 +331,14 @@ ggplot(mapping = aes(x = age, y = assertiveness)) +
 ```{r question_3-quiz}
 quiz(question("The correct interpretation for the analysis above is...",
      answer("There is no significant interaction between marmoset age and patience on assertiveness."),
-     answer("Overall, older marmosets are more assertive; however, for marmosets who are low in patience, age is negatively associated with assertiveness", correct = TRUE),
+     answer("For marmosets high in patience, age is negatively associated with assertiveness. For marmoset low in patience, age is positively associated with assertiveness.", correct = TRUE),
      answer("Older marmosets are less assertive; and this is more so for marmosets who are low in patience."),
      answer("Older marmosets are more assertive; but for marmosets who are high in patience, age is negatively associated with assertiveness."),allow_retry = TRUE))
 ```
 
 ### Question 4
 
-As young children get older, they get better at a problem-solving task. You hypothesise that the association between age and performance on this problem-solving task can be explained by the child's propensity to automatically imitate the behaviour of others. You collect data from 60 children between the ages of 3 and 10 years, and measure the percentage of behaviours automatically imitated, and scores on the problem solving task (see data.frame `imitation.data`). Complete the code below to determine whether it is possible that `imitation` mediates the association between `age` and `problem_solving`.
+As young children get older, they get better at a problem-solving task. You hypothesise that the association between age and performance on this problem-solving task can be explained by the child's propensity to automatically imitate the behaviour of others. You collect data from 60 children between the ages of 3 and 10 years, and measure the percentage of behaviours automatically imitated in a lab setting, and also test them on the problem solving task (see data.frame `imitation.data`). Complete the code below to determine whether it is possible that `imitation` mediates the association between `age` and `problem_solving`.
 
 ```{r question_4-setup}
 imitation.data <- data.frame(ID = 1:60,
@@ -399,13 +351,19 @@ imitation.data <- data.frame(ID = 1:60,
 #imitation.data
 
 #1. Is there an association between the IV and the DV?
-y.model <- lm()
+y.model <- lm() %>%
+  lm.beta() %>%
+  summary()
 
 #2. Does the association between the IV and the DV decrease when including the mediator?
-y2.model <- lm()
+y2.model <- lm() %>%
+  lm.beta() %>%
+  summary()
 
 #3. Is there an association between the mediator and the IV?
-m.model <- lm()
+m.model <- lm() %>%
+  lm.beta() %>%
+  summary()
 ```
 
 ```{r question_4-hint-1}
@@ -419,15 +377,23 @@ Next hint will show the solution...
 ```
 
 ```{r question_4-solution}
-y.model <- lm(problem_solving ~ age,data = imitation.data)
-summary(model.y)
+y.model <- lm(problem_solving ~ age,data = imitation.data) %>%
+  lm.beta() %>%
+  summary()
 
-y2.model <- lm(problem_solving ~ age + imitation,data = imitation.data)
-summary(model.y2)
+y.model
 
-m.model <- lm(imitation ~ age,data = imitation.data)
-summary(model.m)
+y2.model <- lm(problem_solving ~ age + imitation,data = imitation.data) %>%
+  lm.beta() %>%
+  summary()
 
+y2.model
+
+m.model <- lm(imitation ~ age,data = imitation.data) %>%
+  lm.beta() %>%
+  summary()
+
+m.model
 ```
 
 ```{r question_4-check}
@@ -440,12 +406,14 @@ checker()
 quiz(question("For the `imitation.data` above, select all true statements:",
      answer("There is an association between the IV (age) and the DV (problem-solving score).",correct = TRUE),
      answer("The association between the IV (age) and the DV (problem-solving score) is reduced or eliminated once the mediator (imitation) is added to the model.", correct = TRUE),
-     answer("There is an association between the IV (age) and the mediator (imitation).",correct = TRUE),allow_retry = TRUE, correct = "Correct! Great, the data meets all conditions for a possible mediated relationship.",incorrect = "Incorrect. Try running the `summary()` function for the models in Question 4 to see if these relationships are significant."))
+     answer("There is an association between the IV (age) and the mediator (imitation).",correct = TRUE),
+     answer("This data meets the conditions of a mediation.",correct = TRUE),
+     answer("This data does NOT meet the conditions of a mediation."),allow_retry = TRUE, correct = "Correct! Awesome stuff you legend."))
 ```
 
 ### Question 6
 
-For the `imitation.data`, use the `mediate()` function to detrmine the direct and indirect effect for the hypothesised mediation.
+For the `imitation.data`, use the `mediate()` function to determine the direct and indirect effect for the hypothesised mediation.
 
 ```{r question_6-setup}
 imitation.data <- data.frame(ID = 1:60,
@@ -457,36 +425,25 @@ imitation.data <- data.frame(ID = 1:60,
 ```{r question_6, exercise=TRUE,exercise.lines = 12}
 #imitation.data
 
-y.model <- lm(problem_solving ~ age,data = imitation.data)
-y2.model <- lm(problem_solving ~ age + imitation,data = imitation.data)
-m.model <- lm(imitation ~ age,data = imitation.data)
-
 med.model <- mediate()
-
-summary(med.model)
 ```
 
 ```{r question_6-hint-1}
-Type `help(mediate)` into the console to see what arguments the `mediate()` function accepts.
+Remember, the formula for the mediate function is slightly different. The mediator is put within brackets.
+
+DV ~ IV + (Mediator)
 ```
 
 ```{r question_6-hint-2}
-As a minimum, you will need to specify four arguments to the mediate function:
-The 'model.m' argument is the lm.model where the mediator is predicted by the IV.
-The 'model.y' argument is the lm.model where the DV is predicted by both the IV and mediator.
-The 'treat' argument specifies the name if the IV.
-The 'mediator' argument specifies the name of the DV.
+Remember to set the 'std' argument to `TRUE` to get standardised estimates.
 
 Next hint will show the solution...
 ```
 
 ```{r question_6-solution}
-y.model <- lm(problem_solving ~ age,data = imitation.data)
-y2.model <- lm(problem_solving ~ age + imitation,data = imitation.data)
-m.model <- lm(imitation ~ age,data = imitation.data)
+med.model <- mediate(problem_solving ~ age + (imitation),data = imitation.data,std = TRUE)
 
-med.model <- mediate(m.model,y2.model,treat = "age",mediator = "imitation")
-summary(med.model)
+med.model
 ```
 
 ```{r question_6-check}

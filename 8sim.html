@@ -395,7 +395,7 @@ div.tocify {
   <a href="5LM2.html">6. LM2</a>
 </li>
 <li>
-  <a href="6mod_med.html">7. Mod Med</a>
+  <a href="6mod_med2.html">7. Mod Med</a>
 </li>
 <li>
   <a href="8sim.html">8. Sim</a>
@@ -490,21 +490,21 @@ z.vector &lt;- (vector - vector.mean)/vector.sd</code></pre>
 <p><code>sample()</code></p>
 <p>This function randomly samples options from a vector. For instance, below we randomly sample 40 objects who are either in the ‘cat’ group or the ‘dog’ group. To see more about how this function works, read <code>help(sample)</code>.</p>
 <pre class="r"><code>sample(c(&quot;cat&quot;,&quot;dog&quot;),40,replace = TRUE)</code></pre>
-<pre><code>##  [1] &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot;
-## [12] &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot;
-## [23] &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot;
-## [34] &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot;</code></pre>
+<pre><code>##  [1] &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot;
+## [12] &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot;
+## [23] &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot;
+## [34] &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot;</code></pre>
 <p><code>rnorm()</code></p>
 <p>This function creates a random continuous variable that is normally distributed. In the example below, we create a random normal distribution with a mean of 0 and a standard deviation of 1. To see more about how this function works, read <code>help(rnorm)</code>.</p>
 <pre class="r"><code>rnorm(40,mean = 0,sd = 1)</code></pre>
-<pre><code>##  [1] -0.458683510  1.391262752  0.211893686 -0.611566498  0.395655318
-##  [6] -1.980656964  1.477772684  1.021887419 -0.331957117 -0.394219557
-## [11] -1.180287583  0.769643966  0.463424113 -1.295129573  0.196844423
-## [16]  0.471882877 -1.394431996  0.200100734  1.466713526  0.108435784
-## [21]  0.934168648 -1.345508677 -0.519184347  0.539834318  1.193147438
-## [26]  0.347948079 -0.177101774 -0.859159646 -0.542212005 -0.488360479
-## [31]  0.843076401  0.756240187 -0.501864628 -1.621558113  0.444904999
-## [36] -0.005632653  1.212275431  0.213441879 -1.816546109 -0.315517530</code></pre>
+<pre><code>##  [1]  0.452947191 -0.606489540  0.744225291  0.246535356 -0.105419200
+##  [6]  0.861251380 -0.230462976  0.254761753 -1.518228748  1.584643521
+## [11]  0.145736104 -1.191237441 -0.504878620 -0.003531543 -0.795335515
+## [16] -0.872616947 -0.724901838  1.862669592  0.218752274 -0.719240704
+## [21]  0.249987989 -0.089668923 -0.165790566 -1.491841670 -1.092228677
+## [26]  0.599636770 -2.074141507  0.140988788 -0.379475825 -2.153693347
+## [31]  0.630086041  0.457263104  0.864052116  0.289814021  0.325453950
+## [36]  2.093029909 -0.231163196 -0.731412814 -1.422600657  1.306243516</code></pre>
 <p>We now have the tools to create our simulate data function, which we will save as <code>create_dataset</code>. It will take one argument, n, which specifies the number of participants in the data.frame.</p>
 <p>We will set the mean and sd of the variable ‘introvert’ to match what we found in Workbook 4. (<em>M</em> = 36.33, <em>SD</em> = 7.31)</p>
 <pre class="r"><code>create_dataset &lt;- function(n){
@@ -515,26 +515,26 @@ z.vector &lt;- (vector - vector.mean)/vector.sd</code></pre>
 <p>Let’s test it out:</p>
 <pre class="r"><code>create_dataset(20)</code></pre>
 <pre><code>##    group introvert
-## 1    cat  30.22192
-## 2    cat  43.48439
-## 3    cat  35.83904
-## 4    cat  39.34797
-## 5    dog  23.02606
-## 6    dog  16.04341
-## 7    cat  31.75993
-## 8    dog  41.83654
-## 9    cat  55.77963
-## 10   cat  30.13495
-## 11   cat  38.06695
-## 12   dog  35.98345
-## 13   cat  29.53410
-## 14   dog  30.12692
-## 15   cat  37.33289
-## 16   cat  37.63544
-## 17   cat  33.92588
-## 18   dog  44.83894
-## 19   cat  35.37722
-## 20   cat  39.45673</code></pre>
+## 1    dog  26.38124
+## 2    dog  38.24915
+## 3    cat  29.85197
+## 4    cat  44.55650
+## 5    dog  43.76235
+## 6    cat  48.36432
+## 7    dog  52.84217
+## 8    dog  33.49528
+## 9    cat  18.42862
+## 10   dog  31.56930
+## 11   cat  27.27078
+## 12   dog  26.95810
+## 13   cat  46.55336
+## 14   dog  29.11889
+## 15   dog  34.80058
+## 16   dog  34.34085
+## 17   dog  38.49787
+## 18   cat  37.81162
+## 19   cat  42.17778
+## 20   cat  41.41102</code></pre>
 <div id="conduct-a-statistical-test-with-simulated-data." class="section level3">
 <h3>Conduct a statistical test with simulated data.</h3>
 <p>Let’s expand the function above. How about creating a function that simulates a dataset, then runs a t-test, and returns the results of the test? We can do this by including the function that runs a t.test within the function we wrote above:</p>
@@ -546,7 +546,7 @@ z.vector &lt;- (vector - vector.mean)/vector.sd</code></pre>
   return(test$estimate)
 }</code></pre>
 <pre class="r"><code>simulate_test(20)</code></pre>
-<pre><code>## [1] 1.427477</code></pre>
+<pre><code>## [1] 3.214852</code></pre>
 <p>Let’s go another step further and say we want to run a t-tests on simulated data 1000 times. Doing so will give us a distribution of estimates given a certain statistical test and sample size. We can do this by using the <code>replicate()</code> function.</p>
 <pre class="r"><code>output_20 &lt;- replicate(1000,simulate_test(20))</code></pre>
 <p>To see the distribution of estimates, we can plot these values:</p>
@@ -598,14 +598,14 @@ data %&gt;%
 power &lt;- mean(sim.results &lt; .05)
 
 power</code></pre>
-<pre><code>## [1] 0.25</code></pre>
-<p>The convention is that the analysis is sufficiently powered if it can detect an effect that is present 80% of the time. The power calculated for a sample size of 20 was 25%, which falls quite short of this threshold. What if we increased our sample size?</p>
+<pre><code>## [1] 0.212</code></pre>
+<p>The convention is that the analysis is sufficiently powered if it can detect an effect that is present 80% of the time. The power calculated for a sample size of 20 was 21.2%, which falls quite short of this threshold. What if we increased our sample size?</p>
 <pre class="r"><code>sim.results &lt;- replicate(1000,simulate_test2(240,cat.dog_difference))
 
 power &lt;- mean(sim.results &lt; .05)
 
 power</code></pre>
-<pre><code>## [1] 0.996</code></pre>
+<pre><code>## [1] 1</code></pre>
 <p>Now with a sample size of 240, we appear to have enough power. By running the above simulations at different sample sizes, we will be able to determine the sample sizes needed to acheive 80% power. Below is code to automatically run the <code>simulate_test2()</code> function at different sample sizes and save the results in a data.frame. There are some complicated things going on here, but see if you can make sense of it. You may need to look up what certain functions do.</p>
 <pre class="r"><code>power.grid &lt;- data.frame(candidate_n = rep(seq(20,240,by = 20),each = 1000)) %&gt;%
   mutate(power = vapply(candidate_n,simulate_test2,FUN.VALUE = 1,mean.diff = cat.dog_difference)) %&gt;%
