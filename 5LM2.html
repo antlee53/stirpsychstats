@@ -431,7 +431,7 @@ div.tocify {
 <ol style="list-style-type: decimal">
 <li>Perform a correlation in R.</li>
 <li>Perform a regression in R.</li>
-<li>Plot relationship between data with a continuous IV and continuous DV, including:</li>
+<li>Plot the relationship between data with a continuous IV and continuous DV, including:</li>
 </ol>
 <ul>
 <li>scatterplots</li>
@@ -439,7 +439,6 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
-<p>Here is a list of resources that may help you with this weeks content:</p>
 <p><a href = "files/data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
@@ -490,11 +489,11 @@ library(lm.beta)</code></pre>
 ## sample estimates:
 ##       cor 
 ## 0.6608687</code></pre>
-<pre class="r"><code>rs &lt;- cor.test(~ attitude + intention,data = data1.clean)</code></pre>
 <p>The key parts of the output that we are interested in are:</p>
 <ul>
 <li>The r-statistic - this is specified at the bottom of the output under ‘cor’, and equals 0.66 above.</li>
 <li>The p-value - this tells you whether the test is significant or not. Above, p &lt; .001.</li>
+<li>We can also get an indication of how many observations were included in the correlation from the degrees of freedom (the df above is 107, therefore, the sample size for this correlation is 107 + 2 = 109).</li>
 </ul>
 </div>
 <div id="plot-data" class="section level3">
@@ -506,7 +505,7 @@ library(lm.beta)</code></pre>
 <p>In the code below, the <code>geom_point()</code> function adds the points on the scatterplot. The <code>geom_smooth()</code> function adds the line-of-best-fit. <code>geom_smooth()</code> requires the additional ‘method’ argument, which tells it what type of line you want. In this instance, we specify “lm” to tell it we want a linear model.</p>
 <pre class="r"><code>ggplot(data1.clean,aes(x = attitude,y = intention)) +
   geom_point() +
-  geom_smooth(method = &quot;lm&quot;,formula = y ~ x)</code></pre>
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
 <p><img src="5LM2_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 </div>
@@ -518,7 +517,7 @@ library(lm.beta)</code></pre>
 <li>The correlation coefficient (i.e., the test statistic).</li>
 <li>The p-value.</li>
 </ul>
-<p>Here is an example of a write-up for the correlation above (can you see where each of the numbers came from?):</p>
+<p>Here is an example of a write-up for the correlation above (can you see where each of the numbers came from in the output above?):</p>
 <blockquote>
 <p>There was a significant correlation between attitudes toward exercise and intentions to exercise, <em>r</em>(109) = 0.66, <em>p</em> &lt; .001.</p>
 </blockquote>

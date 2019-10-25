@@ -436,7 +436,8 @@ div.tocify {
 <div id="resources" class="section level1">
 <h1>Resources</h1>
 <p>Here is a list of resources that may help you with this weeks content:</p>
-<p><a href="http://lavaan.ugent.be/tutorial/">lavaan tutorial</a></p>
+<p><a href="http://lavaan.ugent.be/tutorial/">lavaan tutorial</a> <a href="http://lavaan.ugent.be/tutorial/tutorial.pdf">lavaan tutorial pdf</a></p>
+<p><a href = "files/data_2019.csv" download>Click here to download the data used in these workbooks.</a> #Class Data</p>
 <p><a href = "files/data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
@@ -519,7 +520,7 @@ library(semPlot)</code></pre>
 </tbody>
 </table>
 <p>Note: you can also label parameters by using the <code>*</code> symbol before variables. If you give two variables the same label, it will force the estimates to be the same (this comes in handy sometimes, but not something we will use in this workbook).</p>
-<p>Below is the formula to conduct a mediation analysis identical to the one we conducted in Workbook 7. See if you can understand each line and what relationship it is specifying before reading the breakdown:</p>
+<p>Below is the formula to conduct a mediation analysis identical to the one we conducted in Workbook 7. See if you can understand each line and what relationship it is specifying before reading the breakdown. Remember, each line of code can be read as relationships between variables in the model.</p>
 <pre class="r"><code>sem.formula &lt;- &#39;
 stress ~ c*teacher
 stress ~ b*stars.test
@@ -569,7 +570,7 @@ total := direct + indirect
 </tbody>
 </table>
 <p>Essentially, the first three lines of the code are identical to running the <code>y.model</code> and <code>m.model</code> that we ran in Workbook 7, while the last two lines are like running the <code>mediate()</code> function get estimate the indirect and direct effect.</p>
-<p>To run the SEM, we use the <code>sem()</code> function. Like all analyses done previously, we need to specify two things: the formula (which we saved as the object <code>sem.formula</code>) and the dataset.</p>
+<p>To run the SEM, we use the <code>sem()</code> function. Like all analyses done previously, we need to specify two things: the formula (which we saved as the object <code>sem.formula</code>) and the data.frame. We also set values for a few other arguments. We set ‘standardized’ to <code>TRUE</code> so that we get standardised estimates, ‘fit.measures’ to <code>TRUE</code> so we get model fit indicators, and ‘rsquare’ to <code>TRUE</code> to get an r-square statistic for the model.</p>
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)
 
 summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)</code></pre>
@@ -659,20 +660,25 @@ summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)<
 <h2>More complicated Path Analysis</h2>
 <p>We will now have a go at conducting a more complicated SEM. We will revisit the data from Workbook 5 to determine the relationship between attitudes to fitness, norms surrounding fitness, perceived behavioural control, and intentions to exercise, on exercise behaviour. The model we will fit is based on the Theory of Planned Behaviour, and is depicted below.</p>
 <div class="figure">
-<img src="images/TPB.png" />
-
+<img src="images/TPB.png" alt="Theory of Planned Behaviour" />
+<p class="caption">Theory of Planned Behaviour</p>
 </div>
 <p>In words, we predict that attitudes towards exercise, norms about exercise, and perceived behavioural control regarding exercise will predict intention to exercise. In turn, intention to exercise predict exercise behaviour. We also predict that perceived behavioural control regarding exercise will directly predict exercise behaviour.</p>
 <div id="clean-the-data-for-analysis.-1" class="section level3">
 <h3>1. Clean the data for analysis.</h3>
-<p>First, we must calculate the variables from each of the items.</p>
+<p>First, we must calculate the variables from each of the items. Something we have done many times now.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
   mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5 + exercise.attitude.6 + exercise.attitude.7 + exercise.attitude.8 + exercise.attitude.9 + exercise.attitude.10 + exercise.attitude.11 + exercise.attitude.12 + exercise.attitude.13 + exercise.attitude.14 + exercise.attitude.15 + exercise.attitude.16 + exercise.attitude.17 + exercise.attitude.18 + exercise.attitude.19,
          intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5 + exercise.intention.6 + exercise.intention.7 + exercise.intention.8 + exercise.intention.9 + exercise.intention.10 + exercise.intention.11,
          control = exercise.control.1 + exercise.control.2 + exercise.control.3,
          norms = exercise.norms.1 + exercise.norms.2 + exercise.norms.3 + exercise.norms.4 + exercise.norms.5 + exercise.norms.6,
          behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5 + exercise.behaviour.6 + exercise.behaviour.7 + exercise.behaviour.8 + exercise.behaviour.9 + exercise.behaviour.10 + exercise.behaviour.11) %&gt;%
-  dplyr::select(student.no,attitude,intention,control,norms,behaviour)</code></pre>
+  dplyr::select(student.no,attitude,intention,control,norms,behaviour) %&gt;%
+  filter(!is.na(attitude)) %&gt;%
+  filter(!is.na(intention)) %&gt;%
+  filter(!is.na(control)) %&gt;%
+  filter(!is.na(norms)) %&gt;%
+  filter(!is.na(behaviour))</code></pre>
 </div>
 <div id="run-statistical-test.-1" class="section level3">
 <h3>2. Run statistical test.</h3>
@@ -681,7 +687,7 @@ summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)<
 intention ~ attitude + norms + control
 behaviour ~ intention + control
 &#39;</code></pre>
-<p>To break down the code above: Line 1: Attitudes, norms, and control predict intention. Line 2: Intention and control predicts behaviour.</p>
+<p>To break down the code above: Line 1: Attitudes, norms, and control predict intention. Note, covariance between predictors is accounted for since they are specified in the same part of the formula (similar to with an ordinary regression). Line 2: Intention and control predicts behaviour.</p>
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data2.clean)
 summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
@@ -690,8 +696,7 @@ summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 ##   Optimization method                           NLMINB
 ##   Number of free parameters                          7
 ## 
-##                                                   Used       Total
-##   Number of observations                           106         118
+##   Number of observations                           106
 ## 
 ##   Estimator                                         ML
 ##   Model Fit Test Statistic                      23.981
@@ -763,6 +768,32 @@ summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 <p><img src="9SEM_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 </div>
+<div id="model-comparisons" class="section level2">
+<h2>Model Comparisons</h2>
+<p>Model comparisons can be used to help decide which model best explains your data with the fewest number of parameters. As covered in the lecture series, models can only be compared if they are nested (i.e., one model must be contained within the other model). For SEM, using model comparisons is particularly useful to determine the significance of individuals paths.</p>
+<p>In the example below, we will compare the model above with a simpler model, where the path between control and behaviour is removed. The formula and code to conducted this slightly simpler model is as follows:</p>
+<pre class="r"><code>model2 &lt;- &#39;
+intention ~ attitude + norms + control
+behaviour ~ intention
+&#39;
+
+sem.model2 &lt;- sem(model2,data = data2.clean)
+
+#summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
+<p>Note: we have not run the <code>summary()</code> function above to save on space, but feel free to have a look at it.</p>
+<p>Now that we have our two models that we will compare, the function we use is called <code>anova()</code>, not to be confused with <code>aov()</code> that runs a one-way between-subjects ANOVA.</p>
+<p>For the <code>anova()</code> function, we simply have to specify the two models we are comparing as the two arguments. This will conduct a chi-square difference test.</p>
+<pre class="r"><code>anova(sem.model,sem.model2)</code></pre>
+<pre><code>## Chi Square Difference Test
+## 
+##            Df    AIC    BIC  Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+## sem.model   2 1550.5 1569.1 23.981                                  
+## sem.model2  3 1569.9 1585.9 45.377     21.396       1  3.735e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Above, we find that there is a significant difference between the two models. Therefore, we can conclude that dropping the path between “control” and “behaviour” significantly reduces model fit.</p>
+<p>While above, we use the <code>anova()</code> function to test the difference between nested SEM models, we can also use this function to compare models from other functions, such as <code>lm()</code>.</p>
+</div>
 <div id="introducing-latent-variables" class="section level2">
 <h2>Introducing Latent Variables</h2>
 <p>Up to now, to calculate variables from individual items, we have been adding each item up. However, we could also compute latent variables, which are the underlying variables that each item is meant to tap into.</p>
@@ -773,8 +804,8 @@ summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 
 attitude.model &lt;- sem(attitude.formula,data = data)
 semPaths(attitude.model,whatLabel = &quot;est&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
-<p><img src="9SEM_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<p>How about we compute latent variables for all the variables in the TPB model above? Doing something like this may not make a lot of sense: we will end up with a gangly model, and we may not have enough observations to get sensible results, but let’s do it anyway! For demonstrative purposes…</p>
+<p><img src="9SEM_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>How about we compute latent variables for all the variables in the TPB model above? Doing something like this may not make a lot of sense: we will end up with a gangly model, and we may not have enough observations to get sensible results, but we can do it do it anyway! For demonstrative purposes… The code is provided below to run this analysis, but this code is not executed, as the output is quite long an unweildy.</p>
 <div id="specify-the-model" class="section level3">
 <h3>Specify the Model</h3>
 <pre class="r"><code>model &lt;- &#39;
@@ -797,8 +828,11 @@ semPaths(attitude.model,whatLabel = &quot;est&quot;,intercept = FALSE,residuals 
 <div id="plot-the-model" class="section level1">
 <h1>Plot the Model</h1>
 <pre class="r"><code>load(&quot;files/sem.model.Rdata&quot;)</code></pre>
-<pre class="r"><code>#Note: Due to the size of the model, this line of code is causing errors when knitting together the website, and therefore is not run now.
-semPaths(sem.model,whatLabel = &quot;est&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
+<pre class="r"><code>semPaths(sem.model,whatLabel = &quot;est&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
+<div class="figure">
+<img src="images/sem.plot.png" alt="SEM plot with latent variables" />
+<p class="caption">SEM plot with latent variables</p>
+</div>
 </div>
 <div id="exercises-1" class="section level1">
 <h1>Exercises</h1>

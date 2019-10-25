@@ -9,6 +9,7 @@ library(learnr)
 library(MASS)
 library(tidyverse)
 library(broom)
+library(pwr)
 knitr::opts_chunk$set(echo = FALSE)
 
 checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
@@ -119,7 +120,7 @@ if(label == "question_5"){
 					sv1 <- sd(sim.data$var1)
 					sv2 <- sd(sim.data$var2)
 					if(!(mv1 > 95 & mv1 < 105) | !(sv1 > 10 & sv1 < 20)){
-						out <- list(message = "The characteristics of the simulated variable 'var1' does not appear to match the requirment of having a mean of 100 and a standard deviation of 15. Check there are no errors in the code. If you believe your code is correct, the simulated data may have fallen out of the acceptable ranges by chance. If you believe this to be the case, submit your answer again.", correct = FALSE, location = "append")
+						out <- list(message = "The characteristics of the simulated variable 'var1' does not appear to match the requirment of having a mean of 100 and a standard deviation of 15. Check there are no errors in the code. If you believe your code is correct, the simulated data may have fallen out of the acceptable ranges just by chance. If you believe this to be the case, submit your answer again.", correct = FALSE, location = "append")
 					} else {
 						if(!(mv2 > 95 & mv2 < 105) | !(sv2 > 10 & sv2 < 20)){
 							out <- list(message = "The characteristics of the simulated variable 'var2' does not appear to match the requirment of having a mean of 100 and a standard deviation of 15. Check there are no errors in the code. If you believe your code is correct, the simulated data may have fallen out of the acceptable ranges by chance. If you believe this to be the case, submit your answer again.", correct = FALSE, location = "append")
@@ -173,7 +174,7 @@ tutorial_options(exercise.checker = checker)
 
 ## Introduction
 
-This is the first of the weekly exercises. These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R.If you are struggling, each exercise comes with a number of hints that may be helpful.
+Welcome to the weekly exercise for demonstration 8. These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R. If you are struggling, each exercise comes with a number of hints that may be helpful.
 
 ## Basic Exercises
 
@@ -255,8 +256,6 @@ Below is code that centers a vector of numeric values. Put this code within a cu
 numeric_vector <- c(12,23,34,45,56,67,78,89,90)
 numeric_mean <- mean(numeric_vector,na.rm = TRUE)
 numeric_center <- numeric_vector - numeric_mean
-
-center <- numeric_vector
 ```
 
 ```{r question_3-hint-1}
@@ -480,7 +479,7 @@ quiz(question("The power to detect a correlation of r = .15 with a sample size o
 
 ### Question 8
 
-Adjust the code from Question 7 to determine the appropriate sample size to detect a correlation of r = .15 with 80% power.
+Adjust the code from Question 7 (or, use a function from the pwr package) to determine the appropriate sample size to detect a correlation of r = .15 with 80% power.
 
 ```{r question_8-setup}
 
@@ -503,10 +502,12 @@ power
 
 ```{r question_8-hint-1}
 First, you will need to adjust the custom function so that the simulated data.frame can vary according to sample size. This can be done by adding an argument... (Currently the `simulated_data` function creates a data.frame with 40 participants).
+
+Once you have a function where you can adjust the sample size, you will want to run the function multiple times at different sample sizes to determine the proportion of times a significant effect is found...
 ```
 
 ```{r question_8-hint-2}
-Once you have a function where you can adjust the sample size, you will want to run the function multiple times at different sample sizes to determine the proportion of times a significant effect is found...
+If all this seems overly complicated and unnecessary, it is because it is. An easier way to calculate the required sample size for a correlation is use the pwr.r.test() function from the pwr package.
 
 Next hint will show the solution...
 ```
@@ -538,7 +539,7 @@ quiz(question("The appropriate sample size to detect a correlation of r = .15 wi
      answer("80"),
      answer ("170"),
      answer("260"),
-     answer("350",correct),allow_retry = TRUE))
+     answer("350",correct = TRUE),allow_retry = TRUE))
 ```
 
 ## Advanced Exercises

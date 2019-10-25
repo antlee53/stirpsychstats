@@ -166,9 +166,13 @@ tutorial_options(exercise.checker = checker)
 
 ## Introduction
 
-This is the first of the weekly exercises. These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R.If you are struggling, each exercise comes with a number of hints that may be helpful.
+This is the second-to-last of the weekly exercises. Almost there! These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are usually split into beginner and advance sections; however, this week all exercises are advanced. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R. If you are struggling, each exercise comes with a number of hints that may be helpful.
 
 ## Basic Exercises
+
+This week's exercises covers structural equation modelling and model comparisons, which are quite advanced statistical techniques. Therefore, all exercises this week could be considered "Advanced". You only need to complete them if you are keen to test your R skills.
+
+## Advanced Exercises
 
 ### Question 1
 
@@ -453,6 +457,6 @@ quiz(
 )
 ```
 
-## Advanced Exercises
+
 
 

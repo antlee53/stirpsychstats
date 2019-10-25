@@ -250,7 +250,7 @@ checker()
 
 ### Question 2
 
-You have measured the dark triad traits in 40 participants. This data is saved in a data.frame called `darktriad.data`. Which two of the three traits has the largest, positive correlation?
+You have measured the dark triad traits (narcissism, machiavellianism, and psychopathy) in 40 participants. This data is saved in a data.frame called `darktriad.data`. Which two of the three traits has the largest, positive correlation between them?
 
 ```{r question_2-setup}
 darktriad.data <- data.frame(ID = 1:40,
@@ -293,7 +293,7 @@ quiz(question("Which two traits have the largest, positive correlation?",
 
 ### Question 3
 
-In the data.frame `pain.data`, you've asked participants to rate (on a 5-point scale) how much chronic pain they experience across 5 days. Compute a mean pain rating across the 5 days and test whether this correlates with level of social support. Save the correlation output as `pain.cor`.
+In the data.frame `pain.data`, you've asked participants to rate (on a 5-point scale) how much chronic pain they experience across 5 days. Compute a mean (average) pain rating across the 5 days and test whether this correlates with level of social support. Save the correlation output as `pain.cor`.
 
 ```{r question_3-setup}
 pain.data <- data.frame(pain1 = c(1,3,4,3,5,5,2,4,3,2,3,5,1,3,2,2,2,1,4,3,3,2,4,1,3,1,2,4,1,3,4,1,4,3,5,2,4,4,1,1,5,2,3,5,1,1,5,4,1,5,5,3,2,2,2,3,1,5,2,5),
@@ -321,7 +321,7 @@ Next hint will show the solution...
 ```
 
 ```{r question_3-solution}
-pain.data
+#pain.data
 
 pain.data2 <- mutate(pain.data,pain_mean = (pain1 + pain2 + pain3 + pain4 + pain5)/5)
 
@@ -400,7 +400,7 @@ Next hint will show the solution...
 ```
 
 ```{r question_5-solution}
-CA.data
+#CA.data
 
 CA.model <- lm(CA ~ SDO + HS + BS,data = CA.data)
 
@@ -652,9 +652,9 @@ In the code box below, you have conducted a study on factors the predict whether
 ```{r question_a3-setup}
 ae.data <- data.frame(ID = 1:80,
                       admitted = c('Yes','Yes','No','No','No','Yes','No','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','No','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','No','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','Yes','Yes','Yes','No','No','No','Yes','Yes','Yes'),
-                      pain = c('4','3','5','3','-3','5','4','5','1','9','7','3','3','2','3','1','8','8','2','7','1','5','7','5','6','5','1','6','9','3','5','4','3','10','5','3','5','2','2','4','5','7','5','2','4','5','5','2','2','7','8','5','6','3','4','6','7','6','5','2','2','7','10','7','4','5','4','5','6','1','9','5','2','7','4','3','9','4','3','5'),
-                      blood.loss = c('0','460','0','0','0','0','142','0','0','0','438','0','247','0','389','0','0','27','355','0','354','0','0','229','0','0','0','0','0','0','183','353','106','0','25','161','0','466','262','0','155','70','0','204','281','0','0','364','486','341','98','157','329','0','62','0','0','33','93','0','0','0','0','387','331','0','314','0','218','202','0','411','0','255','0','438','74','398','359','471'),
-                      consciousness = c('8','4','8','8','1','2','9','7','9','3','7','5','1','7','7','2','5','1','4','6','3','9','7','7','6','9','7','5','2','7','6','4','9','1','4','6','7','4','9','9','3','9','6','5','1','6','2','7','9','8','4','1','6','7','8','2','5','9','6','5','4','7','8','9','4','6','1','3','3','5','1','5','7','3','9','4','2','9','2','4')
+                      pain = c(4,3,5,3,-3,5,4,5,1,9,7,3,3,2,3,1,8,8,2,7,1,5,7,5,6,5,1,6,9,3,5,4,3,10,5,3,5,2,2,4,5,7,5,2,4,5,5,2,2,7,8,5,6,3,4,6,7,6,5,2,2,7,10,7,4,5,4,5,6,1,9,5,2,7,4,3,9,4,3,5),
+                      blood.loss = c(0,460,0,0,0,0,142,0,0,0,438,0,247,0,389,0,0,27,355,0,354,0,0,229,0,0,0,0,0,0,183,353,106,0,25,161,0,466,262,0,155,70,0,204,281,0,0,364,486,341,98,157,329,0,62,0,0,33,93,0,0,0,0,387,331,0,314,0,218,202,0,411,0,255,0,438,74,398,359,471),
+                      consciousness = c(8,4,8,8,1,2,9,7,9,3,7,5,1,7,7,2,5,1,4,6,3,9,7,7,6,9,7,5,2,7,6,4,9,1,4,6,7,4,9,9,3,9,6,5,1,6,2,7,9,8,4,1,6,7,8,2,5,9,6,5,4,7,8,9,4,6,1,3,3,5,1,5,7,3,9,4,2,9,2,4)
                       )
 ```
 
@@ -686,9 +686,9 @@ In the code box below, adapt the code to conduct a logistic regression to find t
 ```{r question_a4-setup}
 ae.data <- data.frame(ID = 1:80,
                       admitted = c('Yes','Yes','No','No','No','Yes','No','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','No','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','No','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','Yes','Yes','Yes','No','No','No','Yes','Yes','Yes'),
-                      pain = c('4','3','5','3','-3','5','4','5','1','9','7','3','3','2','3','1','8','8','2','7','1','5','7','5','6','5','1','6','9','3','5','4','3','10','5','3','5','2','2','4','5','7','5','2','4','5','5','2','2','7','8','5','6','3','4','6','7','6','5','2','2','7','10','7','4','5','4','5','6','1','9','5','2','7','4','3','9','4','3','5'),
-                      blood.loss = c('0','460','0','0','0','0','142','0','0','0','438','0','247','0','389','0','0','27','355','0','354','0','0','229','0','0','0','0','0','0','183','353','106','0','25','161','0','466','262','0','155','70','0','204','281','0','0','364','486','341','98','157','329','0','62','0','0','33','93','0','0','0','0','387','331','0','314','0','218','202','0','411','0','255','0','438','74','398','359','471'),
-                      consciousness = c('8','4','8','8','1','2','9','7','9','3','7','5','1','7','7','2','5','1','4','6','3','9','7','7','6','9','7','5','2','7','6','4','9','1','4','6','7','4','9','9','3','9','6','5','1','6','2','7','9','8','4','1','6','7','8','2','5','9','6','5','4','7','8','9','4','6','1','3','3','5','1','5','7','3','9','4','2','9','2','4')
+                      pain = c(4,3,5,3,-3,5,4,5,1,9,7,3,3,2,3,1,8,8,2,7,1,5,7,5,6,5,1,6,9,3,5,4,3,10,5,3,5,2,2,4,5,7,5,2,4,5,5,2,2,7,8,5,6,3,4,6,7,6,5,2,2,7,10,7,4,5,4,5,6,1,9,5,2,7,4,3,9,4,3,5),
+                      blood.loss = c(0,460,0,0,0,0,142,0,0,0,438,0,247,0,389,0,0,27,355,0,354,0,0,229,0,0,0,0,0,0,183,353,106,0,25,161,0,466,262,0,155,70,0,204,281,0,0,364,486,341,98,157,329,0,62,0,0,33,93,0,0,0,0,387,331,0,314,0,218,202,0,411,0,255,0,438,74,398,359,471),
+                      consciousness = c(8,4,8,8,1,2,9,7,9,3,7,5,1,7,7,2,5,1,4,6,3,9,7,7,6,9,7,5,2,7,6,4,9,1,4,6,7,4,9,9,3,9,6,5,1,6,2,7,9,8,4,1,6,7,8,2,5,9,6,5,4,7,8,9,4,6,1,3,3,5,1,5,7,3,9,4,2,9,2,4)
                       )
 ```
 

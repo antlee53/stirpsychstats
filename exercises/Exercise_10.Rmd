@@ -243,9 +243,13 @@ tutorial_options(exercise.checker = checker)
 
 ## Introduction
 
-This is the last of the weekly exercises, congrats on getting through them all! These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R.If you are struggling, each exercise comes with a number of hints that may be helpful.
+This is the last of the weekly exercises, congrats on getting through them all! These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are usually split into beginner and advance sections; however, this week all exercises are advanced. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R. If you are struggling, each exercise comes with a number of hints that may be helpful.
 
 ## Basic Exercises
+
+This week's exercises cover linear mixed effect models, which is quite an advanced statistical technique. As such, all exercises this week can be considered "Advanced". You only need to complete them if you wish to practice conducting linear mixed effects models in R/love statistics so much.
+
+## Advanced Exercises
 
 ### Question 1
 
@@ -594,6 +598,5 @@ quiz(question("The hypothesis that more masculine faces will be perceived as mor
   answer("not supported."),allow_retry = TRUE,random_answer_order = TRUE))
 ```
 
-## Advanced Exercises
 
 
