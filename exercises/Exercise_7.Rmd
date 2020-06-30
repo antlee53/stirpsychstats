@@ -239,6 +239,8 @@ Next hint will show the solution...
 ```
 
 ```{r question_4.1-solution}
+z.numbers <- c(scale(numbers,scale = TRUE,center = TRUE))
+#OR
 z.numbers <- scale(numbers,scale = TRUE,center = TRUE) %>% as.vector()
 ```
 
@@ -248,7 +250,7 @@ checker()
 
 ### Question 2
 
-Below is code that tests for an interaction effect between two variables. Results from this regression indicate that there is a negative relationship between `var1` and `DV`. However, when running a correlation between the two variables, you find that there is a strong positive association. This would indicate that there is an error in the code for the regression. Fix the code so that the right conclusions can be drawn from the linear regression.
+Below is code that tests for an interaction effect between two variables. Results from this regression indicate that there is a negative relationship between `var1` and `DV`. However, when running a correlation between the two variables, you find that there is a strong positive association. This would indicate that there is an error in the code for the regression. Fix the code so that the right conclusions can be drawn from the unstandardised linear regression.
 
 ```{r question_1-setup}
 data <- data.frame(ID = 1:80,
@@ -276,15 +278,9 @@ Next hint will show the solution...
 ```
 
 ```{r question_1-solution}
-data2 <- mutate(data,c.var1 = scale(var1,center = TRUE) %>% as.vector(),
-                c.var2 = scale(var2,center = TRUE) %>% as.vector())
+data2 <- mutate(data,c.var1 = c(scale(var1,center = TRUE)),
+                c.var2 = c(scale(var2,center = TRUE)))
 lm.model <- lm(DV ~ c.var1*c.var2,data = data2)
-
-summary(lm.model)
-
-#To get standardised results:
-lm.model <- lm(DV ~ c.var1*c.var2,data = data2) %>%
-  lm.beta()
 
 summary(lm.model)
 ```
@@ -368,8 +364,10 @@ A good way to determine the nature of an interaction is to plot the data...
 ```
 
 ```{r question_3-hint-2}
-You can use the following code to plot the data:
+You may want to split participants by the moderator (e.g., high vs. low patience) to see the effect it has on the relationship between the predictor and the outcome.
+```
 
+```{r question_3-solution}
 #Get mean to split the plot by the moderator.
 mean(marmoset.data$patience)  
   
@@ -400,7 +398,7 @@ imitation.data <- data.frame(ID = 1:60,
 	problem_solving = c(7,6,7,6,4,2,0,2,5,6,6,10,5,7,0,9,7,4,9,9,1,3,1,2,5,3,12,10,13,11,3,1,0,12,6,1,20,0,6,9,2,3,6,16,10,3,1,2,0,3,6,1,4,1,7,2,7,10,1,0))
 ```
 
-```{r question_4, exercise=TRUE,exercise.lines = 12}
+```{r question_4, exercise=TRUE,exercise.lines = 20}
 #imitation.data
 
 #1. Is there an association between the IV and the DV?
@@ -430,18 +428,21 @@ Next hint will show the solution...
 ```
 
 ```{r question_4-solution}
+#1. Is there an association between the IV and the DV?
 y.model <- lm(problem_solving ~ age,data = imitation.data) %>%
   lm.beta() %>%
   summary()
 
 y.model
 
+#2. Does the association between the IV and the DV decrease when including the mediator?
 y2.model <- lm(problem_solving ~ age + imitation,data = imitation.data) %>%
   lm.beta() %>%
   summary()
 
 y2.model
 
+#3. Is there an association between the mediator and the IV?
 m.model <- lm(imitation ~ age,data = imitation.data) %>%
   lm.beta() %>%
   summary()
@@ -635,7 +636,7 @@ Three-way interactions is just an extension of the normal (two-way) interaction.
 
 So, the formula for a three-way interaction becomes:
 
-> outcome ~ predictor1*predictor2*predictor3
+> outcome ~ predictor1 `*` predictor2 `*` predictor3
 
 The formula above automatically contains all lower level terms, as such, it is the same as:
 
@@ -740,7 +741,7 @@ ggplot(plot.data,aes(x = variable_x,y = variable_y)) +
   geom_point()
 ```
 
-Ideally, the formula for a non-linear relationship would look something like `variable_y ~ variable_x*variable_x`, but unfortunately R assumes you've made a mistake if you specify the same variable gets mentioned twice in a formula. To explicitly tell R that you want to include a non-linear term, you need to use the `poly()` function in the formula:
+Ideally, the formula for a non-linear relationship would look something like `variable_y ~ variable_x*variable_x`, but unfortunately R assumes you've made a mistake if you specify the same variable twice in a formula. To explicitly tell R that you want to include a non-linear term, you need to use the `poly()` function in the formula:
 
 > outcome ~ poly(predictor,2)
 

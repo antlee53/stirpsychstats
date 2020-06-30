@@ -189,6 +189,7 @@ The custom function below is meant to add 2 to any numeric input; however, curre
 ```{r question_1, exercise=TRUE,exercise.lines = 6}
 custom_function <- function(numeric_input){
   output <- numeric_input + 2
+  numeric_input
 }
 ```
 
@@ -497,7 +498,6 @@ simulate_data <- function(){
 
 p.values <- replicate(1000,simulate_data())
 power <- mean(p.values < .05)
-power
 ```
 
 ```{r question_8-hint-1}
@@ -523,7 +523,7 @@ simulate_data <- function(N){
   return(p.value)
 }
 
-power.grid <- data.frame(candidate_n = rep(seq(50,380,by = 30),each = 1000)) %>%
+power.grid <- data.frame(candidate_n = rep(seq(50,380,by = 30),each = 100)) %>%
   mutate(power = vapply(candidate_n,simulate_data,FUN.VALUE = 1)) %>%
   group_by(candidate_n) %>%
   summarise(power = mean(power < .05))
@@ -531,6 +531,9 @@ power.grid <- data.frame(candidate_n = rep(seq(50,380,by = 30),each = 1000)) %>%
 power.grid
 
 #Notice the inclusion of the argument `N` to specify the simulated sample size.
+#It is probably easier to use the pwr package:
+
+pwr.r.test(r = .15,power = .80,sig.level = .05)
 ```
 
 ```{r question_8-quiz}
@@ -544,4 +547,174 @@ quiz(question("The appropriate sample size to detect a correlation of r = .15 wi
 
 ## Advanced Exercises
 
+This week's advanced exercises focuses on expanding the uses of ANOVA. Up to now, we have only considered the one-way ANOVA, which deals with the relationship between one categorical IV and a continuous DV. However, the ANOVA can be used to deal with multiple IVs, as well as IVs that are both within-subjects and between-subjects.
 
+### Question A1 - Two-way ANOVA
+
+A two-way ANOVA is used when you want to evaluate the effects of two categorical IVs on a continuous DV. Much of what we have covered regarding a linear regression with multiple predictors applies with a two-way ANOVA, but with two categorical IVs.
+
+The two-way ANOVA can test several effects simultaneously:
+1. A main effect of one IV.
+1. A main effect of the other IV.
+1. An interaction effect between both IVs.
+
+The function to run a two-way ANOVA is the same as a one-way ANOVA: `aov()`. R is smart enough to determine which statistical test to run based on how many IVs are in the formula. Also similar to the one-way ANOVA, in order to get output that is interpretable, you can pipe the result to the `summary()` function.
+
+So to run a two-way ANOVA, the code should look something like the following:
+
+```{r,eval = FALSE}
+aov(DV ~ IV1*IV2,data = data) %>%
+  summary()
+```
+
+The way to read the formula above is identical to an interaction for a regression (i.e., this tests for two main effects for both IVs, and an interaction effect).
+
+In the code box below, there is a dataset testing whether the use an experimental drug helps with anxiety. In a randomised controlled trial, participants are either assigned the the experimental drug condition, or a control group. Participants are also randomly assigned to one of three dosage groups (low, medium, and high). Conduct a two-way ANOVA to determine whether the use of the drug, as well as dosage levels, helps with levels of anxiety.
+
+```{r question_a1-setup}
+anxiety.data <- data.frame(ID = 1:120,
+	drug_condition = c(rep("experimental",60),rep("control",60)),
+	dosage = c(rep("low",20),rep("medium",20),rep("high",20),rep("low",20),rep("medium",20),rep("high",20)),
+	anxiety = c(50,43,39,46,43,32,66,33,38,44,39,16,38,45,-3,51,20,43,57,48,30,40,50,60,-1,56,36,42,50,34,33,34,43,34,18,17,19,27,35,31,3,33,28,17,27,41,9,32,15,9,15,33,5,31,24,-11,16,39,-2,36,48,46,37,73,37,40,32,53,38,34,26,35,22,20,74,19,26,51,60,32,45,60,56,28,70,40,45,19,46,57,52,54,35,22,37,10,25,50,36,61,50,29,30,42,58,47,63,58,21,48,78,54,39,29,48,46,69,46,34,54))
+```
+
+```{r question_a1, exercise=TRUE,exercise.lines = 12}
+#anxiety.data
+
+
+```
+
+```{r question_a1-hint-1}
+Use the `aov()` function to conduct the two-way ANOVA.
+```
+
+```{r question_a1-hint-2}
+Remember the formula should include the interaction between the two IVs.
+
+Next hint will show the solution...
+```
+
+```{r question_a1-solution}
+aov(anxiety ~ drug_condition*dosage,data = anxiety.data) %>%
+  summary()
+```
+
+### Question A2 - Repeated Measures (Within-Subjects) ANOVA
+
+The repeated-measures ANOVA (also known as a within-subjects ANOVA) is used to analyse data where participants are measured more than once (much like the paired-samples t-test). As with all ANOVAs up to this point, here you would have a categorical IV (with more than two levels) and a continuous DV.
+
+Much like with the paired-samples t-test, before conducting the analysis, you will first need to reshape the data from short to long format. We do this using the `gather()` function, which we cover in more detail in Workbook 10.
+
+```{r,eval = FALSE}
+data.reshaped <- gather(key = "condition",value = "response",var1,var2)
+```
+
+You can use the `aov()` function to conduct a repeated measures ANOVA. In order to tell the function that it is within-subjects, however, you will need to specify this in the formula. In the example below, we are predicting `response` based on `condition`. The part of the code that goes `+ Error(Subject/Condition)` tells the `aov()` function that the variable `condition` is repeated based on the `Subject` variable.
+
+```{r,eval = FALSE}
+aov(response ~ condition + Error(Subject/condition),data.reshaped) %>%
+  summary()
+```
+
+```{r question_a2-setup}
+engagement.data <- data.frame(
+  Subject = c(rep("Brandon",3),rep("Dave",3),rep("Mark",3),rep("Ronnie",3)),
+  Condition = c(rep(c("Early","Middle","Late"),times = 4)),
+  Output = c(23,21,20,7,17,1,9,19,11,5,20,13)
+)
+```
+
+In the code box below, there is a dataset testing the engagement of four participants in a group activity across three conditions (higher number of output means greater engagement). Conduct a repeated measures ANOVA to determine whether engagement differs according to condition. Note, the dataset has already been reshaped.
+
+```{r question_a2, exercise=TRUE,exercise.lines = 12}
+#engagement.data
+
+
+```
+
+```{r question_a2-hint-1}
+Use the `aov()` function to conduct a repeated measures ANOVA.
+```
+
+```{r question_a2-hint-2}
+Remember the formula should include a part that tells the function that a variable is repeated within another variable. This takes the form of `+ Error(.../...)`
+
+Next hint will show the solution...
+```
+
+```{r question_a2-solution}
+aov(Output ~ Condition + Error(Subject/Condition),data = engagement.data) %>%
+  summary()
+```
+
+### Question A3 - Mixed-Design ANOVA
+
+A mixed design ANOVA is used when you want to test the interaction between a categorical between-subjects variable, and a cateogrical within-subjects variable (the "mixed design" part refers to the fact that one IV is between-subjects, while the other is within-subjects).
+
+The mixed design ANOVA combines elements from the two-way ANOVA and repeated measures ANOVA above. First, we include an interaction term between the two IVs. Second, we need to include in the formula the part that tells the function which variable is within subjects.
+
+In the example below, we are testing for the interaction between var1 and var2, with var1 being a within-subjects variable.
+
+```{r}
+aov(DV ~ var1*var2 + Error(Subject/var1),data.reshaped) %>%
+  summary()
+```
+
+```{r question_a3-setup}
+pd <- matrix(c("Neale","M",105,100,
+              "Zorko","M",104,97,
+              "Lyons","M",98,95,
+              "Robinson","M",94,88,
+              "McCluggage","M",91,78,
+              "Rich","D",88,72,
+              "Ellis-Yolmen","M",88,82,
+              "Martin","R",85,101,
+              "Berry","M",80,77,
+              "Witherden","D",75,88,
+              "Cameron","F",67,65,
+              "Christensen","F",64,65,
+              "Ah Chee","M",62,59,
+              "McCarthy","F",60,49,
+              "Gardiner","D",58,60,
+              "Hipwood","F",57,56,
+              "Mathieson","F",57,62,
+              "Andrews","D",56,67,
+              "McInerney","R",56,53,
+              "Lester","D",56,64,
+              "McStay","F",52,52,
+              "Adams","D",49,62,
+              "Bailey","D",48,52,
+              "Smith","R",46,46,
+              "Rayner","F",45,59,
+              "Cox","F",44,38,
+              "Allison","M",44,48,
+              "Starcevich","D",31,34),byrow = TRUE,ncol = 4)
+performance.data <- data.frame(ID = as.character(pd[,1]),
+                               regiment = as.character(pd[,2]),
+                               Y2019 = as.numeric(pd[,3]),
+                               Y2018 = as.numeric(pd[,4])) %>%
+  gather(key = "year",value = "performance",Y2018,Y2019)
+```
+
+In the code box below, there is a dataset testing the performance of elite athelete in two years (higher number of output means greater engagement). These atheletes also fall into one of four groups based on their training regiment. Conduct a mixed design ANOVA to determine whether performance differs based on the training regiment, and whether this interacts with the year the data was collected (e.g., are certain training regiments more effective over time?). Note, the dataset has already been reshaped.
+
+```{r question_a3, exercise=TRUE,exercise.lines = 12}
+#performance.data
+
+
+```
+
+```{r question_a2-hint-1}
+Use the `aov()` function to conduct a mixed design ANOVA.
+```
+
+```{r question_a3-hint-2}
+Remember the formula should include an interaction term and a part that tells the function that a variable is repeated within another variable. This takes the form of `+ Error(.../...)`
+
+Next hint will show the solution...
+```
+
+```{r question_a3-solution}
+aov(performance ~ year*regiment + Error(ID/year),data = performance.data) %>%
+  summary()
+```

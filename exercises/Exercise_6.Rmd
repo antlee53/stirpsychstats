@@ -4,10 +4,12 @@ output: learnr::tutorial
 runtime: shiny_prerendered
 ---
 
-```{r setup, include=FALSE}
+```{r library, include=FALSE}
 library(learnr)
 library(tidyverse)
 library(lm.beta)
+```
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
 checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){

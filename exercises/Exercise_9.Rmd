@@ -176,6 +176,8 @@ This week's exercises covers structural equation modelling and model comparisons
 
 ### Question 1
 
+Look at the formula below, then answer the following quiz question.
+
 ```{r question_1,exercise = TRUE,exercise.lines = 6}
 
 formula <- '
@@ -243,7 +245,7 @@ checker()
 
 Below is a path diagram for a model. Create an object that holds the `lavaan` formula for this model.
 
-![](Question_3.png)
+![](images/Question_3.png)
 
 ```{r question_3-setup}
 
@@ -398,7 +400,7 @@ checker()
 
 Below is a path diagram of two correlated latent variables from the data.frame `Q6_data`. Create and run the model using `lavaan` functions to determine the correlation between latent variables. Save the formula as the object `formula` and the model from the `sem()` function as `model`.
 
-![](Question_6.png)
+![](images/Question_6.png)
 
 ```{r question_6-setup}
 Q6_data <- data.frame(V1 = c(-0.61,0.06,0.26,-0.15,2.12,0.15,1.31,2.63,-0.59,-0.88,-0.62,-0.68,-1.31,-0.81,0.51,-0.92,0.43,-0.68,0.56,-0.83,1.11,0.93,-4.57,-1.29,0.05,-0.17,2.59,-2.55,2.58,0.98,0.54,1.08,0.2,0.39,-2.92,2.64,1.27,-3.35,0.02,-3,-0.96,-0.9,0.89,0.5,1.21,-2.51,0.65,1.24,0.9,2.36,-2.21,1.53,0.88,-0.56,0.45,0.69,0.13,-0.95,-0.16,0.98,0.78,1.33,0.97,0.29,0.71,-0.69,-0.88,1.5,-1.33,-1.05,0.59,0.61,-0.89,1.65,0.13,0.48,1.21,-1.03,-1,-0.57,1.59,-0.87,-0.7,0.91,0.49,0.93,-0.81,-0.13,-0.4,-0.91),

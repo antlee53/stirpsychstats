@@ -275,7 +275,7 @@ checker()
 
 ### Question 3
 
-Conduct an independent-samples t-test using the `coffee.data`. Save the result as `coffee.t.test`.
+Conduct an independent-samples t-test using the `coffee.data` above. Save the result as `coffee.t.test`.
 
 ```{r question_3-setup}
 coffee.data <- data.frame(ID = 1:40,
@@ -450,7 +450,7 @@ checker()
 
 ### Question 7
 
-You're interested in the development of mental time travel across species. You develop a comparative behavioural test and collect data on 40 individuals across 5 species (data.frame saved as `time.data`. Run a One-Way ANOVA to determine if there is a difference in performance on the task across species. Save the results from the `aov()` function (after it has been tidied using the `tidy()` function) to an object called `time.aov`.
+You're interested in the development of mental time travel across species. You develop a comparative behavioural test and collect data on 40 individuals across 5 species (data.frame saved as `time.data`). Run a One-Way ANOVA to determine if there is a difference in performance on the task across species. Save the results from the `aov()` function (after it has been tidied using the `tidy()` function) to an object called `time.aov`.
 
 ```{r question_7-setup}
 time.data <- data.frame(ID = 1:40,
@@ -599,7 +599,7 @@ ggplot(data2,aes(x = DV_cont,group = IV_cat,colour = IV_cat)) +
 
 `data1` has sufficient sample sizes and normally distributed data - parametric test is best. `data2` has normally distributed data; however, quite small sample sizes - should consider a non-parametric test. `data3` has a DV with a uniform distribution, however, a large sample size, so parametric test may be sufficient.
 
-###Question A2 - Mann-Whitney U Test
+### Question A2 - Mann-Whitney U Test
 
 The Mann-Whitney U Test is a non-parametric test for when you have a categorical IV (with two levels) and a continuous DV. The equivalent parametric test is an independent-samples t-test. The function that runs a Mann-Whitney U Test is the `wilcox.test()` function. It's a bit confusing that the Mann-Whitney U Test uses a function with a different name, but the reason for this is because the Mann-Whitney U Test could be considered as an 'unpaired' version of the Wilcoxon Signed Rank Test.
 
@@ -641,7 +641,7 @@ wilcox.test(rt ~ coffee_condition,data = coffee.data2)
 
 In the code box above, you may want to compare the p-values from when you conduct a Mann-Whitney U Test and the parametric counterpart, an independent-samples t.test. You will see the the p-values are actually quite similar.
 
-###Question A3 - Wilcoxon Signed Rank Test
+### Question A3 - Wilcoxon Signed Rank Test
 
 The Wilcoxon Signed Rank Test is a non-parametric test for when you have a within-subjects categorical IV (with two levels) and a continuous DV. The equivalent parametric test is an paired-samples t-test. Similar to how an indpendent-samples t-test and a paired-samples t-test use the same function, the Mann-Whitney U Test and the Wilcoxon Signed Rank Test also use the same function: `wilcox.test()`. The difference here is the `paired` argument must be set to `TRUE` - the same as if you were conducting a paired-samples t-test with the `t.test()` function.
 
@@ -689,7 +689,7 @@ wilcox.test(sleep.data$sleep_before,sleep.data$sleep_after,paired = TRUE)
 
 Again, you may want to compare the p-values you receive above with a paired-sample t-test in the example above.
 
-###Question A4 - Kruskal-Wallis Test
+### Question A4 - Kruskal-Wallis Test
 
 The Kruskal-Wallis test is a non-parametric alternative to the one-way ANOVA, meaning it is used when you have a categorical IV with more than 2 groups, and a continuous DV. The function to conduct the Kruskal-Wallis test is `kruskal.test()`. Again, with all statistical test functions, you need to supply the formula and the data.frame you wish to analyse.
 

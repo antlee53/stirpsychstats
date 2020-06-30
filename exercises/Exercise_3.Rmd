@@ -359,7 +359,7 @@ In the code below, an object named `countries` is a character vector. Using the 
 countries <- c("Scotland","England","France","Wales","Scotland","Australia","Scotland","England","United States","Iceland","Scotland","Spain","Scotland","Swaziland","Scotland","Switzerland","Scotland","England","France","Wales","Scotland","Australia","Scotland","England","United States","Iceland","Scotland","Spain","Scotland","Swaziland","Scotland","Switzerland")
 ```
 
-```{r question_1, exercise=TRUE}
+```{r question_1, exercise=TRUE,exercise.lines = 5}
 countries
 ```
 
@@ -377,8 +377,10 @@ Next hint will show the solution...
 countries
 
 temp <- countries == "Scotland"
-
 Scotland_N <- sum(temp)
+
+#The above could be written in one line of code like this:
+Scotland_N <- sum(countries == "Scotland")
 ```
 
 ```{r question_1-check}
@@ -393,7 +395,7 @@ In the code below, an object named `numbers` is a numeric vector. How many of th
 numbers <- c(71,66,64,80,19,96,33,60,61,20,37,14,74,45,70,52,43,93,53,42,36,91,82,22,9,26,95,21,75,16,52,7,36,90,45,59,60,54,95,35,38,97,49,71,38,70,6,96,85,43,45,99,51,78,49,72,44,96,62,74,62,85,17,22,89,23,98,5,80,37,17,40,75,48,3,76,88,71,80,46,88,13,34,58,94,24,28,27,68,63,17,97,23,95,37,80,2,40,36,8)
 ```
 
-```{r question_2, exercise=TRUE}
+```{r question_2, exercise=TRUE,exercise.lines = 5}
 numbers
 
 ```
@@ -418,7 +420,7 @@ checker()
 
 ### Question 3
 
-In the code below, an object named `numbers` is data.frame. One of the variables in the data.frame is called "remove". Filter out all participants that have a value of "Exclude" for this variable and save the result as `numbers_filtered`.
+In the code below, an object named `numbers` is a data.frame. One of the variables in the data.frame is called "remove". Filter out all participants that have a value of "Exclude" for this variable and save the result as `numbers_filtered`.
 
 ```{r question_3-setup}
 numbers <- data.frame(ID = 1:100,
@@ -426,7 +428,7 @@ numbers <- data.frame(ID = 1:100,
                       var1 = c(71,66,64,80,19,96,33,60,61,20,37,14,74,45,70,52,43,93,53,42,36,91,82,22,9,26,95,21,75,16,52,7,36,90,45,59,60,54,95,35,38,97,49,71,38,70,6,96,85,43,45,99,51,78,49,72,44,96,62,74,62,85,17,22,89,23,98,5,80,37,17,40,75,48,3,76,88,71,80,46,88,13,34,58,94,24,28,27,68,63,17,97,23,95,37,80,2,40,36,8))
 ```
 
-```{r question_3, exercise=TRUE}
+```{r question_3, exercise=TRUE,exercise.lines = 5}
 head(numbers) #Run this line of code to see the top 6 lines of the data.frame
 
 ```
@@ -462,7 +464,7 @@ personality <- data.frame(ID = 1:6,
                       neuroticism = c(3,3,4,2,1,5))
 ```
 
-```{r question_4, exercise=TRUE}
+```{r question_4, exercise=TRUE,exercise.lines = 5}
 personality
 
 ```
@@ -500,7 +502,7 @@ phys_exer <- data.frame(ID = 1:6,
                       saturday = c(120,0,10,20,10,0))
 ```
 
-```{r question_5, exercise=TRUE}
+```{r question_5, exercise=TRUE,exercise.lines = 5}
 phys_exer
 
 ```
@@ -629,6 +631,8 @@ brightside <- data.frame(line = c(1,2,NA,3,4),
 brightside_final <- brightside %>%
   filter(brightside,!is.na(line) %>%
   select(line word1, word2, word3, word4, word5, word6)
+
+brightside_final
 ```
 
 ```{r question_8-hint-1}
@@ -709,9 +713,9 @@ checker()
 
 ## Advanced Exercises
 
-Up to now, we have covered some of the helpful `tidyverse` functions, but there are many more that are useful to data cleaning and preparting a data.frame for analysis. This week's advance exercises focuses on introducing a few more. Note that even after completing these exercises, we still wouldn't have covered every tidyverse function.
+Up to now, we have covered some of the helpful `tidyverse` functions, but there are many more that are useful to data cleaning and preparing a data.frame for analysis. This week's advance exercises focuses on introducing a few more. Note that even after completing these exercises, we still wouldn't have covered every tidyverse function.
 
-###Question A1 - arrange()
+### Question A1 - arrange()
 
 The `arrange()` function reorders the rows in your data.frame according to a columns in the data.frame. Like all tidyverse functions, the first argument is the data.frame you wish to manipulate. The second argument is the name of variable you wish to sort by.
 
@@ -762,7 +766,7 @@ Next hint will show the solution...
 ordered_planets <- arrange(all_planets,desc(moons))
 ```
 
-###Question A2 - rename()
+### Question A2 - rename()
 
 Use the `rename()` function to rename the variables in your data.frame. In the code below, we rename three variables in a data.frame:
 
@@ -773,9 +777,9 @@ renamed.data <- rename(data,
                        new.variable.name3 = old.variable.name3)
 ```
 
-A few things to note. First, to ease readability, we have spaced out this function across multiple lines. Second, the new name of the variable goes on the right of the `=` symbol, while the original name goes on the left. A common mistake is to mix this up!
+A few things to note. First, to ease readability, we have spaced out this function across multiple lines. Second, the new name of the variable goes on the left of the `=` symbol, while the original name goes on the right. A common mistake is to mix this up!
 
-In the box below is the planets data from above, but without informative variable names. Use the `rename()` function to fix this.
+In the box below is the planets data from above, but without informative variable names. Use the `rename()` function to fix this. The new variables should be `planet`, `diameter`, `orbit`, `temperature`, and `moons` in that order.
 
 ```{r question_a2-setup, include = FALSE}
 planets_within_belt <- data.frame(planet = c("Mercury","Venus","Earth","Mars"),
@@ -816,7 +820,7 @@ planets_with_colnames <- rename(all_planets,
                       moons = X4)
 ```
 
-###Question A3 - separate()
+### Question A3 - separate()
 
 One of the key tennants of data cleaning is that each cell of your data.frame should only have one variable. However, if importing data from different programs, this may not be the default - sometimes, a single variable will hold multiple values, like in the example below:
 
@@ -878,7 +882,7 @@ imported.data3 <- separate(imported.data2,
 #To aid readability, we have split the function across multiple lines.
 ```
 
-###Question A4 - unite()
+### Question A4 - unite()
 
 Occassionally, you will need to do the opposite of the `separate()` function, and combine multiple columns to one. This can be achieved with the `unite()` function.
 
@@ -946,7 +950,7 @@ combined.data <- unite(meta.analysis,
 #The command `as.numeric()` makes sure the variable 'effect' is a numeric variable.
 ```
 
-###Question A5 - recode()
+### Question A5 - recode()
 
 You can use the `recode()` function to recode individual values within a variable. To use this function, use it within a `mutate()` function.
 

@@ -161,7 +161,7 @@ This is the fourth of the weekly exercises. These exercises are designed to rein
 
 ### Before you start...
 
-Be aware that the checker cannot check visual information. So while submitting your answer may return a green "correct" message, it is up to you to evaluate whether your plot meets the objective.
+Be aware that the checker cannot evaluate visual information. So while submitting your answer may return a green "correct" message, it is up to you to evaluate whether your plot meets the objective.
 
 ### Question 1
 
@@ -268,7 +268,7 @@ plot.output <- ggplot(data = plot.data,aes(x = var_x, y = var_y)) +
 
 ### Question 4
 
-In the data.frame below (saved as `plot.data`), you have collected data from 40 participants on two variables. Participants are members of one of three groups (this is saved as the variable 'group' in the data.frame). You wish to create a scatterplot, where membership in each group is represented by a different colour. Edit the code below to do this.
+In the data.frame below (saved as `plot.data`), you have collected data from 40 participants on two variables. Participants are members of one of three groups (this is saved as the variable 'group_member' in the data.frame). You wish to create a scatterplot, where membership in each group is represented by a different colour. Edit the code below to do this.
 
 ```{r question_4-setup}
   plot.data <- data.frame(var1 = c(0.2,0.32,0.81,-0.38,-0.52,-0.42,-1.52,-0.73,-1.33,1.03,0.53,1.3,-1.28,-0.2,1.51,-0.15,0.02,1.25,1.06,-0.42,2.13,-0.28,-1.2,-1.18,-1.19,-1.36,-0.51,0.08,0.78,0.15,0.27,-0.79,-1.14,-0.84,-0.23,-0.67,-0.9,0.31,0.63,1.42),
@@ -346,7 +346,7 @@ plot.output
 
 ### Question 6
 
-You have conducted a study investigating infant's beliefs in fairness. From 30 10-month-olds, you measure how long infants attend to (in seconds) a suprising event (a puppet helping another puppet that previously committed a transgression). Plot the the distribution of looking times as either a histogram or density plot and save the result as `plot.output`. The data.frame is saved as the object `looking.data`.
+You have conducted a study investigating infant's beliefs in fairness. From thirty 10-month-olds, you measure how long infants attend to (in seconds) a suprising event (a puppet helping another puppet that previously committed a transgression). Plot the the distribution of looking times as either a histogram or density plot and save the result as `plot.output`. The data.frame is saved as the object `looking.data`.
 
 ```{r question_6-setup}
 looking.data <- data.frame(ID = 1:30,
@@ -390,7 +390,7 @@ plot.output <- ggplot(looking.data,aes(x = looking.time)) +
 
 This week's advanced exercises focuses on introducing additional handy functions for making visualisations in ggplot and using visualisation for data diagnostics.
 
-###Question A1 - Customise Labels
+### Question A1 - Customise Labels
 
 By default, ggplot will use the variable names for labels on the axes. You can set custom axis labels by adding `xlab()` or `ylab()` when building your ggplot. You can also add a title to the plot by adding `ggtitle()`:
 
@@ -436,9 +436,9 @@ ggplot(IQ.data,aes(x = matricesIQscore)) +
   ggtitle("Distribution of IQ Scores of the Sample")
 ```
 
-###Question A2 - Data Diagnostics 1
+### Question A2 - Data Diagnostics 1
 
-You may have noticed something doesn't look quite right about the distribution of IQ scores above. There appears to be a small number of participants with a IQ score of "-99". Some statistics courses teach that missing values should be coded as an unrealistic value (e.g., -99); however, this causes some issues if you forget to exclude them or not tell your statistics program that these are missing values!
+You may have noticed something doesn't look quite right about the distribution of IQ scores above. There appears to be a small number of participants with a IQ score of "-99". Some statistics courses teach that missing values should be coded as an unrealistic value (e.g., -99); however, this can cause some issues if you forget to exclude them or not tell your collaborators/statistics program that these are missing values!
 
 In the box below, use tidyverse functions to remove participants with an IQ score of "-99" and replot the distribution.
 
@@ -477,7 +477,7 @@ ggplot(IQ.plot_data,aes(x = matricesIQscore)) +
   ggtitle("Distribution of IQ Scores of the Sample")
 ```
 
-###Question A3 - Facets
+### Question A3 - Facets
 
 Up to now, we have tended to suggest using different aesthetics to represent different variables. Another way is to split your graph into different facets (i.e., subplots). This is particularly useful for categorical variables.
 
@@ -534,7 +534,7 @@ ggplot(IQ.plot_data,aes(x = matricesIQscore)) +
   facet_wrap(~ country)
 ```
 
-###Question A4 - Data Diagnostics 2
+### Question A4 - Data Diagnostics 2
 
 Looking at the distributions split by country, does anything look odd to you?
 

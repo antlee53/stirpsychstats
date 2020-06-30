@@ -35,7 +35,7 @@ checker <- function(label,user_code,solution_code,check_code,envir_result,evalua
       out <- list(message = "The code to do with `z` doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
           }
     } else {
-      out <- list(message = "No object saved as z. Remember, you can save an object named `z` using: `x <-`", correct = FALSE, location = "append")
+      out <- list(message = "No object saved as z. Remember, you can save an object named `z` using: `z <-`", correct = FALSE, location = "append")
     }
     if(exists("y")){
       if(y != 6){
@@ -188,6 +188,8 @@ The following code calculates two plus two and saves the object as `x`. Edit the
 
 ```{r question_2, exercise=TRUE}
 x <- 2 + 2
+
+x
 ```
 
 ```{r question_2-hint-1}
@@ -393,7 +395,7 @@ checker()
 
 ### Question 9
 
-Below, the object `numbers` is saved, which is a numeric vector. Use a function to get the absolute values of `numbers` and save the result as `abs_numbers`. (The absolute value of a number is the size of the number, regardless of whether it is positive or negative (e.g., the absolute value of -5 is 5))
+Below, the object `numbers` is saved, which is a numeric vector. Use a function to get the absolute values of `numbers` and save the result as `abs_numbers`. (The absolute value of a number is the size of the number, regardless of whether it is positive or negative; for example, the absolute value of `-5` is `5`))
 
 ```{r question_9-setup, include = FALSE}
 numbers <- c(1,-2,6,-53,-88,100,3.14,-13)
@@ -451,7 +453,7 @@ Congrats! This is end of the basic exercises for this week. If you looking for a
 
 This week's advanced exercises focuses on introducing two other object classes (lists and matrices) and syntax for selecting specific elements in vectors and data.frames (known as indexing). This knowledge is particularly helpful for advanced procedures (e.g., creating your own functions), but can also provide helpful shortcuts for every day coding.
 
-NOTE: There is no code checking for advanced exercises - you are required to evaluate whether the code meets the objective on your own. However, if you want an example of a possible answer, you can click through the hints.
+NOTE: Content in these advanced exercises are NOT covered in demonstrations. The purpose is to provide additional challenges or new R content for students looking for a challenge. Also, there is no code checking for advanced exercises - you are required to evaluate whether the code meets the objective on your own. However, if you want an example of a possible answer, you can click through the hints.
 
 ### Question 1A - Lists in R
 
@@ -489,7 +491,7 @@ responses <- list(c(53,8,42),c("blue","maroon","gold"),TRUE)
 
 ### Question 2A - Selecting Elements in a List
 
-Elements of a list can be accessed individually by using indexing. In a list, this involves using double square brackets `[[]]` that contains the number of the element you wish to select.
+Elements of a list can be accessed individually by using indexing. In a list, this involves using double square brackets `[[...]]` that contains the number of the element you wish to select.
 
 So, if you wish to select the third element of a list called `this_list`, you would run the following code. You could then run any operation or function on this object as if it were any ordinary object.
 

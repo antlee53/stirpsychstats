@@ -497,7 +497,7 @@ checker()
 
 ### Question 10
 
-Below is a character vector named `animals`. Determine how many missing values are in `aniamls` by using the functions `is.na()` and `sum()` and save the result as `NA_total`.
+Below is a character vector named `animals`. Determine how many missing values are in `animals` by using the functions `is.na()` and `sum()` and save the result as `NA_total`.
 
 ```{r question_10-setup, include = FALSE}
 animals <- c("cat","magpie","lion","eagle","tiger",NA,"crow",NA,NA,"bulldog","hawk","kangaroo",NA,"swan",NA,NA,NA,NA)
@@ -521,6 +521,8 @@ Next hint will show the solution...
 ```
 
 ```{r question_10-solution}
+animals
+
 temp <- is.na(animals)
 NA_total <- sum(temp)
 
@@ -537,7 +539,7 @@ checker()
 
 Sometimes, you will want to analyse data, but the variables of interest are in separate data.frames - maybe the data are from different sources, or collected using different programs. This week's advanced exercises focuses on merging two separate data.frames in R.
 
-NOTE: There is no code checking for advanced exercises - you are required to evaluate whether the code meets the objective on your own. However, if you want an example of a possible answer, you can click through the hints.
+NOTE: Content in these advanced exercises are NOT covered in demonstrations. The purpose is to provide additional challenges or new R content for students looking for a challenge. Also, there is no code checking for advanced exercises - you are required to evaluate whether the code meets the objective on your own. However, if you want an example of a possible answer, you can click through the hints.
 
 ### Question A1 - Joining Data.frames
 
@@ -575,7 +577,7 @@ data.left <- data.frame(participant_id = c(1:6),age = c(24,25,24,31,19,18),count
 data.right <- data.frame(participant_id = c(1:6),creativity = c(4,2,5,3,4,6),logical_reasoning = c(5,2,6,5,5,4),stringsAsFactors = FALSE)      
 ```
 
-```{r question_a1, exercise=TRUE,exercise.lines = 5}
+```{r question_a1, exercise=TRUE,exercise.lines = 8}
 #data.left
 #data.right
 
@@ -610,7 +612,7 @@ data.left <- data.frame(participant_id = c(1:6),age = c(24,25,24,31,19,18),count
 data.countries <- data.frame(country_of_birth = c("England","Northern Ireland","Scotland","Wales"),number_of_murders = c(484,24,59,242),stringsAsFactors = FALSE)      
 ```
 
-```{r question_a2, exercise=TRUE,exercise.lines = 5}
+```{r question_a2, exercise=TRUE,exercise.lines = 8}
 #data.left
 #data.countries
 
@@ -647,7 +649,7 @@ data.1 <- data.frame(participant_id = c(1,2,3,1,2,3),age = c(24,25,24,31,19,18),
 data.2 <- data.frame(participant_id = c(1,2,3,1,2,3),country_of_birth = c("Scotland","Scotland","Scotland","Northern Ireland","Northern Ireland","Northern Ireland"),friendliness = c(1,7,6,4,5,3),stringsAsFactors = FALSE)  
 ```
 
-```{r question_a3, exercise=TRUE,exercise.lines = 5}
+```{r question_a3, exercise=TRUE,exercise.lines = 8}
 #data.1
 #data.2
 
@@ -683,7 +685,7 @@ data.time1 <- data.frame(participant_id = c(1:6),age = c(24,25,24,31,19,18),sati
 data.time2 <- data.frame(participant_id = c(1:6),age = c(26,27,26,33,21,20),satisfaction = c(6,6,5,5,2,7),stringsAsFactors = FALSE)
 ```
 
-```{r question_a4, exercise=TRUE,exercise.lines = 5}
+```{r question_a4, exercise=TRUE,exercise.lines = 8}
 #data.time1
 #data.time2
 
@@ -736,7 +738,7 @@ planets_beyond_belt <- data.frame(planet = c("Jupiter","Saturn","Uranus","Neptun
                                   moons = c(79,62,27,14),stringsAsFactors = FALSE)     
 ```
 
-```{r question_a5, exercise=TRUE,exercise.lines = 5}
+```{r question_a5, exercise=TRUE,exercise.lines = 8}
 #planets_within_belt
 #planets_beyond_belt
 
