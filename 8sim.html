@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -72,9 +73,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -193,8 +192,6 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
 
 <style type="text/css">
@@ -251,48 +248,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -341,8 +299,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -351,6 +307,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -490,21 +456,21 @@ z.vector &lt;- (vector - vector.mean)/vector.sd</code></pre>
 <p><code>sample()</code></p>
 <p>This function randomly samples options from a vector. For instance, below we randomly sample 40 objects who are either in the ‘cat’ group or the ‘dog’ group. To see more about how this function works, read <code>help(sample)</code>.</p>
 <pre class="r"><code>sample(c(&quot;cat&quot;,&quot;dog&quot;),40,replace = TRUE)</code></pre>
-<pre><code>##  [1] &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot;
-## [12] &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot;
-## [23] &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot;
-## [34] &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot;</code></pre>
+<pre><code>##  [1] &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot;
+## [12] &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot;
+## [23] &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot;
+## [34] &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot;</code></pre>
 <p><code>rnorm()</code></p>
 <p>This function creates a random continuous variable that is normally distributed. In the example below, we create a random normal distribution with a mean of 0 and a standard deviation of 1. To see more about how this function works, read <code>help(rnorm)</code>.</p>
 <pre class="r"><code>rnorm(40,mean = 0,sd = 1)</code></pre>
-<pre><code>##  [1]  0.452947191 -0.606489540  0.744225291  0.246535356 -0.105419200
-##  [6]  0.861251380 -0.230462976  0.254761753 -1.518228748  1.584643521
-## [11]  0.145736104 -1.191237441 -0.504878620 -0.003531543 -0.795335515
-## [16] -0.872616947 -0.724901838  1.862669592  0.218752274 -0.719240704
-## [21]  0.249987989 -0.089668923 -0.165790566 -1.491841670 -1.092228677
-## [26]  0.599636770 -2.074141507  0.140988788 -0.379475825 -2.153693347
-## [31]  0.630086041  0.457263104  0.864052116  0.289814021  0.325453950
-## [36]  2.093029909 -0.231163196 -0.731412814 -1.422600657  1.306243516</code></pre>
+<pre><code>##  [1] -0.786149527 -1.004097915  0.075245113 -0.732148370  0.716010635
+##  [6]  0.057999570  0.150797008  0.372677659  0.061095866  0.003616969
+## [11] -0.718865430  0.265666036 -0.367430841 -0.976557788  0.604024913
+## [16] -1.158770367  0.116143728 -0.238122603  0.257264840 -0.322014360
+## [21] -1.982671411  0.373759091 -0.430378024  0.742510490  0.621611955
+## [26] -0.770065524 -0.700991317 -1.326159352 -1.221398483  1.646275359
+## [31]  0.288680050  0.357219292  0.900892555  2.838913246 -1.874810375
+## [36]  0.889416239 -0.850646272  0.031979370 -0.135913645 -1.497833154</code></pre>
 <p>We now have the tools to create our simulate data function, which we will save as <code>create_dataset</code>. It will take one argument, n, which specifies the number of participants in the data.frame.</p>
 <p>We will set the mean and sd of the variable ‘introvert’ to match what we found in Workbook 4. (<em>M</em> = 36.33, <em>SD</em> = 7.31)</p>
 <pre class="r"><code>create_dataset &lt;- function(n){
@@ -515,26 +481,26 @@ z.vector &lt;- (vector - vector.mean)/vector.sd</code></pre>
 <p>Let’s test it out:</p>
 <pre class="r"><code>create_dataset(20)</code></pre>
 <pre><code>##    group introvert
-## 1    dog  26.38124
-## 2    dog  38.24915
-## 3    cat  29.85197
-## 4    cat  44.55650
-## 5    dog  43.76235
-## 6    cat  48.36432
-## 7    dog  52.84217
-## 8    dog  33.49528
-## 9    cat  18.42862
-## 10   dog  31.56930
-## 11   cat  27.27078
-## 12   dog  26.95810
-## 13   cat  46.55336
-## 14   dog  29.11889
-## 15   dog  34.80058
-## 16   dog  34.34085
-## 17   dog  38.49787
-## 18   cat  37.81162
-## 19   cat  42.17778
-## 20   cat  41.41102</code></pre>
+## 1    cat  38.10909
+## 2    cat  50.62825
+## 3    cat  53.62526
+## 4    dog  42.18368
+## 5    dog  39.04901
+## 6    cat  41.90904
+## 7    dog  42.11957
+## 8    dog  36.82836
+## 9    dog  45.89016
+## 10   cat  39.05968
+## 11   cat  37.66325
+## 12   dog  37.86927
+## 13   dog  24.92008
+## 14   cat  34.20687
+## 15   cat  29.12884
+## 16   cat  34.37992
+## 17   dog  48.22618
+## 18   cat  24.58188
+## 19   cat  32.40013
+## 20   cat  27.28579</code></pre>
 <div id="conduct-a-statistical-test-with-simulated-data." class="section level3">
 <h3>Conduct a statistical test with simulated data.</h3>
 <p>We can do anything with this new simulated data.frame as if it were a data based on real observations. For instance, we could conduct an independent-samples t-test. Remember, the variables we created are completely random, so we would expect a non-significant result here.</p>
@@ -543,13 +509,13 @@ z.vector &lt;- (vector - vector.mean)/vector.sd</code></pre>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by group
-## t = -1.901, df = 9.0742, p-value = 0.08948
+## t = -1.0901, df = 13.852, p-value = 0.2943
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -11.5382610   0.9938288
+##  -12.406785   4.050436
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          35.94950          41.22171</code></pre>
+##          34.91649          39.09466</code></pre>
 <p>Let’s expand the function above. How about creating a function that simulates a dataset, then runs a t-test, and returns the results of the test? We can do this by including the function that runs a t.test within the function we wrote above:</p>
 <pre class="r"><code>simulate_test &lt;- function(n){
   result &lt;- data.frame(group = sample(c(&quot;cat&quot;,&quot;dog&quot;),n,replace = TRUE),
@@ -559,7 +525,7 @@ z.vector &lt;- (vector - vector.mean)/vector.sd</code></pre>
   return(test$estimate)
 }</code></pre>
 <pre class="r"><code>simulate_test(20)</code></pre>
-<pre><code>## [1] 4.176677</code></pre>
+<pre><code>## [1] -1.078574</code></pre>
 <p>Let’s go another step further and say we want to run a t-tests on simulated data 1000 times. Doing so will give us a distribution of estimates given a certain statistical test and sample size. We can do this by using the <code>replicate()</code> function. This function expects two arguments, the first is the number of times we want to conduct a function, the second is the function itself. In the case below, the output is saved as a vector.</p>
 <pre class="r"><code>output_20 &lt;- replicate(1000,simulate_test(20))</code></pre>
 <p>To see the distribution of estimates, we can plot these values:</p>
@@ -598,13 +564,13 @@ data %&gt;%
   group_by(cat.dog) %&gt;%
   summarise(introvert.mean = mean(introvert,na.rm = TRUE))</code></pre>
 <pre><code>## # A tibble: 5 x 2
-##   cat.dog introvert.mean
-##   &lt;chr&gt;            &lt;dbl&gt;
-## 1 &quot;&quot;               NaN  
-## 2 both              36.1
-## 3 cat               38.4
-## 4 dog               33.8
-## 5 neither           37.7</code></pre>
+##   cat.dog   introvert.mean
+##   &lt;chr&gt;              &lt;dbl&gt;
+## 1 &quot;&quot;                 NaN  
+## 2 &quot;both&quot;              36.1
+## 3 &quot;cat&quot;               38.4
+## 4 &quot;dog&quot;               33.8
+## 5 &quot;neither&quot;           37.7</code></pre>
 <pre class="r"><code>cat.dog_difference &lt;- 38.42857 - 33.84000</code></pre>
 <p>Remember, using logical operators results in a logical variable, which is coded as TRUE = 1 and FALSE = 0. Therefore, we can use the <code>mean()</code> function to get the proportion of times out of the 1000 simulations we correctly found a significant effect.</p>
 <pre class="r"><code>sim.results &lt;- replicate(1000,simulate_test2(20,cat.dog_difference))
@@ -612,14 +578,14 @@ data %&gt;%
 power &lt;- mean(sim.results &lt; .05)
 
 power</code></pre>
-<pre><code>## [1] 0.211</code></pre>
-<p>The convention is that the analysis is sufficiently powered if it can detect an effect that is present 80% of the time. The power calculated for a sample size of 20 was 21.1%, which falls quite short of this threshold. What if we increased our sample size?</p>
+<pre><code>## [1] 0.233</code></pre>
+<p>The convention is that the analysis is sufficiently powered if it can detect an effect that is present 80% of the time. The power calculated for a sample size of 20 was 23.3%, which falls quite short of this threshold. What if we increased our sample size?</p>
 <pre class="r"><code>sim.results &lt;- replicate(1000,simulate_test2(240,cat.dog_difference))
 
 power &lt;- mean(sim.results &lt; .05)
 
 power</code></pre>
-<pre><code>## [1] 0.997</code></pre>
+<pre><code>## [1] 0.996</code></pre>
 <p>Now with a sample size of 240, we appear to have more than enough power. By running the above simulations at different sample sizes, we will be able to determine the sample sizes needed to acheive 80% power. Below is code to automatically run the <code>simulate_test2()</code> function at different sample sizes and save the results in a data.frame. There are some complicated things going on here, but see if you can make sense of it. You may need to look up what certain functions do.</p>
 <pre class="r"><code>power.grid &lt;- data.frame(candidate_n = rep(seq(20,240,by = 20),each = 1000)) %&gt;%
   mutate(power = vapply(candidate_n,simulate_test2,FUN.VALUE = 1,mean.diff = cat.dog_difference)) %&gt;%
@@ -698,6 +664,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

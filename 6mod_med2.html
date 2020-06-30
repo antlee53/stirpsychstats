@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -72,9 +73,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -193,8 +192,6 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
 
 <style type="text/css">
@@ -251,48 +248,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -341,8 +299,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -351,6 +307,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -620,20 +586,20 @@ lm.beta(model1) %&gt;% summary()</code></pre>
 <tr class="odd">
 <td>Teacher Comprehension</td>
 <td>-0.02</td>
-<td>0.04</td>
-<td>-0.257</td>
+<td>-0.26</td>
+<td>0.798</td>
 </tr>
 <tr class="even">
 <td>Social Support</td>
 <td>0.27</td>
-<td>0.02</td>
-<td>2.909</td>
+<td>2.91</td>
+<td>0.004</td>
 </tr>
 <tr class="odd">
 <td>TC * SS</td>
 <td>0.11</td>
-<td>0</td>
-<td>1.136</td>
+<td>1.14</td>
+<td>0.259</td>
 </tr>
 </tbody>
 </table>
@@ -753,7 +719,7 @@ lm.beta(model1) %&gt;% summary()</code></pre>
 ## Total effect(c) of  teacher  on  stress  =  -0.09   S.E. =  0.09  t  =  -0.92  df=  112   with p =  0.36
 ## Direct effect (c&#39;) of  teacher  on  stress  removing  stars.test  =  -0.09   S.E. =  0.1  t  =  -0.93  df=  111   with p =  0.35
 ## Indirect effect (ab) of  teacher  on  stress  through  stars.test   =  0 
-## Mean bootstrapped indirect effect =  0  with standard error =  0.03  Lower CI =  -0.04    Upper CI =  0.06
+## Mean bootstrapped indirect effect =  0.01  with standard error =  0.03  Lower CI =  -0.04    Upper CI =  0.06
 ## R = 0.09 R2 = 0.01   F = 0.44 on 2 and 111 DF   p-value:  0.646 
 ## 
 ##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
@@ -803,6 +769,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

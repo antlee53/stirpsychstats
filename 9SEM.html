@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -72,9 +73,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -193,8 +192,6 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
 
 <style type="text/css">
@@ -251,48 +248,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -341,8 +299,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -351,6 +307,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -574,7 +540,7 @@ total := direct + indirect
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)
 
 summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-3 ended normally after 19 iterations
+<pre><code>## lavaan 0.6-4 ended normally after 19 iterations
 ## 
 ##   Optimization method                           NLMINB
 ##   Number of free parameters                          5
@@ -685,54 +651,59 @@ summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)<
 <p>First, we need to specify the model. Below, this model is specified as formula that <code>lavaan</code> can read:</p>
 <pre class="r"><code>model &lt;- &#39;
 intention ~ attitude + norms + control
-behaviour ~ intention + control
+
+norms ~~ attitude
+attitude ~~ control
+control ~~ norms
+
+behaviour ~ intention + control + attitude
 &#39;</code></pre>
 <p>To break down the code above: Line 1: Attitudes, norms, and control predict intention. Note, covariance between predictors is accounted for since they are specified in the same part of the formula (similar to with an ordinary regression). Line 2: Intention and control predicts behaviour.</p>
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data2.clean)
-summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-3 ended normally after 20 iterations
+summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE,modindices = TRUE)</code></pre>
+<pre><code>## lavaan 0.6-4 ended normally after 71 iterations
 ## 
 ##   Optimization method                           NLMINB
-##   Number of free parameters                          7
+##   Number of free parameters                         14
 ## 
 ##   Number of observations                           106
 ## 
 ##   Estimator                                         ML
-##   Model Fit Test Statistic                      23.981
-##   Degrees of freedom                                 2
-##   P-value (Chi-square)                           0.000
+##   Model Fit Test Statistic                       0.363
+##   Degrees of freedom                                 1
+##   P-value (Chi-square)                           0.547
 ## 
 ## Model test baseline model:
 ## 
-##   Minimum Function Test Statistic              150.999
-##   Degrees of freedom                                 7
+##   Minimum Function Test Statistic              222.634
+##   Degrees of freedom                                10
 ##   P-value                                        0.000
 ## 
 ## User model versus baseline model:
 ## 
-##   Comparative Fit Index (CFI)                    0.847
-##   Tucker-Lewis Index (TLI)                       0.466
+##   Comparative Fit Index (CFI)                    1.000
+##   Tucker-Lewis Index (TLI)                       1.030
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)               -768.240
-##   Loglikelihood unrestricted model (H1)       -756.250
+##   Loglikelihood user model (H0)              -1829.375
+##   Loglikelihood unrestricted model (H1)      -1829.193
 ## 
-##   Number of free parameters                          7
-##   Akaike (AIC)                                1550.480
-##   Bayesian (BIC)                              1569.124
-##   Sample-size adjusted Bayesian (BIC)         1547.009
+##   Number of free parameters                         14
+##   Akaike (AIC)                                3686.749
+##   Bayesian (BIC)                              3724.037
+##   Sample-size adjusted Bayesian (BIC)         3679.806
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
-##   RMSEA                                          0.322
-##   90 Percent Confidence Interval          0.215  0.443
-##   P-value RMSEA &lt;= 0.05                          0.000
+##   RMSEA                                          0.000
+##   90 Percent Confidence Interval          0.000  0.216
+##   P-value RMSEA &lt;= 0.05                          0.597
 ## 
 ## Standardized Root Mean Square Residual:
 ## 
-##   SRMR                                           0.060
+##   SRMR                                           0.009
 ## 
 ## Parameter Estimates:
 ## 
@@ -747,24 +718,49 @@ summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 ##     norms             0.238    0.119    1.991    0.047    0.238    0.154
 ##     control           0.499    0.285    1.752    0.080    0.499    0.155
 ##   behaviour ~                                                           
-##     intention         0.380    0.099    3.834    0.000    0.380    0.328
-##     control           1.553    0.319    4.869    0.000    1.553    0.417
+##     intention         0.096    0.105    0.921    0.357    0.096    0.083
+##     control           0.853    0.316    2.698    0.007    0.853    0.229
+##     attitude          0.353    0.069    5.144    0.000    0.353    0.508
+## 
+## Covariances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   attitude ~~                                                           
+##     norms            59.943   14.771    4.058    0.000   59.943    0.429
+##     control          41.065    7.633    5.380    0.000   41.065    0.613
+##   norms ~~                                                              
+##     control           6.108    2.603    2.347    0.019    6.108    0.234
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##    .intention        67.104    9.217    7.280    0.000   67.104    0.519
-##    .behaviour       100.796   13.845    7.280    0.000  100.796    0.581
+##    .behaviour        80.663   11.080    7.280    0.000   80.663    0.465
+##     attitude        358.926   49.302    7.280    0.000  358.926    1.000
+##     norms            54.420    7.475    7.280    0.000   54.420    1.000
+##     control          12.510    1.718    7.280    0.000   12.510    1.000
 ## 
 ## R-Square:
 ##                    Estimate
 ##     intention         0.481
-##     behaviour         0.419</code></pre>
+##     behaviour         0.535
+## 
+## Modification Indices:
+## 
+##          lhs op       rhs    mi     epc sepc.lv sepc.all sepc.nox
+## 15 intention ~~ behaviour 0.362  22.654  22.654    0.308    0.308
+## 19 behaviour ~~  attitude 0.362  20.002  20.002    0.118    0.118
+## 20 behaviour ~~     norms 0.362  -3.560  -3.560   -0.054   -0.054
+## 21 behaviour ~~   control 0.362 -37.098 -37.098   -1.168   -1.168
+## 22 intention  ~ behaviour 0.362   0.281   0.281    0.325    0.325
+## 23 behaviour  ~     norms 0.362  -0.080  -0.080   -0.045   -0.045
+## 25  attitude  ~ behaviour 0.362   0.248   0.248    0.172    0.172
+## 29     norms  ~ behaviour 0.362  -0.044  -0.044   -0.079   -0.079
+## 33   control  ~ behaviour 0.362  -0.460  -0.460   -1.713   -1.713</code></pre>
 <p>Notice above in the <code>summary()</code> function, we have included additional arguments to get extra statistics that are helpful when it comes to report the analysis.</p>
 </div>
 <div id="plot-the-model.-1" class="section level3">
 <h3>3. Plot the model.</h3>
 <p>Again, we use <code>semPaths()</code> to plot our SEM model. Here, the limitations of not being able to organise the layout of your plot is apparant, though it still may be helpful to visualise your results to help your understanding.</p>
-<pre class="r"><code>semPaths(sem.model,whatLabel = &quot;est&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
+<pre class="r"><code>semPaths(sem.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
 <p><img src="9SEM_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 </div>
@@ -774,6 +770,11 @@ summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 <p>In the example below, we will compare the model above with a simpler model, where the path between control and behaviour is removed. The formula and code to conducted this slightly simpler model is as follows:</p>
 <pre class="r"><code>model2 &lt;- &#39;
 intention ~ attitude + norms + control
+
+norms ~~ attitude
+attitude ~~ control
+control ~~ norms
+
 behaviour ~ intention
 &#39;
 
@@ -786,25 +787,90 @@ sem.model2 &lt;- sem(model2,data = data2.clean)
 <pre class="r"><code>anova(sem.model,sem.model2)</code></pre>
 <pre><code>## Chi Square Difference Test
 ## 
-##            Df    AIC    BIC  Chisq Chisq diff Df diff Pr(&gt;Chisq)    
-## sem.model   2 1550.5 1569.1 23.981                                  
-## sem.model2  3 1569.9 1585.9 45.377     21.396       1  3.735e-06 ***
+##            Df    AIC    BIC   Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+## sem.model   1 3686.7 3724.0  0.3627                                  
+## sem.model2  3 3727.8 3759.7 45.3772     45.014       2   1.68e-10 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>Above, we find that there is a significant difference between the two models. Therefore, we can conclude that dropping the path between “control” and “behaviour” significantly reduces model fit.</p>
+<p>Above, we find that there is a significant difference between the two models. Therefore, we can conclude that dropping the path between “control” and “behaviour” significantly reduces model fit. As such, we should retain this path in the model.</p>
 <p>While above, we use the <code>anova()</code> function to test the difference between nested SEM models, we can also use this function to compare models from other functions, such as <code>lm()</code>.</p>
 </div>
 <div id="introducing-latent-variables" class="section level2">
 <h2>Introducing Latent Variables</h2>
 <p>Up to now, to calculate variables from individual items, we have been adding each item up. However, we could also compute latent variables, which are the underlying variables that each item is meant to tap into.</p>
-<p>For example, we could calculate the latent variable ‘attitude’ from each of the individual items.</p>
+<p>For example, we could calculate the latent variable ‘norms’ from each of the individual items.</p>
 <pre class="r"><code>attitude.formula &lt;- &#39;
   attitude =~ exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5 + exercise.attitude.6 + exercise.attitude.7 + exercise.attitude.8 + exercise.attitude.9 + exercise.attitude.10 + exercise.attitude.11 + exercise.attitude.12 + exercise.attitude.13 + exercise.attitude.14 + exercise.attitude.15 + exercise.attitude.16 + exercise.attitude.17 + exercise.attitude.18 + exercise.attitude.19
 &#39;
 
 attitude.model &lt;- sem(attitude.formula,data = data)
-semPaths(attitude.model,whatLabel = &quot;est&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
-<p><img src="9SEM_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+summary(attitude.model,standardized = TRUE)</code></pre>
+<pre><code>## lavaan 0.6-4 ended normally after 32 iterations
+## 
+##   Optimization method                           NLMINB
+##   Number of free parameters                         38
+## 
+##                                                   Used       Total
+##   Number of observations                           112         118
+## 
+##   Estimator                                         ML
+##   Model Fit Test Statistic                     382.819
+##   Degrees of freedom                               152
+##   P-value (Chi-square)                           0.000
+## 
+## Parameter Estimates:
+## 
+##   Information                                 Expected
+##   Information saturated (h1) model          Structured
+##   Standard Errors                             Standard
+## 
+## Latent Variables:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   attitude =~                                                           
+##     exercis.tttd.1    1.000                               1.046    0.804
+##     exercis.tttd.2    1.082    0.113    9.597    0.000    1.132    0.787
+##     exercis.tttd.3    0.158    0.160    0.990    0.322    0.166    0.095
+##     exercis.tttd.4    0.915    0.093    9.871    0.000    0.957    0.803
+##     exercis.tttd.5    1.095    0.114    9.631    0.000    1.145    0.789
+##     exercis.tttd.6    0.445    0.123    3.610    0.000    0.466    0.339
+##     exercis.tttd.7    1.167    0.112   10.376    0.000    1.221    0.832
+##     exercis.tttd.8    0.884    0.117    7.557    0.000    0.925    0.655
+##     exercis.tttd.9    0.899    0.093    9.700    0.000    0.940    0.793
+##     exercs.tttd.10    1.180    0.131    9.009    0.000    1.235    0.751
+##     exercs.tttd.11    0.759    0.126    6.010    0.000    0.794    0.540
+##     exercs.tttd.12    0.572    0.084    6.826    0.000    0.598    0.603
+##     exercs.tttd.13    1.131    0.118    9.543    0.000    1.183    0.784
+##     exercs.tttd.14    0.799    0.089    9.012    0.000    0.836    0.752
+##     exercs.tttd.15    1.234    0.118   10.445    0.000    1.291    0.836
+##     exercs.tttd.16    1.163    0.138    8.455    0.000    1.217    0.716
+##     exercs.tttd.17    0.664    0.121    5.476    0.000    0.695    0.498
+##     exercs.tttd.18    1.037    0.123    8.429    0.000    1.085    0.714
+##     exercs.tttd.19    1.140    0.110   10.383    0.000    1.192    0.832
+## 
+## Variances:
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .exercis.tttd.1    0.597    0.086    6.908    0.000    0.597    0.353
+##    .exercis.tttd.2    0.787    0.113    6.973    0.000    0.787    0.380
+##    .exercis.tttd.3    2.994    0.400    7.480    0.000    2.994    0.991
+##    .exercis.tttd.4    0.504    0.073    6.913    0.000    0.504    0.355
+##    .exercis.tttd.5    0.795    0.114    6.966    0.000    0.795    0.377
+##    .exercis.tttd.6    1.669    0.224    7.443    0.000    1.669    0.885
+##    .exercis.tttd.7    0.663    0.098    6.778    0.000    0.663    0.308
+##    .exercis.tttd.8    1.136    0.157    7.248    0.000    1.136    0.571
+##    .exercis.tttd.9    0.521    0.075    6.951    0.000    0.521    0.371
+##    .exercs.tttd.10    1.176    0.166    7.077    0.000    1.176    0.435
+##    .exercs.tttd.11    1.526    0.208    7.354    0.000    1.526    0.708
+##    .exercs.tttd.12    0.628    0.086    7.305    0.000    0.628    0.637
+##    .exercs.tttd.13    0.878    0.126    6.983    0.000    0.878    0.385
+##    .exercs.tttd.14    0.538    0.076    7.077    0.000    0.538    0.435
+##    .exercs.tttd.15    0.720    0.107    6.757    0.000    0.720    0.302
+##    .exercs.tttd.16    1.409    0.197    7.154    0.000    1.409    0.487
+##    .exercs.tttd.17    1.463    0.198    7.380    0.000    1.463    0.752
+##    .exercs.tttd.18    1.130    0.158    7.157    0.000    1.130    0.490
+##    .exercs.tttd.19    0.631    0.093    6.776    0.000    0.631    0.307
+##     attitude          1.095    0.214    5.112    0.000    1.000    1.000</code></pre>
+<pre class="r"><code>semPaths(attitude.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
+<p><img src="9SEM_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>How about we compute latent variables for all the variables in the TPB model above? Doing something like this may not make a lot of sense: we will end up with a gangly model, and we may not have enough observations to get sensible results, but we can do it do it anyway! For demonstrative purposes… The code is provided below to run this analysis, but this code is not executed, as the output is quite long an unweildy.</p>
 <div id="specify-the-model" class="section level3">
 <h3>Specify the Model</h3>
@@ -820,7 +886,7 @@ semPaths(attitude.model,whatLabel = &quot;est&quot;,intercept = FALSE,residuals 
 &#39;</code></pre>
 <p>We won’t run the <code>summary()</code> just now because it is very unwieldy…</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data)
-#summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
+summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 <p>Again, we can plot the SEM using <code>semPaths()</code>, but this gets pretty messy, given the number of items make up each latent variable.</p>
 </div>
 </div>
@@ -828,7 +894,7 @@ semPaths(attitude.model,whatLabel = &quot;est&quot;,intercept = FALSE,residuals 
 <div id="plot-the-model" class="section level1">
 <h1>Plot the Model</h1>
 <pre class="r"><code>load(&quot;files/sem.model.Rdata&quot;)</code></pre>
-<pre class="r"><code>semPaths(sem.model,whatLabel = &quot;est&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
+<pre class="r"><code>semPaths(sem.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
 <div class="figure">
 <img src="images/sem.plot.png" alt="SEM plot with latent variables" />
 <p class="caption">SEM plot with latent variables</p>
@@ -858,6 +924,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
