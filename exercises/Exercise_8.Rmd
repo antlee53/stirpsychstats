@@ -696,7 +696,7 @@ performance.data <- data.frame(ID = as.character(pd[,1]),
   gather(key = "year",value = "performance",Y2018,Y2019)
 ```
 
-In the code box below, there is a dataset testing the performance of elite athelete in two years (higher number of output means greater engagement). These atheletes also fall into one of four groups based on their training regiment. Conduct a mixed design ANOVA to determine whether performance differs based on the training regiment, and whether this interacts with the year the data was collected (e.g., are certain training regiments more effective over time?). Note, the dataset has already been reshaped.
+In the code box below, there is a dataset testing the performance of elite athletes in two years (higher number of output means greater engagement). These athletes also fall into one of four groups based on their training regiment. Conduct a mixed design ANOVA to determine whether performance differs based on the training regiment, and whether this interacts with the year the data was collected (e.g., are certain training regiments more effective over time?). Note, the dataset has already been reshaped.
 
 ```{r question_a3, exercise=TRUE,exercise.lines = 12}
 #performance.data
