@@ -361,10 +361,10 @@ div.tocify {
   <a href="5LM2.html">6. LM2</a>
 </li>
 <li>
-  <a href="6mod_med2.html">7. Mod Med</a>
+  <a href="6mod_med2.html">7. Mod</a>
 </li>
 <li>
-  <a href="8sim.html">8. Sim</a>
+  <a href="8sim.html">8. Power</a>
 </li>
 <li>
   <a href="9SEM.html">9. SEM</a>
@@ -408,7 +408,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = "files/data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -438,7 +438,7 @@ div.tocify {
 <p>You can also save and open R Scripts under the File tab. Scripts are opened in the text editor window (top left window) of RStudio.</p>
 <p>This is what an R script looks likes:</p>
 <div class="figure">
-<img src="images/script.png" alt="An R Script" />
+<img src="images/script.png" alt="" />
 <p class="caption">An R Script</p>
 </div>
 <p>You can make comments on your code by using the ‘#’ symbol. Anything after this symbol on a line will not be treated as code. This is handy for making notes to yourself about what your code does, or making your code more readable. Here are some examples of using comments:</p>
@@ -499,13 +499,13 @@ library(tidyverse)              #This line loads tidyverse for this session</cod
 </tr>
 </tbody>
 </table>
-<p>In general, I would suggest using a .csv file. This is advatageous because it can be read by many programs and is not tied to a specific program (like a SPSS or excel file), which future-proofs your data. Most programs, such as SPSS and excel, can also read .csv files. You can save a datset to your computer using the <code>write_csv()</code> function.</p>
-<p>Note, you can also read and write .csv file using base R functions read.csv() and write.csv() respectively; however, these functions have some default settings that can cause headaches in the future, so best to avoid these.</p>
+<p>In general, I would suggest using a .csv file. This is advantageous because it can be read by many programs and is not tied to a specific program (like a SPSS or excel file), which future-proofs your data. Most programs, such as SPSS and excel, can also read .csv files. You can save a dataset to your computer using the <code>write_csv()</code> function.</p>
+<p>Note, you can also read and write .csv file using base R functions read.csv() and write.csv() respectively; however, these functions have some default settings that can cause headaches in the future, so best to avoid these. Also note, the read_csv() function will output some red text that looks like an error message, but this is just R telling you how it interpretted all the variables, and usually means everything is okay.</p>
 <p>Remember to download the data for this week’s workbook and put it in your working directory before running the code below.</p>
 <pre class="r"><code>#Remember to load the tidyverse library if you haven&#39;t already.
 #The exact directory the file is in may differ depending on where the data file is on your computer.
 
-data &lt;- read_csv(&quot;files/data_2019.csv&quot;)</code></pre>
+data &lt;- read_csv(&quot;data_2020.csv&quot;)</code></pre>
 <p>Once data is loaded, you can view the data.frame by either clicking on the dataframe icon in the work space, or using the <code>View()</code> function in the console. This will open a tab in the top left window, and clicking on this will show you the data.frame. This can be handy to make sure your data has loaded correctly, or double-checking whether functions used to clean your data has worked as intended.</p>
 </div>
 <div id="calculate-descriptive-statistics" class="section level2">
@@ -543,7 +543,7 @@ prime.numbers.na &lt;- c(1,NA,3,5,7,NA,17,NA,53)</code></pre>
 <table>
 <colgroup>
 <col width="15%" />
-<col width="84%" />
+<col width="85%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -590,7 +590,7 @@ prime.numbers.na &lt;- c(1,NA,3,5,7,NA,17,NA,53)</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##   stats_exp.mean stats_exp.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;
-## 1              4         2.17</code></pre>
+## 1           4.85         2.27</code></pre>
 <p>A couple of things to note. First, I have broken the above code across several lines. This is just to make it easier to read (remember R ignores white space inside an incomplete command). Second, it doesn’t matter what you name the new variable (but ideally you want a label that is helpful).</p>
 <p>As mentioned, you are not limited in the number of stats you can compute using the <code>summarise()</code> function, so by expanding the code above, we can calculate the means and standard deviations of multiple variables:</p>
 <pre class="r"><code>summarise(data,
@@ -601,7 +601,7 @@ prime.numbers.na &lt;- c(1,NA,3,5,7,NA,17,NA,53)</code></pre>
 <pre><code>## # A tibble: 1 x 4
 ##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;
-## 1              4         2.17           5.58         2.15</code></pre>
+## 1           4.85         2.27           5.08         2.37</code></pre>
 <p>Note: An annoying thing about the summarise function is that sometimes it will not show results to two-decimal places (which is the requirement for APA format). To see all the decimal places, you can <code>View()</code> the data.frame produced by the <code>summarise()</code> function.</p>
 </div>
 </div>

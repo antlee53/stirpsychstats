@@ -361,10 +361,10 @@ div.tocify {
   <a href="5LM2.html">6. LM2</a>
 </li>
 <li>
-  <a href="6mod_med2.html">7. Mod Med</a>
+  <a href="6mod_med2.html">7. Mod</a>
 </li>
 <li>
-  <a href="8sim.html">8. Sim</a>
+  <a href="8sim.html">8. Power</a>
 </li>
 <li>
   <a href="9SEM.html">9. SEM</a>
@@ -395,6 +395,7 @@ div.tocify {
 <h1>Objectives</h1>
 <p>The aim of this week is to introduce the <code>lavaan</code> package for Structural Equation Modelling (e.g., path analysis) in R. By the end of this workbook, you should be familiar with:</p>
 <ol style="list-style-type: decimal">
+<li>Run a basic mediation analysis.</li>
 <li>The basics of the lavaan package.</li>
 <li>Run a simple path analysis.</li>
 </ol>
@@ -403,8 +404,10 @@ div.tocify {
 <h1>Resources</h1>
 <p>Here is a list of resources that may help you with this weeks content:</p>
 <p><a href="http://lavaan.ugent.be/tutorial/">lavaan tutorial</a> <a href="http://lavaan.ugent.be/tutorial/tutorial.pdf">lavaan tutorial pdf</a></p>
-<p><a href = "files/data_2019.csv" download>Click here to download the data used in these workbooks.</a> #Class Data</p>
-<p><a href = "files/data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+</div>
+<div id="class-data" class="section level1">
+<h1>Class Data</h1>
+<p><a href = files/simulated.data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -413,16 +416,156 @@ div.tocify {
 <div id="content" class="section level1">
 <h1>Content</h1>
 <p>We will be using the following packages in this week’s workbook:</p>
-<pre class="r"><code>library(lavaan)
+<pre class="r"><code>library(psych)
+library(lm.beta)
+library(lavaan)
 library(tidyverse)
 library(semPlot)</code></pre>
-<div id="before-we-start" class="section level2">
-<h2>Before We Start…</h2>
-<p>This workbook is only meant to serve as an introduction to the <code>lavaan</code> package, and therefore will only introduce some of the basic functions. You are able to add a lot of complexity to structural equation models that we will not be touching. If you truely wish to master this package, you will need to go beyond the content covered here.</p>
+<div id="mediation" class="section level2">
+<h2>Mediation</h2>
+<p>As covered in the Lecture series, mediation describes a relationship where the influence of one variable on another can be explained through a third variable. In the example below, we will test whether the relationship between attitudes towards exercise and exercise behaviour can be explained through intentions to exercise (i.e., individuals who have positive attitudes about exercise increase their intention to exercise, which in turn increases exercise behaviour). For more information on these scales (and some of the ones we will use later), see this paper: <a href="https://search.proquest.com/docview/202682863">https://search.proquest.com/docview/202682863</a>. Note, we only use the first 5-items on each scale to keep things simple.</p>
+<div id="clean-data-for-analysis." class="section level3">
+<h3>1. Clean data for analysis.</h3>
+<p>First, we must calculate the variables that we need for our analysis. This process should be fairly familiar by now.</p>
+<pre class="r"><code>data.clean &lt;- data %&gt;%
+  mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5,
+         intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5,
+         behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5) %&gt;%
+  dplyr::select(student.no,attitude,intention,behaviour) %&gt;%
+  filter(!is.na(attitude)) %&gt;%
+  filter(!is.na(intention)) %&gt;%
+  filter(!is.na(behaviour))</code></pre>
+</div>
+<div id="run-statistical-test" class="section level3">
+<h3>2. Run statistical test</h3>
+<p>Remember, mediation is when the effect of one IV could be explained through a third variable (mediation). If there is an effect in a model without the mediator, but that effect is reduced (or disappears) when the mediator is included, there is a chance the mediation is happening. In order to check whether our variables meet these conditions, we need to conduct a number of linear regressions.</p>
+<div id="model-1" class="section level4">
+<h4>Model 1</h4>
+<p>Here, we test whether there is an association between the predictor (attitudes) and the outcome variable (behaviour):</p>
+<pre class="r"><code>lm(behaviour ~ attitude,data = data.clean) %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = behaviour ~ attitude, data = data.clean)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.4673 -3.4492 -0.5395  3.5689 11.6531 
+## 
+## Coefficients:
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 15.44318      0.00000    0.60256  25.629   &lt;2e-16 ***
+## attitude     0.02407      0.02776    0.11384   0.211    0.833    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.661 on 58 degrees of freedom
+## Multiple R-squared:  0.0007704,  Adjusted R-squared:  -0.01646 
+## F-statistic: 0.04472 on 1 and 58 DF,  p-value: 0.8333</code></pre>
+</div>
+<div id="model-2" class="section level4">
+<h4>Model 2</h4>
+<p>Here, we test whether including the mediator (intention) in the model changes the relationship between the predictor (attitude) and the outcome variable (behaviour):</p>
+<pre class="r"><code>lm(behaviour ~ attitude + intention,data = data.clean) %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = behaviour ~ attitude + intention, data = data.clean)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.2548 -3.0644 -0.7116  3.8375 11.0788 
+## 
+## Coefficients:
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 15.38806      0.00000    0.60566  25.407   &lt;2e-16 ***
+## attitude     0.01627      0.01876    0.11420   0.142    0.887    
+## intention    0.14956      0.12665    0.15549   0.962    0.340    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.664 on 57 degrees of freedom
+## Multiple R-squared:  0.01673,    Adjusted R-squared:  -0.01777 
+## F-statistic: 0.4849 on 2 and 57 DF,  p-value: 0.6183</code></pre>
+</div>
+<div id="model-3" class="section level4">
+<h4>Model 3</h4>
+<p>Also, in order for there to be a mediation, we must observe a relationship between the predictor (attitude) and the mediator (intention):</p>
+<pre class="r"><code>lm(intention ~ attitude,data = data.clean) %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = intention ~ attitude, data = data.clean)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -8.421 -2.590 -0.212  2.788  6.631 
+## 
+## Coefficients:
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)
+## (Intercept)  0.36855      0.00000    0.50917   0.724    0.472
+## attitude     0.05219      0.07106    0.09620   0.543    0.590
+## 
+## Residual standard error: 3.938 on 58 degrees of freedom
+## Multiple R-squared:  0.00505,    Adjusted R-squared:  -0.0121 
+## F-statistic: 0.2944 on 1 and 58 DF,  p-value: 0.5895</code></pre>
+</div>
+<div id="mediation-analysis" class="section level4">
+<h4>Mediation Analysis</h4>
+<p>While we may or may not meet the conditions for a mediation above, we will continue with the analysis to demonstrate the process of conducting a mediation analysis regardless.</p>
+<p>In order to conduct a mediation analysis in R, we will load the <code>psych</code> package. If you haven’t installed the <code>psych</code> package yet, make sure to do this before loading the <code>psych</code> package.</p>
+<pre class="r"><code>library(psych)</code></pre>
+<p>The function that runs the mediation analysis is aptly named <code>mediate()</code>. Like all analysis functions, the <code>mediate()</code> function accepts a formula and a data.frame, but also a couple of options that we will want to change. For the formula, the mediate function takes a specific form, where the mediator is put inside brackets on the right-hand side of the <code>~</code> symbol:</p>
+<pre class="r"><code>DV ~ IV + (Mediator)</code></pre>
+<p>So for our analysis, the code becomes the following. Note, we also want to set the ‘std’ argument to <code>TRUE</code> to ensure we receive standardised estimates, and the ‘plot’ argument to <code>FALSE</code> so we are only seeing the numeric output (we will see the plot later).</p>
+<pre class="r"><code>model &lt;- mediate(behaviour ~ attitude + (intention),data = data.clean,std = TRUE,plot = FALSE)
+
+model</code></pre>
+<pre><code>## 
+## Mediation/Moderation Analysis 
+## Call: mediate(y = behaviour ~ attitude + (intention), data = data.clean, 
+##     std = TRUE, plot = FALSE)
+## 
+## The DV (Y) was  behaviour . The IV (X) was  attitude . The mediating variable(s) =  intention .
+## 
+## Total effect(c) of  attitude  on  behaviour  =  0.03   S.E. =  0.13  t  =  0.21  df=  58   with p =  0.83
+## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.02   S.E. =  0.13  t  =  0.14  df=  57   with p =  0.89
+## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  0.01 
+## Mean bootstrapped indirect effect =  0  with standard error =  0.03  Lower CI =  -0.05    Upper CI =  0.06
+## R = 0.13 R2 = 0.02   F = 0.48 on 2 and 57 DF   p-value:  0.618 
+## 
+##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
+<p>Most of the information above is what we have encountered previously. The main information we are interested in this output is the line on the mean bootstrapped indirect effect. A large indirect effect (and consequently a greater drop between the total effect and the direct effect) would indicate that mediation is occuring. Since we are bootstrapping, we can tell the significance through confidence intervals. If the range between the lower CI and the upper CI contains zero, then the indirect effect is not significant. If this range does not contain zero, then we have a significant mediation effect.</p>
+</div>
+</div>
+<div id="plot-data" class="section level3">
+<h3>3. Plot data</h3>
+<div id="path-diagram" class="section level4">
+<h4>Path Diagram</h4>
+<p>For mediation, there’s no good way to plot the raw data that visualises the mediation. The most common way to visualise a mediated effect is through a path diagram. You can do this directly in the <code>mediate()</code> function by setting the ‘plot’ argument to <code>TRUE</code> or use the <code>mediate.diagram()</code> like below:</p>
+<pre class="r"><code>mediate.diagram(model)</code></pre>
+<p><img src="9SEM_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+</div>
+</div>
+<div id="write-up-analysis." class="section level3">
+<h3>4. Write-up analysis.</h3>
+<p>There are several things you need to include when writing up a mediation analysis. Writing up a mediation analysis includes the write-up for each individual models with and without the mediator (Model 1 and Model 2 above - these numbers are also included in the output for the <code>mediate()</code> function), and also the estimated indirect effect and associated confidence intervals. Usually, you would want to accompany the write-up with a path diagram such as the one above. It does not make much sense to write-up the analysis above as we failed to meet the criteria for a mediation in the first instance, but if we were to do it anyway, it may go something like this:</p>
+<blockquote>
+<p>In the model where attitudes towards exercise predicted variance in exercise behaviour, the effect of exercise attitudes was not significant (beta = 0.03, p = 0.833). When including intention to exercise into the model, the effect of attitudes on behaviour did not change (beta = 0.02, p = 0.887). Mediation analysis revealled a non-significant indirect effect of intentions to exercise on the association between attitudes towards exercise and exercise behaviour (mean bootstrapped indirect effect = 0.02, 95% CI = -0.05, 0.06).</p>
+</blockquote>
+<p>Note: While we report the results in text above, it is sometimes also easier to report the separate models in a table.</p>
+</div>
+</div>
+<div id="before-we-continue" class="section level2">
+<h2>Before We Continue…</h2>
+<p>We are about to start using the <code>lavaan</code> package, which is used for path analyses and structural equation models. This workbook is only meant to serve as an introduction to the <code>lavaan</code> package, and therefore we will only discuss some of the basic functions. You are able to add a lot of complexity to structural equation models that we will not be touching. If you truly wish to master this package, you will need to go beyond the content covered here.</p>
 </div>
 <div id="mediation-analysis-through-structural-equation-modelling-sem" class="section level2">
 <h2>Mediation Analysis Through Structural Equation Modelling (SEM)</h2>
-<p>Mediation is an example of a simple SEM. We will first re-run the mediation we conducted in Workbook 7 in the <code>lavaan</code> package. If you recall, we were interested in the relationship between statistics teacher comprehension and stress and whether this is explained through individual’s belief about the anxiety at taking statistics test (i.e., individuals who find statistics teachers hard to understand increase their anxiety about taking statistics tests, which in turn increases stress).</p>
+<p>Mediation is an example of a simple SEM. We will first re-run the mediation we conducted above in the <code>lavaan</code> package, as this is a handy way of demonstrating the logic of the <code>lavaan</code> package.</p>
 <p>As with all analyses, we will be following the basic procedure of:</p>
 <ol style="list-style-type: decimal">
 <li>Clean the data for analysis.</li>
@@ -433,13 +576,15 @@ library(semPlot)</code></pre>
 <div id="clean-the-data-for-analysis." class="section level3">
 <h3>1. Clean the data for analysis.</h3>
 <p>As always, our first step is to calculate the variables from the individual items.</p>
-<p>The code below is identical to the code that we ran in Workbook 7 to prepare the data for analysis.</p>
+<p>The code below is identical to the code used for the mediation above.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
-  mutate(teacher = stars.30 + stars.32 + stars.43 + stars.44 + stars.46,
-         support = support.1 + support.2 + support.3 + support.4 + support.5 + support.6 + support.7 + support.8 + support.9 + support.10 + support.11 + support.12,
-         stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5 + stress.6 + stress.7 + stress.8 + stress.9 + stress.10,
-         stars.test = stars.1 + stars.4 + stars.8 + stars.10 + stars.13 + stars.15 + stars.21 + stars.22) %&gt;%
-  dplyr::select(student.no,teacher,support,stars.test,stress)</code></pre>
+  mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5,
+         intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5,
+         behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5) %&gt;%
+  dplyr::select(student.no,attitude,intention,behaviour) %&gt;%
+  filter(!is.na(attitude)) %&gt;%
+  filter(!is.na(intention)) %&gt;%
+  filter(!is.na(behaviour))</code></pre>
 </div>
 <div id="run-statistical-test." class="section level3">
 <h3>2. Run statistical test.</h3>
@@ -449,12 +594,12 @@ library(semPlot)</code></pre>
 </blockquote>
 <p>An SEM formula is an extention of of this, where multiple regression equations (or similar relationships) are estimated at once. Like with a regression, we use the <code>~</code> to specify a relationship between an outcome (on the left), and predictors (on the right).</p>
 <p>In the table below are some other relationships that you may use when constructing a SEM.</p>
-<table style="width:100%;">
+<table>
 <colgroup>
 <col width="9%" />
 <col width="18%" />
 <col width="20%" />
-<col width="50%" />
+<col width="52%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -488,9 +633,9 @@ library(semPlot)</code></pre>
 <p>Note: you can also label parameters by using the <code>*</code> symbol before variables. If you give two variables the same label, it will force the estimates to be the same (this comes in handy sometimes, but not something we will use in this workbook).</p>
 <p>Below is the formula to conduct a mediation analysis identical to the one we conducted in Workbook 7. See if you can understand each line and what relationship it is specifying before reading the breakdown. Remember, each line of code can be read as relationships between variables in the model.</p>
 <pre class="r"><code>sem.formula &lt;- &#39;
-stress ~ c*teacher
-stress ~ b*stars.test
-stars.test ~ a*teacher
+behaviour ~ c*attitude
+behaviour ~ b*intention
+intention ~ a*attitude
 
 indirect := a*b
 direct := c
@@ -499,8 +644,8 @@ total := direct + indirect
 <p>Let’s break this down:</p>
 <table>
 <colgroup>
-<col width="26%" />
-<col width="73%" />
+<col width="25%" />
+<col width="74%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -510,16 +655,16 @@ total := direct + indirect
 </thead>
 <tbody>
 <tr class="odd">
-<td>stress ~ c*teacher</td>
-<td>Stress is predicted from teacher, and this relationship is labelled ‘c’</td>
+<td>behaviour ~ c*attitude</td>
+<td>Behaviour is predicted from attitude, and this relationship is labelled ‘c’</td>
 </tr>
 <tr class="even">
-<td>stress ~ b*statsanxiety</td>
-<td>Stress is predicted from statsanxiety, and this relationship is labelled ‘b’</td>
+<td>behaviour ~ b*intention</td>
+<td>Behaviour is predicted from intention, and this relationship is labelled ‘b’</td>
 </tr>
 <tr class="odd">
-<td>statsanxiety ~ a*teacher</td>
-<td>Statsanxiety is predicted from teacher, and this relationship is labelled ‘a’</td>
+<td>intention ~ a*attitude</td>
+<td>Intention is predicted from attitude, and this relationship is labelled ‘a’</td>
 </tr>
 <tr class="even">
 <td>indirect := a*b</td>
@@ -535,29 +680,27 @@ total := direct + indirect
 </tr>
 </tbody>
 </table>
-<p>Essentially, the first three lines of the code are identical to running the <code>y.model</code> and <code>m.model</code> that we ran in Workbook 7, while the last two lines are like running the <code>mediate()</code> function get estimate the indirect and direct effect.</p>
+<p>Essentially, the first three lines of the code are identical to running the <code>Model 1</code>, <code>Model 2</code>, and <code>Model 3</code> that we ran above, while the last three lines are like running the <code>mediate()</code> function get estimate the indirect and direct effect.</p>
 <p>To run the SEM, we use the <code>sem()</code> function. Like all analyses done previously, we need to specify two things: the formula (which we saved as the object <code>sem.formula</code>) and the data.frame. We also set values for a few other arguments. We set ‘standardized’ to <code>TRUE</code> so that we get standardised estimates, ‘fit.measures’ to <code>TRUE</code> so we get model fit indicators, and ‘rsquare’ to <code>TRUE</code> to get an r-square statistic for the model.</p>
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)
 
 summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-4 ended normally after 19 iterations
+<pre><code>## lavaan 0.6-4 ended normally after 15 iterations
 ## 
 ##   Optimization method                           NLMINB
 ##   Number of free parameters                          5
 ## 
-##                                                   Used       Total
-##   Number of observations                           114         118
+##   Number of observations                            60
 ## 
 ##   Estimator                                         ML
 ##   Model Fit Test Statistic                       0.000
 ##   Degrees of freedom                                 0
-##   Minimum Function Value               0.0000000000000
 ## 
 ## Model test baseline model:
 ## 
-##   Minimum Function Test Statistic                8.265
+##   Minimum Function Test Statistic                1.316
 ##   Degrees of freedom                                 3
-##   P-value                                        0.041
+##   P-value                                        0.725
 ## 
 ## User model versus baseline model:
 ## 
@@ -566,13 +709,13 @@ summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)<
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)               -664.498
-##   Loglikelihood unrestricted model (H1)       -664.498
+##   Loglikelihood user model (H0)               -342.351
+##   Loglikelihood unrestricted model (H1)       -342.351
 ## 
 ##   Number of free parameters                          5
-##   Akaike (AIC)                                1338.996
-##   Bayesian (BIC)                              1352.677
-##   Sample-size adjusted Bayesian (BIC)         1336.874
+##   Akaike (AIC)                                 694.702
+##   Bayesian (BIC)                               705.174
+##   Sample-size adjusted Bayesian (BIC)          689.448
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
@@ -592,41 +735,41 @@ summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)<
 ## 
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##   stress ~                                                              
-##     teacher    (c)   -0.103    0.109   -0.947    0.344   -0.103   -0.091
-##     stars.test (b)    0.008    0.043    0.181    0.856    0.008    0.017
-##   stars.test ~                                                          
-##     teacher    (a)    0.631    0.229    2.759    0.006    0.631    0.250
+##   behaviour ~                                                           
+##     attitude   (c)    0.016    0.111    0.146    0.884    0.016    0.019
+##     intention  (b)    0.150    0.152    0.987    0.324    0.150    0.127
+##   intention ~                                                           
+##     attitude   (a)    0.052    0.095    0.552    0.581    0.052    0.071
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .stress            9.169    1.214    7.550    0.000    9.169    0.992
-##    .stars.test       43.219    5.725    7.550    0.000   43.219    0.937
+##    .behaviour        20.663    3.772    5.477    0.000   20.663    0.983
+##    .intention        14.994    2.737    5.477    0.000   14.994    0.995
 ## 
 ## R-Square:
 ##                    Estimate
-##     stress            0.008
-##     stars.test        0.063
+##     behaviour         0.017
+##     intention         0.005
 ## 
 ## Defined Parameters:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##     indirect          0.005    0.027    0.181    0.856    0.005    0.004
-##     direct           -0.103    0.109   -0.947    0.344   -0.103   -0.091
-##     total            -0.098    0.105   -0.931    0.352   -0.098   -0.087</code></pre>
-<p>If we compare the results here to that of Workbook 7, we should see that we get the same results.</p>
+##     indirect          0.008    0.016    0.482    0.630    0.008    0.009
+##     direct            0.016    0.111    0.146    0.884    0.016    0.019
+##     total             0.024    0.112    0.215    0.830    0.024    0.028</code></pre>
+<p>If we compare the results here to mediation, we should see that we get very similar, if not the same, results.</p>
 </div>
 <div id="plot-the-model." class="section level3">
 <h3>3. Plot the model.</h3>
 <p>The easiest way to plot a structural equation model is using a path diagram. Unfortunately, this is not easy to do in <code>ggplot2</code>. However, we can use a the <code>semPaths()</code> function from the <code>semPlot</code> package. This function has the advantage of being easy to use - all you need to do is load your model estimated in laavan and specify which paths you want to see (or hide). The disadvantage is that you cannot choose how you layout your path diagram, or customise the look of your diagram. Therefore, in order to create publication worthy graphics, you must use another program.</p>
 <pre class="r"><code>semPaths(med.sem.model,whatLabel = &quot;est&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
-<p><img src="9SEM_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="9SEM_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 </div>
 <div id="more-complicated-path-analysis" class="section level2">
 <h2>More complicated Path Analysis</h2>
-<p>We will now have a go at conducting a more complicated SEM. We will revisit the data from Workbook 5 to determine the relationship between attitudes to fitness, norms surrounding fitness, perceived behavioural control, and intentions to exercise, on exercise behaviour. The model we will fit is based on the Theory of Planned Behaviour, and is depicted below.</p>
+<p>We will now have a go at conducting a more complicated SEM. We will continue investigating the relationship between attitudes to exercise, intentions to exercise, and exercise behaviour, but also now investigate norms surrounding fitness and perceived behavioural control. The model we will fit is based on the Theory of Planned Behaviour, and is depicted below.</p>
 <div class="figure">
-<img src="images/TPB.png" alt="Theory of Planned Behaviour" />
+<img src="images/TPB.png" alt="" />
 <p class="caption">Theory of Planned Behaviour</p>
 </div>
 <p>In words, we predict that attitudes towards exercise, norms about exercise, and perceived behavioural control regarding exercise will predict intention to exercise. In turn, intention to exercise predict exercise behaviour. We also predict that perceived behavioural control regarding exercise will directly predict exercise behaviour.</p>
@@ -634,11 +777,11 @@ summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)<
 <h3>1. Clean the data for analysis.</h3>
 <p>First, we must calculate the variables from each of the items. Something we have done many times now.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
-  mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5 + exercise.attitude.6 + exercise.attitude.7 + exercise.attitude.8 + exercise.attitude.9 + exercise.attitude.10 + exercise.attitude.11 + exercise.attitude.12 + exercise.attitude.13 + exercise.attitude.14 + exercise.attitude.15 + exercise.attitude.16 + exercise.attitude.17 + exercise.attitude.18 + exercise.attitude.19,
-         intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5 + exercise.intention.6 + exercise.intention.7 + exercise.intention.8 + exercise.intention.9 + exercise.intention.10 + exercise.intention.11,
+  mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5,
+         intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5,
          control = exercise.control.1 + exercise.control.2 + exercise.control.3,
-         norms = exercise.norms.1 + exercise.norms.2 + exercise.norms.3 + exercise.norms.4 + exercise.norms.5 + exercise.norms.6,
-         behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5 + exercise.behaviour.6 + exercise.behaviour.7 + exercise.behaviour.8 + exercise.behaviour.9 + exercise.behaviour.10 + exercise.behaviour.11) %&gt;%
+         norms = exercise.norms.1 + exercise.norms.2 + exercise.norms.3 + exercise.norms.4 + exercise.norms.5,
+         behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5) %&gt;%
   dplyr::select(student.no,attitude,intention,control,norms,behaviour) %&gt;%
   filter(!is.na(attitude)) %&gt;%
   filter(!is.na(intention)) %&gt;%
@@ -658,52 +801,52 @@ control ~~ norms
 
 behaviour ~ intention + control + attitude
 &#39;</code></pre>
-<p>To break down the code above: Line 1: Attitudes, norms, and control predict intention. Note, covariance between predictors is accounted for since they are specified in the same part of the formula (similar to with an ordinary regression). Line 2: Intention and control predicts behaviour.</p>
+<p>To break down the code above: Line 1: Attitudes, norms, and control predict intention. Lines 2 to 4: Covariance between predictors is specified explicitly. Line 5: Intention, control and attitudes predicts behaviour.</p>
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data2.clean)
-summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE,modindices = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-4 ended normally after 71 iterations
+summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
+<pre><code>## lavaan 0.6-4 ended normally after 47 iterations
 ## 
 ##   Optimization method                           NLMINB
 ##   Number of free parameters                         14
 ## 
-##   Number of observations                           106
+##   Number of observations                            60
 ## 
 ##   Estimator                                         ML
-##   Model Fit Test Statistic                       0.363
+##   Model Fit Test Statistic                       0.366
 ##   Degrees of freedom                                 1
-##   P-value (Chi-square)                           0.547
+##   P-value (Chi-square)                           0.545
 ## 
 ## Model test baseline model:
 ## 
-##   Minimum Function Test Statistic              222.634
+##   Minimum Function Test Statistic                4.176
 ##   Degrees of freedom                                10
-##   P-value                                        0.000
+##   P-value                                        0.939
 ## 
 ## User model versus baseline model:
 ## 
 ##   Comparative Fit Index (CFI)                    1.000
-##   Tucker-Lewis Index (TLI)                       1.030
+##   Tucker-Lewis Index (TLI)                      -0.088
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)              -1829.375
-##   Loglikelihood unrestricted model (H1)      -1829.193
+##   Loglikelihood user model (H0)               -857.231
+##   Loglikelihood unrestricted model (H1)       -857.048
 ## 
 ##   Number of free parameters                         14
-##   Akaike (AIC)                                3686.749
-##   Bayesian (BIC)                              3724.037
-##   Sample-size adjusted Bayesian (BIC)         3679.806
+##   Akaike (AIC)                                1742.463
+##   Bayesian (BIC)                              1771.784
+##   Sample-size adjusted Bayesian (BIC)         1727.750
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
 ##   RMSEA                                          0.000
-##   90 Percent Confidence Interval          0.000  0.216
-##   P-value RMSEA &lt;= 0.05                          0.597
+##   90 Percent Confidence Interval          0.000  0.288
+##   P-value RMSEA &lt;= 0.05                          0.574
 ## 
 ## Standardized Root Mean Square Residual:
 ## 
-##   SRMR                                           0.009
+##   SRMR                                           0.020
 ## 
 ## Parameter Estimates:
 ## 
@@ -714,54 +857,41 @@ summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE,modindices = TR
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   intention ~                                                           
-##     attitude          0.304    0.057    5.319    0.000    0.304    0.508
-##     norms             0.238    0.119    1.991    0.047    0.238    0.154
-##     control           0.499    0.285    1.752    0.080    0.499    0.155
+##     attitude          0.051    0.094    0.541    0.589    0.051    0.069
+##     norms            -0.106    0.129   -0.819    0.413   -0.106   -0.106
+##     control           0.035    0.134    0.258    0.796    0.035    0.033
 ##   behaviour ~                                                           
-##     intention         0.096    0.105    0.921    0.357    0.096    0.083
-##     control           0.853    0.316    2.698    0.007    0.853    0.229
-##     attitude          0.353    0.069    5.144    0.000    0.353    0.508
+##     intention         0.148    0.152    0.979    0.328    0.148    0.126
+##     control           0.022    0.157    0.138    0.890    0.022    0.018
+##     attitude          0.017    0.111    0.151    0.880    0.017    0.019
 ## 
 ## Covariances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   attitude ~~                                                           
-##     norms            59.943   14.771    4.058    0.000   59.943    0.429
-##     control          41.065    7.633    5.380    0.000   41.065    0.613
+##     norms            -0.561    2.654   -0.211    0.833   -0.561   -0.027
+##     control          -0.618    2.561   -0.241    0.809   -0.618   -0.031
 ##   norms ~~                                                              
-##     control           6.108    2.603    2.347    0.019    6.108    0.234
+##     control          -2.317    1.907   -1.215    0.224   -2.317   -0.159
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .intention        67.104    9.217    7.280    0.000   67.104    0.519
-##    .behaviour        80.663   11.080    7.280    0.000   80.663    0.465
-##     attitude        358.926   49.302    7.280    0.000  358.926    1.000
-##     norms            54.420    7.475    7.280    0.000   54.420    1.000
-##     control          12.510    1.718    7.280    0.000   12.510    1.000
+##    .intention        14.790    2.700    5.477    0.000   14.790    0.981
+##    .behaviour        20.656    3.771    5.477    0.000   20.656    0.983
+##     attitude         27.936    5.100    5.477    0.000   27.936    1.000
+##     norms            15.122    2.761    5.477    0.000   15.122    1.000
+##     control          14.077    2.570    5.477    0.000   14.077    1.000
 ## 
 ## R-Square:
 ##                    Estimate
-##     intention         0.481
-##     behaviour         0.535
-## 
-## Modification Indices:
-## 
-##          lhs op       rhs    mi     epc sepc.lv sepc.all sepc.nox
-## 15 intention ~~ behaviour 0.362  22.654  22.654    0.308    0.308
-## 19 behaviour ~~  attitude 0.362  20.002  20.002    0.118    0.118
-## 20 behaviour ~~     norms 0.362  -3.560  -3.560   -0.054   -0.054
-## 21 behaviour ~~   control 0.362 -37.098 -37.098   -1.168   -1.168
-## 22 intention  ~ behaviour 0.362   0.281   0.281    0.325    0.325
-## 23 behaviour  ~     norms 0.362  -0.080  -0.080   -0.045   -0.045
-## 25  attitude  ~ behaviour 0.362   0.248   0.248    0.172    0.172
-## 29     norms  ~ behaviour 0.362  -0.044  -0.044   -0.079   -0.079
-## 33   control  ~ behaviour 0.362  -0.460  -0.460   -1.713   -1.713</code></pre>
+##     intention         0.019
+##     behaviour         0.017</code></pre>
 <p>Notice above in the <code>summary()</code> function, we have included additional arguments to get extra statistics that are helpful when it comes to report the analysis.</p>
 </div>
 <div id="plot-the-model.-1" class="section level3">
 <h3>3. Plot the model.</h3>
-<p>Again, we use <code>semPaths()</code> to plot our SEM model. Here, the limitations of not being able to organise the layout of your plot is apparant, though it still may be helpful to visualise your results to help your understanding.</p>
+<p>Again, we use <code>semPaths()</code> to plot our SEM model. Here, the limitations of not being able to organise the layout of your plot is apparent, though it still may be helpful to visualise your results to help your understanding.</p>
 <pre class="r"><code>semPaths(sem.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
-<p><img src="9SEM_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="9SEM_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 </div>
 <div id="model-comparisons" class="section level2">
@@ -780,19 +910,19 @@ behaviour ~ intention
 
 sem.model2 &lt;- sem(model2,data = data2.clean)
 
-#summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
+#summary(sem.model2,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 <p>Note: we have not run the <code>summary()</code> function above to save on space, but feel free to have a look at it.</p>
 <p>Now that we have our two models that we will compare, the function we use is called <code>anova()</code>, not to be confused with <code>aov()</code> that runs a one-way between-subjects ANOVA.</p>
 <p>For the <code>anova()</code> function, we simply have to specify the two models we are comparing as the two arguments. This will conduct a chi-square difference test.</p>
 <pre class="r"><code>anova(sem.model,sem.model2)</code></pre>
 <pre><code>## Chi Square Difference Test
 ## 
-##            Df    AIC    BIC   Chisq Chisq diff Df diff Pr(&gt;Chisq)    
-## sem.model   1 3686.7 3724.0  0.3627                                  
-## sem.model2  3 3727.8 3759.7 45.3772     45.014       2   1.68e-10 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>Above, we find that there is a significant difference between the two models. Therefore, we can conclude that dropping the path between “control” and “behaviour” significantly reduces model fit. As such, we should retain this path in the model.</p>
+##            Df    AIC    BIC  Chisq Chisq diff Df diff Pr(&gt;Chisq)
+## sem.model   1 1742.5 1771.8 0.3663                              
+## sem.model2  3 1738.5 1763.6 0.4067   0.040419       2       0.98</code></pre>
+<pre class="r"><code>mod.com &lt;- anova(sem.model,sem.model2)
+mcp &lt;- mod.com$`Pr(&gt;Chisq)`[2]</code></pre>
+<p>Above, we find that there is not a significant difference between the two models. Therefore, it does not seem that dropping the path between ‘control’ and ‘behaviour’ significantly reduces model fit. As such, you could be justified in removing this path from the model.</p>
 <p>While above, we use the <code>anova()</code> function to test the difference between nested SEM models, we can also use this function to compare models from other functions, such as <code>lm()</code>.</p>
 </div>
 <div id="introducing-latent-variables" class="section level2">
@@ -800,23 +930,22 @@ sem.model2 &lt;- sem(model2,data = data2.clean)
 <p>Up to now, to calculate variables from individual items, we have been adding each item up. However, we could also compute latent variables, which are the underlying variables that each item is meant to tap into.</p>
 <p>For example, we could calculate the latent variable ‘norms’ from each of the individual items.</p>
 <pre class="r"><code>attitude.formula &lt;- &#39;
-  attitude =~ exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5 + exercise.attitude.6 + exercise.attitude.7 + exercise.attitude.8 + exercise.attitude.9 + exercise.attitude.10 + exercise.attitude.11 + exercise.attitude.12 + exercise.attitude.13 + exercise.attitude.14 + exercise.attitude.15 + exercise.attitude.16 + exercise.attitude.17 + exercise.attitude.18 + exercise.attitude.19
+  attitude =~ exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5
 &#39;
 
 attitude.model &lt;- sem(attitude.formula,data = data)
 summary(attitude.model,standardized = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-4 ended normally after 32 iterations
+<pre><code>## lavaan 0.6-4 ended normally after 67 iterations
 ## 
 ##   Optimization method                           NLMINB
-##   Number of free parameters                         38
+##   Number of free parameters                         10
 ## 
-##                                                   Used       Total
-##   Number of observations                           112         118
+##   Number of observations                            60
 ## 
 ##   Estimator                                         ML
-##   Model Fit Test Statistic                     382.819
-##   Degrees of freedom                               152
-##   P-value (Chi-square)                           0.000
+##   Model Fit Test Statistic                       1.278
+##   Degrees of freedom                                 5
+##   P-value (Chi-square)                           0.937
 ## 
 ## Parameter Estimates:
 ## 
@@ -827,78 +956,47 @@ summary(attitude.model,standardized = TRUE)</code></pre>
 ## Latent Variables:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   attitude =~                                                           
-##     exercis.tttd.1    1.000                               1.046    0.804
-##     exercis.tttd.2    1.082    0.113    9.597    0.000    1.132    0.787
-##     exercis.tttd.3    0.158    0.160    0.990    0.322    0.166    0.095
-##     exercis.tttd.4    0.915    0.093    9.871    0.000    0.957    0.803
-##     exercis.tttd.5    1.095    0.114    9.631    0.000    1.145    0.789
-##     exercis.tttd.6    0.445    0.123    3.610    0.000    0.466    0.339
-##     exercis.tttd.7    1.167    0.112   10.376    0.000    1.221    0.832
-##     exercis.tttd.8    0.884    0.117    7.557    0.000    0.925    0.655
-##     exercis.tttd.9    0.899    0.093    9.700    0.000    0.940    0.793
-##     exercs.tttd.10    1.180    0.131    9.009    0.000    1.235    0.751
-##     exercs.tttd.11    0.759    0.126    6.010    0.000    0.794    0.540
-##     exercs.tttd.12    0.572    0.084    6.826    0.000    0.598    0.603
-##     exercs.tttd.13    1.131    0.118    9.543    0.000    1.183    0.784
-##     exercs.tttd.14    0.799    0.089    9.012    0.000    0.836    0.752
-##     exercs.tttd.15    1.234    0.118   10.445    0.000    1.291    0.836
-##     exercs.tttd.16    1.163    0.138    8.455    0.000    1.217    0.716
-##     exercs.tttd.17    0.664    0.121    5.476    0.000    0.695    0.498
-##     exercs.tttd.18    1.037    0.123    8.429    0.000    1.085    0.714
-##     exercs.tttd.19    1.140    0.110   10.383    0.000    1.192    0.832
+##     exercis.tttd.1    1.000                               0.276    0.125
+##     exercis.tttd.2    3.859    7.310    0.528    0.598    1.065    0.461
+##     exercis.tttd.3    2.523    4.726    0.534    0.593    0.696    0.341
+##     exercis.tttd.4    2.657    4.961    0.536    0.592    0.734    0.368
+##     exercis.tttd.5    0.108    1.504    0.072    0.943    0.030    0.015
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .exercis.tttd.1    0.597    0.086    6.908    0.000    0.597    0.353
-##    .exercis.tttd.2    0.787    0.113    6.973    0.000    0.787    0.380
-##    .exercis.tttd.3    2.994    0.400    7.480    0.000    2.994    0.991
-##    .exercis.tttd.4    0.504    0.073    6.913    0.000    0.504    0.355
-##    .exercis.tttd.5    0.795    0.114    6.966    0.000    0.795    0.377
-##    .exercis.tttd.6    1.669    0.224    7.443    0.000    1.669    0.885
-##    .exercis.tttd.7    0.663    0.098    6.778    0.000    0.663    0.308
-##    .exercis.tttd.8    1.136    0.157    7.248    0.000    1.136    0.571
-##    .exercis.tttd.9    0.521    0.075    6.951    0.000    0.521    0.371
-##    .exercs.tttd.10    1.176    0.166    7.077    0.000    1.176    0.435
-##    .exercs.tttd.11    1.526    0.208    7.354    0.000    1.526    0.708
-##    .exercs.tttd.12    0.628    0.086    7.305    0.000    0.628    0.637
-##    .exercs.tttd.13    0.878    0.126    6.983    0.000    0.878    0.385
-##    .exercs.tttd.14    0.538    0.076    7.077    0.000    0.538    0.435
-##    .exercs.tttd.15    0.720    0.107    6.757    0.000    0.720    0.302
-##    .exercs.tttd.16    1.409    0.197    7.154    0.000    1.409    0.487
-##    .exercs.tttd.17    1.463    0.198    7.380    0.000    1.463    0.752
-##    .exercs.tttd.18    1.130    0.158    7.157    0.000    1.130    0.490
-##    .exercs.tttd.19    0.631    0.093    6.776    0.000    0.631    0.307
-##     attitude          1.095    0.214    5.112    0.000    1.000    1.000</code></pre>
+##    .exercis.tttd.1    4.785    0.899    5.324    0.000    4.785    0.984
+##    .exercis.tttd.2    4.197    1.584    2.649    0.008    4.197    0.787
+##    .exercis.tttd.3    3.696    0.907    4.074    0.000    3.696    0.884
+##    .exercis.tttd.4    3.445    0.917    3.758    0.000    3.445    0.865
+##    .exercis.tttd.5    3.713    0.678    5.475    0.000    3.713    1.000
+##     attitude          0.076    0.263    0.290    0.772    1.000    1.000</code></pre>
 <pre class="r"><code>semPaths(attitude.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
-<p><img src="9SEM_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="9SEM_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>How about we compute latent variables for all the variables in the TPB model above? Doing something like this may not make a lot of sense: we will end up with a gangly model, and we may not have enough observations to get sensible results, but we can do it do it anyway! For demonstrative purposes… The code is provided below to run this analysis, but this code is not executed, as the output is quite long an unweildy.</p>
 <div id="specify-the-model" class="section level3">
 <h3>Specify the Model</h3>
 <pre class="r"><code>model &lt;- &#39;
-  attitude =~ exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5 + exercise.attitude.6 + exercise.attitude.7 + exercise.attitude.8 + exercise.attitude.9 + exercise.attitude.10 + exercise.attitude.11 + exercise.attitude.12 + exercise.attitude.13 + exercise.attitude.14 + exercise.attitude.15 + exercise.attitude.16 + exercise.attitude.17 + exercise.attitude.18 + exercise.attitude.19
-  intention =~ exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5 + exercise.intention.6 + exercise.intention.7 + exercise.intention.8 + exercise.intention.9 + exercise.intention.10 + exercise.intention.11
+  attitude =~ exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5
+  intention =~ exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5
   control =~ exercise.control.1 + exercise.control.2 + exercise.control.3
-  norms =~ exercise.norms.1 + exercise.norms.2 + exercise.norms.3 + exercise.norms.4 + exercise.norms.5 + exercise.norms.6
-  behaviour =~ exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5 + exercise.behaviour.6 + exercise.behaviour.7 + exercise.behaviour.8 + exercise.behaviour.9 + exercise.behaviour.10 + exercise.behaviour.11
+  norms =~ exercise.norms.1 + exercise.norms.2 + exercise.norms.3 + exercise.norms.4 + exercise.norms.5
+  behaviour =~ exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5
 
   intention ~ attitude + norms + control
   behaviour ~ intention + control
 &#39;</code></pre>
-<p>We won’t run the <code>summary()</code> just now because it is very unwieldy…</p>
+<p>We won’t run the <code>summary()</code> just now because it is very unwieldy, but we have covered the interpretation of the output above.</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data)
 summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
-<p>Again, we can plot the SEM using <code>semPaths()</code>, but this gets pretty messy, given the number of items make up each latent variable.</p>
 </div>
 </div>
 </div>
 <div id="plot-the-model" class="section level1">
 <h1>Plot the Model</h1>
+<p>Again, we can plot the SEM using <code>semPaths()</code>, but this gets pretty messy, given the number of items make up each latent variable.</p>
 <pre class="r"><code>load(&quot;files/sem.model.Rdata&quot;)</code></pre>
 <pre class="r"><code>semPaths(sem.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
-<div class="figure">
-<img src="images/sem.plot.png" alt="SEM plot with latent variables" />
-<p class="caption">SEM plot with latent variables</p>
-</div>
+<p><img src="9SEM_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 </div>
 <div id="exercises-1" class="section level1">
 <h1>Exercises</h1>

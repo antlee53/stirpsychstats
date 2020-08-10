@@ -361,10 +361,10 @@ div.tocify {
   <a href="5LM2.html">6. LM2</a>
 </li>
 <li>
-  <a href="6mod_med2.html">7. Mod Med</a>
+  <a href="6mod_med2.html">7. Mod</a>
 </li>
 <li>
-  <a href="8sim.html">8. Sim</a>
+  <a href="8sim.html">8. Power</a>
 </li>
 <li>
   <a href="9SEM.html">9. SEM</a>
@@ -407,7 +407,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = "files/data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -439,7 +439,8 @@ library(ggplot2)</code></pre>
 <p>This is what code to make a graph in ggplot looks like:</p>
 <pre class="r"><code>ggplot(data = example.data,aes(x = var1, y = var2)) +
   geom_point(colour = &quot;red&quot;) +
-  geom_smooth(method = &quot;lm&quot;)</code></pre>
+  geom_smooth(method = &quot;lm&quot;) +
+  theme_classic()</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Let’s break down each of these components:</p>
 <div id="ggplot" class="section level3">
@@ -467,7 +468,10 @@ library(ggplot2)</code></pre>
 <p>Below is an example of representing data using multiple aesthetics. The data come from Lee, DeBruine, and Jones (2018) and investigate the relationship between a country’s life expectancy, and future discounting (i.e., the proportion of trial where participants choose a larger reward in the future, compared to a smaller, immediate reward). Each point represents a different country in the dataset. The country’s life expectancy is on the x-axis. The region of the world the country falls in is represented by colour, while the number of participants from that country is represented by the size of the point.</p>
 <p>From the code below, can you understand how this plot was put together?</p>
 <pre class="r"><code>ggplot(discounting.data,aes(x = life.expectancy,y = dv)) +
-  geom_point(aes(size = n,colour = region))</code></pre>
+  geom_point(aes(size = n,colour = region)) +
+  theme_classic() +
+  xlab(&quot;Country Life Expectancy&quot;) +
+  ylab(&quot;Future Discounting&quot;)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <div id="other-things" class="section level4">
 <h4>Other Things…</h4>
@@ -512,6 +516,19 @@ ggplot(data = plot.data,mapping = aes(x = height)) +
   geom_density(aes(fill = video.games),alpha = .5)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
+</div>
+<div id="customising-the-look" class="section level2">
+<h2>Customising The Look</h2>
+<p>Often to get the figures suitable for publication, or inclusion in a dissertation, you will need to customise some aspects of your plot. For instance, you will need to change the axis labels, or the theme of the plot.</p>
+<p>By default, ggplot will use the variable names for labels on the axes. You can set custom axis labels by adding <code>xlab()</code> or <code>ylab()</code> when building your ggplot. You can also add a title to the plot by adding <code>ggtitle()</code>. You can also set the theme for a plot, which is a set of pre-chosen aesthetics. There are many pre-existing themes, but an elegant, simple theme that will suit most needs is the classic theme.</p>
+<p>Using these components, we can edit the density plot above:</p>
+<pre class="r"><code>ggplot(data = plot.data,mapping = aes(x = height)) +
+  geom_density(aes(fill = video.games),alpha = .5) +
+  xlab(&quot;Height (cm)&quot;) +
+  ylab(&quot;Density&quot;) +
+  labs(fill = &quot;Plays Video Games&quot;) +
+  theme_classic()</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <div id="in-the-coming-weeks" class="section level3">
 <h3>In The Coming Weeks…</h3>
 <p>In the coming weeks, we will be introducing a number of other geoms that can be used to represent different types of data, and geoms that can visualise the relationship between two variables. Like with all things covered in this module, if want to do a specific thing using ggplot, but we have not covered it here, you can find the answer by Googling how to do it (E.g., you could search for “ggplot how to change y-axis label”).</p>

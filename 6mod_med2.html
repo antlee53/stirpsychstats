@@ -12,7 +12,7 @@
 
 
 
-<title>HPSP131 - Workbook 7 - Moderation (Interaction Effects) and Mediation</title>
+<title>HPSP131 - Workbook 7 - Moderation (Interaction Effects), Two-Way ANOVA, and Mixed-Designs ANOVA</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -361,10 +361,10 @@ div.tocify {
   <a href="5LM2.html">6. LM2</a>
 </li>
 <li>
-  <a href="6mod_med2.html">7. Mod Med</a>
+  <a href="6mod_med2.html">7. Mod</a>
 </li>
 <li>
-  <a href="8sim.html">8. Sim</a>
+  <a href="8sim.html">8. Power</a>
 </li>
 <li>
   <a href="9SEM.html">9. SEM</a>
@@ -386,7 +386,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Workbook 7 - Moderation (Interaction Effects) and Mediation</h1>
+<h1 class="title toc-ignore">HPSP131 - Workbook 7 - Moderation (Interaction Effects), Two-Way ANOVA, and Mixed-Designs ANOVA</h1>
 
 </div>
 
@@ -396,17 +396,19 @@ div.tocify {
 <p>The aim of this week’s workbook is to cover moderation (interaction effects) and mediation analyses in R. By the end of this workbook, you should be able to:</p>
 <ol style="list-style-type: decimal">
 <li>Perform a multiple regression with interaction effects.</li>
-<li>Perform a mediation analysis.</li>
 <li>Plot relationship between data with two continuous IVs and one continuous DV, including:</li>
 </ol>
 <ul>
 <li>interaction plots</li>
 </ul>
+<ol style="list-style-type: decimal">
+<li>Perform a two-way ANOVA</li>
+<li>Perform a mixed-designs ANOVA</li>
+</ol>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
-<p>Here is a list of resources that may help you with this weeks content:</p>
-<p><a href = "files/data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -423,38 +425,33 @@ div.tocify {
 <li>Plot the data.</li>
 <li>Write-up analysis.</li>
 </ol>
-<p>We will be using the following packages. If this is your first time using these packages, remember to install them before loading the packages - we have used all of these packages previously except for the package called <code>psych</code>.</p>
+<p>We will be using the following packages. If this is your first time using these packages, remember to install them before loading the packages.</p>
 <pre class="r"><code>library(tidyverse)
-library(broom)
-library(lm.beta)
-library(psych)</code></pre>
+library(lm.beta)</code></pre>
 </div>
 <div id="reminder-moderation-interaction-effects" class="section level2">
 <h2>Reminder: Moderation (Interaction Effects)</h2>
 <p>As covered in the Lecture series, moderation is when the effect of an IV (predictor) on the DV (outcome) depends on another IV (predictor). We can test for an interaction effect in a linear regression.</p>
-<p>In the example below, we will test the hypothesis that the association between anxiety about taking a statistical exam and stress is moderated by social support. We would predict that anxiety about taking a statistics exam would cause high stress, but more so for individuals who do not have good social support.</p>
+<p>In the example below, we will extend the regression we conducted last week and test the hypothesis that the association between sleep quality and stress is moderated by social support (for instance, the relationship between sleep quality and stress is more negative for participants low in social support).</p>
 </div>
 <div id="regression-with-interaction-effect" class="section level2">
 <h2>Regression with Interaction Effect</h2>
 <div id="clean-the-data-for-analysis." class="section level3">
 <h3>1. Clean the data for analysis.</h3>
-<p>First we must calculate the scores for each scale in the analysis from the individual items. As we have done previously, we can do this by using the <code>mutate()</code> function. More information about how these scales are scored can be found in the following research papers:</p>
-<p><a href="https://www.sciencedirect.com/science/article/pii/S0191886908000792">For more detail on the Statistic Anxiety Rating Scale (STARS), click here</a>.</p>
-<p><a href="https://www.researchgate.net/publication/240290845_The_Multidimensional_Scale_of_Perceived_Social_Support">For more detail on the Perceived Social Support Scale, click here</a>.</p>
-<p><a href="https://www.jstor.org/stable/2136404?seq=9#metadata_info_tab_contents">For more detail on the Stress Scale, click here</a>.</p>
-<pre class="r"><code>data1.vars &lt;- data %&gt;%
-  mutate(stars.test = stars.1 + stars.4 + stars.8 + stars.10 + stars.13 + stars.15 + stars.21 + stars.22,
-         support = support.1 + support.2 + support.3 + support.4 + support.5 + support.6 + support.7 + support.8 + support.9 + support.10 + support.11 + support.12,
-         stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5 + stress.6 + stress.7 + stress.8 + stress.9 + stress.10) %&gt;%
-  dplyr::select(student.no,stars.test,support,stress)</code></pre>
+<p>First we must calculate the scores for each scale in the analysis from the individual items. As we have done previously, we can do this by using the <code>mutate()</code> function. The code below is the same as the code we used last week.</p>
+<pre class="r"><code>data1.vars  &lt;- data %&gt;%
+  mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,
+         support = support.1 + support.2 + support.3 + support.4 + support.5,
+         sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5) %&gt;%
+  dplyr::select(student.no,stress,support,sleep.quality)</code></pre>
 <p>When including interaction terms in a linear regression, including uncentered variables can be problematic. In order to center the variables, we can use the <code>scale()</code> function. The <code>scale()</code> function expects a numeric vector. There are two additional arguments called <code>center</code> and <code>scale</code>. If <code>center</code> is set to <code>TRUE</code>, but <code>scale</code> is set to <code>FALSE</code>, the <code>scale()</code> function will output the ‘centred’ variable. If both arguments are set to <code>TRUE</code>, the <code>scale()</code> function will return a ‘standardised’ argument.</p>
-<p>Because of a quirk with the <code>scale()</code> function, we also need to tell R that the output is a vector. We can do this by piping the results from the <code>scale()</code> function to the <code>as.vector()</code> function.</p>
+<p>Because of a quirk with the <code>scale()</code> function, we also need to tell R that the output is a vector. We can do this by wrapping the results from the <code>scale()</code> function inside a <code>c()</code> function.</p>
 <p>You can see the <code>scale()</code> function in action below:</p>
 <pre class="r"><code>v &lt;- c(3,32,5,6,12,59,96)
 
 #Get the centered variable.
 
-c.v  &lt;- scale(v,center = TRUE,scale = FALSE) %&gt;% as.vector()
+c.v  &lt;- c(scale(v,center = TRUE,scale = FALSE))
 
 c.v</code></pre>
 <pre><code>## [1] -27.428571   1.571429 -25.428571 -24.428571 -18.428571  28.571429
@@ -466,90 +463,87 @@ z.v &lt;- scale(v, center = TRUE,scale = TRUE) %&gt;% as.vector()
 z.v</code></pre>
 <pre><code>## [1] -0.7782022  0.0445845 -0.7214583 -0.6930863 -0.5228546  0.8106273
 ## [7]  1.8603896</code></pre>
-<p>We can use this combination of the <code>scale()</code> and <code>as.vector()</code> functions within the <code>mutate()</code> to calculate the standardised/centred variables of columns in our data.frame:</p>
+<p>We can use this combination of the <code>scale()</code> and <code>c()</code> functions within the <code>mutate()</code> to calculate the standardised/centred variables of columns in our data.frame:</p>
 <pre class="r"><code>#Compute centred variables for analysis.
 data1.clean &lt;- mutate(data1.vars,
-         c.stars.test = scale(stars.test,center = TRUE,scale = FALSE) %&gt;% as.vector(),
-         c.support = scale(support,center = TRUE,scale = FALSE) %&gt;% as.vector()) %&gt;%
+         c.stress = c(scale(stress,center = TRUE,scale = FALSE)),
+         c.support = c(scale(support,center = TRUE,scale = FALSE))) %&gt;%
 
 #Compute standardised variables.
-  mutate(z.stars.test = scale(stars.test,center = TRUE,scale = TRUE) %&gt;% as.vector(),
-         z.support = scale(support,center = TRUE,scale = TRUE) %&gt;% as.vector(),
-         z.stress = scale(stress,center = TRUE,scale = TRUE) %&gt;% as.vector())</code></pre>
+  mutate(z.sleep.quality = c(scale(sleep.quality,center = TRUE,scale = TRUE)),
+         z.support = c(scale(support,center = TRUE,scale = TRUE)),
+         z.stress = c(scale(stress,center = TRUE,scale = TRUE)))</code></pre>
 </div>
 <div id="run-statistical-test" class="section level3">
 <h3>2. Run statistical test</h3>
 <p>Recall that interaction effects are the multiplication of the two variable. Therefore, to specify an interaction, we change the formula we specify to include the multiplication of the variable whose interaction we are interested in. For the unstandardised model, make sure you include the centred variables in the formula.</p>
 <pre class="r"><code>#Unstandardised Model
-model1 &lt;- lm(stress ~ c.stars.test*c.support,data = data1.clean)
+model1 &lt;- lm(sleep.quality ~ c.stress*c.support,data = data1.clean)
 summary(model1)</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = stress ~ c.stars.test * c.support, data = data1.clean)
+## lm(formula = sleep.quality ~ c.stress * c.support, data = data1.clean)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -8.2128 -2.0827 -0.0388  1.8891  6.9207 
+## -7.9410 -1.8632 -0.1277  2.2191  6.3794 
 ## 
 ## Coefficients:
-##                         Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)            23.798183   0.283661  83.897  &lt; 2e-16 ***
-## c.stars.test           -0.010807   0.042083  -0.257  0.79782    
-## c.support               0.061856   0.021262   2.909  0.00439 ** 
-## c.stars.test:c.support  0.003578   0.003150   1.136  0.25863    
+##                     Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        14.811938   0.392308  37.756   &lt;2e-16 ***
+## c.stress           -0.188055   0.119188  -1.578    0.120    
+## c.support           0.036933   0.096790   0.382    0.704    
+## c.stress:c.support -0.008153   0.029197  -0.279    0.781    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.004 on 109 degrees of freedom
-##   (5 observations deleted due to missingness)
-## Multiple R-squared:  0.08818,    Adjusted R-squared:  0.06308 
-## F-statistic: 3.514 on 3 and 109 DF,  p-value: 0.01768</code></pre>
+## Residual standard error: 3.036 on 56 degrees of freedom
+## Multiple R-squared:  0.04589,    Adjusted R-squared:  -0.005224 
+## F-statistic: 0.8978 on 3 and 56 DF,  p-value: 0.4481</code></pre>
 <p>Notice how R automatically includes the main effects in the model? In most cases, you will want to include the separate main effects when including an interaction term, but in the odd occassion when you want to include the interaction effect without the main effect, you can specify it using the <code>:</code> symbol. In other words:</p>
 <p><code>stress ~ stars.test*support</code> is identical to <code>stress ~ stars.test + support + stars.test:support</code></p>
 <p>Above are the unstandardised coefficients. However, in order to report in APA format, we require the standardised coefficient. Similar to with an ordinary regression, we can use the <code>lm.beta()</code> function to get the standardised coefficients, like here:</p>
 <pre class="r"><code>#Standardised Model
-lm.beta(model1) %&gt;% summary()</code></pre>
+model1 %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = stress ~ c.stars.test * c.support, data = data1.clean)
+## lm(formula = sleep.quality ~ c.stress * c.support, data = data1.clean)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -8.2128 -2.0827 -0.0388  1.8891  6.9207 
+## -7.9410 -1.8632 -0.1277  2.2191  6.3794 
 ## 
 ## Coefficients:
-##                         Estimate Standardized Std. Error t value Pr(&gt;|t|)
-## (Intercept)            23.798183     0.000000   0.283661  83.897  &lt; 2e-16
-## c.stars.test           -0.010807    -0.023892   0.042083  -0.257  0.79782
-## c.support               0.061856     0.268392   0.021262   2.909  0.00439
-## c.stars.test:c.support  0.003578     0.105625   0.003150   1.136  0.25863
-##                           
-## (Intercept)            ***
-## c.stars.test              
-## c.support              ** 
-## c.stars.test:c.support    
+##                     Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        14.811938     0.000000   0.392308  37.756   &lt;2e-16 ***
+## c.stress           -0.188055    -0.207462   0.119188  -1.578    0.120    
+## c.support           0.036933     0.049882   0.096790   0.382    0.704    
+## c.stress:c.support -0.008153    -0.036708   0.029197  -0.279    0.781    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.004 on 109 degrees of freedom
-##   (5 observations deleted due to missingness)
-## Multiple R-squared:  0.08818,    Adjusted R-squared:  0.06308 
-## F-statistic: 3.514 on 3 and 109 DF,  p-value: 0.01768</code></pre>
+## Residual standard error: 3.036 on 56 degrees of freedom
+## Multiple R-squared:  0.04589,    Adjusted R-squared:  -0.005224 
+## F-statistic: 0.8978 on 3 and 56 DF,  p-value: 0.4481</code></pre>
 </div>
 <div id="plot-data" class="section level3">
 <h3>3. Plot data</h3>
 <p>Interactions can often be difficult to intuit from just looking at the numbers in the model. Therefore, it is almost always necessary to plot them. The most common way to plot an interaction is to split the dataset in two according to the moderator: one with participants who score above the mean on the moderator, and the other with participants who score below the mean on the moderator. In our example, this means splitting the data into participants who are above and below the mean in social support. We can do this by creating a new variable using the <code>ifelse()</code> function within the <code>mutate()</code> function.</p>
-<p>The <code>ifelse()</code> function works by first specify a condition as the first argument. The second argument is what happens if data from a participant meets that condition. The third arguement is what happens if a participant does not meet that condition. So in the code below, we are creating a new variable called ‘cat.support’. We want to categorise support into two levels, so the condition in the <code>ifelse()</code> function is <code>z.support &gt; 0</code>. Since we standardised the moderator during the cleaning scale. The mean = 0, so we can split the data on this. Participants who meet this condition are in the “high support” group, while those that are not are in the “low support” group.</p>
+<p>The <code>ifelse()</code> function works by first specify a condition as the first argument. The second argument is what happens if data from a participant meets that condition. The third arguement is what happens if a participant does not meet that condition. So in the code below, we are creating a new variable called ‘cat.support’. We want to categorise support into two levels, so the condition in the <code>ifelse()</code> function is <code>z.support &gt; 0</code>. Since we standardised the moderator during the cleaning scale. The mean for support equals 0, so we can split the data on this. Participants who meet this condition are in the “high support” group, while those that are not are in the “low support” group.</p>
 <pre class="r"><code>plot.data &lt;- mutate(data1.clean,cat.support = ifelse(z.support &gt; 0,&quot;high support&quot;,&quot;low support&quot;)) %&gt;%
   filter(!is.na(cat.support))</code></pre>
 <p>We then can plot the regression line adding in a ‘group’ and ‘colour’ aesthetic to separate our data of participants with high and low support.</p>
-<pre class="r"><code>ggplot(plot.data,mapping = aes(x = stars.test,y = stress,group = cat.support,colour = cat.support)) +
-  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<pre class="r"><code>ggplot(plot.data,mapping = aes(x = stress,y = sleep.quality,group = cat.support,colour = cat.support)) +
+  geom_smooth(method = &quot;lm&quot;) +
+  theme_classic()</code></pre>
 <p><img src="6mod_med2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>Even better is if can visualise the raw data in a scatterplot:</p>
-<pre class="r"><code>ggplot(plot.data,mapping = aes(x = stars.test,y = stress,group = cat.support,colour = cat.support)) +
+<pre class="r"><code>ggplot(plot.data,mapping = aes(x = stress,y = sleep.quality,group = cat.support,colour = cat.support)) +
   geom_smooth(method = &quot;lm&quot;) +
-  geom_point()</code></pre>
+  geom_point() +
+  theme_classic()</code></pre>
 <p><img src="6mod_med2_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 <div id="write-up-analysis." class="section level3">
@@ -570,7 +564,7 @@ lm.beta(model1) %&gt;% summary()</code></pre>
 <p>As mentioned last week, with more than one predictor in the model, it may make more sense to report the statistics in a table. This includes models with interaction effects (in the case above, the interaction effect is our third predictor).</p>
 <p>Here is an example of the write-up:</p>
 <blockquote>
-<p>We used a linear regression to predict stress from the anxiety about taking a statistics test, level of social support, and the interaction between the two. We found that model explained 8.82% of the variance (F(3,109) = 3.51, p = 0.018). Regression coefficients are reported in Table 1. There was a significant, negative main effect of teaching comprehension on stress. There was no significant main effect of perceived social support on stress. The interaction between comprehension of statistics teacher and level of social support was not significant.</p>
+<p>We used a linear regression to predict sleep quality from the level of perceived stress, level of social support, and the interaction between the two. We found that model explained 4.59% of the variance (F(3,56) = 0.9, p = 0.448). Regression coefficients are reported in Table 1. There was a significant, negative main effect of stress on sleep quality. There was no significant main effect of social support on sleep quality. The interaction between perceived stress and social support was significant, such that… [go on to describe the pattern of results]</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting stress.</p>
 <table>
@@ -584,164 +578,151 @@ lm.beta(model1) %&gt;% summary()</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Teacher Comprehension</td>
-<td>-0.02</td>
-<td>-0.26</td>
-<td>0.798</td>
+<td>Perceived Stress</td>
+<td>-0.21</td>
+<td>-1.58</td>
+<td>0.12</td>
 </tr>
 <tr class="even">
 <td>Social Support</td>
-<td>0.27</td>
-<td>2.91</td>
-<td>0.004</td>
+<td>0.05</td>
+<td>0.38</td>
+<td>0.704</td>
 </tr>
 <tr class="odd">
-<td>TC * SS</td>
-<td>0.11</td>
-<td>1.14</td>
-<td>0.259</td>
+<td>PS * SS</td>
+<td>-0.04</td>
+<td>-0.28</td>
+<td>0.781</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div id="mediation" class="section level2">
-<h2>Mediation</h2>
-<p>As covered in the Lecture series, mediation describes a relationship where the influence of one variable on another can be explained through a third variable. In the example below, we will test whether the relationship between comprehension of a statistics teacher and stress can be explained through individual’s anxiety about taking a statistics exam (i.e., individuals who find statistics teachers hard to understand increase their anxiety about taking statistics tests, which in turn increases stress).</p>
-<div id="clean-data-for-analysis." class="section level3">
-<h3>1. Clean data for analysis.</h3>
-<p>First, we must calculate the variables that we need for our analysis. This process should be fairly familiar by now.</p>
-<pre class="r"><code>data2.clean &lt;- data %&gt;%
-  mutate(teacher = stars.30 + stars.32 + stars.43 + stars.44 + stars.46,
-         support = support.1 + support.2 + support.3 + support.4 + support.5 + support.6 + support.7 + support.8 + support.9 + support.10 + support.11 + support.12,
-         stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5 + stress.6 + stress.7 + stress.8 + stress.9 + stress.10,
-         stars.test = stars.1 + stars.4 + stars.8 + stars.10 + stars.13 + stars.15 + stars.21 + stars.22) %&gt;%
-  dplyr::select(student.no,teacher,support,stars.test,stress) %&gt;%
-  filter(!is.na(teacher)) %&gt;%
-  filter(!is.na(stars.test)) %&gt;%
-  filter(!is.na(stress))</code></pre>
+<div id="two-way-anova" class="section level2">
+<h2>Two-Way ANOVA</h2>
+<p>A two-way ANOVA is used when you want to evaluate the effects of two categorical IVs on a continuous DV. Much of what we have covered regarding a linear regression with multiple predictors applies with a two-way ANOVA, but with two categorical IVs. In the example below, we will test whether there is an association between between sleep quality and playing video games, and whether this association differs depending on whether you are a cat person or dog person.</p>
+<div id="clean-the-data-for-analysis.-1" class="section level3">
+<h3>1. Clean the data for analysis.</h3>
+<pre class="r"><code>clean.data2 &lt;- data %&gt;%
+  filter(cat.dog != &quot;both&quot;) %&gt;%
+  filter(cat.dog != &quot;neither&quot;) %&gt;%
+  filter(cat.dog != &quot;&quot;) %&gt;%
+  mutate(sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5) %&gt;%
+  select(sleep.quality,video.games,cat.dog)</code></pre>
 </div>
 <div id="run-statistical-test-1" class="section level3">
 <h3>2. Run statistical test</h3>
-<p>Remember, mediation is when the effect of one IV could be explained through a third variable (mediation). If there is an effect in a model without the mediator, but that effect is reduced (or disappears) when the mediator is included, there is a chance the mediation is happening. In order to check whether our variables meet these conditions, we need to conduct a number of linear regressions.</p>
-<div id="model-1" class="section level4">
-<h4>Model 1</h4>
-<p>Here, we test whether there is an association between the predictor (teacher comprehension) and the outcome variable (stress):</p>
-<pre class="r"><code>lm(stress ~ teacher,data = data2.clean) %&gt;%
-  lm.beta() %&gt;%
+<p>The function to run a two-way ANOVA is the same as a one-way ANOVA: <code>aov()</code>. R is smart enough to determine which statistical test to run based on how many IVs are in the formula. The formula works the same as an interaction in a regression, where both categorical IVs are “multiplied” together. R will automatically include the main effects for each IV and the interaction. Also, similar to the one-way ANOVA, in order to get output that is interpretable, you can pipe the result to the <code>summary()</code> function.</p>
+<pre class="r"><code>aov(sleep.quality ~ video.games*cat.dog,data = clean.data2) %&gt;%
   summary()</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = stress ~ teacher, data = data2.clean)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -8.1611 -2.0385  0.0842  1.8096  7.3295 
-## 
-## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 24.65168      0.00000    0.98602  25.001   &lt;2e-16 ***
-## teacher     -0.09811     -0.08689    0.10629  -0.923    0.358    
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 3.055 on 112 degrees of freedom
-## Multiple R-squared:  0.00755,    Adjusted R-squared:  -0.001311 
-## F-statistic: 0.852 on 1 and 112 DF,  p-value: 0.358</code></pre>
+<pre><code>##                     Df Sum Sq Mean Sq F value Pr(&gt;F)
+## video.games          1    1.3   1.274   0.126  0.724
+## cat.dog              1    6.1   6.088   0.604  0.441
+## video.games:cat.dog  1    1.3   1.321   0.131  0.719
+## Residuals           42  423.1  10.075</code></pre>
+<p>Similar to a one-way ANOVA, the two-way ANOVA will tell you whether or not there is a difference, but it will not tell you where that difference is. In order to determine this, you will need to calculate summary statistics (e.g., means for each cell) and conduct follow-up comparisons.</p>
+<div id="calculate-summary-statistics" class="section level4">
+<h4>Calculate Summary Statistics</h4>
+<pre class="r"><code>clean.data2 %&gt;%
+  group_by(video.games,cat.dog) %&gt;%
+  summarise(
+    count = n(),
+    mean = mean(sleep.quality,na.rm = TRUE),
+    sd = sd(sleep.quality,na.rm = TRUE)
+  )</code></pre>
+<pre><code>## # A tibble: 4 x 5
+## # Groups:   video.games [2]
+##   video.games cat.dog count  mean    sd
+##   &lt;chr&gt;       &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 No          cat         8  15.6  1.85
+## 2 No          dog         9  14.4  2.60
+## 3 Yes         cat        18  14.8  3.33
+## 4 Yes         dog        11  14.4  3.96</code></pre>
 </div>
-<div id="model-2" class="section level4">
-<h4>Model 2</h4>
-<p>Here, we test whether including the mediator (anxiety about taking a stats exam) in the model changes the relationship between the predictor (teacher comprehension) and the outcome variable (stress):</p>
-<pre class="r"><code>lm(stress ~ teacher + stars.test,data = data2.clean) %&gt;%
-  lm.beta() %&gt;%
-  summary()</code></pre>
+<div id="multiple-comparisons" class="section level4">
+<h4>Multiple Comparisons</h4>
+<p>In the ANOVA table above, we do not find a significant interaction between playing video games and being a cat or dog person. However, we will conduct the comparisons below to determine as if there were a significant interaction. To assess the significant interaction, we test whether the difference between video gamers and non-video gamers differs depending on whether they are a cat or dog person.</p>
+<pre class="r"><code>t.test(sleep.quality ~ cat.dog,data = filter(clean.data2,video.games == &quot;Yes&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
 <pre><code>## 
-## Call:
-## lm(formula = stress ~ teacher + stars.test, data = data2.clean)
+##  Welch Two Sample t-test
 ## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -8.2186 -2.0540  0.0899  1.7750  7.3358 
-## 
-## Coefficients:
-##              Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 24.483436     0.000000   1.365212  17.934   &lt;2e-16 ***
-## teacher     -0.103053    -0.091265   0.110261  -0.935    0.352    
-## stars.test   0.007827     0.017483   0.043718   0.179    0.858    
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 3.069 on 111 degrees of freedom
-## Multiple R-squared:  0.007837,   Adjusted R-squared:  -0.01004 
-## F-statistic: 0.4384 on 2 and 111 DF,  p-value: 0.6462</code></pre>
-</div>
-<div id="model-3" class="section level4">
-<h4>Model 3</h4>
-<p>Also, in order for there to be a mediation, we must observe a relationship between the predictor (teacher comprehension) and the mediator (anxiety about taking a stats exam):</p>
-<pre class="r"><code>lm(stars.test ~ teacher,data = data2.clean) %&gt;%
-  lm.beta() %&gt;%
-  summary()</code></pre>
+## data:  sleep.quality by cat.dog
+## t = 0.32892, df = 18.493, p-value = 0.7459
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -2.524679  3.464073
+## sample estimates:
+## mean in group cat mean in group dog 
+##          14.83333          14.36364</code></pre>
+<pre class="r"><code>t.test(sleep.quality ~ cat.dog,data = filter(clean.data2,video.games == &quot;No&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
 <pre><code>## 
-## Call:
-## lm(formula = stars.test ~ teacher, data = data2.clean)
+##  Welch Two Sample t-test
 ## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -17.2811  -3.7662   0.1951   4.4183  14.3499 
-## 
-## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  21.4953       0.0000     2.1404  10.043  &lt; 2e-16 ***
-## teacher       0.6310       0.2502     0.2307   2.735  0.00726 ** 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 6.633 on 112 degrees of freedom
-## Multiple R-squared:  0.06259,    Adjusted R-squared:  0.05422 
-## F-statistic: 7.478 on 1 and 112 DF,  p-value: 0.007264</code></pre>
-</div>
-<div id="mediation-analysis" class="section level4">
-<h4>Mediation Analysis</h4>
-<p>While we may or may not meet the conditions for a mediation above, we will continue with the analysis to demonstrate the process of conducting a mediation analysis.</p>
-<p>In order to conduct a mediation analysis in R, we will load the <code>psych</code> package. If you haven’t installed the <code>psych</code> package yet, make sure to do this before loading the <code>psych</code> package.</p>
-<pre class="r"><code>library(psych)</code></pre>
-<p>The function that runs the mediation analysis is aptly named <code>mediate()</code>. Like all analysis functions, the <code>mediate()</code> function accepts a formula and a data.frame, but also a couple of options that we will want to change. For the formula, the mediate function takes a specific form, where the mediator is put inside brackets on the right-hand side of the <code>~</code> symbol:</p>
-<pre class="r"><code>DV ~ IV + (Mediator)</code></pre>
-<p>So for our analysis, the code becomes the following. Note, we also want to set the ‘std’ argument to <code>TRUE</code> to ensure we receive standardised estimates, and the ‘plot’ argument to <code>FALSE</code> so we are only seeing the numeric output (we will see the plot later).</p>
-<pre class="r"><code>mediate(stress ~ teacher + (stars.test),data = data2.clean,std = TRUE,plot = FALSE)</code></pre>
-<pre><code>## 
-## Mediation/Moderation Analysis 
-## Call: mediate(y = stress ~ teacher + (stars.test), data = data2.clean, 
-##     std = TRUE, plot = FALSE)
-## 
-## The DV (Y) was  stress . The IV (X) was  teacher . The mediating variable(s) =  stars.test .
-## 
-## Total effect(c) of  teacher  on  stress  =  -0.09   S.E. =  0.09  t  =  -0.92  df=  112   with p =  0.36
-## Direct effect (c&#39;) of  teacher  on  stress  removing  stars.test  =  -0.09   S.E. =  0.1  t  =  -0.93  df=  111   with p =  0.35
-## Indirect effect (ab) of  teacher  on  stress  through  stars.test   =  0 
-## Mean bootstrapped indirect effect =  0.01  with standard error =  0.03  Lower CI =  -0.04    Upper CI =  0.06
-## R = 0.09 R2 = 0.01   F = 0.44 on 2 and 111 DF   p-value:  0.646 
-## 
-##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
-<p>Most of the information above is what we have encountered previously. The main information we are interested in this output is the line on the mean bootstrapped indirect effect. A large indirect effect (and consequently a greater drop between the total effect and the direct effect) would indicate that mediation is occuring. Since we are bootstrapping, we can tell the significance through confidence intervals. If the range between the lower CI and the upper CI contains zero, then the indirect effect is not significant. If this range does not contain zero, then we have a significant mediation effect.</p>
+## data:  sleep.quality by cat.dog
+## t = 1.0871, df = 14.362, p-value = 0.2949
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -1.143223  3.504334
+## sample estimates:
+## mean in group cat mean in group dog 
+##          15.62500          14.44444</code></pre>
 </div>
 </div>
 <div id="plot-data-1" class="section level3">
 <h3>3. Plot data</h3>
-<div id="path-diagram" class="section level4">
-<h4>Path Diagram</h4>
-<p>For mediation, there’s no good way to plot the raw data that visualises the mediation. The most common way to visualise a mediated effect is through a path diagram. You can do this directly in the <code>mediate()</code> function by setting the ‘plot’ argument to <code>TRUE</code>.</p>
-<pre class="r"><code>mediate(stress ~ teacher + (stars.test),data = data2.clean,std = TRUE,plot = TRUE) %&gt;% plot()</code></pre>
-<p><img src="6mod_med2_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>When plotting the data, we want to visualise the relationship between videogamers and sleep quality separated by the moderator - whether participants are a cat or dog person. We can do this by adding a <code>facet_wrap()</code> to our standard violin plot. Here, we only need to specify which variable to separate the plot on.</p>
+<pre class="r"><code>ggplot(clean.data2,aes(x = video.games,y = sleep.quality,fill = cat.dog)) +
+  geom_violin() +
+  stat_summary() +
+  facet_wrap(~ cat.dog) +
+  theme_classic()</code></pre>
+<p><img src="6mod_med2_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 </div>
-<div id="write-up-analysis.-1" class="section level3">
-<h3>4. Write-up analysis.</h3>
-<p>There are several things you need to include when writing up a mediation analysis. Writing up a mediation analysis includes the write-up for each individual models with and without the mediator (Model 1 and Model 2 above - these numbers are also included in the output for the <code>mediate()</code> function), and also the estimated indirect effect and associated confidence intervals. Usually, you would want to accompany the write-up with a path diagram such as the one above. It does not make much sense to write-up the analysis above (as we failed to meet the criteria for a mediation in the first instance!), but if we were to do it anyway, it may go something like this:</p>
-<blockquote>
-<p>In the model where teacher comprehension predicted variance in stress, the effect of teacher comprehension was not significant (beta = -.09, p = 358). When including anxiety about taking a statistics exam into the model, the effect of teacher comprehension did not change (beta = -.09, p = 352). Mediation analysis revealled a non-significant mediating effect of anxiety of taking a statistics exam on the association between teacher comprehension and stress (mean bootstrapped indirect effect = .01, 95% CI = -.05, .06).</p>
-</blockquote>
-<p>Note: Many of the associations for mediation to occur are not significant above, so this write-up may not make a lot of sense. It is sometimes also easier to report the separate models in a table.</p>
+<div id="mixed-designs-anova" class="section level2">
+<h2>Mixed-Designs ANOVA</h2>
+<p>A mixed design ANOVA is used when you want to test the interaction between a categorical between-subjects variable, and a categorical within-subjects variable (the “mixed design” part refers to the fact that one IV is between-subjects, while the other is within-subjects). In this example, we will test whether exposure to the Scottish Government’s anti-drinking campaign differs depending on whether people are cat or dog people.</p>
+<div id="clean-the-data-for-analysis.-2" class="section level3">
+<h3>1. Clean the data for analysis.</h3>
+<p>Much like with the paired-samples t-test, before conducting the analysis, you will first need to reshape the data from short to long format. We do this using the <code>gather()</code> function, which we cover in more detail in Workbook 10.</p>
+<pre class="r"><code>clean.data3 &lt;- data %&gt;%
+  filter(cat.dog != &quot;both&quot;) %&gt;%
+  filter(cat.dog != &quot;neither&quot;) %&gt;%
+  filter(cat.dog != &quot;&quot;) %&gt;%
+  select(student.no,pre.drink,post.drink,cat.dog) %&gt;%
+  gather(key = &quot;condition&quot;,value = &quot;response&quot;,pre.drink,post.drink)</code></pre>
+</div>
+<div id="run-statistical-test-2" class="section level3">
+<h3>2. Run statistical test</h3>
+<p>Again, we use the <code>aov()</code> function to conduct the mixed design ANOVA. The mixed design ANOVA combines elements from the two-way ANOVA and repeated measures ANOVA. First, we include an interaction term between the two IVs. Second, we need to include in the formula the part that tells the function which variable is within subjects. In order to tell the function that it is within-subjects, however, you will need to specify this in the formula. In the example below, we are predicting <code>response</code> (i.e., number of drinks) based on <code>condition</code> (i.e., before and after seeing the ad). The part of the code that goes <code>+ Error(student.no/condition)</code> tells the <code>aov()</code> function that the variable <code>condition</code> is repeated based on the <code>Subject</code> variable.</p>
+<pre class="r"><code>aov(response ~ cat.dog*condition + Error(student.no/condition),data = clean.data3) %&gt;%
+  summary()</code></pre>
+<pre><code>## 
+## Error: student.no
+##         Df Sum Sq Mean Sq
+## cat.dog  1  21.61   21.61
+## 
+## Error: student.no:condition
+##           Df  Sum Sq Mean Sq
+## condition  1 0.01195 0.01195
+## 
+## Error: Within
+##                   Df Sum Sq Mean Sq F value Pr(&gt;F)
+## cat.dog            1    176  175.60   2.043  0.157
+## condition          1     41   40.91   0.476  0.492
+## cat.dog:condition  1      3    2.93   0.034  0.854
+## Residuals         86   7393   85.96</code></pre>
+</div>
+<div id="plot-data-2" class="section level3">
+<h3>3. Plot data</h3>
+<p>To visualise the data, we again use a violin plot, and use the <code>facet_wrap()</code> function to split the data according to the moderator.</p>
+<pre class="r"><code>ggplot(clean.data3,aes(x = condition,y = response,fill = cat.dog)) +
+  geom_violin() +
+  stat_summary() +
+  facet_wrap(~ cat.dog) +
+  theme_classic()</code></pre>
+<p><img src="6mod_med2_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 </div>
 </div>
 </div>

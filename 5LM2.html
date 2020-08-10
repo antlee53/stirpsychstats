@@ -361,10 +361,10 @@ div.tocify {
   <a href="5LM2.html">6. LM2</a>
 </li>
 <li>
-  <a href="6mod_med2.html">7. Mod Med</a>
+  <a href="6mod_med2.html">7. Mod</a>
 </li>
 <li>
-  <a href="8sim.html">8. Sim</a>
+  <a href="8sim.html">8. Power</a>
 </li>
 <li>
   <a href="9SEM.html">9. SEM</a>
@@ -405,7 +405,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
-<p><a href = "files/data_2019.csv" download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -421,7 +421,7 @@ library(lm.beta)</code></pre>
 </div>
 <div id="correlation" class="section level2">
 <h2>Correlation</h2>
-<p>As discussed in the lecture, a correlation assesses the relationship between two continuous variables. In the example below, we will assess the association between attitudes towards exercise and intention to exercise ( <a href="https://search.proquest.com/docview/202682863/fulltextPDF/DD04CFC3E9C34772PQ/1?accountid=14755">click here for more detail on both scales</a>).</p>
+<p>As discussed in the lecture, a correlation assesses the relationship between two continuous variables. In the example below, we will assess the association between stress levels and sleep quality. For more detail on the Perceived Stress Scale, <a href="https://das.nh.gov/wellness/docs/percieved%20stress%20scale.pdf">click here</a>. For more detail on the sleep quality scale, <a href="http://www.psychwiki.com/dms/other/labgroup/Measu235sdgse5234234resWeek2/Rocio2/yi2006.pdf">click here</a>. Again, we will only be using a subset of the items from each scale.</p>
 <p>Remember, whenever we analyse data, we will roughly be following this procedure:</p>
 <ol style="list-style-type: decimal">
 <li>Clean the data for analysis.</li>
@@ -431,35 +431,35 @@ library(lm.beta)</code></pre>
 </ol>
 <div id="clean-the-data-for-analysis." class="section level3">
 <h3>1. Clean the data for analysis.</h3>
-<p>First, we must calculate the attitudes towards exercise and intention to exercise variables that we will use in the correlation (summing the items for both scales), and then select the variables in the data.frame. Similar to previous weeks, we use the <code>mutate()</code> function to calculate a new variable from ones that already exist. We will also use the <code>select()</code> function to only include the variables relevant to our analysis.</p>
+<p>First, we must calculate the perceived stress and sleep quality variables that we will use in the correlation (summing the items for both scales), and then select the variables in the data.frame. Similar to previous weeks, we use the <code>mutate()</code> function to calculate a new variable from ones that already exist. There’s two ways we can do this - we can add all the relevant variables, or we can use the code below to add all the variables that start with the same word to avoid typing out all the variable names (handy for long scales). We will also use the <code>select()</code> function to only include the variables relevant to our analysis.</p>
 <pre class="r"><code>data1.clean &lt;- data %&gt;%
-  mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5 + exercise.attitude.6 + exercise.attitude.7 + exercise.attitude.8 + exercise.attitude.9 + exercise.attitude.10 + exercise.attitude.11 + exercise.attitude.12 + exercise.attitude.13 + exercise.attitude.14 + exercise.attitude.15 + exercise.attitude.16 + exercise.attitude.17 + exercise.attitude.18 + exercise.attitude.19,
-         intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5 + exercise.intention.6 + exercise.intention.7 + exercise.intention.8 + exercise.intention.9 + exercise.intention.10 + exercise.intention.11) %&gt;%
-  dplyr::select(student.no,attitude,intention)</code></pre>
+  mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,    #Method 1
+         sleep.quality = rowSums(select(.,starts_with(&quot;sleep&quot;)))) %&gt;%      #Method 2
+  dplyr::select(student.no,stress,sleep.quality)</code></pre>
 </div>
 <div id="run-statistical-test" class="section level3">
 <h3>2. Run statistical test</h3>
 <p>To run the correlation, we can use the <code>cor.test()</code> function. Similar to analyses we have covered previously, this function requires a formula, and a data.frame.</p>
-<p>Normally, the formula has the form: <code>DV ~ IV</code>. However, for a correlation, given that there are no IVs/DVs per se (i.e., we cannot infer causality - do positive attitudes towards exercise lead to increased intentions, or does increased intentions to exercise leads to more positive attitudes?), this is reflected in the formula for a correlation, where both variables are on the right side of the <code>~</code> symbol:</p>
+<p>Normally, the formula has the form: <code>DV ~ IV</code>. However, for a correlation, given that there are no IVs/DVs per se (i.e., we cannot infer causality - does decreased sleep quality lead to higher perceived stress, or does higher perceived stress lead to decreased sleep quality?), this is reflected in the formula for a correlation, where both variables are on the right side of the <code>~</code> symbol:</p>
 <p><code>~ variable1 + variable2</code></p>
 <p>Below is the code and output from a correlation conducted in R.</p>
-<pre class="r"><code>cor.test(~ attitude + intention,data = data1.clean)</code></pre>
+<pre class="r"><code>cor.test(~ stress + sleep.quality,data = data1.clean)</code></pre>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
 ## 
-## data:  attitude and intention
-## t = 9.1087, df = 107, p-value = 5.294e-15
+## data:  stress and sleep.quality
+## t = -1.59, df = 58, p-value = 0.1173
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  0.5398797 0.7551031
+##  -0.43568139  0.05227153
 ## sample estimates:
-##       cor 
-## 0.6608687</code></pre>
+##        cor 
+## -0.2043657</code></pre>
 <p>The key parts of the output that we are interested in are:</p>
 <ul>
-<li>The r-statistic - this is specified at the bottom of the output under ‘cor’, and equals 0.66 above.</li>
+<li>The r-statistic - this is specified at the bottom of the output under ‘cor’, and equals -0.2 above.</li>
 <li>The p-value - this tells you whether the test is significant or not. Above, p &lt; .001.</li>
-<li>We can also get an indication of how many observations were included in the correlation from the degrees of freedom (the df above is 107, therefore, the sample size for this correlation is 107 + 2 = 109).</li>
+<li>We can also get an indication of how many observations were included in the correlation from the degrees of freedom. The df above is 58, therefore, the sample size for this correlation is 60(58 + 2).</li>
 </ul>
 </div>
 <div id="plot-data" class="section level3">
@@ -469,9 +469,10 @@ library(lm.beta)</code></pre>
 <p>Scatterplots are the best way to visualise correlations, as it allows you to see the raw data and whether you can have confidence in your correlation coefficient. For instance, it can tell you if your significant correlation is due to a small number of outliers.</p>
 <p>Usually in a scatterplot, each point represents a single participant, with each variable on the x- and y-axis (this is interchangable).</p>
 <p>In the code below, the <code>geom_point()</code> function adds the points on the scatterplot. The <code>geom_smooth()</code> function adds the line-of-best-fit. <code>geom_smooth()</code> requires the additional ‘method’ argument, which tells it what type of line you want. In this instance, we specify “lm” to tell it we want a linear model.</p>
-<pre class="r"><code>ggplot(data1.clean,aes(x = attitude,y = intention)) +
+<pre class="r"><code>ggplot(data1.clean,aes(x = stress,y = sleep.quality)) +
   geom_point() +
-  geom_smooth(method = &quot;lm&quot;)</code></pre>
+  geom_smooth(method = &quot;lm&quot;) +
+  theme_classic()</code></pre>
 <p><img src="5LM2_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 </div>
@@ -485,7 +486,7 @@ library(lm.beta)</code></pre>
 </ul>
 <p>Here is an example of a write-up for the correlation above (can you see where each of the numbers came from in the output above?):</p>
 <blockquote>
-<p>There was a significant correlation between attitudes toward exercise and intentions to exercise, <em>r</em>(109) = 0.66, <em>p</em> &lt; .001.</p>
+<p>There was no significant correlation between perceived stress and sleep quality, <em>r</em>(60) = -0.2, <em>p</em> = 0.117.</p>
 </blockquote>
 </div>
 </div>
@@ -496,62 +497,60 @@ library(lm.beta)</code></pre>
 <h3>1. Clean the data for analysis.</h3>
 <p>This code is identical to the code above.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
-  mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5 + exercise.attitude.6 + exercise.attitude.7 + exercise.attitude.8 + exercise.attitude.9 + exercise.attitude.10 + exercise.attitude.11 + exercise.attitude.12 + exercise.attitude.13 + exercise.attitude.14 + exercise.attitude.15 + exercise.attitude.16 + exercise.attitude.17 + exercise.attitude.18 + exercise.attitude.19,
-         intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5 + exercise.intention.6 + exercise.intention.7 + exercise.intention.8 + exercise.intention.9 + exercise.intention.10 + exercise.intention.11) %&gt;%
-  dplyr::select(student.no,attitude,intention)</code></pre>
+  mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,    #Method 1
+         sleep.quality = rowSums(select(.,starts_with(&quot;sleep&quot;)))) %&gt;%      #Method 2
+  dplyr::select(student.no,stress,sleep.quality)</code></pre>
 </div>
 <div id="run-statistical-test-1" class="section level3">
 <h3>2. Run statistical test</h3>
 <p>To run a regression, we use the <code>lm()</code> function, which stands for ‘linear model’. Again, the first argument of this function is the analysis formula, and the second is the data.frame being analysed. For the formula, we revert back to the original form with the DV (outcome variable) on the right of the <code>~</code> symbol, and IVs (predictors) on the left. In order to get interpretable output from the ‘lm()’ function, we need to use the ‘summary()’ function. We can pipe the output of the former straight into the latter.</p>
 <pre class="r"><code>#Unstandardised Model
-model2 &lt;- lm(intention ~ attitude,data = data2.clean) %&gt;%
+model2 &lt;- lm(sleep.quality ~ stress,data = data2.clean) %&gt;%
 summary()
 
 model2</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = intention ~ attitude, data = data2.clean)
+## lm(formula = sleep.quality ~ stress, data = data2.clean)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -35.477  -4.834  -0.288   5.374  19.354 
+## -7.2982 -1.9431  0.2018  2.3563  7.7018 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -0.29626    1.21185  -0.244    0.807    
-## attitude     0.39612    0.04349   9.109 5.29e-15 ***
+## (Intercept)  19.4701     1.3555   14.36   &lt;2e-16 ***
+## stress       -0.1974     0.1242   -1.59    0.117    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.522 on 107 degrees of freedom
-##   (9 observations deleted due to missingness)
-## Multiple R-squared:  0.4367, Adjusted R-squared:  0.4315 
-## F-statistic: 82.97 on 1 and 107 DF,  p-value: 5.294e-15</code></pre>
-<p>In order to report a regression in APA format, we are required to have standardised coefficients. To do this, we can use the <code>lm.beta()</code> function from the lm.beta package. The <code>lm.beta()</code> function takes the original unstandardised model as its first argument, then returns output that includes the standardised coefficients. The simplist way to use it is to add it to the pipeline before the <code>summary()</code> function.</p>
-<pre class="r"><code>model2.standardised &lt;- lm(intention ~ attitude,data = data2.clean) %&gt;%
+## Residual standard error: 3.186 on 58 degrees of freedom
+## Multiple R-squared:  0.04177,    Adjusted R-squared:  0.02524 
+## F-statistic: 2.528 on 1 and 58 DF,  p-value: 0.1173</code></pre>
+<p>In order to report a regression in APA format, we are required to have standardised coefficients. To do this, we can use the <code>lm.beta()</code> function from the lm.beta package. The <code>lm.beta()</code> function takes the original unstandardised model as its first argument, then returns output that includes the standardised coefficients. The simplest way to use it is to add it to the pipeline before the <code>summary()</code> function.</p>
+<pre class="r"><code>model2.standardised &lt;- lm(sleep.quality ~ stress,data = data2.clean) %&gt;%
 lm.beta() %&gt;%
 summary()
 
 model2.standardised</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = intention ~ attitude, data = data2.clean)
+## lm(formula = sleep.quality ~ stress, data = data2.clean)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -35.477  -4.834  -0.288   5.374  19.354 
+## -7.2982 -1.9431  0.2018  2.3563  7.7018 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -0.29626      0.00000    1.21185  -0.244    0.807    
-## attitude     0.39612      0.66087    0.04349   9.109 5.29e-15 ***
+## (Intercept)  19.4701       0.0000     1.3555   14.36   &lt;2e-16 ***
+## stress       -0.1974      -0.2044     0.1242   -1.59    0.117    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.522 on 107 degrees of freedom
-##   (9 observations deleted due to missingness)
-## Multiple R-squared:  0.4367, Adjusted R-squared:  0.4315 
-## F-statistic: 82.97 on 1 and 107 DF,  p-value: 5.294e-15</code></pre>
+## Residual standard error: 3.186 on 58 degrees of freedom
+## Multiple R-squared:  0.04177,    Adjusted R-squared:  0.02524 
+## F-statistic: 2.528 on 1 and 58 DF,  p-value: 0.1173</code></pre>
 <p>Notice that in the summary table above, an additional column named <code>Standardized</code> is added. Everytime you calculate the standardised coefficients, the estimate for the intercept will equal 0. Therefore, you do not need to report the estimated intercept when reporting standardised coefficients.</p>
 </div>
 <div id="plot-data-1" class="section level3">
@@ -576,89 +575,91 @@ model2.standardised</code></pre>
 <p>Note, when reporting standardised coefficient, there is no need to report the estimate for the intercept (because it is always 0).</p>
 <p>So the write-up for the regression above would look something like this below. Again, with only one predictor, the results from a regression is identical to a correlation, so you’re better off reporting it that way to avoid confusion and the extra hassle, but we will go through the write-up below just to demonstrate:</p>
 <blockquote>
-<p>Linear regression indicated that 43.67% of variance of intention to exercise could be explained by the predictor, (<em>F</em>(1, 107) = 82.97, <em>p</em> &lt; .001). Attitudes significantly predicted intentions to exercise (<em>Beta</em> = 0.66, <em>p</em> = &lt; .001).</p>
+<p>Linear regression indicated that 4.18% of variance in sleep quality could be explained by the predictor, (<em>F</em>(1, 58) = 2.53, <em>p</em> = 0.117). Perceived stress did not significantly predict sleep quality (<em>Beta</em> = -0.2, <em>p</em> = = 0.117).</p>
 </blockquote>
 <p>For one or two predictors, it is simple enough to include the coefficients and p-value of predictors in-text like above. However, as your model becomes more complicated, it may be more useful to include a table instead. More on this later.</p>
 </div>
 </div>
 <div id="regression-with-multiple-predictors." class="section level2">
 <h2>Regression with Multiple Predictors.</h2>
-<p>The real advantage of regression is when there is more than one predictor in the model. In the example below, we run a regression with intention to exercise as the outcome variable, and attitudes to exercise and behavioural control as predictors.</p>
+<p>The real advantage of regression is when there is more than one predictor in the model. In the example below, we run a regression with sleep quality as the outcome variable, and perceived stress and social support as predictors. <a href="https://www.jstor.org/stable/2136404?seq=9#metadata_info_tab_contents">For more detail on the Stress Scale, click here</a>.</p>
 <div id="clean-the-data-for-analysis.-2" class="section level3">
 <h3>1. Clean the data for analysis.</h3>
 <p>First, we need to calculate the variables from each individual item. Again, this is just the sum of the items from the respective scales.</p>
 <pre class="r"><code>data3.clean &lt;- data %&gt;%
-  mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5 + exercise.attitude.6 + exercise.attitude.7 + exercise.attitude.8 + exercise.attitude.9 + exercise.attitude.10 + exercise.attitude.11 + exercise.attitude.12 + exercise.attitude.13 + exercise.attitude.14 + exercise.attitude.15 + exercise.attitude.16 + exercise.attitude.17 + exercise.attitude.18 + exercise.attitude.19,
-         intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5 + exercise.intention.6 + exercise.intention.7 + exercise.intention.8 + exercise.intention.9 + exercise.intention.10 + exercise.intention.11,
-         control = exercise.control.1 + exercise.control.2 + exercise.control.3) %&gt;%
-  dplyr::select(student.no,attitude,intention,control)</code></pre>
+  mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,
+         support = support.1 + support.2 + support.3 + support.4 + support.5,
+         sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5) %&gt;%
+  dplyr::select(student.no,stress,support,sleep.quality)</code></pre>
 </div>
 <div id="run-statistical-test-2" class="section level3">
 <h3>2. Run statistical test</h3>
 <p>Again, we run the regression using the <code>lm()</code> function. In order to add extra predictors to the model, we adjust the formula by adding variables on the right side of the <code>~</code> symbol.</p>
 <pre class="r"><code>#Unstandardised Model
-model3 &lt;- lm(intention ~ attitude + control,data = data3.clean)
+model3 &lt;- lm(sleep.quality ~ support + stress,data = data3.clean)
 summary(model3)</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = intention ~ attitude + control, data = data3.clean)
+## lm(formula = sleep.quality ~ support + stress, data = data3.clean)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -31.921  -4.773  -0.327   5.659  18.894 
+## -7.9780 -1.8938 -0.1326  2.1517  6.3821 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -4.38951    2.88889  -1.519    0.132    
-## attitude     0.34612    0.05507   6.285 7.77e-09 ***
-## control      0.44408    0.29385   1.511    0.134    
+## (Intercept) 15.99705    2.38758   6.700    1e-08 ***
+## support      0.03601    0.09595   0.375    0.709    
+## stress      -0.18431    0.11747  -1.569    0.122    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.488 on 104 degrees of freedom
-##   (11 observations deleted due to missingness)
-## Multiple R-squared:  0.4533, Adjusted R-squared:  0.4428 
-## F-statistic: 43.11 on 2 and 104 DF,  p-value: 2.313e-14</code></pre>
+## Residual standard error: 3.011 on 57 degrees of freedom
+## Multiple R-squared:  0.04456,    Adjusted R-squared:  0.01104 
+## F-statistic: 1.329 on 2 and 57 DF,  p-value: 0.2728</code></pre>
 <pre class="r"><code>#Standardised Model
-lm.beta(model3) %&gt;% summary()</code></pre>
+model3 %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = intention ~ attitude + control, data = data3.clean)
+## lm(formula = sleep.quality ~ support + stress, data = data3.clean)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -31.921  -4.773  -0.327   5.659  18.894 
+## -7.9780 -1.8938 -0.1326  2.1517  6.3821 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -4.38951      0.00000    2.88889  -1.519    0.132    
-## attitude     0.34612      0.57857    0.05507   6.285 7.77e-09 ***
-## control      0.44408      0.13911    0.29385   1.511    0.134    
+## (Intercept) 15.99705      0.00000    2.38758   6.700    1e-08 ***
+## support      0.03601      0.04864    0.09595   0.375    0.709    
+## stress      -0.18431     -0.20333    0.11747  -1.569    0.122    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 8.488 on 104 degrees of freedom
-##   (11 observations deleted due to missingness)
-## Multiple R-squared:  0.4533, Adjusted R-squared:  0.4428 
-## F-statistic: 43.11 on 2 and 104 DF,  p-value: 2.313e-14</code></pre>
+## Residual standard error: 3.011 on 57 degrees of freedom
+## Multiple R-squared:  0.04456,    Adjusted R-squared:  0.01104 
+## F-statistic: 1.329 on 2 and 57 DF,  p-value: 0.2728</code></pre>
 </div>
 <div id="plot-data-2" class="section level3">
 <h3>3. Plot data</h3>
-<p>It is difficult to plot data from a multiple regression, as, in extreme circumstances, controlling for the variance in one predictor could change the direction of relationship in another. The simplist way is to plot scatterplot for each predictor with the dependent variable separately. If plots don’t appear to map well onto the predicted model - it could indicate you have an issue with your model (e.g., multicollinearity).</p>
-<pre class="r"><code>ggplot(data3.clean,aes(x = attitude,y = intention)) +
+<p>It is difficult to plot data from a multiple regression, as, in extreme circumstances, controlling for the variance in one predictor could change the direction of relationship in another. The simplest way is to plot scatterplot for each predictor with the dependent variable separately. If plots don’t appear to map well onto the predicted model - it could indicate you have an issue with your model (e.g., multicollinearity).</p>
+<pre class="r"><code>ggplot(data3.clean,aes(x = stress,y = sleep.quality)) +
   geom_point() +
-  geom_smooth(method = &quot;lm&quot;)</code></pre>
+  geom_smooth(method = &quot;lm&quot;) +
+  theme_classic()</code></pre>
 <p><img src="5LM2_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(data3.clean,aes(x = control,y = intention)) +
+<pre class="r"><code>ggplot(data3.clean,aes(x = support,y = sleep.quality)) +
   geom_point() +
-  geom_smooth(method = &quot;lm&quot;)</code></pre>
+  geom_smooth(method = &quot;lm&quot;) +
+  theme_classic()</code></pre>
 <p><img src="5LM2_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 <div id="write-up-analysis.-2" class="section level3">
 <h3>4. Write-up analysis.</h3>
-<p>Since we have numerous predictors now, it may make more sense to report the regression coefficients in a table, rather than in-text. In the write-up below, the beta, t-statistic, and p-value for each predictor is now in a table. However, when reporting regression coefficients in a table, you still need to describe the pattern of results in words.</p>
+<p>Since we have numerous predictors now, it may make more sense to report the regression coefficients in a table to help with readability (though you can still report the statistics in-text if you prefer). In the write-up below, the beta, t-statistic, and p-value for each predictor is now in a table. However, when reporting regression coefficients in a table, you still need to describe the pattern of results in words.</p>
 <blockquote>
-<p>We used multiple regression to predict intention to exercise from attitudes to fitness and behavioural control. We found that both predictors explained 45.33% of the variance (<em>F</em>(2, 104) = 43.11, <em>p</em> &lt; .001). Regression coefficients are reported in Table 1. Attitudes to fitness positively predicted intention to exercise. There was no significant effect of behavioural control.</p>
+<p>We used multiple regression to predict sleep quality from perceived stress and social support. We found that both predictors explained 4.46% of the variance (<em>F</em>(2, 57) = 1.33, <em>p</em> = 0.273). Regression coefficients are reported in Table 1. Neither perceived stress or social support significantly predicted intention to exercise.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting intention to exercise.</p>
 <table>
@@ -672,16 +673,16 @@ lm.beta(model3) %&gt;% summary()</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Attitudes to Fitness</td>
-<td>0.58</td>
-<td>6.29</td>
-<td>&lt; .001</td>
+<td>Stress</td>
+<td>0.05</td>
+<td>0.38</td>
+<td>0.71</td>
 </tr>
 <tr class="even">
-<td>Behavioural Control</td>
-<td>0.14</td>
-<td>1.51</td>
-<td>0.13</td>
+<td>Support</td>
+<td>-0.2</td>
+<td>-1.57</td>
+<td>0.12</td>
 </tr>
 </tbody>
 </table>
