@@ -501,7 +501,7 @@ summary(model1)</code></pre>
 ## Multiple R-squared:  0.04589,    Adjusted R-squared:  -0.005224 
 ## F-statistic: 0.8978 on 3 and 56 DF,  p-value: 0.4481</code></pre>
 <p>Notice how R automatically includes the main effects in the model? In most cases, you will want to include the separate main effects when including an interaction term, but in the odd occassion when you want to include the interaction effect without the main effect, you can specify it using the <code>:</code> symbol. In other words:</p>
-<p><code>stress ~ stars.test*support</code> is identical to <code>stress ~ stars.test + support + stars.test:support</code></p>
+<p><code>sleep.quality ~ stress*support</code> is identical to <code>sleep.quality ~ stress + support + stress:support</code></p>
 <p>Above are the unstandardised coefficients. However, in order to report in APA format, we require the standardised coefficient. Similar to with an ordinary regression, we can use the <code>lm.beta()</code> function to get the standardised coefficients, like here:</p>
 <pre class="r"><code>#Standardised Model
 model1 %&gt;%
@@ -564,7 +564,7 @@ model1 %&gt;%
 <p>As mentioned last week, with more than one predictor in the model, it may make more sense to report the statistics in a table. This includes models with interaction effects (in the case above, the interaction effect is our third predictor).</p>
 <p>Here is an example of the write-up:</p>
 <blockquote>
-<p>We used a linear regression to predict sleep quality from the level of perceived stress, level of social support, and the interaction between the two. We found that model explained 4.59% of the variance (F(3,56) = 0.9, p = 0.448). Regression coefficients are reported in Table 1. There was a significant, negative main effect of stress on sleep quality. There was no significant main effect of social support on sleep quality. The interaction between perceived stress and social support was significant, such that… [go on to describe the pattern of results]</p>
+<p>We used a linear regression to predict sleep quality from the level of perceived stress, level of social support, and the interaction between the two. We found that model explained 4.59% of the variance (F(3,56) = 0.9, p = 0.448). Regression coefficients are reported in Table 1. There was no significant main effect of stress on sleep quality. There was no significant main effect of social support on sleep quality. The interaction between perceived stress and social support was not significant.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting stress.</p>
 <table>

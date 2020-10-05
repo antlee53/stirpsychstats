@@ -682,6 +682,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 <ul>
 <li>The mean on the DV for all groups.</li>
 <li>The standard deviations on the DV for both groups.</li>
+<li>The test-statistics and p-values from the comparisons.</li>
 </ul>
 <p>The code below will calculate the mean and standard deviation on the dependent variable for all groups. It is identical to the code that does this for the t-test.</p>
 <pre class="r"><code>data3.clean %&gt;%
@@ -712,7 +713,9 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
   filter(!is.na(pre.drink)) %&gt;%
   filter(!is.na(post.drink)) %&gt;%
   select(student.no,pre.drink,post.drink) %&gt;%
-  gather(key = &quot;condition&quot;,value = &quot;alcohol&quot;,pre.drink,post.drink)</code></pre>
+  gather(key = &quot;condition&quot;,value = &quot;alcohol&quot;,pre.drink,post.drink) %&gt;%
+  mutate(condition = factor(condition,levels = c(&quot;pre.drink&quot;,&quot;post.drink&quot;)))</code></pre>
+<p>Note: The last line above is only used so that the pre-drink and post-drink variables are in the right order when we plot the data below.</p>
 </div>
 <div id="run-the-statistical-test.-2" class="section level3">
 <h3>2. Run the statistical test.</h3>
@@ -722,13 +725,13 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 ##  Paired t-test
 ## 
 ## data:  alcohol by condition
-## t = -0.92769, df = 59, p-value = 0.3573
+## t = 0.92769, df = 59, p-value = 0.3573
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -4.524993  1.658326
+##  -1.658326  4.524993
 ## sample estimates:
 ## mean of the differences 
-##               -1.433333</code></pre>
+##                1.433333</code></pre>
 <p>Alternatively, if you want to avoid reshaping the data, you can also use the following technique, but note that the arguments supplied here are different to almost all other analyses we will be covering in this module. The first and second arguments are the columns we want to compare. In this example, this is the ‘before’ and ‘after’ column. How we specify this is using the following syntax: <code>data$pre.drink</code>. This is short-hand for specifying the ‘pre.drink’ column in the ‘data’ data.frame. Again, we have to set ‘paired’ to <code>TRUE</code>, but we do not have to supply a data.frame. So the code looks like:</p>
 <pre class="r"><code>t.test(data$pre.drink,data$post.drink,paired = TRUE)</code></pre>
 <pre><code>## 
@@ -747,10 +750,13 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 <h3>3. Visualise the data.</h3>
 <p>We can plot the data using a violin plot, the same way we visualised the data for an independent-samples t-test. However, this does not give an indication of the change in scores within a participant. One way to represent this graphically, is to plot the data point for each participant, and include a line between their scores between the two conditions. We also adjust the opacity of the points and lines using the <code>alpha</code> aesthetic, just so that it isn’t a complete mess. Note that the graphic below is made with the reshaped data.frame <code>data2.clean</code>.</p>
 <pre class="r"><code>ggplot(data = data2.clean,aes(x = condition,y = alcohol)) +
-  geom_violin() +
+  geom_violin(aes(fill = condition)) +
   stat_summary() +
   geom_point(alpha = .2) +
   geom_line(aes(group = student.no),alpha = .2) +
+  xlab(&quot;Condition (Before or After Exposure)&quot;) +
+  ylab(&quot;Intended Number of Alcoholic Drinks&quot;) +
+  theme(legend.position = &quot;none&quot;) +
   theme_classic()</code></pre>
 <p><img src="4LM1_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 </div>
@@ -765,9 +771,9 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 data2.summary</code></pre>
 <pre><code>## # A tibble: 2 x 3
 ##   condition  dv_mean dv_sd
-##   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt;
-## 1 post.drink    12.8  9.89
-## 2 pre.drink     14.2  8.64</code></pre>
+##   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt;
+## 1 pre.drink     14.2  8.64
+## 2 post.drink    12.8  9.89</code></pre>
 <p>Or if you have not reshaped the data:</p>
 <pre class="r"><code>data2.summary &lt;- data %&gt;%
   summarise(pre.mean = mean(pre.drink),
@@ -779,7 +785,7 @@ data2.summary</code></pre>
 <pre><code>##   pre.mean   pre.sd pst.mean   pst.sd
 ## 1 14.21667 8.637898 12.78333 9.885946</code></pre>
 <blockquote>
-<p>A paired-samples t-test found that there was no significant difference on intended alcohol consumption before (<em>M</em> = NA, <em>SD</em> = NA) and after (<em>M</em> = 8.64 , <em>SD</em> = 12.78) exposure to the Scottish Government’s anti-drinking campaign ad, <em>t</em>(59) = -0.93, <em>p</em> = 0.357.</p>
+<p>A paired-samples t-test found that there was no significant difference on intended alcohol consumption before (<em>M</em> = 14.22, <em>SD</em> = 8.64) and after (<em>M</em> = 12.78 , <em>SD</em> = 9.89) exposure to the Scottish Government’s anti-drinking campaign ad, <em>t</em>(59) = 0.93, <em>p</em> = 0.357.</p>
 </blockquote>
 </div>
 </div>

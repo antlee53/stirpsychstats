@@ -560,11 +560,13 @@ data.mutate &lt;- mutate(data.filter1,pathogen.disgust = pathogen1 + pathogen2 +
            pathogen3 + pathogen4 + pathogen5 + pathogen6 + pathogen7)</code></pre>
 <p>The real advantage of piping is apparent when dealing with nested functions (i.e., functions that take arguments which themselves include a function). So for instance, if you wanted to do the above without saving intermediate datasets, you would end up with the code below, which is a hot mess.</p>
 <pre class="r"><code>hot.mess &lt;- mutate(select(filter(data,program == &quot;Health MSc&quot;),program,stats.exp,pathogen1,pathogen2,pathogen3,pathogen4,pathogen5,pathogen6,pathogen7),pathogen.disgust = pathogen1 + pathogen2 + pathogen3 + pathogen4 + pathogen5 + pathogen6 + pathogen7)</code></pre>
-<p>#Exercises</p>
+</div>
+</div>
+</div>
+<div id="exercises-1" class="section level1">
+<h1>Exercises</h1>
 <p>Now that you’ve completed this week’s workbook, why not give this week’s exercises a go? You can download the interactive exercises by clicking the link below.</p>
 <p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
-</div>
-</div>
 </div>
 
 
