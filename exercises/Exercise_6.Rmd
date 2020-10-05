@@ -5,6 +5,10 @@ runtime: shiny_prerendered
 ---
 
 ```{r library, include=FALSE}
+list.of.packages <- c("learnr","shiny","tidyverse","lm.beta")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
 library(learnr)
 library(tidyverse)
 library(lm.beta)

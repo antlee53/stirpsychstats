@@ -5,6 +5,10 @@ runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
+list.of.packages <- c("learnr","shiny")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
 
