@@ -441,14 +441,6 @@ quiz(
     answer("A numeric value."),allow_retry = TRUE,random_answer_order = TRUE
   )
 )
-quiz(
-  question("Typically, each row in a data table represents:",
-    answer("A variable."),
-    answer("Data from a single participant.",correct = TRUE),
-    answer("The number of participants."),
-    answer("A numeric value."),allow_retry = TRUE,random_answer_order = TRUE
-  )
-)
 ```
 
 Congrats! This is end of the basic exercises for this week. If you looking for an extra challenge, or wish to practice your R skills a bit more, why not try the advanced exercises?
