@@ -405,7 +405,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
-<p><a href = files/simulated.data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -432,9 +432,11 @@ library(lm.beta)</code></pre>
 <div id="clean-the-data-for-analysis." class="section level3">
 <h3>1. Clean the data for analysis.</h3>
 <p>First, we must calculate the perceived stress and sleep quality variables that we will use in the correlation (summing the items for both scales), and then select the variables in the data.frame. Similar to previous weeks, we use the <code>mutate()</code> function to calculate a new variable from ones that already exist. There’s two ways we can do this - we can add all the relevant variables, or we can use the code below to add all the variables that start with the same word to avoid typing out all the variable names (handy for long scales). We will also use the <code>select()</code> function to only include the variables relevant to our analysis.</p>
+<p>Note, usually larger scores on the scale equates to poorer sleep quality, which can be a bit confusing, so we will reverse code it so that higher score indicate greater sleep quality.</p>
 <pre class="r"><code>data1.clean &lt;- data %&gt;%
   mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,    #Method 1
-         sleep.quality = rowSums(select(.,starts_with(&quot;sleep&quot;)))) %&gt;%      #Method 2
+         sleep.quality = rowSums(select(.,starts_with(&quot;sleep&quot;))),          #Method 2
+         sleep.quality = sleep.quality * -1) %&gt;%      
   dplyr::select(student.no,stress,sleep.quality)</code></pre>
 </div>
 <div id="run-statistical-test" class="section level3">
@@ -448,18 +450,18 @@ library(lm.beta)</code></pre>
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  stress and sleep.quality
-## t = -1.59, df = 58, p-value = 0.1173
+## t = -2.939, df = 115, p-value = 0.00398
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  -0.43568139  0.05227153
+##  -0.42543902 -0.08695936
 ## sample estimates:
 ##        cor 
-## -0.2043657</code></pre>
+## -0.2643198</code></pre>
 <p>The key parts of the output that we are interested in are:</p>
 <ul>
-<li>The r-statistic - this is specified at the bottom of the output under ‘cor’, and equals -0.2 above.</li>
+<li>The r-statistic - this is specified at the bottom of the output under ‘cor’, and equals -0.26 above.</li>
 <li>The p-value - this tells you whether the test is significant or not. Above, p &lt; .001.</li>
-<li>We can also get an indication of how many observations were included in the correlation from the degrees of freedom. The df above is 58, therefore, the sample size for this correlation is 60(58 + 2).</li>
+<li>We can also get an indication of how many observations were included in the correlation from the degrees of freedom. The df above is 115, therefore, the sample size for this correlation is 117(115 + 2).</li>
 </ul>
 </div>
 <div id="plot-data" class="section level3">
@@ -486,7 +488,7 @@ library(lm.beta)</code></pre>
 </ul>
 <p>Here is an example of a write-up for the correlation above (can you see where each of the numbers came from in the output above?):</p>
 <blockquote>
-<p>There was no significant correlation between perceived stress and sleep quality, <em>r</em>(60) = -0.2, <em>p</em> = 0.117.</p>
+<p>There was a significant, negative correlation between perceived stress and sleep quality, <em>r</em>(117) = -0.26, <em>p</em> = 0.004.</p>
 </blockquote>
 </div>
 </div>
@@ -515,18 +517,19 @@ model2</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -7.2982 -1.9431  0.2018  2.3563  7.7018 
+## -12.042  -4.212  -1.042   4.256  13.023 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  19.4701     1.3555   14.36   &lt;2e-16 ***
-## stress       -0.1974     0.1242   -1.59    0.117    
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept)   6.5513     3.2741   2.001  0.04775 * 
+## stress        0.7660     0.2606   2.939  0.00398 **
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.186 on 58 degrees of freedom
-## Multiple R-squared:  0.04177,    Adjusted R-squared:  0.02524 
-## F-statistic: 2.528 on 1 and 58 DF,  p-value: 0.1173</code></pre>
+## Residual standard error: 5.639 on 115 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.06986,    Adjusted R-squared:  0.06178 
+## F-statistic: 8.638 on 1 and 115 DF,  p-value: 0.00398</code></pre>
 <p>In order to report a regression in APA format, we are required to have standardised coefficients. To do this, we can use the <code>lm.beta()</code> function from the lm.beta package. The <code>lm.beta()</code> function takes the original unstandardised model as its first argument, then returns output that includes the standardised coefficients. The simplest way to use it is to add it to the pipeline before the <code>summary()</code> function.</p>
 <pre class="r"><code>model2.standardised &lt;- lm(sleep.quality ~ stress,data = data2.clean) %&gt;%
 lm.beta() %&gt;%
@@ -539,18 +542,19 @@ model2.standardised</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -7.2982 -1.9431  0.2018  2.3563  7.7018 
+## -12.042  -4.212  -1.042   4.256  13.023 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  19.4701       0.0000     1.3555   14.36   &lt;2e-16 ***
-## stress       -0.1974      -0.2044     0.1242   -1.59    0.117    
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)   
+## (Intercept)   6.5513       0.0000     3.2741   2.001  0.04775 * 
+## stress        0.7660       0.2643     0.2606   2.939  0.00398 **
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.186 on 58 degrees of freedom
-## Multiple R-squared:  0.04177,    Adjusted R-squared:  0.02524 
-## F-statistic: 2.528 on 1 and 58 DF,  p-value: 0.1173</code></pre>
+## Residual standard error: 5.639 on 115 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.06986,    Adjusted R-squared:  0.06178 
+## F-statistic: 8.638 on 1 and 115 DF,  p-value: 0.00398</code></pre>
 <p>Notice that in the summary table above, an additional column named <code>Standardized</code> is added. Everytime you calculate the standardised coefficients, the estimate for the intercept will equal 0. Therefore, you do not need to report the estimated intercept when reporting standardised coefficients.</p>
 </div>
 <div id="plot-data-1" class="section level3">
@@ -575,7 +579,7 @@ model2.standardised</code></pre>
 <p>Note, when reporting standardised coefficient, there is no need to report the estimate for the intercept (because it is always 0).</p>
 <p>So the write-up for the regression above would look something like this below. Again, with only one predictor, the results from a regression is identical to a correlation, so you’re better off reporting it that way to avoid confusion and the extra hassle, but we will go through the write-up below just to demonstrate:</p>
 <blockquote>
-<p>Linear regression indicated that 4.18% of variance in sleep quality could be explained by the predictor, (<em>F</em>(1, 58) = 2.53, <em>p</em> = 0.117). Perceived stress did not significantly predict sleep quality (<em>Beta</em> = -0.2, <em>p</em> = 0.117).</p>
+<p>Linear regression indicated that 6.99% of variance in sleep quality could be explained by the predictor, (<em>F</em>(1, 115) = 8.64, <em>p</em> = 0.004). Perceived stress significantly predicted sleep quality (<em>Beta</em> = 0.26, <em>p</em> = 0.004).</p>
 </blockquote>
 <p>For one or two predictors, it is simple enough to include the coefficients and p-value of predictors in-text like above. However, as your model becomes more complicated, it may be more useful to include a table instead. More on this later.</p>
 </div>
@@ -604,19 +608,20 @@ summary(model3)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -7.9780 -1.8938 -0.1326  2.1517  6.3821 
+## -8.8493 -3.6097 -0.7073  3.8192 12.2265 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 15.99705    2.38758   6.700    1e-08 ***
-## support      0.03601    0.09595   0.375    0.709    
-## stress      -0.18431    0.11747  -1.569    0.122    
+##             Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept) 10.72506    3.29249   3.257  0.00148 **
+## support     -0.20360    0.07151  -2.847  0.00524 **
+## stress       0.65059    0.21876   2.974  0.00359 **
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.011 on 57 degrees of freedom
-## Multiple R-squared:  0.04456,    Adjusted R-squared:  0.01104 
-## F-statistic: 1.329 on 2 and 57 DF,  p-value: 0.2728</code></pre>
+## Residual standard error: 4.718 on 114 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.121,  Adjusted R-squared:  0.1056 
+## F-statistic: 7.847 on 2 and 114 DF,  p-value: 0.0006414</code></pre>
 <pre class="r"><code>#Standardised Model
 model3 %&gt;%
   lm.beta() %&gt;%
@@ -627,19 +632,20 @@ model3 %&gt;%
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -7.9780 -1.8938 -0.1326  2.1517  6.3821 
+## -8.8493 -3.6097 -0.7073  3.8192 12.2265 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 15.99705      0.00000    2.38758   6.700    1e-08 ***
-## support      0.03601      0.04864    0.09595   0.375    0.709    
-## stress      -0.18431     -0.20333    0.11747  -1.569    0.122    
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)   
+## (Intercept) 10.72506      0.00000    3.29249   3.257  0.00148 **
+## support     -0.20360     -0.25080    0.07151  -2.847  0.00524 **
+## stress       0.65059      0.26198    0.21876   2.974  0.00359 **
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.011 on 57 degrees of freedom
-## Multiple R-squared:  0.04456,    Adjusted R-squared:  0.01104 
-## F-statistic: 1.329 on 2 and 57 DF,  p-value: 0.2728</code></pre>
+## Residual standard error: 4.718 on 114 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.121,  Adjusted R-squared:  0.1056 
+## F-statistic: 7.847 on 2 and 114 DF,  p-value: 0.0006414</code></pre>
 </div>
 <div id="plot-data-2" class="section level3">
 <h3>3. Plot data</h3>
@@ -659,7 +665,7 @@ model3 %&gt;%
 <h3>4. Write-up analysis.</h3>
 <p>Since we have numerous predictors now, it may make more sense to report the regression coefficients in a table to help with readability (though you can still report the statistics in-text if you prefer). In the write-up below, the beta, t-statistic, and p-value for each predictor is now in a table. However, when reporting regression coefficients in a table, you still need to describe the pattern of results in words.</p>
 <blockquote>
-<p>We used multiple regression to predict sleep quality from perceived stress and social support. We found that both predictors explained 4.46% of the variance (<em>F</em>(2, 57) = 1.33, <em>p</em> = 0.273). Regression coefficients are reported in Table 1. Neither perceived stress or social support significantly predicted intention to exercise.</p>
+<p>We used multiple regression to predict sleep quality from perceived stress and social support. We found that both predictors explained 12.1% of the variance (<em>F</em>(2, 114) = 7.85, <em>p</em> &lt; .001). Regression coefficients are reported in Table 1. A negative association was found between perceived stress and sleep quality; however, a positive relationship was found between social support and sleep quality.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting intention to exercise.</p>
 <table>
@@ -674,15 +680,15 @@ model3 %&gt;%
 <tbody>
 <tr class="odd">
 <td>Stress</td>
-<td>0.05</td>
-<td>0.38</td>
-<td>0.71</td>
+<td>-0.25</td>
+<td>-2.85</td>
+<td>0.01</td>
 </tr>
 <tr class="even">
 <td>Support</td>
-<td>-0.2</td>
-<td>-1.57</td>
-<td>0.12</td>
+<td>0.26</td>
+<td>2.97</td>
+<td>0</td>
 </tr>
 </tbody>
 </table>

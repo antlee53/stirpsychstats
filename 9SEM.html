@@ -407,7 +407,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/simulated.data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -450,19 +450,19 @@ library(semPlot)</code></pre>
 ## lm(formula = behaviour ~ attitude, data = data.clean)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -9.4673 -3.4492 -0.5395  3.5689 11.6531 
+##      Min       1Q   Median       3Q      Max 
+## -18.5329  -3.9424  -0.7851   4.6244  13.8529 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 15.44318      0.00000    0.60256  25.629   &lt;2e-16 ***
-## attitude     0.02407      0.02776    0.11384   0.211    0.833    
+## (Intercept)   8.9898       0.0000     1.0318   8.713 2.56e-14 ***
+## attitude      0.7953       0.4949     0.1302   6.108 1.41e-08 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.661 on 58 degrees of freedom
-## Multiple R-squared:  0.0007704,  Adjusted R-squared:  -0.01646 
-## F-statistic: 0.04472 on 1 and 58 DF,  p-value: 0.8333</code></pre>
+## Residual standard error: 6.375 on 115 degrees of freedom
+## Multiple R-squared:  0.2449, Adjusted R-squared:  0.2384 
+## F-statistic:  37.3 on 1 and 115 DF,  p-value: 1.411e-08</code></pre>
 </div>
 <div id="model-2" class="section level4">
 <h4>Model 2</h4>
@@ -475,20 +475,20 @@ library(semPlot)</code></pre>
 ## lm(formula = behaviour ~ attitude + intention, data = data.clean)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -9.2548 -3.0644 -0.7116  3.8375 11.0788 
+##      Min       1Q   Median       3Q      Max 
+## -19.0286  -3.8251  -0.8251   4.7210  13.5488 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 15.38806      0.00000    0.60566  25.407   &lt;2e-16 ***
-## attitude     0.01627      0.01876    0.11420   0.142    0.887    
-## intention    0.14956      0.12665    0.15549   0.962    0.340    
+## (Intercept)  8.71897      0.00000    1.06121   8.216 3.70e-13 ***
+## attitude     0.73563      0.45780    0.14137   5.204 8.73e-07 ***
+## intention    0.12351      0.09489    0.11451   1.079    0.283    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.664 on 57 degrees of freedom
-## Multiple R-squared:  0.01673,    Adjusted R-squared:  -0.01777 
-## F-statistic: 0.4849 on 2 and 57 DF,  p-value: 0.6183</code></pre>
+## Residual standard error: 6.371 on 114 degrees of freedom
+## Multiple R-squared:  0.2526, Adjusted R-squared:  0.2394 
+## F-statistic: 19.26 on 2 and 114 DF,  p-value: 6.223e-08</code></pre>
 </div>
 <div id="model-3" class="section level4">
 <h4>Model 3</h4>
@@ -501,17 +501,19 @@ library(semPlot)</code></pre>
 ## lm(formula = intention ~ attitude, data = data.clean)
 ## 
 ## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -8.421 -2.590 -0.212  2.788  6.631 
+##     Min      1Q  Median      3Q     Max 
+## -14.297  -2.642   0.324   3.014   9.910 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(&gt;|t|)
-## (Intercept)  0.36855      0.00000    0.50917   0.724    0.472
-## attitude     0.05219      0.07106    0.09620   0.543    0.590
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   2.1932       0.0000     0.8397   2.612   0.0102 *  
+## attitude      0.4828       0.3910     0.1060   4.556 1.31e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.938 on 58 degrees of freedom
-## Multiple R-squared:  0.00505,    Adjusted R-squared:  -0.0121 
-## F-statistic: 0.2944 on 1 and 58 DF,  p-value: 0.5895</code></pre>
+## Residual standard error: 5.188 on 115 degrees of freedom
+## Multiple R-squared:  0.1529, Adjusted R-squared:  0.1455 
+## F-statistic: 20.76 on 1 and 115 DF,  p-value: 1.306e-05</code></pre>
 </div>
 <div id="mediation-analysis" class="section level4">
 <h4>Mediation Analysis</h4>
@@ -531,11 +533,11 @@ model</code></pre>
 ## 
 ## The DV (Y) was  behaviour . The IV (X) was  attitude . The mediating variable(s) =  intention .
 ## 
-## Total effect(c) of  attitude  on  behaviour  =  0.03   S.E. =  0.13  t  =  0.21  df=  58   with p =  0.83
-## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.02   S.E. =  0.13  t  =  0.14  df=  57   with p =  0.89
-## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  0.01 
-## Mean bootstrapped indirect effect =  0  with standard error =  0.03  Lower CI =  -0.05    Upper CI =  0.06
-## R = 0.13 R2 = 0.02   F = 0.48 on 2 and 57 DF   p-value:  0.618 
+## Total effect(c) of  attitude  on  behaviour  =  0.49   S.E. =  0.08  t  =  6.11  df=  115   with p =  1.4e-08
+## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.46   S.E. =  0.09  t  =  5.2  df=  114   with p =  8.7e-07
+## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  0.04 
+## Mean bootstrapped indirect effect =  0.04  with standard error =  0.04  Lower CI =  -0.03    Upper CI =  0.11
+## R = 0.5 R2 = 0.25   F = 19.26 on 2 and 114 DF   p-value:  6.22e-08 
 ## 
 ##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
 <p>Most of the information above is what we have encountered previously. The main information we are interested in this output is the line on the mean bootstrapped indirect effect. A large indirect effect (and consequently a greater drop between the total effect and the direct effect) would indicate that mediation is occurring. Since we are bootstrapping, we can tell the significance through confidence intervals. If the range between the lower CI and the upper CI contains zero, then the indirect effect is not significant. If this range does not contain zero, then we have a significant mediation effect.</p>
@@ -552,9 +554,9 @@ model</code></pre>
 </div>
 <div id="write-up-analysis." class="section level3">
 <h3>4. Write-up analysis.</h3>
-<p>There are several things you need to include when writing up a mediation analysis. Writing up a mediation analysis includes the write-up for each individual models with and without the mediator (Model 1 and Model 2 above - these numbers are also included in the output for the <code>mediate()</code> function), and also the estimated indirect effect and associated confidence intervals. Usually, you would want to accompany the write-up with a path diagram such as the one above. It does not make much sense to write-up the analysis above as we failed to meet the criteria for a mediation in the first instance, but if we were to do it anyway, it may go something like this:</p>
+<p>There are several things you need to include when writing up a mediation analysis. Writing up a mediation analysis includes the write-up for each individual models with and without the mediator (Model 1 and Model 2 above - these numbers are also included in the output for the <code>mediate()</code> function), and also the estimated indirect effect and associated confidence intervals. Usually, you would want to accompany the write-up with a path diagram such as the one above.</p>
 <blockquote>
-<p>In the model where attitudes towards exercise predicted variance in exercise behaviour, the effect of exercise attitudes was not significant (beta = 0.03, p = 0.833). When including intention to exercise into the model, the effect of attitudes on behaviour did not change (beta = 0.02, p = 0.887). Mediation analysis revealled a non-significant indirect effect of intentions to exercise on the association between attitudes towards exercise and exercise behaviour (mean bootstrapped indirect effect = 0.02, 95% CI = -0.05, 0.06).</p>
+<p>In the model where attitudes towards exercise predicted variance in exercise behaviour, the effect of exercise attitudes was not significant (beta = 0.49, p = 0). When including intention to exercise into the model, the effect of attitudes on behaviour did not change (beta = 0.46, p = 0). Mediation analysis revealled a non-significant indirect effect of intentions to exercise on the association between attitudes towards exercise and exercise behaviour (mean bootstrapped indirect effect = 0.46, 95% CI = -0.03, 0.11).</p>
 </blockquote>
 <p>Note: While we report the results in text above, it is sometimes also easier to report the separate models in a table.</p>
 </div>
@@ -685,22 +687,23 @@ total := direct + indirect
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)
 
 summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-4 ended normally after 15 iterations
+<pre><code>## lavaan 0.6-4 ended normally after 16 iterations
 ## 
 ##   Optimization method                           NLMINB
 ##   Number of free parameters                          5
 ## 
-##   Number of observations                            60
+##   Number of observations                           117
 ## 
 ##   Estimator                                         ML
 ##   Model Fit Test Statistic                       0.000
 ##   Degrees of freedom                                 0
+##   Minimum Function Value               0.0000000000000
 ## 
 ## Model test baseline model:
 ## 
-##   Minimum Function Test Statistic                1.316
+##   Minimum Function Test Statistic               53.474
 ##   Degrees of freedom                                 3
-##   P-value                                        0.725
+##   P-value                                        0.000
 ## 
 ## User model versus baseline model:
 ## 
@@ -709,13 +712,13 @@ summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)<
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)               -342.351
-##   Loglikelihood unrestricted model (H1)       -342.351
+##   Loglikelihood user model (H0)               -738.774
+##   Loglikelihood unrestricted model (H1)       -738.774
 ## 
 ##   Number of free parameters                          5
-##   Akaike (AIC)                                 694.702
-##   Bayesian (BIC)                               705.174
-##   Sample-size adjusted Bayesian (BIC)          689.448
+##   Akaike (AIC)                                1487.548
+##   Bayesian (BIC)                              1501.359
+##   Sample-size adjusted Bayesian (BIC)         1485.553
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
@@ -736,26 +739,26 @@ summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)<
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   behaviour ~                                                           
-##     attitude   (c)    0.016    0.111    0.146    0.884    0.016    0.019
-##     intention  (b)    0.150    0.152    0.987    0.324    0.150    0.127
+##     attitude   (c)    0.736    0.140    5.272    0.000    0.736    0.458
+##     intention  (b)    0.124    0.113    1.093    0.275    0.124    0.095
 ##   intention ~                                                           
-##     attitude   (a)    0.052    0.095    0.552    0.581    0.052    0.071
+##     attitude   (a)    0.483    0.105    4.596    0.000    0.483    0.391
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .behaviour        20.663    3.772    5.477    0.000   20.663    0.983
-##    .intention        14.994    2.737    5.477    0.000   14.994    0.995
+##    .behaviour        39.544    5.170    7.649    0.000   39.544    0.747
+##    .intention        26.455    3.459    7.649    0.000   26.455    0.847
 ## 
 ## R-Square:
 ##                    Estimate
-##     behaviour         0.017
-##     intention         0.005
+##     behaviour         0.253
+##     intention         0.153
 ## 
 ## Defined Parameters:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##     indirect          0.008    0.016    0.482    0.630    0.008    0.009
-##     direct            0.016    0.111    0.146    0.884    0.016    0.019
-##     total             0.024    0.112    0.215    0.830    0.024    0.028</code></pre>
+##     indirect          0.060    0.056    1.063    0.288    0.060    0.037
+##     direct            0.736    0.140    5.272    0.000    0.736    0.458
+##     total             0.795    0.129    6.161    0.000    0.795    0.495</code></pre>
 <p>If we compare the results here to mediation, we should see that we get very similar, if not the same, results.</p>
 </div>
 <div id="plot-the-model." class="section level3">
@@ -805,48 +808,48 @@ behaviour ~ intention + control + attitude
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data2.clean)
 summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-4 ended normally after 47 iterations
+<pre><code>## lavaan 0.6-4 ended normally after 56 iterations
 ## 
 ##   Optimization method                           NLMINB
 ##   Number of free parameters                         14
 ## 
-##   Number of observations                            60
+##   Number of observations                           115
 ## 
 ##   Estimator                                         ML
-##   Model Fit Test Statistic                       0.366
+##   Model Fit Test Statistic                       0.794
 ##   Degrees of freedom                                 1
-##   P-value (Chi-square)                           0.545
+##   P-value (Chi-square)                           0.373
 ## 
 ## Model test baseline model:
 ## 
-##   Minimum Function Test Statistic                4.176
+##   Minimum Function Test Statistic               93.824
 ##   Degrees of freedom                                10
-##   P-value                                        0.939
+##   P-value                                        0.000
 ## 
 ## User model versus baseline model:
 ## 
 ##   Comparative Fit Index (CFI)                    1.000
-##   Tucker-Lewis Index (TLI)                      -0.088
+##   Tucker-Lewis Index (TLI)                       1.025
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)               -857.231
-##   Loglikelihood unrestricted model (H1)       -857.048
+##   Loglikelihood user model (H0)              -1714.569
+##   Loglikelihood unrestricted model (H1)      -1714.172
 ## 
 ##   Number of free parameters                         14
-##   Akaike (AIC)                                1742.463
-##   Bayesian (BIC)                              1771.784
-##   Sample-size adjusted Bayesian (BIC)         1727.750
+##   Akaike (AIC)                                3457.137
+##   Bayesian (BIC)                              3495.566
+##   Sample-size adjusted Bayesian (BIC)         3451.315
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
 ##   RMSEA                                          0.000
-##   90 Percent Confidence Interval          0.000  0.288
-##   P-value RMSEA &lt;= 0.05                          0.574
+##   90 Percent Confidence Interval          0.000  0.236
+##   P-value RMSEA &lt;= 0.05                          0.438
 ## 
 ## Standardized Root Mean Square Residual:
 ## 
-##   SRMR                                           0.020
+##   SRMR                                           0.017
 ## 
 ## Parameter Estimates:
 ## 
@@ -857,34 +860,34 @@ summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   intention ~                                                           
-##     attitude          0.051    0.094    0.541    0.589    0.051    0.069
-##     norms            -0.106    0.129   -0.819    0.413   -0.106   -0.106
-##     control           0.035    0.134    0.258    0.796    0.035    0.033
+##     attitude          0.455    0.112    4.072    0.000    0.455    0.369
+##     norms             0.237    0.071    3.325    0.001    0.237    0.273
+##     control           0.022    0.163    0.135    0.893    0.022    0.012
 ##   behaviour ~                                                           
-##     intention         0.148    0.152    0.979    0.328    0.148    0.126
-##     control           0.022    0.157    0.138    0.890    0.022    0.018
-##     attitude          0.017    0.111    0.151    0.880    0.017    0.019
+##     intention         0.115    0.108    1.061    0.289    0.115    0.090
+##     control           0.542    0.198    2.738    0.006    0.542    0.235
+##     attitude          0.572    0.145    3.954    0.000    0.572    0.364
 ## 
 ## Covariances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   attitude ~~                                                           
-##     norms            -0.561    2.654   -0.211    0.833   -0.561   -0.027
-##     control          -0.618    2.561   -0.241    0.809   -0.618   -0.031
+##     norms             1.661    2.761    0.602    0.547    1.661    0.056
+##     control           5.949    1.436    4.144    0.000    5.949    0.419
 ##   norms ~~                                                              
-##     control          -2.317    1.907   -1.215    0.224   -2.317   -0.159
+##     control           0.107    1.883    0.057    0.955    0.107    0.005
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .intention        14.790    2.700    5.477    0.000   14.790    0.981
-##    .behaviour        20.656    3.771    5.477    0.000   20.656    0.983
-##     attitude         27.936    5.100    5.477    0.000   27.936    1.000
-##     norms            15.122    2.761    5.477    0.000   15.122    1.000
-##     control          14.077    2.570    5.477    0.000   14.077    1.000
+##    .intention        24.471    3.227    7.583    0.000   24.471    0.774
+##    .behaviour        35.994    4.747    7.583    0.000   35.994    0.700
+##     attitude         20.789    2.742    7.583    0.000   20.789    1.000
+##     norms            42.031    5.543    7.583    0.000   42.031    1.000
+##     control           9.700    1.279    7.583    0.000    9.700    1.000
 ## 
 ## R-Square:
 ##                    Estimate
-##     intention         0.019
-##     behaviour         0.017</code></pre>
+##     intention         0.226
+##     behaviour         0.300</code></pre>
 <p>Notice above in the <code>summary()</code> function, we have included additional arguments to get extra statistics that are helpful when it comes to report the analysis.</p>
 </div>
 <div id="plot-the-model.-1" class="section level3">
@@ -917,12 +920,14 @@ sem.model2 &lt;- sem(model2,data = data2.clean)
 <pre class="r"><code>anova(sem.model,sem.model2)</code></pre>
 <pre><code>## Chi Square Difference Test
 ## 
-##            Df    AIC    BIC  Chisq Chisq diff Df diff Pr(&gt;Chisq)
-## sem.model   1 1742.5 1771.8 0.3663                              
-## sem.model2  3 1738.5 1763.6 0.4067   0.040419       2       0.98</code></pre>
+##            Df    AIC    BIC   Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+## sem.model   1 3457.1 3495.6  0.7938                                  
+## sem.model2  3 3485.4 3518.3 33.0240      32.23       2  1.003e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <pre class="r"><code>mod.com &lt;- anova(sem.model,sem.model2)
 mcp &lt;- mod.com$`Pr(&gt;Chisq)`[2]</code></pre>
-<p>Above, we find that there is not a significant difference between the two models. Therefore, it does not seem that dropping the path between ‘control’ and ‘behaviour’ significantly reduces model fit. As such, you could be justified in removing this path from the model.</p>
+<p>Above, we find that there is a significant difference between the two models. Therefore, we can conclude that dropping the path between ‘control’ and ‘behaviour’ significantly reduces model fit. As such, we should retain this path in the model.</p>
 <p>While above, we use the <code>anova()</code> function to test the difference between nested SEM models, we can also use this function to compare models from other functions, such as <code>lm()</code>.</p>
 </div>
 <div id="introducing-latent-variables" class="section level2">
@@ -935,17 +940,18 @@ mcp &lt;- mod.com$`Pr(&gt;Chisq)`[2]</code></pre>
 
 attitude.model &lt;- sem(attitude.formula,data = data)
 summary(attitude.model,standardized = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-4 ended normally after 67 iterations
+<pre><code>## lavaan 0.6-4 ended normally after 25 iterations
 ## 
 ##   Optimization method                           NLMINB
 ##   Number of free parameters                         10
 ## 
-##   Number of observations                            60
+##                                                   Used       Total
+##   Number of observations                           117         118
 ## 
 ##   Estimator                                         ML
-##   Model Fit Test Statistic                       1.278
+##   Model Fit Test Statistic                      15.246
 ##   Degrees of freedom                                 5
-##   P-value (Chi-square)                           0.937
+##   P-value (Chi-square)                           0.009
 ## 
 ## Parameter Estimates:
 ## 
@@ -956,20 +962,20 @@ summary(attitude.model,standardized = TRUE)</code></pre>
 ## Latent Variables:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   attitude =~                                                           
-##     exercis.tttd.1    1.000                               0.276    0.125
-##     exercis.tttd.2    3.859    7.310    0.528    0.598    1.065    0.461
-##     exercis.tttd.3    2.523    4.726    0.534    0.593    0.696    0.341
-##     exercis.tttd.4    2.657    4.961    0.536    0.592    0.734    0.368
-##     exercis.tttd.5    0.108    1.504    0.072    0.943    0.030    0.015
+##     exercis.tttd.1    1.000                               0.885    0.790
+##     exercis.tttd.2    1.253    0.146    8.608    0.000    1.109    0.814
+##     exercis.tttd.3   -0.038    0.198   -0.191    0.848   -0.034   -0.019
+##     exercis.tttd.4    0.855    0.105    8.121    0.000    0.757    0.762
+##     exercis.tttd.5    1.211    0.162    7.467    0.000    1.072    0.703
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .exercis.tttd.1    4.785    0.899    5.324    0.000    4.785    0.984
-##    .exercis.tttd.2    4.197    1.584    2.649    0.008    4.197    0.787
-##    .exercis.tttd.3    3.696    0.907    4.074    0.000    3.696    0.884
-##    .exercis.tttd.4    3.445    0.917    3.758    0.000    3.445    0.865
-##    .exercis.tttd.5    3.713    0.678    5.475    0.000    3.713    1.000
-##     attitude          0.076    0.263    0.290    0.772    1.000    1.000</code></pre>
+##    .exercis.tttd.1    0.471    0.087    5.395    0.000    0.471    0.375
+##    .exercis.tttd.2    0.626    0.125    4.990    0.000    0.626    0.337
+##    .exercis.tttd.3    3.073    0.402    7.648    0.000    3.073    1.000
+##    .exercis.tttd.4    0.415    0.072    5.793    0.000    0.415    0.420
+##    .exercis.tttd.5    1.176    0.185    6.355    0.000    1.176    0.506
+##     attitude          0.784    0.164    4.774    0.000    1.000    1.000</code></pre>
 <pre class="r"><code>semPaths(attitude.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
 <p><img src="9SEM_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>How about we compute latent variables for all the variables in the TPB model above? Doing something like this may not make a lot of sense: we will end up with a gangly model, and we may not have enough observations to get sensible results, but we can do it do it anyway! For demonstrative purposes… The code is provided below to run this analysis, but this code is not executed, as the output is quite long an unweildy.</p>

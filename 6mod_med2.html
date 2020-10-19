@@ -408,7 +408,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
-<p><a href = files/simulated.data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -438,11 +438,12 @@ library(lm.beta)</code></pre>
 <h2>Regression with Interaction Effect</h2>
 <div id="clean-the-data-for-analysis." class="section level3">
 <h3>1. Clean the data for analysis.</h3>
-<p>First we must calculate the scores for each scale in the analysis from the individual items. As we have done previously, we can do this by using the <code>mutate()</code> function. The code below is the same as the code we used last week.</p>
+<p>First we must calculate the scores for each scale in the analysis from the individual items. As we have done previously, we can do this by using the <code>mutate()</code> function. The code below is the same as the code we used last week. Remember to reverse code sleep quality so that higher scores indicate greater sleep quality.</p>
 <pre class="r"><code>data1.vars  &lt;- data %&gt;%
   mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,
          support = support.1 + support.2 + support.3 + support.4 + support.5,
-         sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5) %&gt;%
+         sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5,
+         sleep.quality = sleep.quality * - 1) %&gt;%
   dplyr::select(student.no,stress,support,sleep.quality)</code></pre>
 <p>When including interaction terms in a linear regression, including uncentered variables can be problematic. In order to center the variables, we can use the <code>scale()</code> function. The <code>scale()</code> function expects a numeric vector. There are two additional arguments called <code>center</code> and <code>scale</code>. If <code>center</code> is set to <code>TRUE</code>, but <code>scale</code> is set to <code>FALSE</code>, the <code>scale()</code> function will output the ‘centred’ variable. If both arguments are set to <code>TRUE</code>, the <code>scale()</code> function will return a ‘standardised’ argument.</p>
 <p>Because of a quirk with the <code>scale()</code> function, we also need to tell R that the output is a vector. We can do this by wrapping the results from the <code>scale()</code> function inside a <code>c()</code> function.</p>
@@ -485,21 +486,22 @@ summary(model1)</code></pre>
 ## lm(formula = sleep.quality ~ c.stress * c.support, data = data1.clean)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -7.9410 -1.8632 -0.1277  2.2191  6.3794 
+##      Min       1Q   Median       3Q      Max 
+## -11.9303  -2.9800   0.5636   2.9478   8.7012 
 ## 
 ## Coefficients:
 ##                     Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        14.811938   0.392308  37.756   &lt;2e-16 ***
-## c.stress           -0.188055   0.119188  -1.578    0.120    
-## c.support           0.036933   0.096790   0.382    0.704    
-## c.stress:c.support -0.008153   0.029197  -0.279    0.781    
+## (Intercept)        -13.08190    0.42042 -31.117  &lt; 2e-16 ***
+## c.stress            -0.67418    0.21034  -3.205  0.00175 ** 
+## c.support            0.20154    0.06872   2.933  0.00407 ** 
+## c.stress:c.support   0.10810    0.03342   3.235  0.00160 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.036 on 56 degrees of freedom
-## Multiple R-squared:  0.04589,    Adjusted R-squared:  -0.005224 
-## F-statistic: 0.8978 on 3 and 56 DF,  p-value: 0.4481</code></pre>
+## Residual standard error: 4.534 on 113 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.1955, Adjusted R-squared:  0.1742 
+## F-statistic: 9.154 on 3 and 113 DF,  p-value: 1.793e-05</code></pre>
 <p>Notice how R automatically includes the main effects in the model? In most cases, you will want to include the separate main effects when including an interaction term, but in the odd occassion when you want to include the interaction effect without the main effect, you can specify it using the <code>:</code> symbol. In other words:</p>
 <p><code>sleep.quality ~ stress*support</code> is identical to <code>sleep.quality ~ stress + support + stress:support</code></p>
 <p>Above are the unstandardised coefficients. However, in order to report in APA format, we require the standardised coefficient. Similar to with an ordinary regression, we can use the <code>lm.beta()</code> function to get the standardised coefficients, like here:</p>
@@ -512,21 +514,22 @@ model1 %&gt;%
 ## lm(formula = sleep.quality ~ c.stress * c.support, data = data1.clean)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -7.9410 -1.8632 -0.1277  2.2191  6.3794 
+##      Min       1Q   Median       3Q      Max 
+## -11.9303  -2.9800   0.5636   2.9478   8.7012 
 ## 
 ## Coefficients:
 ##                     Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        14.811938     0.000000   0.392308  37.756   &lt;2e-16 ***
-## c.stress           -0.188055    -0.207462   0.119188  -1.578    0.120    
-## c.support           0.036933     0.049882   0.096790   0.382    0.704    
-## c.stress:c.support -0.008153    -0.036708   0.029197  -0.279    0.781    
+## (Intercept)        -13.08190      0.00000    0.42042 -31.117  &lt; 2e-16 ***
+## c.stress            -0.67418     -0.27148    0.21034  -3.205  0.00175 ** 
+## c.support            0.20154      0.24826    0.06872   2.933  0.00407 ** 
+## c.stress:c.support   0.10810      0.27313    0.03342   3.235  0.00160 ** 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.036 on 56 degrees of freedom
-## Multiple R-squared:  0.04589,    Adjusted R-squared:  -0.005224 
-## F-statistic: 0.8978 on 3 and 56 DF,  p-value: 0.4481</code></pre>
+## Residual standard error: 4.534 on 113 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.1955, Adjusted R-squared:  0.1742 
+## F-statistic: 9.154 on 3 and 113 DF,  p-value: 1.793e-05</code></pre>
 </div>
 <div id="plot-data" class="section level3">
 <h3>3. Plot data</h3>
@@ -564,7 +567,7 @@ model1 %&gt;%
 <p>As mentioned last week, with more than one predictor in the model, it may make more sense to report the statistics in a table. This includes models with interaction effects (in the case above, the interaction effect is our third predictor).</p>
 <p>Here is an example of the write-up:</p>
 <blockquote>
-<p>We used a linear regression to predict sleep quality from the level of perceived stress, level of social support, and the interaction between the two. We found that model explained 4.59% of the variance (F(3,56) = 0.9, p = 0.448). Regression coefficients are reported in Table 1. There was no significant main effect of stress on sleep quality. There was no significant main effect of social support on sleep quality. The interaction between perceived stress and social support was not significant.</p>
+<p>We used a linear regression to predict sleep quality from the level of perceived stress, level of social support, and the interaction between the two. We found that model explained 19.55% of the variance (F(3,113) = 9.15, p = 0). Regression coefficients are reported in Table 1. There was a significant, negative main effect of stress on sleep quality. There was a significant, positive main effect of social support on sleep quality. The interaction between perceived stress and social support was significant, such that… [go on to describe the pattern of results]</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting stress.</p>
 <table>
@@ -579,21 +582,21 @@ model1 %&gt;%
 <tbody>
 <tr class="odd">
 <td>Perceived Stress</td>
-<td>-0.21</td>
-<td>-1.58</td>
-<td>0.12</td>
+<td>-0.27</td>
+<td>-3.21</td>
+<td>0.002</td>
 </tr>
 <tr class="even">
 <td>Social Support</td>
-<td>0.05</td>
-<td>0.38</td>
-<td>0.704</td>
+<td>0.25</td>
+<td>2.93</td>
+<td>0.004</td>
 </tr>
 <tr class="odd">
 <td>PS * SS</td>
-<td>-0.04</td>
-<td>-0.28</td>
-<td>0.781</td>
+<td>0.27</td>
+<td>3.23</td>
+<td>0.002</td>
 </tr>
 </tbody>
 </table>
@@ -608,7 +611,8 @@ model1 %&gt;%
   filter(cat.dog != &quot;both&quot;) %&gt;%
   filter(cat.dog != &quot;neither&quot;) %&gt;%
   filter(cat.dog != &quot;&quot;) %&gt;%
-  mutate(sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5) %&gt;%
+  mutate(sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5,
+         sleep.quality = sleep.quality * - 1) %&gt;%
   select(sleep.quality,video.games,cat.dog)</code></pre>
 </div>
 <div id="run-statistical-test-1" class="section level3">
@@ -617,10 +621,11 @@ model1 %&gt;%
 <pre class="r"><code>aov(sleep.quality ~ video.games*cat.dog,data = clean.data2) %&gt;%
   summary()</code></pre>
 <pre><code>##                     Df Sum Sq Mean Sq F value Pr(&gt;F)
-## video.games          1    1.3   1.274   0.126  0.724
-## cat.dog              1    6.1   6.088   0.604  0.441
-## video.games:cat.dog  1    1.3   1.321   0.131  0.719
-## Residuals           42  423.1  10.075</code></pre>
+## video.games          1   53.5   53.54   2.133  0.149
+## cat.dog              1   14.7   14.70   0.586  0.447
+## video.games:cat.dog  1   24.0   24.03   0.957  0.332
+## Residuals           64 1606.2   25.10               
+## 1 observation deleted due to missingness</code></pre>
 <p>Similar to a one-way ANOVA, the two-way ANOVA will tell you whether or not there is a difference, but it will not tell you where that difference is. In order to determine this, you will need to calculate summary statistics (e.g., means for each cell) and conduct follow-up comparisons.</p>
 <div id="calculate-summary-statistics" class="section level4">
 <h4>Calculate Summary Statistics</h4>
@@ -635,10 +640,10 @@ model1 %&gt;%
 ## # Groups:   video.games [2]
 ##   video.games cat.dog count  mean    sd
 ##   &lt;chr&gt;       &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 No          cat         8  15.6  1.85
-## 2 No          dog         9  14.4  2.60
-## 3 Yes         cat        18  14.8  3.33
-## 4 Yes         dog        11  14.4  3.96</code></pre>
+## 1 No          cat        12 -14.4  5.05
+## 2 No          dog        24 -12.2  5.24
+## 3 Yes         cat        10 -14.4  5.68
+## 4 Yes         dog        23 -14.9  4.45</code></pre>
 </div>
 <div id="multiple-comparisons" class="section level4">
 <h4>Multiple Comparisons</h4>
@@ -648,25 +653,25 @@ model1 %&gt;%
 ##  Welch Two Sample t-test
 ## 
 ## data:  sleep.quality by cat.dog
-## t = 0.32892, df = 18.493, p-value = 0.7459
+## t = 0.20154, df = 12.059, p-value = 0.8436
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -2.524679  3.464073
+##  -4.168239  5.018480
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          14.83333          14.36364</code></pre>
+##         -14.44444         -14.86957</code></pre>
 <pre class="r"><code>t.test(sleep.quality ~ cat.dog,data = filter(clean.data2,video.games == &quot;No&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  sleep.quality by cat.dog
-## t = 1.0871, df = 14.362, p-value = 0.2949
+## t = -1.1981, df = 22.831, p-value = 0.2432
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -1.143223  3.504334
+##  -5.909192  1.575859
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          15.62500          14.44444</code></pre>
+##         -14.41667         -12.25000</code></pre>
 </div>
 </div>
 <div id="plot-data-1" class="section level3">
@@ -701,18 +706,18 @@ model1 %&gt;%
 <pre><code>## 
 ## Error: student.no
 ##         Df Sum Sq Mean Sq
-## cat.dog  1  21.61   21.61
+## cat.dog  1  1.241   1.241
 ## 
 ## Error: student.no:condition
-##           Df  Sum Sq Mean Sq
-## condition  1 0.01195 0.01195
+##         Df Sum Sq Mean Sq
+## cat.dog  1  26.63   26.63
 ## 
 ## Error: Within
-##                   Df Sum Sq Mean Sq F value Pr(&gt;F)
-## cat.dog            1    176  175.60   2.043  0.157
-## condition          1     41   40.91   0.476  0.492
-## cat.dog:condition  1      3    2.93   0.034  0.854
-## Residuals         86   7393   85.96</code></pre>
+##                    Df Sum Sq Mean Sq F value Pr(&gt;F)
+## cat.dog             1   52.3   52.33   2.038  0.156
+## condition           1    1.5    1.46   0.057  0.812
+## cat.dog:condition   1    1.9    1.88   0.073  0.787
+## Residuals         103 2644.8   25.68</code></pre>
 </div>
 <div id="plot-data-2" class="section level3">
 <h3>3. Plot data</h3>
