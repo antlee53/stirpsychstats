@@ -363,7 +363,7 @@ div.tocify {
   <a href="5LM2.html">6. LM2</a>
 </li>
 <li>
-  <a href="6mod_med2.html">7. Mod</a>
+  <a href="6mod_med2.html">7. Mod_Med</a>
 </li>
 <li>
   <a href="8sim.html">8. Power</a>
@@ -400,6 +400,7 @@ div.tocify {
 <li>The basics of the lme4 package and <code>lmer()</code> function.</li>
 <li>Run a basic linear mixed effects model.</li>
 <li>Understand the data reshaping functions <code>spread()</code> and <code>gather()</code>.</li>
+<li>Perform a mixed-designs ANOVA</li>
 </ol>
 </div>
 <div id="resources" class="section level1">
@@ -489,7 +490,7 @@ summary(model)</code></pre>
 <pre class="r"><code>ggplot(data = data_clean,aes(x = age,y = kirby.total)) +
   geom_smooth(aes(group = resident),method = &quot;lm&quot;,formula = y ~ x, colour = &quot;blue&quot;,se = FALSE,size = .1) +
   geom_smooth(method = &quot;lm&quot;,formula = y ~ x, colour = &quot;red&quot;)</code></pre>
-<p><img src="10mixed_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="10mixed_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 </div>
 </div>
 <div id="another-example" class="section level2">
