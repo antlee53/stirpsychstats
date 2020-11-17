@@ -24,7 +24,7 @@ checker <- function(label,user_code,solution_code,check_code,envir_result,evalua
                                  "That is correct!",
                                  "Correct! You are really good at this."),1), correct = TRUE, location = "append")
 
-if(label == "question_4.1"){
+if(label == "question_4_1"){
 	correct_numbers <- numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
 	
 	correct_z.numbers <- scale(correct_numbers,scale = TRUE,center = TRUE) %>% as.vector()
@@ -222,33 +222,33 @@ This is the seventh of the weekly exercises. These exercises are designed to rei
 
 Below is a vector of numbers. Standardise the numbers in this vector and save the result as `z.numbers`.
 
-```{r question_4.1-setup}
+```{r question_4_1-setup}
 numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
 ```
 
-```{r question_4.1, exercise=TRUE,exercise.lines = 12}
+```{r question_4_1, exercise=TRUE,exercise.lines = 12}
 numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
 
 z.numbers
 ```
 
-```{r question_4.1-hint-1}
+```{r question_4_1-hint-1}
 Use the `scale()` function to get standardised values. Make sure to set the 'scale' and 'center' arguments to `TRUE`.
 ```
 
-```{r question_4.1-hint-2}
+```{r question_4_1-hint-2}
 Because of a quirk with the `scale()` function, you will need to convert the output to a vector using either the `c()` or the `as.vector()` function.
 
 Next hint will show the solution...
 ```
 
-```{r question_4.1-solution}
+```{r question_4_1-solution}
 z.numbers <- c(scale(numbers,scale = TRUE,center = TRUE))
 #OR
 z.numbers <- scale(numbers,scale = TRUE,center = TRUE) %>% as.vector()
 ```
 
-```{r question_4.1-check}
+```{r question_4_1-check}
 checker()
 ```
 

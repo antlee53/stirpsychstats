@@ -708,7 +708,7 @@ In the code box below, there is a dataset testing the performance of elite athle
 
 ```
 
-```{r question_a2-hint-1}
+```{r question_a3-hint-1}
 Use the `aov()` function to conduct a mixed design ANOVA.
 ```
 
