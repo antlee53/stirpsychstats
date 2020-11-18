@@ -12,7 +12,7 @@
 
 
 
-<title>HPSP131 - Workbook 7 - Moderation (Interaction Effects), Two-Way ANOVA, and Mixed-Designs ANOVA</title>
+<title>HPSP131 - Workbook 7 - Moderation (Interaction Effects), Two-Way ANOVA, and Mediation Analysis</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -386,7 +386,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Workbook 7 - Moderation (Interaction Effects), Two-Way ANOVA, and Mixed-Designs ANOVA</h1>
+<h1 class="title toc-ignore">HPSP131 - Workbook 7 - Moderation (Interaction Effects), Two-Way ANOVA, and Mediation Analysis</h1>
 
 </div>
 
@@ -604,28 +604,29 @@ model1 %&gt;%
 </div>
 <div id="two-way-anova" class="section level2">
 <h2>Two-Way ANOVA</h2>
-<p>A two-way ANOVA is used when you want to evaluate the effects of two categorical IVs on a continuous DV. Much of what we have covered regarding a linear regression with multiple predictors applies with a two-way ANOVA, but with two categorical IVs. In the example below, we will test whether there is an association between between sleep quality and playing video games, and whether this association differs depending on whether you are a cat person or dog person.</p>
+<p>A two-way ANOVA is used when you want to evaluate the effects of two categorical IVs on a continuous DV. Much of what we have covered regarding a linear regression with multiple predictors applies with a two-way ANOVA, but with two categorical IVs. In the example below, we will test whether there is an association between between introversion and identifying as either a cat- or dog-person, and whether this association differs depending on whether you play video-games or not.</p>
 <div id="clean-the-data-for-analysis.-1" class="section level3">
 <h3>1. Clean the data for analysis.</h3>
 <pre class="r"><code>clean.data2 &lt;- data %&gt;%
   filter(cat.dog != &quot;both&quot;) %&gt;%
   filter(cat.dog != &quot;neither&quot;) %&gt;%
   filter(cat.dog != &quot;&quot;) %&gt;%
-  mutate(sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5,
-         sleep.quality = sleep.quality * - 1) %&gt;%
-  select(sleep.quality,video.games,cat.dog)</code></pre>
+  mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10,
+          introvert = (introvert * -1) + 6*6 ) %&gt;%
+  select(introvert,video.games,cat.dog)</code></pre>
 </div>
 <div id="run-statistical-test-1" class="section level3">
 <h3>2. Run statistical test</h3>
 <p>The function to run a two-way ANOVA is the same as a one-way ANOVA: <code>aov()</code>. R is smart enough to determine which statistical test to run based on how many IVs are in the formula. The formula works the same as an interaction in a regression, where both categorical IVs are “multiplied” together. R will automatically include the main effects for each IV and the interaction. Also, similar to the one-way ANOVA, in order to get output that is interpretable, you can pipe the result to the <code>summary()</code> function.</p>
-<pre class="r"><code>aov(sleep.quality ~ video.games*cat.dog,data = clean.data2) %&gt;%
+<pre class="r"><code>aov(introvert ~ cat.dog*video.games,data = clean.data2) %&gt;%
   summary()</code></pre>
-<pre><code>##                     Df Sum Sq Mean Sq F value Pr(&gt;F)
-## video.games          1   53.5   53.54   2.133  0.149
-## cat.dog              1   14.7   14.70   0.586  0.447
-## video.games:cat.dog  1   24.0   24.03   0.957  0.332
-## Residuals           64 1606.2   25.10               
-## 1 observation deleted due to missingness</code></pre>
+<pre><code>##                     Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## cat.dog              1   59.8   59.83   3.970 0.0505 .
+## video.games          1    2.9    2.89   0.191 0.6631  
+## cat.dog:video.games  1   53.6   53.60   3.557 0.0638 .
+## Residuals           65  979.5   15.07                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Similar to a one-way ANOVA, the two-way ANOVA will tell you whether or not there is a difference, but it will not tell you where that difference is. In order to determine this, you will need to calculate summary statistics (e.g., means for each cell) and conduct follow-up comparisons.</p>
 <div id="calculate-summary-statistics" class="section level4">
 <h4>Calculate Summary Statistics</h4>
@@ -633,55 +634,56 @@ model1 %&gt;%
   group_by(video.games,cat.dog) %&gt;%
   summarise(
     count = n(),
-    mean = mean(sleep.quality,na.rm = TRUE),
-    sd = sd(sleep.quality,na.rm = TRUE)
+    mean = mean(introvert,na.rm = TRUE),
+    sd = sd(introvert,na.rm = TRUE)
   )</code></pre>
 <pre><code>## # A tibble: 4 x 5
 ## # Groups:   video.games [2]
 ##   video.games cat.dog count  mean    sd
 ##   &lt;chr&gt;       &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 No          cat        12 -14.4  5.05
-## 2 No          dog        24 -12.2  5.24
-## 3 Yes         cat        10 -14.4  5.68
-## 4 Yes         dog        23 -14.9  4.45</code></pre>
+## 1 No          cat        12  22    4.26
+## 2 No          dog        24  18.2  3.52
+## 3 Yes         cat        10  19    3.43
+## 4 Yes         dog        23  19.0  4.20</code></pre>
 </div>
 <div id="multiple-comparisons" class="section level4">
 <h4>Multiple Comparisons</h4>
-<p>In the ANOVA table above, we do not find a significant interaction between playing video games and being a cat or dog person. However, we will conduct the comparisons below to determine as if there were a significant interaction. To assess the significant interaction, we test whether the difference between video gamers and non-video gamers differs depending on whether they are a cat or dog person.</p>
-<pre class="r"><code>t.test(sleep.quality ~ cat.dog,data = filter(clean.data2,video.games == &quot;Yes&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
+<p>In the ANOVA table above, we do not find a significant interaction between playing video games and being a cat or dog person. However, we will conduct the comparisons below to determine as if there were a significant interaction. To assess the significant interaction, we test whether the difference between cat-people and dog-people differs depending on whether they play video-games or not.</p>
+<pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(clean.data2,video.games == &quot;Yes&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
-## data:  sleep.quality by cat.dog
-## t = 0.20154, df = 12.059, p-value = 0.8436
+## data:  introvert by cat.dog
+## t = -0.031164, df = 20.934, p-value = 0.9754
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -4.168239  5.018480
+##  -2.945428  2.858472
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##         -14.44444         -14.86957</code></pre>
-<pre class="r"><code>t.test(sleep.quality ~ cat.dog,data = filter(clean.data2,video.games == &quot;No&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
+##          19.00000          19.04348</code></pre>
+<pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(clean.data2,video.games == &quot;No&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
-## data:  sleep.quality by cat.dog
-## t = -1.1981, df = 22.831, p-value = 0.2432
+## data:  introvert by cat.dog
+## t = 2.6316, df = 18.72, p-value = 0.01657
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -5.909192  1.575859
+##  0.7644781 6.7355219
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##         -14.41667         -12.25000</code></pre>
+##             22.00             18.25</code></pre>
 </div>
 </div>
 <div id="plot-data-1" class="section level3">
 <h3>3. Plot data</h3>
-<p>When plotting the data, we want to visualise the relationship between videogamers and sleep quality separated by the moderator - whether participants are a cat or dog person. We can do this by adding a <code>facet_wrap()</code> to our standard violin plot. Here, we only need to specify which variable to separate the plot on.</p>
-<pre class="r"><code>ggplot(clean.data2,aes(x = video.games,y = sleep.quality,fill = cat.dog)) +
+<p>When plotting the data, we want to visualise the relationship between introversion and cat-people/dog-people separated by the moderator - whether participants play video-games or not. We can do this by adding a <code>facet_wrap()</code> to our standard violin plot. Here, we only need to specify which variable to separate the plot on.</p>
+<pre class="r"><code>ggplot(clean.data2,aes(x = cat.dog,y = introvert,fill = video.games)) +
   geom_violin() +
   stat_summary() +
-  facet_wrap(~ cat.dog) +
-  theme_classic()</code></pre>
+  facet_wrap(~ video.games) +
+  theme_classic() +
+  theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="6mod_med2_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 </div>
@@ -800,7 +802,7 @@ model</code></pre>
 ## Total effect(c) of  attitude  on  behaviour  =  0.49   S.E. =  0.08  t  =  6.11  df=  115   with p =  1.4e-08
 ## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.46   S.E. =  0.09  t  =  5.2  df=  114   with p =  8.7e-07
 ## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  0.04 
-## Mean bootstrapped indirect effect =  0.04  with standard error =  0.03  Lower CI =  -0.03    Upper CI =  0.11
+## Mean bootstrapped indirect effect =  0.04  with standard error =  0.04  Lower CI =  -0.03    Upper CI =  0.11
 ## R = 0.5 R2 = 0.25   F = 19.26 on 2 and 114 DF   p-value:  6.22e-08 
 ## 
 ##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
