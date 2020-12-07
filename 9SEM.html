@@ -406,7 +406,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -437,7 +437,7 @@ library(semPlot)</code></pre>
 <div id="clean-the-data-for-analysis." class="section level3">
 <h3>1. Clean the data for analysis.</h3>
 <p>As always, our first step is to calculate the variables from the individual items.</p>
-<p>The code below is identical to the code used for the mediation above.</p>
+<p>The code below is identical to the code used for the mediation in Week 7.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
   mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5,
          intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5,
@@ -621,7 +621,7 @@ total := direct + indirect
 <div id="plot-the-model." class="section level3">
 <h3>3. Plot the model.</h3>
 <p>The easiest way to plot a structural equation model is using a path diagram. Unfortunately, this is not easy to do in <code>ggplot2</code>. However, we can use a the <code>semPaths()</code> function from the <code>semPlot</code> package. This function has the advantage of being easy to use - all you need to do is load your model estimated in laavan and specify which paths you want to see (or hide). The disadvantage is that you cannot choose how you layout your path diagram, or customise the look of your diagram. Therefore, in order to create publication worthy graphics, you must use another program.</p>
-<pre class="r"><code>semPaths(med.sem.model,whatLabel = &quot;est&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
+<pre class="r"><code>semPaths(med.sem.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
 <p><img src="9SEM_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 </div>
@@ -773,7 +773,7 @@ sem.model2 &lt;- sem(model2,data = data2.clean)
 #summary(sem.model2,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 <pre class="r"><code>load(&quot;files/sem.model2.Rdata&quot;)</code></pre>
 <p>Note: we have not run the <code>summary()</code> function above to save on space, but feel free to have a look at it.</p>
-<p>Now that we have our two models that we will compare, the function we use is called <code>anova()</code>, not to be confused with <code>aov()</code> that runs a one-way between-subjects ANOVA.</p>
+<p>Now that we have our two models that we will compare, the function we use is called <code>anova()</code>, not to be confused with <code>aov()</code> that runs ANOVA analyses.</p>
 <p>For the <code>anova()</code> function, we simply have to specify the two models we are comparing as the two arguments. This will conduct a chi-square difference test.</p>
 <pre class="r"><code>anova(sem.model,sem.model2)</code></pre>
 <pre><code>## Chi Square Difference Test
