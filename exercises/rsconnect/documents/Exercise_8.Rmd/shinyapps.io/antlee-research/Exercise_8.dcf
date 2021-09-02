@@ -5,9 +5,9 @@ account: antlee-research
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2080149
-bundleId: 2986576
+bundleId: 3922630
 url: https://antlee-research.shinyapps.io/Exercise_8/
-when: 1586351947.91603
+when: 1606739105.16775
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: .Rapp.history|Exercise_1.Rmd|Exercise_10.Rmd|Exercise_2.Rmd|Exercise_3.Rmd|Exercise_4.Rmd|Exercise_5.Rmd|Exercise_6.html|Exercise_6.Rmd|Exercise_7.Rmd|Exercise_9.Rmd|Question_3.png|Question_6.png|Standardise Question.Rmd
+ignoredFiles: .Rapp.history|Exercise_1.Rmd|Exercise_10.Rmd|Exercise_2.Rmd|Exercise_3.Rmd|Exercise_4.Rmd|Exercise_5.Rmd|Exercise_6.Rmd|Exercise_7.Rmd|Exercise_9.Rmd|Standardise Question.Rmd|Weekly_Exercises.zip|images/Question_3.png|images/Question_6.png

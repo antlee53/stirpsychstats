@@ -659,7 +659,7 @@ The mixed design ANOVA combines elements from the two-way ANOVA and repeated mea
 
 In the example below, we are testing for the interaction between var1 and var2, with var1 being a within-subjects variable.
 
-```{r}
+```{r,eval = FALSE}
 aov(DV ~ var1*var2 + Error(Subject/var1),data.reshaped) %>%
   summary()
 ```
