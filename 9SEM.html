@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -14,12 +13,22 @@
 
 <title>HPSP131 - Workbook 9 - Path Analysis and Structural Equation Modelling</title>
 
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -27,12 +36,16 @@
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -45,32 +58,7 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 
 
@@ -81,13 +69,8 @@ h6 {
   margin-left: auto;
   margin-right: auto;
 }
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -101,40 +84,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 60px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h2 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h3 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h4 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h5 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h6 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -162,7 +118,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -174,7 +130,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -185,10 +141,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -200,7 +169,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -236,6 +204,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -264,6 +233,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -319,7 +294,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -382,7 +357,7 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -406,7 +381,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/simulated.data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -545,24 +520,26 @@ total := direct + indirect
 <p>To run the SEM, we use the <code>sem()</code> function. Like all analyses done previously, we need to specify two things: the formula (which we saved as the object <code>sem.formula</code>) and the data.frame. We also set values for a few other arguments. We set ‘standardized’ to <code>TRUE</code> so that we get standardised estimates, ‘fit.measures’ to <code>TRUE</code> so we get model fit indicators, and ‘rsquare’ to <code>TRUE</code> to get an r-square statistic for the model.</p>
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)</code></pre>
 <pre class="r"><code>summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-4 ended normally after 15 iterations
-## 
-##   Optimization method                           NLMINB
-##   Number of free parameters                          5
-## 
-##   Number of observations                            60
+<pre><code>## lavaan 0.6-9 ended normally after 15 iterations
 ## 
 ##   Estimator                                         ML
-##   Model Fit Test Statistic                       0.000
+##   Optimization method                           NLMINB
+##   Number of model parameters                         5
+##                                                       
+##   Number of observations                            60
+##                                                       
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 0.000
 ##   Degrees of freedom                                 0
 ## 
-## Model test baseline model:
+## Model Test Baseline Model:
 ## 
-##   Minimum Function Test Statistic                1.316
+##   Test statistic                                 1.316
 ##   Degrees of freedom                                 3
 ##   P-value                                        0.725
 ## 
-## User model versus baseline model:
+## User Model versus Baseline Model:
 ## 
 ##   Comparative Fit Index (CFI)                    1.000
 ##   Tucker-Lewis Index (TLI)                       1.000
@@ -571,8 +548,7 @@ total := direct + indirect
 ## 
 ##   Loglikelihood user model (H0)               -342.351
 ##   Loglikelihood unrestricted model (H1)       -342.351
-## 
-##   Number of free parameters                          5
+##                                                       
 ##   Akaike (AIC)                                 694.702
 ##   Bayesian (BIC)                               705.174
 ##   Sample-size adjusted Bayesian (BIC)          689.448
@@ -580,7 +556,8 @@ total := direct + indirect
 ## Root Mean Square Error of Approximation:
 ## 
 ##   RMSEA                                          0.000
-##   90 Percent Confidence Interval          0.000  0.000
+##   90 Percent confidence interval - lower         0.000
+##   90 Percent confidence interval - upper         0.000
 ##   P-value RMSEA &lt;= 0.05                             NA
 ## 
 ## Standardized Root Mean Square Residual:
@@ -589,9 +566,9 @@ total := direct + indirect
 ## 
 ## Parameter Estimates:
 ## 
+##   Standard errors                             Standard
 ##   Information                                 Expected
 ##   Information saturated (h1) model          Structured
-##   Standard Errors                             Standard
 ## 
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
@@ -665,25 +642,27 @@ behaviour ~ intention + control + attitude
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data2.clean)</code></pre>
 <pre class="r"><code>summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-4 ended normally after 47 iterations
-## 
-##   Optimization method                           NLMINB
-##   Number of free parameters                         14
-## 
-##   Number of observations                            60
+<pre><code>## lavaan 0.6-9 ended normally after 47 iterations
 ## 
 ##   Estimator                                         ML
-##   Model Fit Test Statistic                       0.366
+##   Optimization method                           NLMINB
+##   Number of model parameters                        14
+##                                                       
+##   Number of observations                            60
+##                                                       
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 0.366
 ##   Degrees of freedom                                 1
 ##   P-value (Chi-square)                           0.545
 ## 
-## Model test baseline model:
+## Model Test Baseline Model:
 ## 
-##   Minimum Function Test Statistic                4.176
+##   Test statistic                                 4.176
 ##   Degrees of freedom                                10
 ##   P-value                                        0.939
 ## 
-## User model versus baseline model:
+## User Model versus Baseline Model:
 ## 
 ##   Comparative Fit Index (CFI)                    1.000
 ##   Tucker-Lewis Index (TLI)                      -0.088
@@ -692,8 +671,7 @@ behaviour ~ intention + control + attitude
 ## 
 ##   Loglikelihood user model (H0)               -857.231
 ##   Loglikelihood unrestricted model (H1)       -857.048
-## 
-##   Number of free parameters                         14
+##                                                       
 ##   Akaike (AIC)                                1742.463
 ##   Bayesian (BIC)                              1771.784
 ##   Sample-size adjusted Bayesian (BIC)         1727.750
@@ -701,7 +679,8 @@ behaviour ~ intention + control + attitude
 ## Root Mean Square Error of Approximation:
 ## 
 ##   RMSEA                                          0.000
-##   90 Percent Confidence Interval          0.000  0.288
+##   90 Percent confidence interval - lower         0.000
+##   90 Percent confidence interval - upper         0.288
 ##   P-value RMSEA &lt;= 0.05                          0.574
 ## 
 ## Standardized Root Mean Square Residual:
@@ -710,9 +689,9 @@ behaviour ~ intention + control + attitude
 ## 
 ## Parameter Estimates:
 ## 
+##   Standard errors                             Standard
 ##   Information                                 Expected
 ##   Information saturated (h1) model          Structured
-##   Standard Errors                             Standard
 ## 
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
@@ -776,7 +755,7 @@ sem.model2 &lt;- sem(model2,data = data2.clean)
 <p>Now that we have our two models that we will compare, the function we use is called <code>anova()</code>, not to be confused with <code>aov()</code> that runs ANOVA analyses.</p>
 <p>For the <code>anova()</code> function, we simply have to specify the two models we are comparing as the two arguments. This will conduct a chi-square difference test.</p>
 <pre class="r"><code>anova(sem.model,sem.model2)</code></pre>
-<pre><code>## Chi Square Difference Test
+<pre><code>## Chi-Squared Difference Test
 ## 
 ##            Df    AIC    BIC  Chisq Chisq diff Df diff Pr(&gt;Chisq)
 ## sem.model   1 1742.5 1771.8 0.3663                              
@@ -794,23 +773,25 @@ sem.model2 &lt;- sem(model2,data = data2.clean)
 
 attitude.model &lt;- sem(attitude.formula,data = data)</code></pre>
 <pre class="r"><code>summary(attitude.model,standardized = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-4 ended normally after 67 iterations
-## 
-##   Optimization method                           NLMINB
-##   Number of free parameters                         10
-## 
-##   Number of observations                            60
+<pre><code>## lavaan 0.6-9 ended normally after 67 iterations
 ## 
 ##   Estimator                                         ML
-##   Model Fit Test Statistic                       1.278
+##   Optimization method                           NLMINB
+##   Number of model parameters                        10
+##                                                       
+##   Number of observations                            60
+##                                                       
+## Model Test User Model:
+##                                                       
+##   Test statistic                                 1.278
 ##   Degrees of freedom                                 5
 ##   P-value (Chi-square)                           0.937
 ## 
 ## Parameter Estimates:
 ## 
+##   Standard errors                             Standard
 ##   Information                                 Expected
 ##   Information saturated (h1) model          Structured
-##   Standard Errors                             Standard
 ## 
 ## Latent Variables:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
@@ -874,7 +855,7 @@ summary(sem.model3,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -892,7 +873,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -901,6 +882,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
@@ -913,7 +897,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

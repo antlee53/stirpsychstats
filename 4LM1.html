@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -14,12 +13,22 @@
 
 <title>HPSP131 - Workbook 5 - The General Linear Model: t-tests and ANOVA</title>
 
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -27,12 +36,16 @@
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -45,32 +58,7 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 
 
@@ -81,13 +69,8 @@ h6 {
   margin-left: auto;
   margin-right: auto;
 }
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -101,40 +84,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 60px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h2 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h3 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h4 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h5 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h6 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -162,7 +118,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -174,7 +130,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -185,10 +141,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -200,7 +169,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -236,6 +204,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -264,6 +233,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -319,7 +294,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -382,7 +357,7 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -414,7 +389,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -475,18 +450,18 @@ div.tocify {
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 1.9195, df = 38.763, p-value = 0.0623
-## alternative hypothesis: true difference in means is not equal to 0
+## t = -0.58288, df = 43.995, p-value = 0.5629
+## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -0.1078026  4.1039342
+##  -2.297385  1.266616
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          20.63636          18.63830</code></pre>
+##          20.38462          20.90000</code></pre>
 <p>The output from the statistical test gives you a few bits of information, but there are a couple that are particularly important:</p>
 <ul>
-<li>The t-statistic - this is the value for the test statistic (above this equals 1.92)</li>
-<li>The degrees of freedom (above this equals 38.76)</li>
-<li>The p-value - this tells you whether the test is significant or not (above this equals 0.062)</li>
+<li>The t-statistic - this is the value for the test statistic (above this equals -0.58)</li>
+<li>The degrees of freedom (above this equals 44)</li>
+<li>The p-value - this tells you whether the test is significant or not (above this equals 0.563)</li>
 </ul>
 <p>Can you see where each of these values come from in the output above?</p>
 </div>
@@ -531,15 +506,15 @@ data1.summary</code></pre>
 <pre><code>## # A tibble: 2 x 3
 ##   cat.dog introvert_mean introvert_sd
 ##   &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;
-## 1 cat               20.6         4.11
-## 2 dog               18.6         3.85</code></pre>
+## 1 cat               20.4         3.38
+## 2 dog               20.9         2.61</code></pre>
 <p>Once we have all the required information, we can write-up! A few things to note about APA formatting:</p>
 <ul>
 <li>All numerical values are rounded to 2 decimal points, except p-values which are rounded to 3 decimal points.</li>
 <li>All letters indicating stats (e.g., M, SD, t, p) should be italicised.</li>
 </ul>
 <blockquote>
-<p>An independent-samples t-test found that there was no significant difference on introversion between cat-people (<em>M</em> = 20.64, <em>SD</em> = 4.11) and dog-people (<em>M</em> = 18.64, <em>SD</em> = 3.85), <em>t</em>(38.76) = 1.92, <em>p</em> = 0.062.</p>
+<p>An independent-samples t-test found that there was no significant difference on introversion between cat-people (<em>M</em> = 20.38, <em>SD</em> = 3.38) and dog-people (<em>M</em> = 20.9, <em>SD</em> = 2.61), <em>t</em>(44) = -0.58, <em>p</em> = 0.563.</p>
 </blockquote>
 <div id="bar-graphs" class="section level4">
 <h4>Bar Graphs</h4>
@@ -578,11 +553,9 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 <p>We run the ANOVA using the <code>aov()</code> function. We can then pipe it to the <code>summary()</code> function to get interpretable output. Remember to load the broom package to use the <code>summary()</code> function.</p>
 <pre class="r"><code>aov(introvert ~ cat.dog,data = data3.clean) %&gt;%
   summary()</code></pre>
-<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)  
-## cat.dog       3  106.1   35.36   2.339 0.0772 .
-## Residuals   114 1723.0   15.11                 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)
+## cat.dog      3   23.3   7.771   0.789  0.505
+## Residuals   56  551.3   9.844</code></pre>
 <p>The table above tells us whether there is a significant difference between any of the groups, but it does not tell us which groups are significantly different. In order to do this, we need to do follow-up t-tests. You only need to conduct follow up comparisons if the ANOVA is significant. Even though we do not find any significant differences above, we will go through the process anyway.</p>
 <p>In the code below, we run a t.test similar to what we did above. However, when calling the data, we use the filter function to only select participants who are in one of two groups. The <code>|</code> symbol means ‘or’, so below, we are only analysing the data of participants who are in the dog ‘or’ cat group.</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;cat&quot;))</code></pre>
@@ -590,75 +563,75 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 1.9195, df = 38.763, p-value = 0.0623
-## alternative hypothesis: true difference in means is not equal to 0
+## t = -0.58288, df = 43.995, p-value = 0.5629
+## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -0.1078026  4.1039342
+##  -2.297385  1.266616
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          20.63636          18.63830</code></pre>
+##          20.38462          20.90000</code></pre>
 <p>Now, we are only including participants in the dog or both group:</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;both&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -0.34821, df = 78.502, p-value = 0.7286
-## alternative hypothesis: true difference in means is not equal to 0
+## t = -0.65743, df = 6.1141, p-value = 0.5349
+## alternative hypothesis: true difference in means between group both and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -1.989484  1.397099
+##  -5.803045  3.336379
 ## sample estimates:
 ## mean in group both  mean in group dog 
-##           18.34211           18.63830</code></pre>
+##           19.66667           20.90000</code></pre>
 <p>We continue to repeat this process until we have tested all possible linear combinations:</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 1.1019, df = 16.758, p-value = 0.2861
-## alternative hypothesis: true difference in means is not equal to 0
+## t = -1.0705, df = 14.107, p-value = 0.3024
+## alternative hypothesis: true difference in means between group dog and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  -1.168542  3.717865
+##  -3.302312  1.102312
 ## sample estimates:
 ##     mean in group dog mean in group neither 
-##              18.63830              17.36364</code></pre>
+##                  20.9                  22.0</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;cat&quot; | cat.dog == &quot;both&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -2.1145, df = 42.455, p-value = 0.04038
-## alternative hypothesis: true difference in means is not equal to 0
+## t = -0.37745, df = 6.4565, p-value = 0.7179
+## alternative hypothesis: true difference in means between group both and group cat is not equal to 0
 ## 95 percent confidence interval:
-##  -4.4831943 -0.1053225
+##  -5.293616  3.857718
 ## sample estimates:
 ## mean in group both  mean in group cat 
-##           18.34211           20.63636</code></pre>
+##           19.66667           20.38462</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;cat&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 2.445, df = 24.172, p-value = 0.02214
-## alternative hypothesis: true difference in means is not equal to 0
+## t = -1.5034, df = 16.53, p-value = 0.1516
+## alternative hypothesis: true difference in means between group cat and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  0.511120 6.034335
+##  -3.8872788  0.6565096
 ## sample estimates:
 ##     mean in group cat mean in group neither 
-##              20.63636              17.36364</code></pre>
+##              20.38462              22.00000</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;both&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 0.81773, df = 18.774, p-value = 0.4238
-## alternative hypothesis: true difference in means is not equal to 0
+## t = -1.1827, df = 7.2391, p-value = 0.2743
+## alternative hypothesis: true difference in means between group both and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  -1.528028  3.484966
+##  -6.967281  2.300615
 ## sample estimates:
 ##    mean in group both mean in group neither 
-##              18.34211              17.36364</code></pre>
+##              19.66667              22.00000</code></pre>
 <p>Remember, in your interpretation to adjust the significance level (alpha) to account for family-wise error rate. Since we conducted six comparisons, the significance level should be reduced to 0.008 (that is, .05 divided by 6).</p>
 </div>
 <div id="visualise-the-data.-1" class="section level3">
@@ -693,13 +666,13 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 <pre><code>## # A tibble: 4 x 3
 ##   cat.dog dv_mean dv_sd
 ##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
-## 1 both       18.3  3.94
-## 2 cat        20.6  4.11
-## 3 dog        18.6  3.85
-## 4 neither    17.4  3.35</code></pre>
+## 1 both       19.7  4.37
+## 2 cat        20.4  3.38
+## 3 dog        20.9  2.61
+## 4 neither    22    2.39</code></pre>
 <p>Once you have all this information, the write-up becomes:</p>
 <blockquote>
-<p>A one-way between subjects ANOVA found no significant difference between groups on introversion, <em>F</em>(3, 114) = 2.34, <em>p</em> = 0.077.</p>
+<p>A one-way between subjects ANOVA found no significant difference between groups on introversion, <em>F</em>(3, 56) = 0.79, <em>p</em> = 0.505.</p>
 </blockquote>
 </div>
 </div>
@@ -726,26 +699,26 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 ##  Paired t-test
 ## 
 ## data:  alcohol by condition
-## t = -1.4329, df = 80, p-value = 0.1558
+## t = 0.92769, df = 59, p-value = 0.3573
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.6783144  0.1104131
+##  -1.658326  4.524993
 ## sample estimates:
 ## mean of the differences 
-##              -0.2839506</code></pre>
+##                1.433333</code></pre>
 <p>Alternatively, if you want to avoid reshaping the data, you can also use the following technique, but note that the arguments supplied here are different to almost all other analyses we will be covering in this module. The first and second arguments are the columns we want to compare. In this example, this is the ‘before’ and ‘after’ column. How we specify this is using the following syntax: <code>data$pre.drink</code>. This is short-hand for specifying the ‘pre.drink’ column in the ‘data’ data.frame. Again, we have to set ‘paired’ to <code>TRUE</code>, but we do not have to supply a data.frame. So the code looks like:</p>
 <pre class="r"><code>t.test(data$pre.drink,data$post.drink,paired = TRUE)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
 ## data:  data$pre.drink and data$post.drink
-## t = -1.4329, df = 80, p-value = 0.1558
+## t = 0.92769, df = 59, p-value = 0.3573
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.6783144  0.1104131
+##  -1.658326  4.524993
 ## sample estimates:
 ## mean of the differences 
-##              -0.2839506</code></pre>
+##                1.433333</code></pre>
 </div>
 <div id="visualise-the-data.-2" class="section level3">
 <h3>3. Visualise the data.</h3>
@@ -773,8 +746,8 @@ data2.summary</code></pre>
 <pre><code>## # A tibble: 2 x 3
 ##   condition  dv_mean dv_sd
 ##   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt;
-## 1 pre.drink     5     5.72
-## 2 post.drink    5.28  5.72</code></pre>
+## 1 pre.drink     14.2  8.64
+## 2 post.drink    12.8  9.89</code></pre>
 <p>Or if you have not reshaped the data:</p>
 <pre class="r"><code>data2.summary &lt;- data %&gt;%
   summarise(pre.mean = mean(pre.drink,na.rm = TRUE),
@@ -784,9 +757,9 @@ data2.summary</code></pre>
 
 data2.summary</code></pre>
 <pre><code>##   pre.mean   pre.sd pst.mean   pst.sd
-## 1  4.10101 5.509722    4.875 5.658505</code></pre>
+## 1 14.21667 8.637898 12.78333 9.885946</code></pre>
 <blockquote>
-<p>A paired-samples t-test found that there was no significant difference on intended alcohol consumption before (<em>M</em> = 4.1, <em>SD</em> = 5.51) and after (<em>M</em> = 4.88 , <em>SD</em> = 5.66) exposure to the Scottish Government’s anti-drinking campaign ad, <em>t</em>(80) = -1.43, <em>p</em> = 0.156.</p>
+<p>A paired-samples t-test found that there was no significant difference on intended alcohol consumption before (<em>M</em> = 14.22, <em>SD</em> = 8.64) and after (<em>M</em> = 12.78 , <em>SD</em> = 9.89) exposure to the Scottish Government’s anti-drinking campaign ad, <em>t</em>(59) = 0.93, <em>p</em> = 0.357.</p>
 </blockquote>
 </div>
 </div>
@@ -808,7 +781,7 @@ data2.summary</code></pre>
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -826,7 +799,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -835,6 +808,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
@@ -847,7 +823,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

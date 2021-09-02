@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -14,12 +13,22 @@
 
 <title>HPSP131 - Workbook 6 - The General Linear Model: Correlation and Regression</title>
 
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -27,12 +36,16 @@
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -45,32 +58,7 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
+
 
 
 
@@ -81,13 +69,8 @@ h6 {
   margin-left: auto;
   margin-right: auto;
 }
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -101,40 +84,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 60px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h2 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h3 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h4 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h5 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
-.section h6 {
-  padding-top: 65px;
-  margin-top: -65px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -162,7 +118,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -174,7 +130,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -185,10 +141,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -200,7 +169,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -236,6 +204,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -264,6 +233,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -319,7 +294,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -382,7 +357,7 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -405,7 +380,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
-<p><a href = files/data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -450,18 +425,18 @@ library(lm.beta)</code></pre>
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  stress and sleep.quality
-## t = -2.939, df = 115, p-value = 0.00398
+## t = 1.59, df = 58, p-value = 0.1173
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  -0.42543902 -0.08695936
+##  -0.05227153  0.43568139
 ## sample estimates:
-##        cor 
-## -0.2643198</code></pre>
+##       cor 
+## 0.2043657</code></pre>
 <p>The key parts of the output that we are interested in are:</p>
 <ul>
-<li>The r-statistic - this is specified at the bottom of the output under ‘cor’, and equals -0.26 above.</li>
+<li>The r-statistic - this is specified at the bottom of the output under ‘cor’, and equals 0.2 above.</li>
 <li>The p-value - this tells you whether the test is significant or not. Above, p &lt; .001.</li>
-<li>We can also get an indication of how many observations were included in the correlation from the degrees of freedom. The df above is 115, therefore, the sample size for this correlation is 117(115 + 2).</li>
+<li>We can also get an indication of how many observations were included in the correlation from the degrees of freedom. The df above is 58, therefore, the sample size for this correlation is 60(58 + 2).</li>
 </ul>
 </div>
 <div id="plot-data" class="section level3">
@@ -488,7 +463,7 @@ library(lm.beta)</code></pre>
 </ul>
 <p>Here is an example of a write-up for the correlation above (can you see where each of the numbers came from in the output above?):</p>
 <blockquote>
-<p>There was a significant, negative correlation between perceived stress and sleep quality, <em>r</em>(117) = -0.26, <em>p</em> = 0.004.</p>
+<p>There was no significant correlation between perceived stress and sleep quality, <em>r</em>(60) = 0.2, <em>p</em> = 0.117.</p>
 </blockquote>
 </div>
 </div>
@@ -517,19 +492,18 @@ model2</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -12.042  -4.212  -1.042   4.256  13.023 
+## -7.2982 -1.9431  0.2018  2.3563  7.7018 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)   
-## (Intercept)   6.5513     3.2741   2.001  0.04775 * 
-## stress        0.7660     0.2606   2.939  0.00398 **
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  19.4701     1.3555   14.36   &lt;2e-16 ***
+## stress       -0.1974     0.1242   -1.59    0.117    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.639 on 115 degrees of freedom
-##   (1 observation deleted due to missingness)
-## Multiple R-squared:  0.06986,    Adjusted R-squared:  0.06178 
-## F-statistic: 8.638 on 1 and 115 DF,  p-value: 0.00398</code></pre>
+## Residual standard error: 3.186 on 58 degrees of freedom
+## Multiple R-squared:  0.04177,    Adjusted R-squared:  0.02524 
+## F-statistic: 2.528 on 1 and 58 DF,  p-value: 0.1173</code></pre>
 <p>In order to report a regression in APA format, we are required to have standardised coefficients. To do this, we can use the <code>lm.beta()</code> function from the lm.beta package. The <code>lm.beta()</code> function takes the original unstandardised model as its first argument, then returns output that includes the standardised coefficients. The simplest way to use it is to add it to the pipeline before the <code>summary()</code> function.</p>
 <pre class="r"><code>model2.standardised &lt;- lm(sleep.quality ~ stress,data = data2.clean) %&gt;%
 lm.beta() %&gt;%
@@ -542,19 +516,18 @@ model2.standardised</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -12.042  -4.212  -1.042   4.256  13.023 
+## -7.2982 -1.9431  0.2018  2.3563  7.7018 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(&gt;|t|)   
-## (Intercept)   6.5513       0.0000     3.2741   2.001  0.04775 * 
-## stress        0.7660       0.2643     0.2606   2.939  0.00398 **
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  19.4701       0.0000     1.3555   14.36   &lt;2e-16 ***
+## stress       -0.1974      -0.2044     0.1242   -1.59    0.117    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.639 on 115 degrees of freedom
-##   (1 observation deleted due to missingness)
-## Multiple R-squared:  0.06986,    Adjusted R-squared:  0.06178 
-## F-statistic: 8.638 on 1 and 115 DF,  p-value: 0.00398</code></pre>
+## Residual standard error: 3.186 on 58 degrees of freedom
+## Multiple R-squared:  0.04177,    Adjusted R-squared:  0.02524 
+## F-statistic: 2.528 on 1 and 58 DF,  p-value: 0.1173</code></pre>
 <p>Notice that in the summary table above, an additional column named <code>Standardized</code> is added. Everytime you calculate the standardised coefficients, the estimate for the intercept will equal 0. Therefore, you do not need to report the estimated intercept when reporting standardised coefficients.</p>
 </div>
 <div id="plot-data-1" class="section level3">
@@ -579,7 +552,7 @@ model2.standardised</code></pre>
 <p>Note, when reporting standardised coefficient, there is no need to report the estimate for the intercept (because it is always 0).</p>
 <p>So the write-up for the regression above would look something like this below. Again, with only one predictor, the results from a regression is identical to a correlation, so you’re better off reporting it that way to avoid confusion and the extra hassle, but we will go through the write-up below just to demonstrate:</p>
 <blockquote>
-<p>Linear regression indicated that 6.99% of variance in sleep quality could be explained by the predictor, (<em>F</em>(1, 115) = 8.64, <em>p</em> = 0.004). Perceived stress significantly predicted sleep quality (<em>Beta</em> = 0.26, <em>p</em> = 0.004).</p>
+<p>Linear regression indicated that 4.18% of variance in sleep quality could be explained by the predictor, (<em>F</em>(1, 58) = 2.53, <em>p</em> = 0.117). Perceived stress did not significantly predict sleep quality (<em>Beta</em> = -0.2, <em>p</em> = 0.117).</p>
 </blockquote>
 <p>For one or two predictors, it is simple enough to include the coefficients and p-value of predictors in-text like above. However, as your model becomes more complicated, it may be more useful to include a table instead. More on this later.</p>
 </div>
@@ -608,20 +581,19 @@ summary(model3)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -8.8493 -3.6097 -0.7073  3.8192 12.2265 
+## -7.9780 -1.8938 -0.1326  2.1517  6.3821 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)   
-## (Intercept) 10.72506    3.29249   3.257  0.00148 **
-## support     -0.20360    0.07151  -2.847  0.00524 **
-## stress       0.65059    0.21876   2.974  0.00359 **
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 15.99705    2.38758   6.700    1e-08 ***
+## support      0.03601    0.09595   0.375    0.709    
+## stress      -0.18431    0.11747  -1.569    0.122    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.718 on 114 degrees of freedom
-##   (1 observation deleted due to missingness)
-## Multiple R-squared:  0.121,  Adjusted R-squared:  0.1056 
-## F-statistic: 7.847 on 2 and 114 DF,  p-value: 0.0006414</code></pre>
+## Residual standard error: 3.011 on 57 degrees of freedom
+## Multiple R-squared:  0.04456,    Adjusted R-squared:  0.01104 
+## F-statistic: 1.329 on 2 and 57 DF,  p-value: 0.2728</code></pre>
 <pre class="r"><code>#Standardised Model
 model3 %&gt;%
   lm.beta() %&gt;%
@@ -632,20 +604,19 @@ model3 %&gt;%
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -8.8493 -3.6097 -0.7073  3.8192 12.2265 
+## -7.9780 -1.8938 -0.1326  2.1517  6.3821 
 ## 
 ## Coefficients:
-##             Estimate Standardized Std. Error t value Pr(&gt;|t|)   
-## (Intercept) 10.72506      0.00000    3.29249   3.257  0.00148 **
-## support     -0.20360     -0.25080    0.07151  -2.847  0.00524 **
-## stress       0.65059      0.26198    0.21876   2.974  0.00359 **
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 15.99705      0.00000    2.38758   6.700    1e-08 ***
+## support      0.03601      0.04864    0.09595   0.375    0.709    
+## stress      -0.18431     -0.20333    0.11747  -1.569    0.122    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.718 on 114 degrees of freedom
-##   (1 observation deleted due to missingness)
-## Multiple R-squared:  0.121,  Adjusted R-squared:  0.1056 
-## F-statistic: 7.847 on 2 and 114 DF,  p-value: 0.0006414</code></pre>
+## Residual standard error: 3.011 on 57 degrees of freedom
+## Multiple R-squared:  0.04456,    Adjusted R-squared:  0.01104 
+## F-statistic: 1.329 on 2 and 57 DF,  p-value: 0.2728</code></pre>
 </div>
 <div id="plot-data-2" class="section level3">
 <h3>3. Plot data</h3>
@@ -665,7 +636,7 @@ model3 %&gt;%
 <h3>4. Write-up analysis.</h3>
 <p>Since we have numerous predictors now, it may make more sense to report the regression coefficients in a table to help with readability (though you can still report the statistics in-text if you prefer). In the write-up below, the beta, t-statistic, and p-value for each predictor is now in a table. However, when reporting regression coefficients in a table, you still need to describe the pattern of results in words.</p>
 <blockquote>
-<p>We used multiple regression to predict sleep quality from perceived stress and social support. We found that both predictors explained 12.1% of the variance (<em>F</em>(2, 114) = 7.85, <em>p</em> &lt; .001). Regression coefficients are reported in Table 1. A negative association was found between perceived stress and sleep quality; however, a positive relationship was found between social support and sleep quality.</p>
+<p>We used multiple regression to predict sleep quality from perceived stress and social support. We found that both predictors explained 4.46% of the variance (<em>F</em>(2, 57) = 1.33, <em>p</em> = 0.273). Regression coefficients are reported in Table 1. Neither perceived stress or social support significantly predicted intention to exercise.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting intention to exercise.</p>
 <table>
@@ -680,15 +651,15 @@ model3 %&gt;%
 <tbody>
 <tr class="odd">
 <td>Stress</td>
-<td>-0.25</td>
-<td>-2.85</td>
-<td>0.01</td>
+<td>0.05</td>
+<td>0.38</td>
+<td>0.71</td>
 </tr>
 <tr class="even">
 <td>Support</td>
-<td>0.26</td>
-<td>2.97</td>
-<td>0</td>
+<td>-0.2</td>
+<td>-1.57</td>
+<td>0.12</td>
 </tr>
 </tbody>
 </table>
@@ -712,7 +683,7 @@ model3 %&gt;%
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -730,7 +701,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -739,6 +710,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
@@ -751,7 +725,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
