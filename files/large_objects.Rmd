@@ -5,8 +5,9 @@ output: html_document
 
 ```{r load.data}
 library(broom)
+library(tidyverse)
 if(!("data.name" %in% ls())){
-  data.name <- "simulated.data_2020.csv"
+  data.name <- "data_2021.csv"
 }
 data <- read.csv(data.name,stringsAsFactors = FALSE)
 ```
@@ -45,6 +46,16 @@ save(output_200,file = "output_200.Rdata")
 
 cat.dog_difference <- 2
 
+simulate_test2 <- function(n,mean.diff){
+  result <- data.frame(group = sample(c("cat","dog"),n,replace = TRUE),
+                       introvert = rnorm(n,mean = m.introvert,sd = sd.introvert)) %>%
+    mutate(mean.diff = mean.diff) %>%
+    mutate(introvert = ifelse(group == "cat",introvert - mean.diff/2,introvert + mean.diff/2))
+  test <- t.test(introvert ~ group, data = result) %>%
+    tidy()
+  return(test$p.value)
+}
+
 power.grid <- data.frame(candidate_n = rep(seq(20,200,by = 20),each = 200)) %>%
   mutate(power = vapply(candidate_n,simulate_test2,FUN.VALUE = 1,mean.diff = cat.dog_difference)) %>%
   group_by(candidate_n) %>%
@@ -61,6 +72,8 @@ library(lm.beta)
 library(lavaan)
 library(tidyverse)
 library(semPlot)
+
+data <- read.csv(data.name,stringsAsFactors = FALSE)
 
 data2.clean <- data %>%
   mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5,
