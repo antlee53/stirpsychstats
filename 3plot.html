@@ -382,7 +382,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/simulated.data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -470,9 +470,10 @@ library(ggplot2)</code></pre>
 <pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
   geom_histogram(binwidth = 2)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>The first thing that should be clear is that there are responses that are far below what we could reasonably expect someone’s height to be. This could be because participants misunderstood the question. This demonstrates one of the key reasons you should visualise your data - it is easy to identify whether there are potential issues you need to deal with.</p>
-<p>Let’s replot the data, but exclude participants who are report being less than 100cm tall.</p>
-<pre class="r"><code>plot.data &lt;- filter(data,height &gt; 100)
+<p>The first thing that should be clear is that there are responses that are outside the range of what we could reasonably expect someone’s height to be. This could be because participants misunderstood the question. This demonstrates one of the key reasons you should visualise your data - it is easy to identify whether there are potential issues you need to deal with.</p>
+<p>Let’s replot the data, but exclude participants who report being less than 100cm tall and more than 300cm tall.</p>
+<pre class="r"><code>plot.data &lt;- filter(data,height &gt; 100) %&gt;%
+  filter(height &lt; 300)
 
 ggplot(data = plot.data,mapping = aes(x = height)) +
   geom_histogram(binwidth = 2)</code></pre>

@@ -381,7 +381,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/simulated.data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -520,13 +520,13 @@ total := direct + indirect
 <p>To run the SEM, we use the <code>sem()</code> function. Like all analyses done previously, we need to specify two things: the formula (which we saved as the object <code>sem.formula</code>) and the data.frame. We also set values for a few other arguments. We set ‘standardized’ to <code>TRUE</code> so that we get standardised estimates, ‘fit.measures’ to <code>TRUE</code> so we get model fit indicators, and ‘rsquare’ to <code>TRUE</code> to get an r-square statistic for the model.</p>
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)</code></pre>
 <pre class="r"><code>summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-9 ended normally after 15 iterations
+<pre><code>## lavaan 0.6-9 ended normally after 16 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                         5
 ##                                                       
-##   Number of observations                            60
+##   Number of observations                            86
 ##                                                       
 ## Model Test User Model:
 ##                                                       
@@ -535,9 +535,9 @@ total := direct + indirect
 ## 
 ## Model Test Baseline Model:
 ## 
-##   Test statistic                                 1.316
+##   Test statistic                                42.711
 ##   Degrees of freedom                                 3
-##   P-value                                        0.725
+##   P-value                                        0.000
 ## 
 ## User Model versus Baseline Model:
 ## 
@@ -546,12 +546,12 @@ total := direct + indirect
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)               -342.351
-##   Loglikelihood unrestricted model (H1)       -342.351
+##   Loglikelihood user model (H0)               -545.114
+##   Loglikelihood unrestricted model (H1)       -545.114
 ##                                                       
-##   Akaike (AIC)                                 694.702
-##   Bayesian (BIC)                               705.174
-##   Sample-size adjusted Bayesian (BIC)          689.448
+##   Akaike (AIC)                                1100.228
+##   Bayesian (BIC)                              1112.500
+##   Sample-size adjusted Bayesian (BIC)         1096.725
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
@@ -573,33 +573,33 @@ total := direct + indirect
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   behaviour ~                                                           
-##     attitude   (c)    0.016    0.111    0.146    0.884    0.016    0.019
-##     intention  (b)    0.150    0.152    0.987    0.324    0.150    0.127
+##     attitude   (c)    0.648    0.184    3.519    0.000    0.648    0.378
+##     intention  (b)    0.219    0.150    1.453    0.146    0.219    0.156
 ##   intention ~                                                           
-##     attitude   (a)    0.052    0.095    0.552    0.581    0.052    0.071
+##     attitude   (a)    0.571    0.117    4.886    0.000    0.571    0.466
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .behaviour        20.663    3.772    5.477    0.000   20.663    0.983
-##    .intention        14.994    2.737    5.477    0.000   14.994    0.995
+##    .behaviour        46.235    7.051    6.557    0.000   46.235    0.778
+##    .intention        23.750    3.622    6.557    0.000   23.750    0.783
 ## 
 ## R-Square:
 ##                    Estimate
-##     behaviour         0.017
-##     intention         0.005
+##     behaviour         0.222
+##     intention         0.217
 ## 
 ## Defined Parameters:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##     indirect          0.008    0.016    0.482    0.630    0.008    0.009
-##     direct            0.016    0.111    0.146    0.884    0.016    0.019
-##     total             0.024    0.112    0.215    0.830    0.024    0.028</code></pre>
+##     indirect          0.125    0.090    1.393    0.164    0.125    0.073
+##     direct            0.648    0.184    3.519    0.000    0.648    0.378
+##     total             0.773    0.165    4.686    0.000    0.773    0.451</code></pre>
 <p>If we compare the results here to mediation, we should see that we get very similar, if not the same, results.</p>
 </div>
 <div id="plot-the-model." class="section level3">
 <h3>3. Plot the model.</h3>
 <p>The easiest way to plot a structural equation model is using a path diagram. Unfortunately, this is not easy to do in <code>ggplot2</code>. However, we can use a the <code>semPaths()</code> function from the <code>semPlot</code> package. This function has the advantage of being easy to use - all you need to do is load your model estimated in laavan and specify which paths you want to see (or hide). The disadvantage is that you cannot choose how you layout your path diagram, or customise the look of your diagram. Therefore, in order to create publication worthy graphics, you must use another program.</p>
 <pre class="r"><code>semPaths(med.sem.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
-<p><img src="9SEM_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="9SEM_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 </div>
 <div id="more-complicated-path-analysis" class="section level2">
@@ -642,50 +642,50 @@ behaviour ~ intention + control + attitude
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data2.clean)</code></pre>
 <pre class="r"><code>summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-9 ended normally after 47 iterations
+<pre><code>## lavaan 0.6-9 ended normally after 57 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                        14
 ##                                                       
-##   Number of observations                            60
+##   Number of observations                            86
 ##                                                       
 ## Model Test User Model:
 ##                                                       
-##   Test statistic                                 0.366
+##   Test statistic                                 1.966
 ##   Degrees of freedom                                 1
-##   P-value (Chi-square)                           0.545
+##   P-value (Chi-square)                           0.161
 ## 
 ## Model Test Baseline Model:
 ## 
-##   Test statistic                                 4.176
+##   Test statistic                                87.354
 ##   Degrees of freedom                                10
-##   P-value                                        0.939
+##   P-value                                        0.000
 ## 
 ## User Model versus Baseline Model:
 ## 
-##   Comparative Fit Index (CFI)                    1.000
-##   Tucker-Lewis Index (TLI)                      -0.088
+##   Comparative Fit Index (CFI)                    0.988
+##   Tucker-Lewis Index (TLI)                       0.875
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)               -857.231
-##   Loglikelihood unrestricted model (H1)       -857.048
+##   Loglikelihood user model (H0)              -1295.342
+##   Loglikelihood unrestricted model (H1)      -1294.359
 ##                                                       
-##   Akaike (AIC)                                1742.463
-##   Bayesian (BIC)                              1771.784
-##   Sample-size adjusted Bayesian (BIC)         1727.750
+##   Akaike (AIC)                                2618.684
+##   Bayesian (BIC)                              2653.045
+##   Sample-size adjusted Bayesian (BIC)         2608.874
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
-##   RMSEA                                          0.000
+##   RMSEA                                          0.106
 ##   90 Percent confidence interval - lower         0.000
-##   90 Percent confidence interval - upper         0.288
-##   P-value RMSEA &lt;= 0.05                          0.574
+##   90 Percent confidence interval - upper         0.329
+##   P-value RMSEA &lt;= 0.05                          0.205
 ## 
 ## Standardized Root Mean Square Residual:
 ## 
-##   SRMR                                           0.020
+##   SRMR                                           0.030
 ## 
 ## Parameter Estimates:
 ## 
@@ -696,41 +696,41 @@ behaviour ~ intention + control + attitude
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   intention ~                                                           
-##     attitude          0.051    0.094    0.541    0.589    0.051    0.069
-##     norms            -0.106    0.129   -0.819    0.413   -0.106   -0.106
-##     control           0.035    0.134    0.258    0.796    0.035    0.033
+##     attitude          0.443    0.125    3.554    0.000    0.443    0.362
+##     norms             0.215    0.075    2.865    0.004    0.215    0.264
+##     control           0.329    0.155    2.118    0.034    0.329    0.219
 ##   behaviour ~                                                           
-##     intention         0.148    0.152    0.979    0.328    0.148    0.126
-##     control           0.022    0.157    0.138    0.890    0.022    0.018
-##     attitude          0.017    0.111    0.151    0.880    0.017    0.019
+##     intention         0.150    0.145    1.034    0.301    0.150    0.107
+##     control           0.656    0.216    3.038    0.002    0.656    0.312
+##     attitude          0.445    0.187    2.373    0.018    0.445    0.260
 ## 
 ## Covariances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   attitude ~~                                                           
-##     norms            -0.561    2.654   -0.211    0.833   -0.561   -0.027
-##     control          -0.618    2.561   -0.241    0.809   -0.618   -0.031
+##     norms             0.592    3.283    0.180    0.857    0.592    0.019
+##     control           7.488    1.953    3.834    0.000    7.488    0.454
 ##   norms ~~                                                              
-##     control          -2.317    1.907   -1.215    0.224   -2.317   -0.159
+##     control          -4.523    2.719   -1.664    0.096   -4.523   -0.182
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .intention        14.790    2.700    5.477    0.000   14.790    0.981
-##    .behaviour        20.656    3.771    5.477    0.000   20.656    0.983
-##     attitude         27.936    5.100    5.477    0.000   27.936    1.000
-##     norms            15.122    2.761    5.477    0.000   15.122    1.000
-##     control          14.077    2.570    5.477    0.000   14.077    1.000
+##    .intention        21.149    3.225    6.557    0.000   21.149    0.697
+##    .behaviour        41.754    6.367    6.557    0.000   41.754    0.702
+##     attitude         20.241    3.087    6.557    0.000   20.241    1.000
+##     norms            45.772    6.980    6.557    0.000   45.772    1.000
+##     control          13.442    2.050    6.557    0.000   13.442    1.000
 ## 
 ## R-Square:
 ##                    Estimate
-##     intention         0.019
-##     behaviour         0.017</code></pre>
+##     intention         0.303
+##     behaviour         0.298</code></pre>
 <p>Notice above in the <code>summary()</code> function, we have included additional arguments to get extra statistics that are helpful when it comes to report the analysis.</p>
 </div>
 <div id="plot-the-model.-1" class="section level3">
 <h3>3. Plot the model.</h3>
 <p>Again, we use <code>semPaths()</code> to plot our SEM model. Here, the limitations of not being able to organise the layout of your plot is apparent, though it still may be helpful to visualise your results to help your understanding.</p>
 <pre class="r"><code>semPaths(sem.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
-<p><img src="9SEM_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p><img src="9SEM_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
 </div>
 <div id="model-comparisons" class="section level2">
@@ -757,10 +757,12 @@ sem.model2 &lt;- sem(model2,data = data2.clean)
 <pre class="r"><code>anova(sem.model,sem.model2)</code></pre>
 <pre><code>## Chi-Squared Difference Test
 ## 
-##            Df    AIC    BIC  Chisq Chisq diff Df diff Pr(&gt;Chisq)
-## sem.model   1 1742.5 1771.8 0.3663                              
-## sem.model2  3 1738.5 1763.6 0.4067   0.040419       2       0.98</code></pre>
-<p>Above, we find that there is not a significant difference between the two models. Therefore, it does not seem that dropping the path between ‘control’ and ‘behaviour’ significantly reduces model fit. As such, you could be justified in removing this path from the model.</p>
+##            Df    AIC    BIC   Chisq Chisq diff Df diff Pr(&gt;Chisq)    
+## sem.model   1 2618.7 2653.0  1.9656                                  
+## sem.model2  3 2635.0 2664.5 22.2994     20.334       2  3.842e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Above, we find that there is a significant difference between the two models. Therefore, we can conclude that dropping the path between ‘control’ and ‘behaviour’ significantly reduces model fit. As such, we should retain this path in the model.</p>
 <p>While above, we use the <code>anova()</code> function to test the difference between nested SEM models, we can also use this function to compare models from other functions, such as <code>lm()</code>.</p>
 </div>
 <div id="introducing-latent-variables" class="section level2">
@@ -773,19 +775,19 @@ sem.model2 &lt;- sem(model2,data = data2.clean)
 
 attitude.model &lt;- sem(attitude.formula,data = data)</code></pre>
 <pre class="r"><code>summary(attitude.model,standardized = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-9 ended normally after 67 iterations
+<pre><code>## lavaan 0.6-9 ended normally after 22 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                        10
 ##                                                       
-##   Number of observations                            60
+##   Number of observations                            88
 ##                                                       
 ## Model Test User Model:
 ##                                                       
-##   Test statistic                                 1.278
+##   Test statistic                                 7.133
 ##   Degrees of freedom                                 5
-##   P-value (Chi-square)                           0.937
+##   P-value (Chi-square)                           0.211
 ## 
 ## Parameter Estimates:
 ## 
@@ -796,22 +798,22 @@ attitude.model &lt;- sem(attitude.formula,data = data)</code></pre>
 ## Latent Variables:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   attitude =~                                                           
-##     exercis.tttd.1    1.000                               0.276    0.125
-##     exercis.tttd.2    3.859    7.310    0.528    0.598    1.065    0.461
-##     exercis.tttd.3    2.523    4.726    0.534    0.593    0.696    0.341
-##     exercis.tttd.4    2.657    4.961    0.536    0.592    0.734    0.368
-##     exercis.tttd.5    0.108    1.504    0.072    0.943    0.030    0.015
+##     exercis.tttd.1    1.000                               1.027    0.818
+##     exercis.tttd.2    1.008    0.132    7.644    0.000    1.036    0.803
+##     exercis.tttd.3    0.043    0.187    0.232    0.816    0.045    0.027
+##     exercis.tttd.4    0.777    0.106    7.305    0.000    0.798    0.765
+##     exercis.tttd.5    0.899    0.140    6.401    0.000    0.923    0.679
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .exercis.tttd.1    4.785    0.899    5.324    0.000    4.785    0.984
-##    .exercis.tttd.2    4.197    1.584    2.649    0.008    4.197    0.787
-##    .exercis.tttd.3    3.696    0.907    4.074    0.000    3.696    0.884
-##    .exercis.tttd.4    3.445    0.917    3.758    0.000    3.445    0.865
-##    .exercis.tttd.5    3.713    0.678    5.475    0.000    3.713    1.000
-##     attitude          0.076    0.263    0.290    0.772    1.000    1.000</code></pre>
+##    .exercis.tttd.1    0.523    0.122    4.302    0.000    0.523    0.332
+##    .exercis.tttd.2    0.590    0.130    4.527    0.000    0.590    0.355
+##    .exercis.tttd.3    2.783    0.420    6.632    0.000    2.783    0.999
+##    .exercis.tttd.4    0.451    0.090    5.013    0.000    0.451    0.414
+##    .exercis.tttd.5    0.994    0.175    5.672    0.000    0.994    0.538
+##     attitude          1.055    0.243    4.345    0.000    1.000    1.000</code></pre>
 <pre class="r"><code>semPaths(attitude.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
-<p><img src="9SEM_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="9SEM_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>How about we compute latent variables for all the variables in the TPB model above? Doing something like this may not make a lot of sense: we will end up with a gangly model, and we may not have enough observations to get sensible results, but we can do it do it anyway! For demonstrative purposes… The code is provided below to run this analysis, but this code is not executed, as the output is quite long an unweildy.</p>
 <div id="specify-the-model" class="section level3">
 <h3>Specify the Model</h3>
@@ -836,7 +838,7 @@ summary(sem.model3,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 <p>Again, we can plot the SEM using <code>semPaths()</code>, but this gets pretty messy, given the number of items make up each latent variable.</p>
 <pre class="r"><code>load(&quot;files/sem.model3.Rdata&quot;)</code></pre>
 <pre class="r"><code>semPaths(sem.model3,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
-<p><img src="9SEM_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="9SEM_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 </div>
 <div id="exercises-1" class="section level1">
 <h1>Exercises</h1>
