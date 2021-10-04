@@ -383,7 +383,7 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/simulated.data_2020.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -561,7 +561,7 @@ table(catagories)</code></pre>
 <pre class="r"><code>table(data$aus.animal)</code></pre>
 <pre><code>## 
 ##  echidna kangaroo    koala platypus   wombat 
-##       13       11       11       17        8</code></pre>
+##        5       21       41       10       11</code></pre>
 <p>So above, we see that there are five separate values (if we ignore missing data), and the most frequent response was <code>koala</code>.</p>
 </div>
 </div>
@@ -583,7 +583,7 @@ table(catagories)</code></pre>
 <pre><code>## # A tibble: 1 x 2
 ##   stats_exp.mean stats_exp.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.85         2.27</code></pre>
+## 1           3.85         1.97</code></pre>
 <p>A couple of things to note. First, I have broken the above code across several lines. This is just to make it easier to read (remember R ignores white space inside an incomplete command). Second, it doesn’t matter what you name the new variable (but ideally you want a label that is helpful).</p>
 <p>As mentioned, you are not limited in the number of stats you can compute using the <code>summarise()</code> function, so by expanding the code above, we can calculate the means and standard deviations of multiple variables:</p>
 <pre class="r"><code>summarise(data,
@@ -594,7 +594,7 @@ table(catagories)</code></pre>
 <pre><code>## # A tibble: 1 x 4
 ##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.85         2.27           5.08         2.37</code></pre>
+## 1           3.85         1.97           5.52         2.30</code></pre>
 <p>Note: An annoying thing about the summarise function is that sometimes it will not show results to two-decimal places (which is the requirement for APA format). To see all the decimal places, you can <code>View()</code> the data.frame produced by the <code>summarise()</code> function.</p>
 </div>
 </div>
