@@ -1,4 +1,4 @@
-setwd("~/OneDrive - University of Stirling/Teaching/HPSP131/Workbooks/files")
+#setwd("~/OneDrive - University of Stirling/Teaching/HPSP131/Workbooks/files")
 
 s <- read.csv("s.csv")
 
