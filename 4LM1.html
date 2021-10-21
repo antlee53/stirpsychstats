@@ -503,7 +503,7 @@ div.tocify {
             introvert_sd = sd(introvert,na.rm = TRUE))
 
 data1.summary</code></pre>
-<pre><code>## # A tibble: 2 x 3
+<pre><code>## # A tibble: 2 × 3
 ##   cat.dog introvert_mean introvert_sd
 ##   &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;
 ## 1 cat               21.2         4.06
@@ -536,7 +536,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 </div>
 <div id="one-way-between-subjects-anova-analysis-of-variance" class="section level2">
 <h2>One-way Between-Subjects ANOVA (Analysis of Variance)</h2>
-<p>The ANOVA is used when you have a continuous DV and a categorical IV with more than two groups. Let’s revisit the hypothesis that cat-people are more introverted than dog-people. What if we did not exclude participants that reported ‘both’ or ‘neither’. We would then have four groups in the IV.</p>
+<p>The ANOVA is used when you have a continuous DV and a categorical IV with more than two groups. Let’s revisit the hypothesis that cat-people are more introverted than dog-people. What if we did not exclude participants that reported ‘both’. We would then have three groups in the IV. Note: in the lecture/demonstration video, I removed participants who reported ‘neither’; however, I have left them in here for people who are interested.</p>
 <div id="prepare-the-data-for-analysis.-1" class="section level3">
 <h3>1. Prepare the data for analysis.</h3>
 <p>The code below is identical to the code above, except we do not exclude participants who reported “both” or “neither” (these commands have been commented out below).</p>
@@ -665,7 +665,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
   group_by(cat.dog) %&gt;%
   summarise(dv_mean = mean(introvert,na.rm = TRUE),
             dv_sd = sd(introvert,na.rm = TRUE))</code></pre>
-<pre><code>## # A tibble: 4 x 3
+<pre><code>## # A tibble: 4 × 3
 ##   cat.dog dv_mean dv_sd
 ##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
 ## 1 both       18.4 2.53 
@@ -674,7 +674,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 ## 4 neither    21.5 0.707</code></pre>
 <p>Once you have all this information, the write-up becomes:</p>
 <blockquote>
-<p>A one-way between subjects ANOVA found a significant difference between groups on introversion, <em>F</em>(3, 84) = 2.89, <em>p</em> = 0.04.</p>
+<p>A one-way between subjects ANOVA found a significant difference between groups on introversion, <em>F</em>(3, 84) = 2.89, <em>p</em> = 0.04. However, pairwise comparisons (with a Bonferroni correction to control for family-wise error) did not find any significant differences between the groups.</p>
 </blockquote>
 </div>
 </div>
@@ -745,7 +745,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
             dv_sd = sd(alcohol))
 
 data2.summary</code></pre>
-<pre><code>## # A tibble: 2 x 3
+<pre><code>## # A tibble: 2 × 3
 ##   condition  dv_mean dv_sd
 ##   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt;
 ## 1 pre.drink     4.87  5.62

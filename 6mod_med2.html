@@ -610,7 +610,7 @@ model1 %&gt;%
     mean = mean(introvert,na.rm = TRUE),
     sd = sd(introvert,na.rm = TRUE)
   )</code></pre>
-<pre><code>## # A tibble: 4 x 5
+<pre><code>## # A tibble: 4 × 5
 ## # Groups:   video.games [2]
 ##   video.games cat.dog count  mean    sd
 ##   &lt;chr&gt;       &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -775,7 +775,7 @@ model</code></pre>
 ## Total effect(c) of  attitude  on  behaviour  =  0.49   S.E. =  0.08  t  =  6.11  df=  115   with p =  1.4e-08
 ## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.46   S.E. =  0.09  t  =  5.2  df=  114   with p =  8.7e-07
 ## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  0.04 
-## Mean bootstrapped indirect effect =  0.04  with standard error =  0.04  Lower CI =  -0.03    Upper CI =  0.12
+## Mean bootstrapped indirect effect =  0.04  with standard error =  0.04  Lower CI =  -0.03    Upper CI =  0.11
 ## R = 0.5 R2 = 0.25   F = 19.26 on 2 and 114 DF   p-value:  3.58e-10 
 ## 
 ##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
@@ -795,7 +795,7 @@ model</code></pre>
 <h3>4. Write-up analysis.</h3>
 <p>There are several things you need to include when writing up a mediation analysis. Writing up a mediation analysis includes the write-up for each individual models with and without the mediator (Model 1 and Model 2 above - these numbers are also included in the output for the <code>mediate()</code> function), and also the estimated indirect effect and associated confidence intervals. Usually, you would want to accompany the write-up with a path diagram such as the one above.</p>
 <blockquote>
-<p>In the model where attitudes towards exercise predicted variance in exercise behaviour, the effect of exercise attitudes was not significant (beta = 0.49, p = 0). When including intention to exercise into the model, the effect of attitudes on behaviour did not change (beta = 0.46, p = 0). Mediation analysis revealled a non-significant indirect effect of intentions to exercise on the association between attitudes towards exercise and exercise behaviour (mean bootstrapped indirect effect = 0.46, 95% CI = -0.03, 0.12).</p>
+<p>In the model where attitudes towards exercise predicted variance in exercise behaviour, the effect of exercise attitudes was not significant (beta = 0.49, p = 0). When including intention to exercise into the model, the effect of attitudes on behaviour did not change (beta = 0.46, p = 0). Mediation analysis revealled a non-significant indirect effect of intentions to exercise on the association between attitudes towards exercise and exercise behaviour (mean bootstrapped indirect effect = 0.46, 95% CI = -0.03, 0.11).</p>
 </blockquote>
 <p>Note: While we report the results in text above, it is sometimes also easier to report the separate models in a table.</p>
 </div>
