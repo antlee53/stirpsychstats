@@ -431,16 +431,16 @@ div.tocify {
 <p>As covered in the lecture series, an independent samples t-test is used to assess the relationship between a categorical IV (with two levels that is between-subjects) and a continuous DV. In this example, we test whether people who self-identify as a ‘cat-person’ are more introverted than those who self-identify as a ‘dog-person’. This is an ‘independent-samples’ t-test because participants in one group are different to participants in the other group.</p>
 <div id="prepare-the-data-for-analysis." class="section level3">
 <h3>1. Prepare the data for analysis.</h3>
-<p>Click <a href="http://www.jamescmccroskey.com/measures/introversion.htm">here</a> for details on the Introversion Scale. To keep things simple, we have only used 6 items from this scale. Note: as specified in the link, low scores on this scale indicate higher levels of introversion. Therefore, to be consistent with the name, we will reverse the scale. Also note: sometimes items need to be reversed - we don’t need to do this for our introversion scale, but I have left the code in (commented out) that would reverse score an Item 1 - to do this, we use the <code>recode()</code> function within the <code>mutate()</code> function.</p>
+<p>Click <a href="http://www.jamescmccroskey.com/measures/introversion.htm">here</a> for details on the Introversion Scale. To keep things simple, we have only used 5 items from this scale. Note: as specified in the link, low scores on this scale indicate higher levels of introversion. Therefore, to be consistent with the name, we will reverse the scale. Also note: sometimes items need to be reversed - we don’t need to do this for our introversion scale, but I have left the code in (commented out) that would reverse score an Item 1 - to do this, we use the <code>recode()</code> function within the <code>mutate()</code> function.</p>
 <pre class="r"><code>data1.clean &lt;- data %&gt;%
   filter(cat.dog != &quot;both&quot;) %&gt;%
   filter(cat.dog != &quot;neither&quot;) %&gt;%
   filter(cat.dog != &quot;&quot;) %&gt;%
   mutate( #introversion1R = recode(introversion1,`1` = 5,`2` = 4,`3`=3,`4` = 2,`5` = 1),
           introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10,
-          introvert = (introvert * -1) + 6*6 ) %&gt;%
+          introvert = 31 - introvert) %&gt;%
   select(cat.dog,introvert)</code></pre>
-<p>In the code above, we have removed participants that did not specify identify as either a “dog-person” or “cat-person”. We have also used the <code>mutate()</code> function to calculate an overall introversion score. Within that <code>mutate()</code> function, we reversed the scale by multiplying the total score by -1 and adding 72 (12 items * max of 6 response). Finally, we have selected only the variables we need for our analysis - this step is not strictly necessary, but can help you organise your data.</p>
+<p>In the code above, we have removed participants that did not specify identify as either a “dog-person” or “cat-person”. We have also used the <code>mutate()</code> function to calculate an overall introversion score. Within that <code>mutate()</code> function, we reversed the scale by subtracting the total score from 31 (the max on the scale plus one). Finally, we have selected only the variables we need for our analysis - this step is not strictly necessary, but can help you organise your data.</p>
 </div>
 <div id="run-the-statistical-test." class="section level3">
 <h3>2. Run the statistical test.</h3>
@@ -456,7 +456,7 @@ div.tocify {
 ##  0.2276751 5.6589646
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          21.15385          18.21053</code></pre>
+##          16.15385          13.21053</code></pre>
 <p>The output from the statistical test gives you a few bits of information, but there are a couple that are particularly important:</p>
 <ul>
 <li>The t-statistic - this is the value for the test statistic (above this equals 2.25)</li>
@@ -506,15 +506,15 @@ data1.summary</code></pre>
 <pre><code>## # A tibble: 2 × 3
 ##   cat.dog introvert_mean introvert_sd
 ##   &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;
-## 1 cat               21.2         4.06
-## 2 dog               18.2         4.07</code></pre>
+## 1 cat               16.2         4.06
+## 2 dog               13.2         4.07</code></pre>
 <p>Once we have all the required information, we can write-up! A few things to note about APA formatting:</p>
 <ul>
 <li>All numerical values are rounded to 2 decimal points, except p-values which are rounded to 3 decimal points.</li>
 <li>All letters indicating stats (e.g., M, SD, t, p) should be italicised.</li>
 </ul>
 <blockquote>
-<p>An independent-samples t-test found that there was a significant difference on introversion between cat-people (<em>M</em> = 21.15, <em>SD</em> = 4.06) and dog-people (<em>M</em> = 18.21, <em>SD</em> = 4.07), <em>t</em>(20.9) = 2.25, <em>p</em> = 0.035.</p>
+<p>An independent-samples t-test found that there was a significant difference on introversion between cat-people (<em>M</em> = 16.15, <em>SD</em> = 4.06) and dog-people (<em>M</em> = 13.21, <em>SD</em> = 4.07), <em>t</em>(20.9) = 2.25, <em>p</em> = 0.035.</p>
 </blockquote>
 <div id="bar-graphs" class="section level4">
 <h4>Bar Graphs</h4>
@@ -536,7 +536,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 </div>
 <div id="one-way-between-subjects-anova-analysis-of-variance" class="section level2">
 <h2>One-way Between-Subjects ANOVA (Analysis of Variance)</h2>
-<p>The ANOVA is used when you have a continuous DV and a categorical IV with more than two groups. Let’s revisit the hypothesis that cat-people are more introverted than dog-people. What if we did not exclude participants that reported ‘both’. We would then have three groups in the IV. Note: in the lecture/demonstration video, I removed participants who reported ‘neither’; however, I have left them in here for people who are interested.</p>
+<p>The ANOVA is used when you have a continuous DV and a categorical IV with more than two groups. Let’s revisit the hypothesis that cat-people are more introverted than dog-people. What if we did not exclude participants that reported being ‘both’ or ‘neither’. We would then have four groups in the IV. Note: in the lecture/demonstration video, I removed participants who reported ‘neither’; however, I have left them in here for people who are interested.</p>
 <div id="prepare-the-data-for-analysis.-1" class="section level3">
 <h3>1. Prepare the data for analysis.</h3>
 <p>The code below is identical to the code above, except we do not exclude participants who reported “both” or “neither” (these commands have been commented out below).</p>
@@ -545,7 +545,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 #  filter(cat.dog != &quot;neither&quot;) %&gt;%
    filter(cat.dog != &quot;&quot;) %&gt;%
   mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10,
-          introvert = (introvert * -1) + 6*6 ) %&gt;%
+          introvert = 31 - introvert ) %&gt;%
   select(cat.dog,introvert)</code></pre>
 </div>
 <div id="run-the-statistical-test.-1" class="section level3">
@@ -571,7 +571,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 ##  0.2276751 5.6589646
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          21.15385          18.21053</code></pre>
+##          16.15385          13.21053</code></pre>
 <p>Now, we are only including participants in the dog or both group:</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;both&quot;))</code></pre>
 <pre><code>## 
@@ -584,7 +584,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 ##  -1.413134  1.734938
 ## sample estimates:
 ## mean in group both  mean in group dog 
-##           18.37143           18.21053</code></pre>
+##           13.37143           13.21053</code></pre>
 <p>We continue to repeat this process until we have tested all possible linear combinations:</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
@@ -597,7 +597,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 ##  -5.250771 -1.328176
 ## sample estimates:
 ##     mean in group dog mean in group neither 
-##              18.21053              21.50000</code></pre>
+##              13.21053              16.50000</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;cat&quot; | cat.dog == &quot;both&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
@@ -609,7 +609,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 ##  -5.3408675 -0.2239677
 ## sample estimates:
 ## mean in group both  mean in group cat 
-##           18.37143           21.15385</code></pre>
+##           13.37143           16.15385</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;cat&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
@@ -621,7 +621,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 ##  -3.036933  2.344625
 ## sample estimates:
 ##     mean in group cat mean in group neither 
-##              21.15385              21.50000</code></pre>
+##              16.15385              16.50000</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;both&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
@@ -633,7 +633,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 ##  -5.240569 -1.016573
 ## sample estimates:
 ##    mean in group both mean in group neither 
-##              18.37143              21.50000</code></pre>
+##              13.37143              16.50000</code></pre>
 <p>Remember, in your interpretation to adjust the significance level (alpha) to account for family-wise error rate. Since we conducted six comparisons, the significance level should be reduced to 0.008 (that is, .05 divided by 6).</p>
 </div>
 <div id="visualise-the-data.-1" class="section level3">
@@ -668,10 +668,10 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 <pre><code>## # A tibble: 4 × 3
 ##   cat.dog dv_mean dv_sd
 ##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
-## 1 both       18.4 2.53 
-## 2 cat        21.2 4.06 
-## 3 dog        18.2 4.07 
-## 4 neither    21.5 0.707</code></pre>
+## 1 both       13.4 2.53 
+## 2 cat        16.2 4.06 
+## 3 dog        13.2 4.07 
+## 4 neither    16.5 0.707</code></pre>
 <p>Once you have all this information, the write-up becomes:</p>
 <blockquote>
 <p>A one-way between subjects ANOVA found a significant difference between groups on introversion, <em>F</em>(3, 84) = 2.89, <em>p</em> = 0.04. However, pairwise comparisons (with a Bonferroni correction to control for family-wise error) did not find any significant differences between the groups.</p>
@@ -684,7 +684,7 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 <p>In the example below, we test whether intention to drink is influenced by exposure to the <a href="https://www.gov.scot/publications/lower-risk-drinking-guidelines-factsheet/">Scottish Government’s drinking guidelines</a>.</p>
 <div id="prepare-the-data-for-analysis.-2" class="section level3">
 <h3>1. Prepare the data for analysis.</h3>
-<p>When conducting a statistical test, we follow the same procedure as before. First, we must clean the data. Below, we select the columns we need to run the paired-samples t-test. Since we are running a within-subjects analysis, we also need to re-shape the data using the <code>gather()</code> function (we will cover more about reshaping data in Workbook 10).</p>
+<p>When conducting a statistical test, we follow the same procedure as before. First, we must clean the data. Below, we select the columns we need to run the paired-samples t-test. When running any within-subjects analysis, we also need to re-shape the data using the <code>gather()</code> function so that each observation is on a separate row (rather than each participant). The gather function works by first specifying a column name that distinguishes between observations made by the same participant (i.e., between <code>pre.drink</code> and <code>post.drink</code>), then a variable name the the response (i.e., the number of standard drinks participants report). Then, you specify the variables that you want to reshape.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
   filter(!is.na(pre.drink)) %&gt;%
   filter(!is.na(post.drink)) %&gt;%
