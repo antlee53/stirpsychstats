@@ -411,7 +411,7 @@ library(lm.beta)</code></pre>
 <pre class="r"><code>data1.clean &lt;- data %&gt;%
   mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,    #Method 1
          sleep.quality = rowSums(select(.,starts_with(&quot;sleep&quot;))),          #Method 2
-         sleep.quality = sleep.quality * -1) %&gt;%      
+         sleep.quality = 31 - sleep.quality) %&gt;%      
   dplyr::select(student.no,stress,sleep.quality)</code></pre>
 </div>
 <div id="run-statistical-test" class="section level3">
@@ -436,16 +436,16 @@ library(lm.beta)</code></pre>
 <ul>
 <li>The r-statistic - this is specified at the bottom of the output under ‘cor’, and equals -0.48 above.</li>
 <li>The p-value - this tells you whether the test is significant or not. Above, p &lt; .001.</li>
-<li>We can also get an indication of how many observations were included in the correlation from the degrees of freedom. The df above is 86, therefore, the sample size for this correlation is 88(86 + 2).</li>
+<li>We can also get an indication of how many observations were included in the correlation from the degrees of freedom. The df above is 86, therefore, the sample size for this correlation is 88 (86 + 2).</li>
 </ul>
 </div>
 <div id="plot-data" class="section level3">
 <h3>3. Plot data</h3>
 <div id="scatterplot" class="section level4">
 <h4>Scatterplot</h4>
-<p>Scatterplots are the best way to visualise correlations, as it allows you to see the raw data and whether you can have confidence in your correlation coefficient. For instance, it can tell you if your significant correlation is due to a small number of outliers.</p>
-<p>Usually in a scatterplot, each point represents a single participant, with each variable on the x- and y-axis (this is interchangable).</p>
-<p>In the code below, the <code>geom_point()</code> function adds the points on the scatterplot. The <code>geom_smooth()</code> function adds the line-of-best-fit. <code>geom_smooth()</code> requires the additional ‘method’ argument, which tells it what type of line you want. In this instance, we specify “lm” to tell it we want a linear model.</p>
+<p>Scatterplots are the best way to visualise correlations, as it allows you to see the individual data points and whether you can have confidence in your correlation coefficient. For instance, it can tell you if your significant correlation is due to a small number of outliers.</p>
+<p>Usually in a scatterplot, each point represents a single participant, with each variable on the x- and y-axis. Technically this is interchangable, but usually your IV and DV (according to your hypothesis) would be on the x- and y-axis respectively.</p>
+<p>In the code below, the <code>geom_point()</code> function adds the points on the scatterplot. The <code>geom_smooth()</code> function adds the line-of-best-fit. <code>geom_smooth()</code> requires the additional ‘method’ argument, which tells it what type of line you want. In this instance, we specify “lm” to tell it we want a linear model. Note:, you can also use <code>geom_jitter()</code> instead of <code>geom_point()</code> to add a bit of randomness to your scatterplot - this is useful if you have a lot of points on top of each other.</p>
 <pre class="r"><code>ggplot(data1.clean,aes(x = stress,y = sleep.quality)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;) +
@@ -543,6 +543,7 @@ model2.standardised</code></pre>
 <li>the F-statistic and associated degrees of freedom.</li>
 <li>the p-value for the model.</li>
 </ul>
+<p>Note, the R-squared statistic is the <code>Multiple R-squared</code> stat in the output, rather than the <code>Adjusted R-squared</code> stat. The latter adjusts the R-squared value to penalise models with a large number of predictors.</p>
 <p>For each predictor, you need the following information:</p>
 <ul>
 <li>the standardised coefficient.</li>
