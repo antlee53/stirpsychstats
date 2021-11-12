@@ -567,7 +567,7 @@ model2.standardised</code></pre>
 <pre class="r"><code>data3.clean &lt;- data %&gt;%
   mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,
          support = support.1 + support.2 + support.3 + support.4 + support.5,
-         sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5) %&gt;%
+         sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5 + sleep6) %&gt;%
   dplyr::select(student.no,stress,support,sleep.quality)</code></pre>
 </div>
 <div id="run-statistical-test-2" class="section level3">
@@ -581,20 +581,20 @@ summary(model3)</code></pre>
 ## lm(formula = sleep.quality ~ support + stress, data = data3.clean)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -11.482  -3.330  -1.288   3.670  10.428 
+##      Min       1Q   Median       3Q      Max 
+## -14.1290  -3.7009  -0.9707   3.6076  12.2739 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -0.62232    4.17623  -0.149    0.882    
-## support     -0.02758    0.08455  -0.326    0.745    
-## stress       1.23881    0.28157   4.400 3.13e-05 ***
+## (Intercept) -2.33888    4.80307  -0.487    0.628    
+## support     -0.01439    0.09724  -0.148    0.883    
+## stress       1.61513    0.32384   4.987  3.2e-06 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.003 on 85 degrees of freedom
-## Multiple R-squared:  0.1861, Adjusted R-squared:  0.167 
-## F-statistic: 9.718 on 2 and 85 DF,  p-value: 0.0001581</code></pre>
+## Residual standard error: 5.754 on 85 degrees of freedom
+## Multiple R-squared:  0.2265, Adjusted R-squared:  0.2083 
+## F-statistic: 12.44 on 2 and 85 DF,  p-value: 1.822e-05</code></pre>
 <pre class="r"><code>#Standardised Model
 model3 %&gt;%
   lm.beta() %&gt;%
@@ -604,20 +604,20 @@ model3 %&gt;%
 ## lm(formula = sleep.quality ~ support + stress, data = data3.clean)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -11.482  -3.330  -1.288   3.670  10.428 
+##      Min       1Q   Median       3Q      Max 
+## -14.1290  -3.7009  -0.9707   3.6076  12.2739 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -0.62232      0.00000    4.17623  -0.149    0.882    
-## support     -0.02758     -0.03192    0.08455  -0.326    0.745    
-## stress       1.23881      0.43054    0.28157   4.400 3.13e-05 ***
+## (Intercept) -2.33888      0.00000    4.80307  -0.487    0.628    
+## support     -0.01439     -0.01412    0.09724  -0.148    0.883    
+## stress       1.61513      0.47581    0.32384   4.987  3.2e-06 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.003 on 85 degrees of freedom
-## Multiple R-squared:  0.1861, Adjusted R-squared:  0.167 
-## F-statistic: 9.718 on 2 and 85 DF,  p-value: 0.0001581</code></pre>
+## Residual standard error: 5.754 on 85 degrees of freedom
+## Multiple R-squared:  0.2265, Adjusted R-squared:  0.2083 
+## F-statistic: 12.44 on 2 and 85 DF,  p-value: 1.822e-05</code></pre>
 </div>
 <div id="plot-data-2" class="section level3">
 <h3>3. Plot data</h3>
@@ -637,7 +637,7 @@ model3 %&gt;%
 <h3>4. Write-up analysis.</h3>
 <p>Since we have numerous predictors now, it may make more sense to report the regression coefficients in a table to help with readability (though you can still report the statistics in-text if you prefer). In the write-up below, the beta, t-statistic, and p-value for each predictor is now in a table. However, when reporting regression coefficients in a table, you still need to describe the pattern of results in words.</p>
 <blockquote>
-<p>We used multiple regression to predict sleep quality from perceived stress and social support. We found that both predictors explained 18.61% of the variance (<em>F</em>(2, 85) = 9.72, <em>p</em> &lt; .001). Regression coefficients are reported in Table 1. Social support positively predicted sleep quality. There was no significant effect of perceived stress.</p>
+<p>We used multiple regression to predict sleep quality from perceived stress and social support. We found that both predictors explained 22.65% of the variance (<em>F</em>(2, 85) = 12.44, <em>p</em> &lt; .001). Regression coefficients are reported in Table 1. Social support positively predicted sleep quality. There was no significant effect of perceived stress.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting intention to exercise.</p>
 <table>
@@ -652,14 +652,14 @@ model3 %&gt;%
 <tbody>
 <tr class="odd">
 <td>Stress</td>
-<td>-0.03</td>
-<td>-0.33</td>
-<td>0.75</td>
+<td>-0.01</td>
+<td>-0.15</td>
+<td>0.88</td>
 </tr>
 <tr class="even">
 <td>Support</td>
-<td>0.43</td>
-<td>4.4</td>
+<td>0.48</td>
+<td>4.99</td>
 <td>&lt; .001</td>
 </tr>
 </tbody>

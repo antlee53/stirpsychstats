@@ -377,7 +377,7 @@ div.tocify {
 <li>interaction plots</li>
 </ul>
 <ol style="list-style-type: decimal">
-<li>Perform a two-way ANOVA</li>
+<li>Perform a two-way ANOVA (both between-subjects and mixed-design)</li>
 <li>Perform a mediation analysis</li>
 </ol>
 </div>
@@ -433,7 +433,7 @@ c.v</code></pre>
 <pre><code>## [1] -27.428571   1.571429 -25.428571 -24.428571 -18.428571  28.571429  65.571429</code></pre>
 <pre class="r"><code>#Get the standardised variable.
 
-z.v &lt;- scale(v, center = TRUE,scale = TRUE) %&gt;% as.vector()
+z.v &lt;- c(scale(v, center = TRUE,scale = TRUE))
 
 z.v</code></pre>
 <pre><code>## [1] -0.7782022  0.0445845 -0.7214583 -0.6930863 -0.5228546  0.8106273  1.8603896</code></pre>
@@ -459,22 +459,21 @@ summary(model1)</code></pre>
 ## lm(formula = sleep.quality ~ c.stress * c.support, data = data1.clean)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -11.9303  -2.9800   0.5636   2.9478   8.7012 
+##     Min      1Q  Median      3Q     Max 
+## -10.557  -3.487   0.973   3.485  11.847 
 ## 
 ## Coefficients:
 ##                     Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        -13.08190    0.42042 -31.117  &lt; 2e-16 ***
-## c.stress            -0.67418    0.21034  -3.205  0.00175 ** 
-## c.support            0.20154    0.06872   2.933  0.00407 ** 
-## c.stress:c.support   0.10810    0.03342   3.235  0.00160 ** 
+## (Intercept)        -13.72107    0.53488 -25.653  &lt; 2e-16 ***
+## c.stress            -1.25686    0.28349  -4.433 2.79e-05 ***
+## c.support            0.02072    0.08532   0.243    0.809    
+## c.stress:c.support   0.04415    0.06147   0.718    0.475    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.534 on 113 degrees of freedom
-##   (1 observation deleted due to missingness)
-## Multiple R-squared:  0.1955, Adjusted R-squared:  0.1742 
-## F-statistic: 9.154 on 3 and 113 DF,  p-value: 1.793e-05</code></pre>
+## Residual standard error: 5.017 on 84 degrees of freedom
+## Multiple R-squared:  0.1911, Adjusted R-squared:  0.1622 
+## F-statistic: 6.614 on 3 and 84 DF,  p-value: 0.0004577</code></pre>
 <p>Notice how R automatically includes the main effects in the model? In most cases, you will want to include the separate main effects when including an interaction term, but in the odd occassion when you want to include the interaction effect without the main effect, you can specify it using the <code>:</code> symbol. In other words:</p>
 <p><code>sleep.quality ~ stress*support</code> is identical to <code>sleep.quality ~ stress + support + stress:support</code></p>
 <p>Above are the unstandardised coefficients. However, in order to report in APA format, we require the standardised coefficient. Similar to with an ordinary regression, we can use the <code>lm.beta()</code> function to get the standardised coefficients, like here:</p>
@@ -487,22 +486,21 @@ model1 %&gt;%
 ## lm(formula = sleep.quality ~ c.stress * c.support, data = data1.clean)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -11.9303  -2.9800   0.5636   2.9478   8.7012 
+##     Min      1Q  Median      3Q     Max 
+## -10.557  -3.487   0.973   3.485  11.847 
 ## 
 ## Coefficients:
 ##                     Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        -13.08190      0.00000    0.42042 -31.117  &lt; 2e-16 ***
-## c.stress            -0.67418     -0.27148    0.21034  -3.205  0.00175 ** 
-## c.support            0.20154      0.24826    0.06872   2.933  0.00407 ** 
-## c.stress:c.support   0.10810      0.27313    0.03342   3.235  0.00160 ** 
+## (Intercept)        -13.72107      0.00000    0.53488 -25.653  &lt; 2e-16 ***
+## c.stress            -1.25686     -0.43681    0.28349  -4.433 2.79e-05 ***
+## c.support            0.02072      0.02399    0.08532   0.243    0.809    
+## c.stress:c.support   0.04415      0.07120    0.06147   0.718    0.475    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.534 on 113 degrees of freedom
-##   (1 observation deleted due to missingness)
-## Multiple R-squared:  0.1955, Adjusted R-squared:  0.1742 
-## F-statistic: 9.154 on 3 and 113 DF,  p-value: 1.793e-05</code></pre>
+## Residual standard error: 5.017 on 84 degrees of freedom
+## Multiple R-squared:  0.1911, Adjusted R-squared:  0.1622 
+## F-statistic: 6.614 on 3 and 84 DF,  p-value: 0.0004577</code></pre>
 </div>
 <div id="plot-data" class="section level3">
 <h3>3. Plot data</h3>
@@ -540,7 +538,7 @@ model1 %&gt;%
 <p>As mentioned last week, with more than one predictor in the model, it may make more sense to report the statistics in a table. This includes models with interaction effects (in the case above, the interaction effect is our third predictor).</p>
 <p>Here is an example of the write-up:</p>
 <blockquote>
-<p>We used a linear regression to predict sleep quality from the level of perceived stress, level of social support, and the interaction between the two. We found that model explained 19.55% of the variance (F(3,113) = 9.15, p = 0). Regression coefficients are reported in Table 1. There was a significant, negative main effect of stress on sleep quality. There was a significant, positive main effect of social support on sleep quality. The interaction between perceived stress and social support was significant, such that… [go on to describe the pattern of results]</p>
+<p>We used a linear regression to predict sleep quality from the level of perceived stress, level of social support, and the interaction between the two. We found that model explained 19.11% of the variance (F(3,84) = 6.61, p = 0). Regression coefficients are reported in Table 1. There was a significant, negative main effect of stress on sleep quality. There was no significant main effect of social support on sleep quality. The interaction between perceived stress and social support was not significant.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting stress.</p>
 <table>
@@ -555,21 +553,21 @@ model1 %&gt;%
 <tbody>
 <tr class="odd">
 <td>Perceived Stress</td>
-<td>-0.27</td>
-<td>-3.21</td>
-<td>0.002</td>
+<td>-0.44</td>
+<td>-4.43</td>
+<td>0</td>
 </tr>
 <tr class="even">
 <td>Social Support</td>
-<td>0.25</td>
-<td>2.93</td>
-<td>0.004</td>
+<td>0.02</td>
+<td>0.24</td>
+<td>0.809</td>
 </tr>
 <tr class="odd">
 <td>PS * SS</td>
-<td>0.27</td>
-<td>3.23</td>
-<td>0.002</td>
+<td>0.07</td>
+<td>0.72</td>
+<td>0.475</td>
 </tr>
 </tbody>
 </table>
@@ -594,10 +592,10 @@ model1 %&gt;%
 <pre class="r"><code>aov(introvert ~ cat.dog*video.games,data = clean.data2) %&gt;%
   summary()</code></pre>
 <pre><code>##                     Df Sum Sq Mean Sq F value Pr(&gt;F)  
-## cat.dog              1   59.8   59.83   3.970 0.0505 .
-## video.games          1    2.9    2.89   0.191 0.6631  
-## cat.dog:video.games  1   53.6   53.60   3.557 0.0638 .
-## Residuals           65  979.5   15.07                 
+## cat.dog              1   83.9   83.91   5.536 0.0229 *
+## video.games          1   11.4   11.40   0.752 0.3902  
+## cat.dog:video.games  1   88.2   88.20   5.819 0.0198 *
+## Residuals           47  712.4   15.16                 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Similar to a one-way ANOVA, the two-way ANOVA will tell you whether or not there is a difference, but it will not tell you where that difference is. In order to determine this, you will need to calculate summary statistics (e.g., means for each cell) and conduct follow-up comparisons.</p>
@@ -614,38 +612,38 @@ model1 %&gt;%
 ## # Groups:   video.games [2]
 ##   video.games cat.dog count  mean    sd
 ##   &lt;chr&gt;       &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 No          cat        12  22    4.26
-## 2 No          dog        24  18.2  3.52
-## 3 Yes         cat        10  19    3.43
-## 4 Yes         dog        23  19.0  4.20</code></pre>
+## 1 No          cat         8  19    3.12
+## 2 No          dog        22  18.5  3.95
+## 3 Yes         cat         5  24.6  2.88
+## 4 Yes         dog        16  17.9  4.35</code></pre>
 </div>
 <div id="multiple-comparisons" class="section level4">
 <h4>Multiple Comparisons</h4>
-<p>In the ANOVA table above, we do not find a significant interaction between playing video games and being a cat or dog person. However, we will conduct the comparisons below to determine as if there were a significant interaction. To assess the significant interaction, we test whether the difference between cat-people and dog-people differs depending on whether they play video-games or not.</p>
+<p>To assess the significant interaction, we test whether the difference between cat-people and dog-people differs depending on whether they play video-games or not.</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(clean.data2,video.games == &quot;Yes&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -0.031164, df = 20.934, p-value = 0.9754
+## t = 3.9889, df = 10.33, p-value = 0.002405
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -2.945428  2.858472
+##   2.984741 10.465259
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          19.00000          19.04348</code></pre>
+##            24.600            17.875</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(clean.data2,video.games == &quot;No&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 2.6316, df = 18.72, p-value = 0.01657
+## t = 0.39333, df = 15.766, p-value = 0.6993
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  0.7644781 6.7355219
+##  -2.397861  3.488770
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##             22.00             18.25</code></pre>
+##          19.00000          18.45455</code></pre>
 </div>
 </div>
 <div id="plot-data-1" class="section level3">
@@ -660,10 +658,48 @@ model1 %&gt;%
 <p><img src="6mod_med2_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 </div>
+<div id="mixed-design-anova" class="section level2">
+<h2>Mixed-Design ANOVA</h2>
+<p>In the two-way ANOVA above, both IVs were between-subjects variables. However, the <code>aov()</code> can also run an ANOVA when one (or both) IVs are within-subjects. These are known as mixed-designs ANOVAs (or repeated-measures ANOVA if both IVs are within-subjects).</p>
+<p>In the example below, we will test whether playing video games moderates the association between intended alcoholic drinks before and after viewing the Scottish government’s drinking guidelines.</p>
+<div id="clean-data-for-analysis." class="section level3">
+<h3>1. Clean data for analysis.</h3>
+<p>Below, we select the key variables for analysis and reshape the data. This second step is necessary since we are dealing with within-subjects variables. Also, since we will be group data by the <code>student.no</code>, we will need to ensure that R treats it as a factor.</p>
+<pre class="r"><code>mx.data &lt;- data %&gt;%
+  select(student.no,video.games,pre.drink,post.drink) %&gt;%
+  filter(!is.na(pre.drink),!is.na(post.drink)) %&gt;%
+  gather(key = &quot;condition&quot;,value = &quot;alcohol&quot;,pre.drink,post.drink) %&gt;%
+  mutate(student.no = as.factor(student.no))</code></pre>
+</div>
+<div id="conduct-statistical-test." class="section level3">
+<h3>2. Conduct statistical test.</h3>
+<p>Again, we use the <code>aov()</code> function to run our mixed-design ANOVA. However, in order to tell R which factor is within-subjects, we need to adjust our formula to the following format:</p>
+<pre class="r"><code>DV ~ IV1*IV2 + Error(ID/IV2)</code></pre>
+<p>So much like before, the DV is on the left of the <code>~</code> symbol, and the IVs are on the right. In order to denote that we are interested in the interaction between the two, we continue to “multiply” the IVs together. The new part of the formula comes where we add to the formula the “Error” part above. This tells R 1) what is the within-subjects variable, and 2) how that within-subjects variable is grouped. In our example, <code>condition</code> is the within-subjects variable, and since the data is within-participants, we will use <code>student.no</code> to tell R which observations are linked.</p>
+<pre class="r"><code>aov(alcohol ~ condition*video.games + Error(student.no/condition),data = mx.data) %&gt;%
+  summary()</code></pre>
+<pre><code>## 
+## Error: student.no
+##             Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+## video.games  1    571   571.1   9.742 0.00269 **
+## Residuals   65   3810    58.6                   
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Error: student.no:condition
+##                       Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## condition              1   5.04   5.045   2.957 0.0902 .
+## condition:video.games  1   0.07   0.075   0.044 0.8347  
+## Residuals             65 110.88   1.706                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Notice in the output above that there are two ANOVA tables. The first is the between-subjects effects, which reports the main effect for <code>video.games</code> on alcohol consumption. Interestingly, this is significant in the above example. The second table has the within-subjects effects. This includes the main effect of <code>condition</code>, plus the interaction between our two IVs. In the example above, the interaction is non-significant, indicating that playing video games does not moderate the intended consumption of alcohol before and after viewing the Scottish government’s guidelines.</p>
+</div>
+</div>
 <div id="mediation" class="section level2">
 <h2>Mediation</h2>
 <p>As covered in the Lecture series, mediation describes a relationship where the influence of one variable on another can be explained through a third variable. In the example below, we will test whether the relationship between attitudes towards exercise and exercise behaviour can be explained through intentions to exercise (i.e., individuals who have positive attitudes about exercise increase their intention to exercise, which in turn increases exercise behaviour). For more information on these scales (and some of the ones we will use later), see this paper: <a href="https://search.proquest.com/docview/202682863">https://search.proquest.com/docview/202682863</a>. Note, we only use the first 5-items on each scale to keep things simple.</p>
-<div id="clean-data-for-analysis." class="section level3">
+<div id="clean-data-for-analysis.-1" class="section level3">
 <h3>1. Clean data for analysis.</h3>
 <p>First, we must calculate the variables that we need for our analysis. This process should be fairly familiar by now.</p>
 <pre class="r"><code>data.clean &lt;- data %&gt;%
@@ -690,18 +726,18 @@ model1 %&gt;%
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -18.5329  -3.9424  -0.7851   4.6244  13.8529 
+## -13.3222  -5.3853   0.6778   5.2905  16.8759 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   8.9898       0.0000     1.0318   8.713 2.56e-14 ***
-## attitude      0.7953       0.4949     0.1302   6.108 1.41e-08 ***
+## (Intercept)   9.7999       0.0000     1.2986   7.546 4.59e-11 ***
+## attitude      0.7748       0.4539     0.1650   4.697 1.01e-05 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.375 on 115 degrees of freedom
-## Multiple R-squared:  0.2449, Adjusted R-squared:  0.2384 
-## F-statistic:  37.3 on 1 and 115 DF,  p-value: 1.411e-08</code></pre>
+## Residual standard error: 6.923 on 85 degrees of freedom
+## Multiple R-squared:  0.2061, Adjusted R-squared:  0.1967 
+## F-statistic: 22.06 on 1 and 85 DF,  p-value: 1.006e-05</code></pre>
 </div>
 <div id="model-2" class="section level4">
 <h4>Model 2</h4>
@@ -715,19 +751,19 @@ model1 %&gt;%
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -19.0286  -3.8251  -0.8251   4.7210  13.5488 
+## -14.9584  -5.8781   0.4981   4.9684  16.6849 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  8.71897      0.00000    1.06121   8.216 3.70e-13 ***
-## attitude     0.73563      0.45780    0.14137   5.204 8.73e-07 ***
-## intention    0.12351      0.09489    0.11451   1.079    0.283    
+## (Intercept)   9.4906       0.0000     1.3090   7.250 1.88e-10 ***
+## attitude      0.6535       0.3829     0.1848   3.537 0.000662 ***
+## intention     0.2160       0.1540     0.1518   1.423 0.158488    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.371 on 114 degrees of freedom
-## Multiple R-squared:  0.2526, Adjusted R-squared:  0.2394 
-## F-statistic: 19.26 on 2 and 114 DF,  p-value: 6.223e-08</code></pre>
+## Residual standard error: 6.882 on 84 degrees of freedom
+## Multiple R-squared:  0.2247, Adjusted R-squared:  0.2063 
+## F-statistic: 12.18 on 2 and 84 DF,  p-value: 2.274e-05</code></pre>
 </div>
 <div id="model-3" class="section level4">
 <h4>Model 3</h4>
@@ -740,19 +776,19 @@ model1 %&gt;%
 ## lm(formula = intention ~ attitude, data = data.clean)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -14.297  -2.642   0.324   3.014   9.910 
+##      Min       1Q   Median       3Q      Max 
+## -12.4319  -3.4219   0.5168   2.9099  12.4456 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   2.1932       0.0000     0.8397   2.612   0.0102 *  
-## attitude      0.4828       0.3910     0.1060   4.556 1.31e-05 ***
+## (Intercept)   1.4319       0.0000     0.9224   1.552    0.124    
+## attitude      0.5612       0.4610     0.1172   4.790    7e-06 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.188 on 115 degrees of freedom
-## Multiple R-squared:  0.1529, Adjusted R-squared:  0.1455 
-## F-statistic: 20.76 on 1 and 115 DF,  p-value: 1.306e-05</code></pre>
+## Residual standard error: 4.918 on 85 degrees of freedom
+## Multiple R-squared:  0.2126, Adjusted R-squared:  0.2033 
+## F-statistic: 22.94 on 1 and 85 DF,  p-value: 6.995e-06</code></pre>
 </div>
 <div id="mediation-analysis" class="section level4">
 <h4>Mediation Analysis</h4>
@@ -772,11 +808,11 @@ model</code></pre>
 ## 
 ## The DV (Y) was  behaviour . The IV (X) was  attitude . The mediating variable(s) =  intention .
 ## 
-## Total effect(c) of  attitude  on  behaviour  =  0.49   S.E. =  0.08  t  =  6.11  df=  115   with p =  1.4e-08
-## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.46   S.E. =  0.09  t  =  5.2  df=  114   with p =  8.7e-07
-## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  0.04 
-## Mean bootstrapped indirect effect =  0.04  with standard error =  0.04  Lower CI =  -0.03    Upper CI =  0.11
-## R = 0.5 R2 = 0.25   F = 19.26 on 2 and 114 DF   p-value:  3.58e-10 
+## Total effect(c) of  attitude  on  behaviour  =  0.45   S.E. =  0.1  t  =  4.7  df=  85   with p =  1e-05
+## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.38   S.E. =  0.11  t  =  3.54  df=  84   with p =  0.00066
+## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  0.07 
+## Mean bootstrapped indirect effect =  0.07  with standard error =  0.06  Lower CI =  -0.02    Upper CI =  0.2
+## R = 0.47 R2 = 0.22   F = 12.18 on 2 and 84 DF   p-value:  1.08e-06 
 ## 
 ##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
 <p>Most of the information above is what we have encountered previously. The main information we are interested in this output is the line on the mean bootstrapped indirect effect. A large indirect effect (and consequently a greater drop between the total effect and the direct effect) would indicate that mediation is occurring. Since we are bootstrapping, we can tell the significance through confidence intervals. If the range between the lower CI and the upper CI contains zero, then the indirect effect is not significant. If this range does not contain zero, then we have a significant mediation effect.</p>
@@ -788,14 +824,14 @@ model</code></pre>
 <h4>Path Diagram</h4>
 <p>For mediation, there’s no good way to plot the raw data that visualises the mediation. The most common way to visualise a mediated effect is through a path diagram. You can do this directly in the <code>mediate()</code> function by setting the ‘plot’ argument to <code>TRUE</code> or use the <code>mediate.diagram()</code> like below:</p>
 <pre class="r"><code>mediate.diagram(model)</code></pre>
-<p><img src="6mod_med2_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p><img src="6mod_med2_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 </div>
 </div>
 <div id="write-up-analysis.-1" class="section level3">
 <h3>4. Write-up analysis.</h3>
 <p>There are several things you need to include when writing up a mediation analysis. Writing up a mediation analysis includes the write-up for each individual models with and without the mediator (Model 1 and Model 2 above - these numbers are also included in the output for the <code>mediate()</code> function), and also the estimated indirect effect and associated confidence intervals. Usually, you would want to accompany the write-up with a path diagram such as the one above.</p>
 <blockquote>
-<p>In the model where attitudes towards exercise predicted variance in exercise behaviour, the effect of exercise attitudes was not significant (beta = 0.49, p = 0). When including intention to exercise into the model, the effect of attitudes on behaviour did not change (beta = 0.46, p = 0). Mediation analysis revealled a non-significant indirect effect of intentions to exercise on the association between attitudes towards exercise and exercise behaviour (mean bootstrapped indirect effect = 0.46, 95% CI = -0.03, 0.11).</p>
+<p>In the model where attitudes towards exercise predicted variance in exercise behaviour, the effect of exercise attitudes was not significant (beta = 0.45, p = 0). When including intention to exercise into the model, the effect of attitudes on behaviour did not change (beta = 0.38, p = 0.001). Mediation analysis revealled a non-significant indirect effect of intentions to exercise on the association between attitudes towards exercise and exercise behaviour (mean bootstrapped indirect effect = 0.38, 95% CI = -0.02, 0.2).</p>
 </blockquote>
 <p>Note: While we report the results in text above, it is sometimes also easier to report the separate models in a table.</p>
 </div>
