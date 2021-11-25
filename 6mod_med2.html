@@ -430,13 +430,15 @@ library(lm.beta)</code></pre>
 c.v  &lt;- c(scale(v,center = TRUE,scale = FALSE))
 
 c.v</code></pre>
-<pre><code>## [1] -27.428571   1.571429 -25.428571 -24.428571 -18.428571  28.571429  65.571429</code></pre>
+<pre><code>## [1] -27.428571   1.571429 -25.428571 -24.428571 -18.428571  28.571429
+## [7]  65.571429</code></pre>
 <pre class="r"><code>#Get the standardised variable.
 
 z.v &lt;- c(scale(v, center = TRUE,scale = TRUE))
 
 z.v</code></pre>
-<pre><code>## [1] -0.7782022  0.0445845 -0.7214583 -0.6930863 -0.5228546  0.8106273  1.8603896</code></pre>
+<pre><code>## [1] -0.7782022  0.0445845 -0.7214583 -0.6930863 -0.5228546  0.8106273
+## [7]  1.8603896</code></pre>
 <p>We can use this combination of the <code>scale()</code> and <code>c()</code> functions within the <code>mutate()</code> to calculate the standardised/centred variables of columns in our data.frame:</p>
 <pre class="r"><code>#Compute centred variables for analysis.
 data1.clean &lt;- mutate(data1.vars,
@@ -490,11 +492,16 @@ model1 %&gt;%
 ## -10.557  -3.487   0.973   3.485  11.847 
 ## 
 ## Coefficients:
-##                     Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        -13.72107      0.00000    0.53488 -25.653  &lt; 2e-16 ***
-## c.stress            -1.25686     -0.43681    0.28349  -4.433 2.79e-05 ***
-## c.support            0.02072      0.02399    0.08532   0.243    0.809    
-## c.stress:c.support   0.04415      0.07120    0.06147   0.718    0.475    
+##                     Estimate Standardized Std. Error t value Pr(&gt;|t|)
+## (Intercept)        -13.72107      0.00000    0.53488 -25.653  &lt; 2e-16
+## c.stress            -1.25686     -0.43681    0.28349  -4.433 2.79e-05
+## c.support            0.02072      0.02399    0.08532   0.243    0.809
+## c.stress:c.support   0.04415      0.07120    0.06147   0.718    0.475
+##                       
+## (Intercept)        ***
+## c.stress           ***
+## c.support             
+## c.stress:c.support    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
