@@ -389,10 +389,8 @@ div.tocify {
 </div>
 <div id="content" class="section level1">
 <h1>Content</h1>
-<p>We will be using the following packages in this week’s workbook:</p>
-<pre class="r"><code>library(psych)
-library(lm.beta)
-library(lavaan)
+<p>We will be using the following packages in this week’s workbook. If you’ve been following along with the demonstrations, this is the first time we’ve used the <code>lavaan</code> and <code>semPlot</code> packages, so make sure to install these first before loading them.</p>
+<pre class="r"><code>library(lavaan)
 library(tidyverse)
 library(semPlot)</code></pre>
 <div id="before-we-continue" class="section level2">
@@ -401,7 +399,7 @@ library(semPlot)</code></pre>
 </div>
 <div id="mediation-analysis-through-structural-equation-modelling-sem" class="section level2">
 <h2>Mediation Analysis Through Structural Equation Modelling (SEM)</h2>
-<p>Mediation is an example of a simple SEM. We will first re-run the mediation we conducted above in the <code>lavaan</code> package, as this is a handy way of demonstrating the logic of the <code>lavaan</code> package.</p>
+<p>Mediation is an example of a simple SEM. We will first re-run the mediation we conducted in Demonstration 7 in the <code>lavaan</code> package, as this is a handy way of demonstrating the logic of the <code>lavaan</code> package.</p>
 <p>As with all analyses, we will be following the basic procedure of:</p>
 <ol style="list-style-type: decimal">
 <li>Clean the data for analysis.</li>
@@ -412,7 +410,7 @@ library(semPlot)</code></pre>
 <div id="clean-the-data-for-analysis." class="section level3">
 <h3>1. Clean the data for analysis.</h3>
 <p>As always, our first step is to calculate the variables from the individual items.</p>
-<p>The code below is identical to the code used for the mediation in Week 7.</p>
+<p>The code below is identical to the code used for the mediation in Week 7 and used to calculate exercise attitude, intentions to exercise, and exercise behaviour.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
   mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5,
          intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5,
@@ -516,8 +514,8 @@ total := direct + indirect
 </tr>
 </tbody>
 </table>
-<p>Essentially, the first three lines of the code are identical to running the <code>Model 1</code>, <code>Model 2</code>, and <code>Model 3</code> that we ran above, while the last three lines are like running the <code>mediate()</code> function get estimate the indirect and direct effect.</p>
-<p>To run the SEM, we use the <code>sem()</code> function. Like all analyses done previously, we need to specify two things: the formula (which we saved as the object <code>sem.formula</code>) and the data.frame. We also set values for a few other arguments. We set ‘standardized’ to <code>TRUE</code> so that we get standardised estimates, ‘fit.measures’ to <code>TRUE</code> so we get model fit indicators, and ‘rsquare’ to <code>TRUE</code> to get an r-square statistic for the model.</p>
+<p>Essentially, the first three lines of the code are identical to running the <code>Model 1</code>, <code>Model 2</code>, and <code>Model 3</code> that we ran when testing whether the conditions of mediation were met, while the last three lines are like running the <code>mediate()</code> function get estimate the indirect and direct effect.</p>
+<p>To run the SEM, we use the <code>sem()</code> function. Like all analyses done previously, we need to specify two things: the formula (which we saved as the object <code>sem.formula</code>) and the data.frame. We also set values for a few other arguments. We set ‘standardized’ to <code>TRUE</code> so that we get standardised estimates, ‘fit.measures’ to <code>TRUE</code> so we get model fit indicators, and ‘rsquare’ to <code>TRUE</code> to get an r-square statistics for the model.</p>
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)</code></pre>
 <pre class="r"><code>summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)</code></pre>
 <pre><code>## lavaan 0.6-9 ended normally after 16 iterations
@@ -571,26 +569,17 @@ total := direct + indirect
 ##   Information saturated (h1) model          Structured
 ## 
 ## Regressions:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
-##   behaviour ~                                                  
-##     attitude   (c)    0.648    0.184    3.519    0.000    0.648
-##     intention  (b)    0.219    0.150    1.453    0.146    0.219
-##   intention ~                                                  
-##     attitude   (a)    0.571    0.117    4.886    0.000    0.571
-##   Std.all
-##          
-##     0.378
-##     0.156
-##          
-##     0.466
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   behaviour ~                                                           
+##     attitude   (c)    0.648    0.184    3.519    0.000    0.648    0.378
+##     intention  (b)    0.219    0.150    1.453    0.146    0.219    0.156
+##   intention ~                                                           
+##     attitude   (a)    0.571    0.117    4.886    0.000    0.571    0.466
 ## 
 ## Variances:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
-##    .behaviour        46.235    7.051    6.557    0.000   46.235
-##    .intention        23.750    3.622    6.557    0.000   23.750
-##   Std.all
-##     0.778
-##     0.783
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .behaviour        46.235    7.051    6.557    0.000   46.235    0.778
+##    .intention        23.750    3.622    6.557    0.000   23.750    0.783
 ## 
 ## R-Square:
 ##                    Estimate
@@ -598,19 +587,15 @@ total := direct + indirect
 ##     intention         0.217
 ## 
 ## Defined Parameters:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
-##     indirect          0.125    0.090    1.393    0.164    0.125
-##     direct            0.648    0.184    3.519    0.000    0.648
-##     total             0.773    0.165    4.686    0.000    0.773
-##   Std.all
-##     0.073
-##     0.378
-##     0.451</code></pre>
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##     indirect          0.125    0.090    1.393    0.164    0.125    0.073
+##     direct            0.648    0.184    3.519    0.000    0.648    0.378
+##     total             0.773    0.165    4.686    0.000    0.773    0.451</code></pre>
 <p>If we compare the results here to mediation, we should see that we get very similar, if not the same, results.</p>
 </div>
 <div id="plot-the-model." class="section level3">
 <h3>3. Plot the model.</h3>
-<p>The easiest way to plot a structural equation model is using a path diagram. Unfortunately, this is not easy to do in <code>ggplot2</code>. However, we can use a the <code>semPaths()</code> function from the <code>semPlot</code> package. This function has the advantage of being easy to use - all you need to do is load your model estimated in laavan and specify which paths you want to see (or hide). The disadvantage is that you cannot choose how you layout your path diagram, or customise the look of your diagram. Therefore, in order to create publication worthy graphics, you must use another program.</p>
+<p>The easiest way to plot a structural equation model is using a path diagram. Unfortunately, this is not easy to do in <code>ggplot2</code>. However, we can use the <code>semPaths()</code> function from the <code>semPlot</code> package. This function has the advantage of being easy to use - all you need to do is load your model estimated in laavan and specify which paths you want to see (or hide). The disadvantage is that you cannot choose how you layout your path diagram, or customise the look of your diagram. Therefore, in order to create publication worthy graphics, you must use another program.</p>
 <pre class="r"><code>semPaths(med.sem.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
 <p><img src="9SEM_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
@@ -622,7 +607,7 @@ total := direct + indirect
 <img src="images/TPB.png" alt="" />
 <p class="caption">Theory of Planned Behaviour</p>
 </div>
-<p>In words, we predict that attitudes towards exercise, norms about exercise, and perceived behavioural control regarding exercise will predict intention to exercise. In turn, intention to exercise predict exercise behaviour. We also predict that perceived behavioural control regarding exercise will directly predict exercise behaviour.</p>
+<p>In words, we predict that attitudes towards exercise, norms about exercise, and perceived behavioural control regarding exercise will predict intention to exercise. In turn, intention to exercise predicts exercise behaviour. We also predict that perceived behavioural control regarding exercise will directly predict exercise behaviour.</p>
 <div id="clean-the-data-for-analysis.-1" class="section level3">
 <h3>1. Clean the data for analysis.</h3>
 <p>First, we must calculate the variables from each of the items. Something we have done many times now.</p>
@@ -649,7 +634,7 @@ norms ~~ attitude
 attitude ~~ control
 control ~~ norms
 
-behaviour ~ intention + control + attitude
+behaviour ~ intention + control
 &#39;</code></pre>
 <p>To break down the code above: Line 1: Attitudes, norms, and control predict intention. Lines 2 to 4: Covariance between predictors is specified explicitly. Line 5: Intention, control and attitudes predicts behaviour.</p>
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
@@ -707,58 +692,37 @@ behaviour ~ intention + control + attitude
 ##   Information saturated (h1) model          Structured
 ## 
 ## Regressions:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
-##   intention ~                                                  
-##     attitude          0.443    0.125    3.554    0.000    0.443
-##     norms             0.215    0.075    2.865    0.004    0.215
-##     control           0.329    0.155    2.118    0.034    0.329
-##   behaviour ~                                                  
-##     intention         0.150    0.145    1.034    0.301    0.150
-##     control           0.656    0.216    3.038    0.002    0.656
-##     attitude          0.445    0.187    2.373    0.018    0.445
-##   Std.all
-##          
-##     0.362
-##     0.264
-##     0.219
-##          
-##     0.107
-##     0.312
-##     0.260
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   intention ~                                                           
+##     attitude          0.443    0.125    3.554    0.000    0.443    0.362
+##     norms             0.215    0.075    2.865    0.004    0.215    0.264
+##     control           0.329    0.155    2.118    0.034    0.329    0.219
+##   behaviour ~                                                           
+##     intention         0.150    0.145    1.034    0.301    0.150    0.107
+##     control           0.656    0.216    3.038    0.002    0.656    0.312
+##     attitude          0.445    0.187    2.373    0.018    0.445    0.260
 ## 
 ## Covariances:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
-##   attitude ~~                                                  
-##     norms             0.592    3.283    0.180    0.857    0.592
-##     control           7.488    1.953    3.834    0.000    7.488
-##   norms ~~                                                     
-##     control          -4.523    2.719   -1.664    0.096   -4.523
-##   Std.all
-##          
-##     0.019
-##     0.454
-##          
-##    -0.182
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   attitude ~~                                                           
+##     norms             0.592    3.283    0.180    0.857    0.592    0.019
+##     control           7.488    1.953    3.834    0.000    7.488    0.454
+##   norms ~~                                                              
+##     control          -4.523    2.719   -1.664    0.096   -4.523   -0.182
 ## 
 ## Variances:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
-##    .intention        21.149    3.225    6.557    0.000   21.149
-##    .behaviour        41.754    6.367    6.557    0.000   41.754
-##     attitude         20.241    3.087    6.557    0.000   20.241
-##     norms            45.772    6.980    6.557    0.000   45.772
-##     control          13.442    2.050    6.557    0.000   13.442
-##   Std.all
-##     0.697
-##     0.702
-##     1.000
-##     1.000
-##     1.000
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .intention        21.149    3.225    6.557    0.000   21.149    0.697
+##    .behaviour        41.754    6.367    6.557    0.000   41.754    0.702
+##     attitude         20.241    3.087    6.557    0.000   20.241    1.000
+##     norms            45.772    6.980    6.557    0.000   45.772    1.000
+##     control          13.442    2.050    6.557    0.000   13.442    1.000
 ## 
 ## R-Square:
 ##                    Estimate
 ##     intention         0.303
 ##     behaviour         0.298</code></pre>
-<p>Notice above in the <code>summary()</code> function, we have included additional arguments to get extra statistics that are helpful when it comes to report the analysis.</p>
+<p>Notice above in the <code>summary()</code> function, we have included the additional arguments to get extra statistics that are helpful when it comes to report the analysis.</p>
 </div>
 <div id="plot-the-model.-1" class="section level3">
 <h3>3. Plot the model.</h3>
@@ -784,7 +748,6 @@ behaviour ~ intention
 sem.model2 &lt;- sem(model2,data = data2.clean)
 
 #summary(sem.model2,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
-<pre class="r"><code>load(&quot;files/sem.model2.Rdata&quot;)</code></pre>
 <p>Note: we have not run the <code>summary()</code> function above to save on space, but feel free to have a look at it.</p>
 <p>Now that we have our two models that we will compare, the function we use is called <code>anova()</code>, not to be confused with <code>aov()</code> that runs ANOVA analyses.</p>
 <p>For the <code>anova()</code> function, we simply have to specify the two models we are comparing as the two arguments. This will conduct a chi-square difference test.</p>
@@ -830,39 +793,25 @@ attitude.model &lt;- sem(attitude.formula,data = data)</code></pre>
 ##   Information saturated (h1) model          Structured
 ## 
 ## Latent Variables:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
-##   attitude =~                                                  
-##     exercis.tttd.1    1.000                               1.027
-##     exercis.tttd.2    1.008    0.132    7.644    0.000    1.036
-##     exercis.tttd.3    0.043    0.187    0.232    0.816    0.045
-##     exercis.tttd.4    0.777    0.106    7.305    0.000    0.798
-##     exercis.tttd.5    0.899    0.140    6.401    0.000    0.923
-##   Std.all
-##          
-##     0.818
-##     0.803
-##     0.027
-##     0.765
-##     0.679
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##   attitude =~                                                           
+##     exercis.tttd.1    1.000                               1.027    0.818
+##     exercis.tttd.2    1.008    0.132    7.644    0.000    1.036    0.803
+##     exercis.tttd.3    0.043    0.187    0.232    0.816    0.045    0.027
+##     exercis.tttd.4    0.777    0.106    7.305    0.000    0.798    0.765
+##     exercis.tttd.5    0.899    0.140    6.401    0.000    0.923    0.679
 ## 
 ## Variances:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
-##    .exercis.tttd.1    0.523    0.122    4.302    0.000    0.523
-##    .exercis.tttd.2    0.590    0.130    4.527    0.000    0.590
-##    .exercis.tttd.3    2.783    0.420    6.632    0.000    2.783
-##    .exercis.tttd.4    0.451    0.090    5.013    0.000    0.451
-##    .exercis.tttd.5    0.994    0.175    5.672    0.000    0.994
-##     attitude          1.055    0.243    4.345    0.000    1.000
-##   Std.all
-##     0.332
-##     0.355
-##     0.999
-##     0.414
-##     0.538
-##     1.000</code></pre>
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
+##    .exercis.tttd.1    0.523    0.122    4.302    0.000    0.523    0.332
+##    .exercis.tttd.2    0.590    0.130    4.527    0.000    0.590    0.355
+##    .exercis.tttd.3    2.783    0.420    6.632    0.000    2.783    0.999
+##    .exercis.tttd.4    0.451    0.090    5.013    0.000    0.451    0.414
+##    .exercis.tttd.5    0.994    0.175    5.672    0.000    0.994    0.538
+##     attitude          1.055    0.243    4.345    0.000    1.000    1.000</code></pre>
 <pre class="r"><code>semPaths(attitude.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
 <p><img src="9SEM_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
-<p>How about we compute latent variables for all the variables in the TPB model above? Doing something like this may not make a lot of sense: we will end up with a gangly model, and we may not have enough observations to get sensible results, but we can do it do it anyway! For demonstrative purposes… The code is provided below to run this analysis, but this code is not executed, as the output is quite long an unweildy.</p>
+<p>How about we compute latent variables for all the variables in the TPB model above? Doing something like this may not make a lot of sense: we will end up with a gangly model, and we may not have enough observations to get sensible results, but we can do it do it anyway! For demonstrative purposes of course… The code is provided below to run this analysis, but this code is not executed, as the output is quite long an unweildy.</p>
 <div id="specify-the-model" class="section level3">
 <h3>Specify the Model</h3>
 <pre class="r"><code>model &lt;- &#39;
@@ -884,7 +833,6 @@ summary(sem.model3,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 <div id="plot-the-model" class="section level1">
 <h1>Plot the Model</h1>
 <p>Again, we can plot the SEM using <code>semPaths()</code>, but this gets pretty messy, given the number of items make up each latent variable.</p>
-<pre class="r"><code>load(&quot;files/sem.model3.Rdata&quot;)</code></pre>
 <pre class="r"><code>semPaths(sem.model3,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
 <p><img src="9SEM_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 </div>
