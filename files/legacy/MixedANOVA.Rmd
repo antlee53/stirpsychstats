@@ -1,0 +1,48 @@
+---
+title: "Mixed ANOVA"
+author: "Anthony J. Lee"
+date: "17/11/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Mixed-Designs ANOVA
+
+A mixed design ANOVA is used when you want to test the interaction between a categorical between-subjects variable, and a categorical within-subjects variable (the "mixed design" part refers to the fact that one IV is between-subjects, while the other is within-subjects). In this example, we will test whether exposure to the Scottish Government's anti-drinking campaign differs depending on whether people are cat or dog people.
+
+### 1. Clean the data for analysis.
+
+Much like with the paired-samples t-test, before conducting the analysis, you will first need to reshape the data from short to long format. We do this using the `gather()` function.
+
+```{r}
+clean.data3 <- data %>%
+  filter(cat.dog != "both") %>%
+  filter(cat.dog != "neither") %>%
+  filter(cat.dog != "") %>%
+  select(student.no,pre.drink,post.drink,cat.dog) %>%
+  gather(key = "condition",value = "response",pre.drink,post.drink)
+```
+
+### 2. Run statistical test
+
+Again, we use the `aov()` function to conduct the mixed design ANOVA. The mixed design ANOVA combines elements from the two-way ANOVA and repeated measures ANOVA. First, we include an interaction term between the two IVs. Second, we need to include in the formula the part that tells the function which variable is within subjects. In order to tell the function that it is within-subjects, however, you will need to specify this in the formula. In the example below, we are predicting `response` (i.e., number of drinks) based on `condition` (i.e., before and after seeing the ad). The part of the code that goes `+ Error(student.no/condition)` tells the `aov()` function that the variable `condition` is repeated based on the `Subject` variable.
+
+```{r}
+aov(response ~ cat.dog*condition + Error(student.no/condition),data = clean.data3) %>%
+  summary()
+```
+
+### 3. Plot data
+
+To visualise the data, we again use a violin plot, and use the `facet_wrap()` function to split the data according to the moderator.
+
+```{r}
+ggplot(clean.data3,aes(x = condition,y = response,fill = cat.dog)) +
+  geom_violin() +
+  stat_summary() +
+  facet_wrap(~ cat.dog) +
+  theme_classic()
+```
