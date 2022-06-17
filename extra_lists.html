@@ -11,7 +11,7 @@
 
 
 
-<title>HPSP131 - Quantitative Methods in Psychological Research</title>
+<title>HPSP131 - Lists, Matrices, and Indexing</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -398,151 +398,110 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Quantitative Methods in
-Psychological Research</h1>
+<h1 class="title toc-ignore">HPSP131 - Lists, Matrices, and
+Indexing</h1>
 
 </div>
 
 
-<p>Last updated: Fri Jun 17 11:52:29 2022</p>
-<p>This module is designed to teach students the basic skills needed to
-conduct quantitative research in R. This module covers basic data
-skills, data tidying, plotting data, and analysing datasets in R. This
-is not meant to be a comprehensive guide to R (such a thing would be
-almost impossible!). Rather, this module is designed to be a gentle
-introduction to R, cover statistical techniques that are common in
-psychological research, and provide a solid base where you can
-investigate advanced techniques on your own. This website contains
-weekly workbooks designed to reinforce materials presented in lectures
-and demonstrations. Weekly exercises are also provided that are designed
-for you to practice your R skills, and introduce new concepts for
-students looking for an additional challenge.</p>
-<div id="syllabus" class="section level1">
-<h1>Syllabus</h1>
-<p>Each week, we will be tackling the following topics:</p>
-<ol style="list-style-type: decimal">
-<li>Introduction to R.</li>
-<li>Datasets in R.</li>
-<li>Data cleaning and data skills.</li>
-<li>Plotting data using ggplot2.</li>
-<li>t-tests and one-way ANOVAs.</li>
-<li>Correlation and regression.</li>
-<li>Moderation - multiple regression, two-way ANOVAs</li>
-<li>Power analyses and mediation.</li>
-<li>Structural Equation Modelling (Path Analysis)</li>
-<li>Mixed Effects Modelling (Multilevel Modelling)</li>
-</ol>
+<p>This page contains extra R content not covered in the demonstrations
+and could be considered supplementary to the module. This content is
+useful for completing the advanced exercises from Week 1.</p>
+<div id="lists" class="section level1">
+<h1>Lists</h1>
+<p>Lists are the most flexible objects in R. Similar to vectors, lists
+are an ordered set of elements; however, unlike vectors, the elements
+within a list can contain different classes of objects. For example, the
+first element of a list could be a single numeric vector, the second
+could be a character vector, the third could be an entire data.frame,
+and fourth could be another list! Lists are most useful for advanced
+coding or creating your own R functions. For all content covered in this
+module, using vectors will be sufficient.</p>
+<p>To create a list, use the <code>list()</code> function, where each
+argument is a separate element in the list.</p>
+<pre class="r"><code>list(element1,element2,etc)</code></pre>
+<p>Elements of a list can be accessed individually by using indexing. In
+a list, this involves using double square brackets <code>[[...]]</code>
+that contains the number of the element you wish to select.</p>
+<p>So, if you wish to select the third element of a list called
+<code>this_list</code>, you would run the following code:</p>
+<pre class="r"><code>this_list[[3]]</code></pre>
+<p>You could then run any operation or function on this object as if it
+were any ordinary object. For instance, if the third element of the list
+above was a numeric vector, and you wanted to multiply this vector by 3,
+you could use the following code:</p>
+<pre class="r"><code>this_list[[3]] * 3</code></pre>
 </div>
-<div id="weekly-exercises" class="section level1">
-<h1>Weekly Exercises</h1>
-<p>Exercises are available each week and are designed to reinforce
-content. These exercises are split into basic and advance sections. It
-is expected that students can complete the basic sections of each weekly
-exercise, with the advanced sections designed for students who want an
-extra challenge or learn additional functions in R. If you can
-successfully complete these exercises, then you should be able to easily
-complete the marked assessments.</p>
+<div id="indexing-and-vectors" class="section level1">
+<h1>Indexing and Vectors</h1>
+<p>Similar to how elements of a list can be accessed individually by
+using indexing, indexing can also be used to select individual elements
+of a vector. The difference between indexing for lists and vectors,
+however, is that vectors only use single square brackets.</p>
+<p>So, if you wish to select the third element of a vector called
+<code>this_vector</code>, you would run the following code.</p>
+<pre class="r"><code>this_vector[3]</code></pre>
+<p>To select a range of elements, you can use a colon. For instance, the
+code below selects all elements between the third and the ninth
+element.</p>
+<pre class="r"><code>this_vector[3:9]</code></pre>
+<p>You can even use a numeric vector within the indexing. The code below
+selects only the first, third, and fifth elements:</p>
+<pre class="r"><code>this_vector[c(1,3,5)]</code></pre>
+</div>
+<div id="matrices" class="section level1">
+<h1>Matrices</h1>
+<p>Matrices are R objects in which the elements are arranged in a
+two-dimensional rectangular layout, similar to a data.frame. However,
+unlike a data.frame, all elements within a matrix is of the same class.
+Matrices are helpful when you need to store multi-dimensional data, but
+we tend not to use them in psychological research. In almost all cases,
+a data.frame will suit our needs better.</p>
+<p>You can create a matrix from scratch using the <code>matrix()</code>
+function. The first argument is a vector input which will become the
+elements of the matrix. You will also need to specify the number of
+rows, and columns, and whether you want the input to be read in by row
+or by column.</p>
+<p>The following code makes a 2 x 3 matrix that is read in by row.</p>
+<pre class="r"><code>the_matrix &lt;- matrix(c(1,2,3,4,5,6),nrow = 2,ncol = 3,byrow = TRUE)</code></pre>
+<p>You can also convert data.frames to matrices and vice versa using the
+following functions.</p>
+<pre class="r"><code>the_matrix &lt;- matrix(c(1,2,3,4,5,6),nrow = 2,ncol =2,byrow = TRUE)
+
+#Convert to data.frame
+matrix_reloaded &lt;- as.data.frame(the_matrix)
+
+#Convert back to matrix
+matrix_revolutions &lt;- as.matrix(matrix_reloaded)</code></pre>
+</div>
+<div id="indexing-matrices-and-data.frames" class="section level1">
+<h1>Indexing Matrices and Data.frames</h1>
+<p>Similar to lists and vectors, individual elements of matrices and
+data.frames can be accessed via indexing. Indexing is the same for both
+matrices and data.frames. To select an individual element, use the
+square brackets after the name of the matrix/data.frame followed by the
+row number, then a comma, then the column number.</p>
+<p>So to select the element in the 2nd row and the 3rd column from the
+following data.frame, you would use the following code:</p>
+<pre class="r"><code>this.data[2,3]</code></pre>
+<p>Rather than indexing a single element from a data.frame, you can also
+index an entire column. This is a handy shortcut to select all responses
+on a variable in a data.frame. This is done by calling the data.frame
+and variable you want to select, and separating them using the ‘$’
+symbol.</p>
+<p>For example, if you wanted to select the variable <code>var2</code>
+in the data.frame called <code>this.data</code>, you could use the
+following code:</p>
+<pre class="r"><code>this.data$var2</code></pre>
+</div>
+<div id="advanced-exercises" class="section level1">
+<h1>Advanced Exercises</h1>
+<p>If you would like to practice the skills on this page, weekly
+exercise questions on this content are available in the advanced
+exercises for Week 1. You can download the interactive exercises by
+clicking the link below.</p>
 <p><a href = "exercises.html">Click here to download this week’s
 exercises.</a></p>
-</div>
-<div id="before-you-start" class="section level1">
-<h1>Before You Start…</h1>
-<div id="complete-the-survey" class="section level2">
-<h2>Complete The Survey</h2>
-<p>Within these workbooks, we will be analysing real data collected in a
-survey at the beginning of semester. Before beginning the first
-workbook, it is a good idea to complete this survey yourself, as 1) it
-will give you an idea on how the data we are analysing was collected,
-and 2) if no one does the survey, then we won’t have any data to
-analyse!</p>
-<p><a href = "https://stirlingpsych.eu.qualtrics.com/jfe/form/SV_8wTPyPWWH2b6BeK">You
-can access the survey by clicking here.</a></p>
-</div>
-<div id="download-r" class="section level2">
-<h2>Download R</h2>
-<p>R is a free software environment for statistical computing and
-graphics. If you already have R installed on your computer, make sure
-you have the latest version. Otherwise, you can follow the instructions
-below to install R. R can be installed on most computers and laptops,
-but cannot be installed on tablets and some chromebooks.</p>
-<p>Note: Throughout the process of installing R and RStudio, do not
-change directories or roots. Always select the default options. Changing
-options can break links and cause many headaches down the line.</p>
-<ol style="list-style-type: decimal">
-<li><a href = "https://cran.ma.imperial.ac.uk" target = "_blank">Click
-here to go to the R download website (UK)</a></li>
-<li>Select your operating system (Linux, MacOS, or Windows).</li>
-<li>Windows users will want to click the ‘base’ subdirectory after
-selecting Windows, then click the Download R for Windows link. Mac users
-will want to download the most recent .pkg file.</li>
-<li>Select the latest release for your operating system to download to
-your computer.</li>
-<li>Open the downloaded file and follow the instructions.</li>
-</ol>
-</div>
-<div id="windows-users" class="section level2">
-<h2>Windows Users</h2>
-<p>Windows users will also need to download an additional extension
-called Rtools.</p>
-<ol style="list-style-type: decimal">
-<li><a href = https://cran.r-project.org/bin/windows/Rtools/ target = "_blank">Click
-here to go to the Rtools download site.</a></li>
-<li>Select the recommended version of Rtools.</li>
-<li>Open the downloaded install file and follow the instructions.</li>
-</ol>
-</div>
-<div id="download-rstudio" class="section level2">
-<h2>Download RStudio</h2>
-<p>RStudio provides a graphical user interface for R. It is designed to
-make R easier to use. All content from this module will be conducted in
-RStudio.</p>
-<ol style="list-style-type: decimal">
-<li><a href = https://www.rstudio.com/products/rstudio/download/ target = "_blank">Click
-here to go to the RStudio download website.</a></li>
-<li>Select the FREE RStudio Desktop Open Source License option.</li>
-<li>Select the version for your operating system (Linux, MacOS, Windows,
-etc.)</li>
-<li>Open the downloaded file and follow the instructions.</li>
-</ol>
-<p>Note: Downloading both R and RStudio will usually results two
-different icons that can be opened to start R. For all material in this
-course, make sure to open RStudio, and not R.</p>
-<div class="figure">
-<img src="images/RvsRstudio.png" alt="" />
-<p class="caption">Make sure to open RStudio and not R</p>
-</div>
-</div>
-</div>
-<div id="resources" class="section level1">
-<h1>Resources</h1>
-<p>Many online tutorials are available for learning R that can be used
-to compliment the materials here. If you are feeling overwhelmed, or
-just looking for additional content, try some of the following
-courses:</p>
-<ol style="list-style-type: decimal">
-<li><a href="https://swirlstats.com">Swirl</a></li>
-<li><a
-href="https://resources.rstudio.com/webinars/a-gentle-introduction-to-tidy-statistics-in-r">RStudio
-Webinars</a></li>
-<li><a href="http://swcarpentry.github.io/r-novice-gapminder/">R for
-Reproducible Scientific Analysis</a></li>
-<li><a
-href="https://www.computerworld.com/article/2497143/business-intelligence-beginner-s-guide-to-r-introduction.html">ComputerWorld
-Tutorial</a></li>
-<li><a
-href="https://www.datacamp.com/courses/free-introduction-to-r">datacamp</a></li>
-<li><a href="https://www.pluralsight.com/search?q=R">tryR</a></li>
-<li><a
-href="https://www.coursera.org/learn/r-programming">coursera</a></li>
-<li><a
-href="https://www.teamleada.com/courses/r-bootcamp">leada</a></li>
-<li>Google “r tutorials” for more.</li>
-</ol>
-<p>Note: Often there are more than one way to do things in R. During
-this module, I will primarily be teaching R using the tidyverse
-packages, but you may find other ways to achieve the same objective. In
-all cases, you should go with the method that makes the most sense to
-you.</p>
 </div>
 
 

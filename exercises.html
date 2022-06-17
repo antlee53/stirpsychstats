@@ -13,8 +13,8 @@
 
 <title>HPSP131 - Weekly Exercises</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -63,6 +63,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -83,6 +84,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -308,7 +312,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -330,16 +334,16 @@ div.tocify {
   <a href="3plot.html">4. Plot</a>
 </li>
 <li>
-  <a href="4LM1.html">5. LM1</a>
+  <a href="4LM1.html">5. ttest_ANOVA</a>
 </li>
 <li>
-  <a href="5LM2.html">6. LM2</a>
+  <a href="5LM2.html">6. Cor_Reg</a>
 </li>
 <li>
-  <a href="6mod_med2.html">7. Mod_Med</a>
+  <a href="6mod.html">7. Mod</a>
 </li>
 <li>
-  <a href="8sim.html">8. Power</a>
+  <a href="8sim22.html">8. Pwr_Med</a>
 </li>
 <li>
   <a href="9SEM.html">9. SEM</a>
@@ -349,7 +353,40 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="extra_lists.html">Lists, Matrices, and Indexing</a>
+    </li>
+    <li>
+      <a href="extra_joins.html">Joining data.frames</a>
+    </li>
+    <li>
+      <a href="extra_cleaning.html">Cleaning and Data Preparation</a>
+    </li>
+    <li>
+      <a href="extra_chisquare.html">Chi-square Tests</a>
+    </li>
+    <li>
+      <a href="extra_nonparametric.html">Non-parametric Tests</a>
+    </li>
+    <li>
+      <a href="extra_logistic.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="extra_functions.html">Custom Functions</a>
+    </li>
+    <li>
+      <a href="extra_simulations.html">Simulations</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="exercises.html">Exercises</a>
 </li>
       </ul>
@@ -368,24 +405,45 @@ div.tocify {
 
 <div id="weekly-exercises" class="section level2">
 <h2>Weekly Exercises</h2>
-<p>This page contains all the weekly exercises associated with the workbook. These exercises are designed to reinforce content taught each week. These exercises are split into basic and advance sections. It is expected that students can complete the basic sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or want learn additional R functions or statistical concepts not covered in the lecture series. Completing any of these exercises are not mandatory, but it is highly recommended.</p>
-<p>Note: students enrolled in HPSP131 at the University of Stirling have access to an online version via the Canvas page.</p>
+<p>This page contains all the weekly exercises associated with the
+workbook. These exercises are designed to reinforce content taught each
+week. These exercises are split into basic and advance sections. It is
+expected that students can complete the basic sections of each weekly
+exercise, with the advanced sections designed for students who want an
+extra challenge or want learn additional R functions or statistical
+concepts not covered in the lecture series. Completing any of these
+exercises are not mandatory, but it is highly recommended.</p>
+<p>Note: students enrolled in HPSP131 at the University of Stirling have
+access to an online version via the Canvas page.</p>
 </div>
 <div id="download-exercises" class="section level2">
 <h2>Download Exercises</h2>
-<p>Weekly exercises are contained in the zip file below. If the file does not download automatically when clicking the link, you may need to right-click the link and select the “Download” option.</p>
-<a href="files/Weekly_Exercises.zip" download = "Weekly_Exercises.zip">Weekly Exercises</a>
+<p>Weekly exercises are contained in the zip file below. If the file
+does not download automatically when clicking the link, you may need to
+right-click the link and select the “Download” option.</p>
+<a href="exercises/Weekly_Exercises.zip" download = "Weekly_Exercises.zip">Weekly
+Exercises</a>
 <p>
 </div>
 <div id="how-to-load-exercises" class="section level2">
 <h2>How To Load Exercises</h2>
-<p>Download the file associated with the exercise you wish to complete. Save it on your computer and open this file in RStudio. This will open a RMarkdown Script.</p>
-<p>In order to run the script, you will need the following packages. Run the following code in your RStudio console to download them:</p>
-<pre class="r"><code>install.packages(&quot;learnr&quot;)
-install.packages(&quot;shiny&quot;)</code></pre>
-<p>To open the exercise, click the ‘Run Document’ button in the toolbar above the script, as shown below. After a short wait, a separate window should open with the exercises for you to complete.</p>
+<p>Download the file associated with the exercise you wish to complete.
+Save it on your computer and open this file in RStudio. This will open a
+RMarkdown Script.</p>
+<p>In order to run the script, you will need the following packages (not
+all packages are needed for every week, but there is no harm in
+installing them all from the start). Run the following code in your
+RStudio console to download them; you will only need to run this code
+once:</p>
+<pre class="r"><code>install.packages(c(&quot;learnr&quot;,&quot;shiny&quot;,&quot;tidyverse&quot;,&quot;broom&quot;,&quot;lm.beta&quot;,&quot;psych&quot;,&quot;MASS&quot;,&quot;pwr&quot;,&quot;lme4&quot;,&quot;lmerTest&quot;))</code></pre>
+<p>To open the exercise, click the ‘Run Document’ button in the toolbar
+above the script, as shown below. After a short wait, a separate window
+should open with the exercises for you to complete.</p>
 <p><img src="images/exercise1.png" /></p>
-<p>Depending on your operating system, this button may say ‘knit’ instead of ‘Run Document’. If this is the case, copy and paste the code below as the first lines of the script (like in the image above), then click the ‘knit’ button.</p>
+<p>Depending on your operating system, this button may say ‘knit’
+instead of ‘Run Document’. If this is the case, copy and paste the code
+below as the first lines of the script (like in the image above), then
+click the ‘knit’ button.</p>
 <pre class="r"><code>---
 output: learnr::tutorial
 runtime: shiny_prerendered
@@ -393,12 +451,28 @@ runtime: shiny_prerendered
 </div>
 <div id="how-to-complete-exercises" class="section level2">
 <h2>How To Complete Exercises</h2>
-<p>Typically, exercises consist of quiz questions and R exercises that require you to enter code into a box.</p>
-<p>For the quiz questions, you will either need to select the correct answer, or select all true statements.</p>
-<p>For questions that requires code, you will be presented with a box that acts like an RScript, such as below:</p>
+<p>Typically, exercises consist of quiz questions and R exercises that
+require you to enter code into a box.</p>
+<p>For the quiz questions, you will either need to select the correct
+answer, or select all true statements.</p>
+<p>For questions that requires code, you will be presented with a box
+that acts like an RScript, such as below:</p>
 <p><img src="images/Exercise2.png" /></p>
-<p>Usually, code boxes come with buttons along the top. The ‘Start Over’ button allows you to restart the question. If you are struggling to come up with an answer, you can click the ‘Hints’ button. Typically, there are two helpful hints, with the third “hint” being a possible solution. The ‘Run Code’ button will execute the code in the box, as if you were executing the code in the console.</p>
-<p>The ‘Submit Answer’ button will run a check of your code; this check will identify common mistakes and return (sometimes) helpful feedback. If the code passes all checks, it will be returned as green. For more complicated code, or questions with more than one way to reach the solution, the check may return as green but still contain errors, so make sure you use your own judgement as well. If you believe your code is correct, but the check is still returning an error, please let your lecturer know via email: <a href="mailto:anthony.lee@stir.ac.uk" class="email">anthony.lee@stir.ac.uk</a>.</p>
+<p>Usually, code boxes come with buttons along the top. The ‘Start Over’
+button allows you to restart the question. If you are struggling to come
+up with an answer, you can click the ‘Hints’ button. Typically, there
+are two helpful hints, with the third “hint” being a possible solution.
+The ‘Run Code’ button will execute the code in the box, as if you were
+executing the code in the console.</p>
+<p>The ‘Submit Answer’ button will run a check of your code; this check
+will identify common mistakes and return (sometimes) helpful feedback.
+If the code passes all checks, it will be returned as green. For more
+complicated code, or questions with more than one way to reach the
+solution, the check may return as green but still contain errors, so
+make sure you use your own judgement as well. If you believe your code
+is correct, but the check is still returning an error, please let your
+lecturer know via email: <a href="mailto:anthony.lee@stir.ac.uk"
+class="email">anthony.lee@stir.ac.uk</a>.</p>
 </div>
 
 

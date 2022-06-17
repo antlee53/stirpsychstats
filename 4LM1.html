@@ -13,8 +13,8 @@
 
 <title>HPSP131 - Workbook 5 - The General Linear Model: t-tests and ANOVA</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -63,6 +63,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -83,6 +84,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -308,7 +312,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -330,16 +334,16 @@ div.tocify {
   <a href="3plot.html">4. Plot</a>
 </li>
 <li>
-  <a href="4LM1.html">5. LM1</a>
+  <a href="4LM1.html">5. ttest_ANOVA</a>
 </li>
 <li>
-  <a href="5LM2.html">6. LM2</a>
+  <a href="5LM2.html">6. Cor_Reg</a>
 </li>
 <li>
-  <a href="6mod_med2.html">7. Mod_Med</a>
+  <a href="6mod.html">7. Mod</a>
 </li>
 <li>
-  <a href="8sim.html">8. Power</a>
+  <a href="8sim22.html">8. Pwr_Med</a>
 </li>
 <li>
   <a href="9SEM.html">9. SEM</a>
@@ -349,7 +353,40 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="extra_lists.html">Lists, Matrices, and Indexing</a>
+    </li>
+    <li>
+      <a href="extra_joins.html">Joining data.frames</a>
+    </li>
+    <li>
+      <a href="extra_cleaning.html">Cleaning and Data Preparation</a>
+    </li>
+    <li>
+      <a href="extra_chisquare.html">Chi-square Tests</a>
+    </li>
+    <li>
+      <a href="extra_nonparametric.html">Non-parametric Tests</a>
+    </li>
+    <li>
+      <a href="extra_logistic.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="extra_functions.html">Custom Functions</a>
+    </li>
+    <li>
+      <a href="extra_simulations.html">Simulations</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="exercises.html">Exercises</a>
 </li>
       </ul>
@@ -361,18 +398,22 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Workbook 5 - The General Linear Model: t-tests and ANOVA</h1>
+<h1 class="title toc-ignore">HPSP131 - Workbook 5 - The General Linear
+Model: t-tests and ANOVA</h1>
 
 </div>
 
 
 <div id="objectives" class="section level1">
 <h1>Objectives</h1>
-<p>The aim of this week is to introduce the General Linear Model (GLM) in R and provide a practical guide for analysing data with a categorical IV and and continuous DV. By the end of this workbook, you should be able to:</p>
+<p>The aim of this week is to introduce the General Linear Model (GLM)
+in R and provide a practical guide for analysing data with a categorical
+IV and and continuous DV. By the end of this workbook, you should be
+able to:</p>
 <ol style="list-style-type: decimal">
-<li>Perform an idependent sample t-test in R.</li>
+<li>Perform an independent-samples t-test in R.</li>
 <li>Perform a paired-samples t-test in R.</li>
-<li>Perform an ANOVA in R.</li>
+<li>Perform a one-way ANOVA in R.</li>
 <li>Understand tidyverse functions for summarising data:</li>
 </ol>
 <ul>
@@ -380,7 +421,8 @@ div.tocify {
 <li><code>summarise()</code></li>
 </ul>
 <ol start="5" style="list-style-type: decimal">
-<li>Plot relationship between data with a categorical IV and continuous DV, including:</li>
+<li>Plot relationship between data with a categorical IV and continuous
+DV, including:</li>
 </ol>
 <ul>
 <li>box plot</li>
@@ -389,19 +431,28 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2022.csv download>Click here to
+download the data used in these workbooks.</a> (You may need to
+right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
 </div>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <div id="before-we-begin" class="section level2">
 <h2>Before we begin…</h2>
-<p>These are the packages we will be using in this workbook. Make sure you install them using <code>install.packages()</code> if you have not used them before.</p>
+<p>These are the packages we will be using in this workbook. If you have
+been following along with the content each week, this package should
+already be installed on your computer. Otherwise, make sure you install
+them using <code>install.packages()</code> if you have not used them
+before.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<p>Also, in these workbooks, whenever we analyse data, we will roughly be following this procedure:</p>
+<p>Also, something to keep in mind, throughout the next few
+demonstrations, whenever we analyse data, we will roughly be following
+this procedure:</p>
 <ol style="list-style-type: decimal">
 <li>Prepare the data for analysis.</li>
 <li>Run the statistical test.</li>
@@ -411,65 +462,112 @@ div.tocify {
 </div>
 <div id="the-general-linear-model-in-r" class="section level2">
 <h2>The General Linear Model in R</h2>
-<p>R has built in functions that performs all the statistical tests we will be covering in this course. Whenever we run an analysis in R (whether it is a t-test, ANOVA, correlation, regression, etc.), generally, we need to provide the function with two things:</p>
+<p>R has built in functions that performs all the statistical tests we
+will be covering this week. Whenever we run an analysis in R (whether it
+is a t-test, ANOVA, correlation, regression, etc.), generally, we need
+to provide the function with two things:</p>
 <ol style="list-style-type: decimal">
 <li>The formula we wish to test (more on this below).</li>
 <li>The data.frame that holds the data.</li>
 </ol>
 <p>All functions take the following template:</p>
 <p><code>function_name(formula,data)</code></p>
-<p>In the next few weeks, we will be covering examples of different analyses. In almost all cases, the function to conduct these analyses follows this template.</p>
+<p>In the next few weeks, we will be covering examples of different
+analyses. In almost all cases, the function to conduct these analyses
+follows this template:</p>
 <div id="formulas" class="section level3">
 <h3>Formulas</h3>
-<p>Whenever we conduct an analysis in R, we need to write the formula for the linear model. In general, this takes the following form:</p>
+<p>Whenever we conduct an analysis in R, we need to write the formula
+for the linear model. In general, this takes the following form:</p>
 <p><code>dependent_variable ~ independent_variable1 + independent_variable2 + ...</code></p>
-<p>The variable on the left of the <code>~</code> symbol is the dependent variable you are trying to predict, while variables on the right are your independent variables. The variable names are the same as the column names in your data.frame. Each independent variable in your model (if there is more than one) is separated by the <code>+</code> symbol.</p>
+<p>The variable on the left of the <code>~</code> symbol is the
+dependent variable you are trying to predict, while variables on the
+right are your independent variables. The variable names are the same as
+the column names in your data.frame. Each independent variable in your
+model (if there is more than one) is separated by the <code>+</code>
+symbol.</p>
 </div>
 </div>
 <div id="independent-samples-t-test" class="section level2">
 <h2>Independent-samples t-test</h2>
-<p>As covered in the lecture series, an independent samples t-test is used to assess the relationship between a categorical IV (with two levels that is between-subjects) and a continuous DV. In this example, we test whether people who self-identify as a ‘cat-person’ are more introverted than those who self-identify as a ‘dog-person’. This is an ‘independent-samples’ t-test because participants in one group are different to participants in the other group.</p>
+<p>As covered in the lecture series, an independent samples t-test is
+used to assess the relationship between a categorical IV (with two
+levels that is between-subjects) and a continuous DV. In this example,
+we test whether people who self-identify as a ‘cat-person’ are more
+introverted than those who self-identify as a ‘dog-person’. This is an
+‘independent-samples’ t-test because participants in one group are
+different to participants in the other group.</p>
 <div id="prepare-the-data-for-analysis." class="section level3">
 <h3>1. Prepare the data for analysis.</h3>
-<p>Click <a href="http://www.jamescmccroskey.com/measures/introversion.htm">here</a> for details on the Introversion Scale. To keep things simple, we have only used 5 items from this scale. Note: as specified in the link, low scores on this scale indicate higher levels of introversion. Therefore, to be consistent with the name, we will reverse the scale. Also note: sometimes items need to be reversed - we don’t need to do this for our introversion scale, but I have left the code in (commented out) that would reverse score an Item 1 - to do this, we use the <code>recode()</code> function within the <code>mutate()</code> function.</p>
+<p>Click <a
+href="http://www.jamescmccroskey.com/measures/introversion.htm">here</a>
+for details on the Introversion Scale. To keep things simple, we have
+only used 5 items from this scale. Note: as specified in the link, low
+scores on this scale indicate higher levels of introversion. Therefore,
+to be consistent with the name of the measure, scores have been reversed
+in the dataset (i.e., high scores corresponds with high introversion).
+Also note: sometimes you will need to reverse code the items yourself,
+while we don’t have to do this for this data, I have left the code in
+(commented out) that would reverse score an Item 1 - to do this, we use
+the <code>recode()</code> function within the <code>mutate()</code>
+function.</p>
 <pre class="r"><code>data1.clean &lt;- data %&gt;%
   filter(cat.dog != &quot;both&quot;) %&gt;%
   filter(cat.dog != &quot;neither&quot;) %&gt;%
   filter(cat.dog != &quot;&quot;) %&gt;%
   mutate( #introversion1R = recode(introversion1,`1` = 5,`2` = 4,`3`=3,`4` = 2,`5` = 1),
-          introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10,
-          introvert = 31 - introvert) %&gt;%
+          introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10) %&gt;%
   select(cat.dog,introvert)</code></pre>
-<p>In the code above, we have removed participants that did not specify identify as either a “dog-person” or “cat-person”. We have also used the <code>mutate()</code> function to calculate an overall introversion score. Within that <code>mutate()</code> function, we reversed the scale by subtracting the total score from 31 (the max on the scale plus one). Finally, we have selected only the variables we need for our analysis - this step is not strictly necessary, but can help you organise your data.</p>
+<p>In the code above, we have removed participants that did not specify
+identify as either a “dog-person” or “cat-person”. We have also used the
+<code>mutate()</code> function to calculate an overall introversion
+score. We have also only selected the variables we need for our analysis
+- this step is not strictly necessary, but can help you organise your
+data.</p>
 </div>
 <div id="run-the-statistical-test." class="section level3">
 <h3>2. Run the statistical test.</h3>
-<p>To run the t.test, we use the function <code>t.test()</code>. As mentioned above, the first argument is the formula. In this analysis, the DV is called <code>introvert</code> and the IV is called <code>cat.dog</code>, so the formula is <code>introvert ~ cat.dog</code>. The second argument or the <code>t.test()</code> function is the cleaned data.frame, which we’ve called <code>data1.clean</code>.</p>
+<p>To run the t-test, we use the function <code>t.test()</code>. As
+mentioned above, the first argument is the formula. In this analysis,
+the DV is called <code>introvert</code> and the IV is called
+<code>cat.dog</code>, so the formula is
+<code>introvert ~ cat.dog</code>. The second argument or the
+<code>t.test()</code> function is the cleaned data.frame, which we’ve
+called <code>data1.clean</code>.</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data1.clean)</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 2.2547, df = 20.896, p-value = 0.03501
+## t = 0.042518, df = 80.841, p-value = 0.9662
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  0.2276751 5.6589646
+##  -1.258169  1.313114
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          16.15385          13.21053</code></pre>
-<p>The output from the statistical test gives you a few bits of information, but there are a couple that are particularly important:</p>
+##          14.88462          14.85714</code></pre>
+<p>The output from the statistical test gives you a lot of information,
+but there are a couple bits that are particularly important:</p>
 <ul>
-<li>The t-statistic - this is the value for the test statistic (above this equals 2.25)</li>
-<li>The degrees of freedom (above this equals 20.9)</li>
-<li>The p-value - this tells you whether the test is significant or not (above this equals 0.035)</li>
+<li>The t-statistic - this is the value for the test statistic (above
+this equals 0.04)</li>
+<li>The degrees of freedom (above this equals 80.84)</li>
+<li>The p-value - this tells you whether the test is significant or not
+(above this equals 0.966)</li>
 </ul>
-<p>Can you see where each of these values come from in the output above?</p>
+<p>Can you see where each of these values come from in the output
+above?</p>
 </div>
 <div id="visualise-the-data." class="section level3">
 <h3>3. Visualise the data.</h3>
 <div id="box-plot" class="section level4">
 <h4>Box Plot</h4>
-<p>Box plots are good for representing the range and quantiles of your data. To create a box plot, use <code>geom_boxplot()</code>. Make sure to set the correct variables on the x- and y-axes (<code>cat.dog</code> and <code>introvert</code> respectively). We also map the ‘fill’ aesthetic to the <code>cat.dog</code> variable so that the colours are different.</p>
+<p>Box plots are good for representing the range and quantiles of your
+data. To create a box plot, use <code>geom_boxplot()</code>. Make sure
+to set the correct variables on the x- and y-axes (<code>cat.dog</code>
+and <code>introvert</code> respectively). We also map the ‘fill’
+aesthetic to the <code>cat.dog</code> variable so that the colours are
+different.</p>
 <pre class="r"><code>ggplot(data1.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
   geom_boxplot() +
   theme_classic()</code></pre>
@@ -477,7 +575,13 @@ div.tocify {
 </div>
 <div id="violin-plot" class="section level4">
 <h4>Violin Plot</h4>
-<p>Violin plots are good for representing the distributions of scores on the DV between groups, and can be created using <code>geom_violin()</code>. All aesthetics are identical to the box plot above. If you want to includes visualisations of each individual data point, you can use <code>geom_jitter()</code>. You can also visualise the mean and standard error using the <code>stat_summary()</code> function.</p>
+<p>Violin plots are good for representing the distributions of scores on
+the DV between groups, and can be created using
+<code>geom_violin()</code>. All aesthetics are identical to the box plot
+above. If you want to includes visualisations of each individual data
+point, you can use <code>geom_jitter()</code>. You can also visualise
+the mean and standard error using the <code>stat_summary()</code>
+function.</p>
 <pre class="r"><code>ggplot(data1.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
   geom_violin() +
   stat_summary() +
@@ -488,15 +592,26 @@ div.tocify {
 </div>
 <div id="write-up-analysis." class="section level3">
 <h3>4. Write-up analysis.</h3>
-<p>In order to report a t-test in APA format, we need the following information:</p>
+<p>In order to report a t-test in APA format, we need the following
+information:</p>
 <ul>
-<li>The t-statistic and degrees of freedom (df) for the statistical test.</li>
+<li>The t-statistic and degrees of freedom (df) for the statistical
+test.</li>
 <li>the p-value from the statistical test.</li>
 <li>The mean on the DV for both groups.</li>
 <li>The standard deviations on the DV for both groups.</li>
 </ul>
-<p>The first three items can be obtained from the output of <code>t.test()</code> above. However, to get the SDs of the two groups, we need to cover a few more tidyverse functions.</p>
-<p>As covered in Workbook 2, <code>summarise()</code> can be used to get descriptive statistics by using functions like <code>mean()</code> and <code>sd()</code> to get the mean and standard deviation of a variable respectively. However, in order to calculate these statistics separately for different groups, we need to use the <code>group_by()</code> function. <code>group_by()</code> will group data based on a column, and perform all subsequent tidyverse functions separately for each group until you use the <code>ungroup()</code> function.</p>
+<p>The first three items can be obtained from the output of
+<code>t.test()</code> above. However, to get the SDs of the two groups,
+we need to cover a few more tidyverse functions.</p>
+<p>As covered in Workbook 2, <code>summarise()</code> can be used to get
+descriptive statistics by using functions like <code>mean()</code> and
+<code>sd()</code> to get the mean and standard deviation of a variable
+respectively. However, in order to calculate these statistics separately
+for different groups, we need to use the <code>group_by()</code>
+function. <code>group_by()</code> will group data based on a column, and
+perform all subsequent tidyverse functions separately for each group
+until you use the <code>ungroup()</code> function.</p>
 <pre class="r"><code>data1.summary &lt;- data1.clean %&gt;%
   group_by(cat.dog) %&gt;%
   summarise(introvert_mean = mean(introvert,na.rm = TRUE),
@@ -506,20 +621,37 @@ data1.summary</code></pre>
 <pre><code>## # A tibble: 2 × 3
 ##   cat.dog introvert_mean introvert_sd
 ##   &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;
-## 1 cat               16.2         4.06
-## 2 dog               13.2         4.07</code></pre>
-<p>Once we have all the required information, we can write-up! A few things to note about APA formatting:</p>
+## 1 cat               14.9         2.83
+## 2 dog               14.9         3.32</code></pre>
+<p>Once we have all the required information, we can write-up! A few
+things to note about APA formatting:</p>
 <ul>
-<li>All numerical values are rounded to 2 decimal points, except p-values which are rounded to 3 decimal points.</li>
-<li>All letters indicating stats (e.g., M, SD, t, p) should be italicised.</li>
+<li>All numerical values are rounded to 2 decimal points, except
+p-values which are rounded to 3 decimal points.</li>
+<li>All letters indicating stats (e.g., M, SD, t, p) should be
+italicised.</li>
 </ul>
 <blockquote>
-<p>An independent-samples t-test found that there was a significant difference on introversion between cat-people (<em>M</em> = 16.15, <em>SD</em> = 4.06) and dog-people (<em>M</em> = 13.21, <em>SD</em> = 4.07), <em>t</em>(20.9) = 2.25, <em>p</em> = 0.035.</p>
+<p>An independent-samples t-test found that there was no significant
+difference on introversion between cat-people (<em>M</em> = 14.88,
+<em>SD</em> = 2.83) and dog-people (<em>M</em> = 14.86, <em>SD</em> =
+3.32), <em>t</em>(80.84) = 0.04, <em>p</em> = 0.966.</p>
 </blockquote>
 <div id="bar-graphs" class="section level4">
 <h4>Bar Graphs</h4>
-<p>A common way of reporting data from a t-test is a bar graph. Unfortunately, this is a very uninformative way of presenting data (it gives no representation for the spread/variability in the data). We provide the code here so we you can re-create a bar graph if needed, and know how to read one if you see one in a paper, but then we will never speak of this evil again. If you need to plot data with a categorical IV and continuous DV, aim to use a box plot, or better yet a violin plot.</p>
-<p>In a bar graph, the height of the bars represent the mean for each group. If you’re lucky, you may get error bars, which usually represents the standard error. In the example below, the error bars represents the standard error of the mean for each group on the introversion scale. Note that we have to calculate the standard error ourselves.</p>
+<p>A common way of reporting data from a t-test is a bar graph.
+Unfortunately, this is a very uninformative way of presenting data (it
+gives no representation for the spread/variability in the data). We
+provide the code here so we you can re-create a bar graph if needed, and
+know how to read one if you see one in a paper, but then we will never
+speak of this evil again. If you need to plot data with a categorical IV
+and continuous DV, aim to use a box plot, or better yet a violin
+plot.</p>
+<p>In a bar graph, the height of the bars represent the mean for each
+group. If you’re lucky, you may get error bars, which usually represents
+the standard error. In the example below, the error bars represents the
+standard error of the mean for each group on the introversion scale.
+Note that we have to calculate the standard error ourselves.</p>
 <pre class="r"><code>data1.summary &lt;- data1.clean %&gt;%
   group_by(cat.dog) %&gt;%
   summarise(introvert_mean = mean(introvert,na.rm = TRUE),
@@ -534,111 +666,133 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 </div>
 </div>
 </div>
-<div id="one-way-between-subjects-anova-analysis-of-variance" class="section level2">
+<div id="one-way-between-subjects-anova-analysis-of-variance"
+class="section level2">
 <h2>One-way Between-Subjects ANOVA (Analysis of Variance)</h2>
-<p>The ANOVA is used when you have a continuous DV and a categorical IV with more than two groups. Let’s revisit the hypothesis that cat-people are more introverted than dog-people. What if we did not exclude participants that reported being ‘both’ or ‘neither’. We would then have four groups in the IV. Note: in the lecture/demonstration video, I removed participants who reported ‘neither’; however, I have left them in here for people who are interested.</p>
+<p>The one-way ANOVA is used when you have a continuous DV and a
+categorical IV with more than two groups. Let’s revisit the hypothesis
+that cat-people are more introverted than dog-people, but what if we did
+not exclude participants that reported being ‘both’ or ‘neither’? We
+would then have four groups in the IV; therefore, a one-way ANOVA is the
+appropriate statistical test.</p>
 <div id="prepare-the-data-for-analysis.-1" class="section level3">
 <h3>1. Prepare the data for analysis.</h3>
-<p>The code below is identical to the code above, except we do not exclude participants who reported “both” or “neither” (these commands have been commented out below).</p>
+<p>The code below is identical to the code above, except we do not
+exclude participants who reported “both” or “neither” (these commands
+have been commented out below).</p>
 <pre class="r"><code>data3.clean &lt;- data %&gt;%
 #  filter(cat.dog != &quot;both&quot;) %&gt;%
 #  filter(cat.dog != &quot;neither&quot;) %&gt;%
    filter(cat.dog != &quot;&quot;) %&gt;%
-  mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10,
-          introvert = 31 - introvert ) %&gt;%
+  mutate(introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10) %&gt;%
   select(cat.dog,introvert)</code></pre>
 </div>
 <div id="run-the-statistical-test.-1" class="section level3">
 <h3>2. Run the statistical test.</h3>
-<p>We run the ANOVA using the <code>aov()</code> function. We can then pipe it to the <code>summary()</code> function to get interpretable output. Remember to load the broom package to use the <code>summary()</code> function.</p>
+<p>We run the ANOVA using the <code>aov()</code> function. We can then
+pipe it to the <code>summary()</code> function to get interpretable
+output.</p>
 <pre class="r"><code>aov(introvert ~ cat.dog,data = data3.clean) %&gt;%
   summary()</code></pre>
-<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)  
-## cat.dog      3  106.2   35.41   2.886 0.0404 *
-## Residuals   84 1030.7   12.27                 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>The table above tells us whether there is a significant difference between any of the groups, but it does not tell us which groups are significantly different. In order to do this, we need to do follow-up t-tests. You only need to conduct follow up comparisons if the ANOVA is significant.</p>
-<p>In the code below, we run a t.test similar to what we did above. However, when calling the data, we use the filter function to only select participants who are in one of two groups. The <code>|</code> symbol means ‘or’, so below, we are only analysing the data of participants who are in the dog ‘or’ cat group.</p>
+<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
+## cat.dog       3   38.3   12.75    1.34  0.265
+## Residuals   116 1104.3    9.52</code></pre>
+<p>The table above tells us whether there is a significant difference
+between any of the groups, but it does not tell us which groups are
+significantly different. In order to do this, we need to do follow-up
+t-tests. You only need to conduct follow up comparisons if the ANOVA is
+significant. Even though we do not find any significant differences
+above, we will go through the process anyway from demonstrative
+purposes.</p>
+<p>In the code below, we run a t.test similar to what we did above.
+However, when calling the data, we use the filter function to only
+select participants who are in one of two groups. The <code>|</code>
+symbol means ‘or’, so below, we are only analysing the data of
+participants who are in the dog ‘or’ cat group.</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;cat&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 2.2547, df = 20.896, p-value = 0.03501
+## t = 0.042518, df = 80.841, p-value = 0.9662
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  0.2276751 5.6589646
+##  -1.258169  1.313114
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          16.15385          13.21053</code></pre>
+##          14.88462          14.85714</code></pre>
 <p>Now, we are only including participants in the dog or both group:</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;both&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 0.2043, df = 62.576, p-value = 0.8388
+## t = 0.80564, df = 23.745, p-value = 0.4284
 ## alternative hypothesis: true difference in means between group both and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -1.413134  1.734938
+##  -1.228275  2.799704
 ## sample estimates:
 ## mean in group both  mean in group dog 
-##           13.37143           13.21053</code></pre>
-<p>We continue to repeat this process until we have tested all possible linear combinations:</p>
+##           15.64286           14.85714</code></pre>
+<p>We continue to repeat this process until we have tested all possible
+linear combinations:</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -3.9689, df = 6.9741, p-value = 0.00544
+## t = -1.6896, df = 18.095, p-value = 0.1083
 ## alternative hypothesis: true difference in means between group dog and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  -5.250771 -1.328176
+##  -4.0587132  0.4396656
 ## sample estimates:
 ##     mean in group dog mean in group neither 
-##              13.21053              16.50000</code></pre>
+##              14.85714              16.66667</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;cat&quot; | cat.dog == &quot;both&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -2.3102, df = 15.608, p-value = 0.03491
+## t = 0.82616, df = 19.24, p-value = 0.4188
 ## alternative hypothesis: true difference in means between group both and group cat is not equal to 0
 ## 95 percent confidence interval:
-##  -5.3408675 -0.2239677
+##  -1.161084  2.677567
 ## sample estimates:
 ## mean in group both  mean in group cat 
-##           13.37143           16.15385</code></pre>
+##           15.64286           14.88462</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;cat&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -0.28102, df = 11.726, p-value = 0.7836
+## t = -1.749, df = 15.078, p-value = 0.1006
 ## alternative hypothesis: true difference in means between group cat and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  -3.036933  2.344625
+##  -3.9528287  0.3887261
 ## sample estimates:
 ##     mean in group cat mean in group neither 
-##              16.15385              16.50000</code></pre>
+##              14.88462              16.66667</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;both&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -4.7526, df = 2.9577, p-value = 0.01825
+## t = -0.81661, df = 22.999, p-value = 0.4225
 ## alternative hypothesis: true difference in means between group both and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  -5.240569 -1.016573
+##  -3.617348  1.569729
 ## sample estimates:
 ##    mean in group both mean in group neither 
-##              13.37143              16.50000</code></pre>
-<p>Remember, in your interpretation to adjust the significance level (alpha) to account for family-wise error rate. Since we conducted six comparisons, the significance level should be reduced to 0.008 (that is, .05 divided by 6).</p>
+##              15.64286              16.66667</code></pre>
+<p>Remember, in your interpretation to adjust the significance level
+(alpha) to account for family-wise error rate. Since we conducted six
+comparisons, the significance level should be reduced to 0.008 (that is,
+.05 divided by 6).</p>
 </div>
 <div id="visualise-the-data.-1" class="section level3">
 <h3>3. Visualise the Data.</h3>
-<p>Similar to the independent-samples t-test, we can use a violin plot to visualise the distributions for each group.</p>
+<p>Similar to the independent-samples t-test, we can use a violin plot
+to visualise the distributions for each group.</p>
 <pre class="r"><code>ggplot(data3.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
   geom_violin() +
   stat_summary() +
@@ -648,19 +802,24 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 </div>
 <div id="write-up-analysis.-1" class="section level3">
 <h3>4. Write-up analysis.</h3>
-<p>In order to report a one-way ANOVA in APA format, we need the following information:</p>
+<p>In order to report a one-way ANOVA in APA format, we need the
+following information:</p>
 <ul>
 <li>The F-statistic for the statistical test.</li>
 <li>The Group and Residual degrees-of-freedom.</li>
 <li>the p-value from the statistical test.</li>
 </ul>
-<p>If the ANOVA is significant, then you need to also include the post-hoc comparisons. For this, you need the following information (essentially the same as if you were writing up a t-test):</p>
+<p>If the ANOVA is significant, then you need to also include the
+post-hoc comparisons. For this, you need the following information
+(essentially the same as if you were writing up a t-test):</p>
 <ul>
 <li>The mean on the DV for all groups.</li>
 <li>The standard deviations on the DV for both groups.</li>
 <li>The test-statistics and p-values from the comparisons.</li>
 </ul>
-<p>The code below will calculate the mean and standard deviation on the dependent variable for all groups. It is identical to the code that does this for the t-test.</p>
+<p>The code below will calculate the mean and standard deviation on the
+dependent variable for all groups. It is identical to the code that does
+this for the t-test.</p>
 <pre class="r"><code>data3.clean %&gt;%
   group_by(cat.dog) %&gt;%
   summarise(dv_mean = mean(introvert,na.rm = TRUE),
@@ -668,63 +827,105 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 <pre><code>## # A tibble: 4 × 3
 ##   cat.dog dv_mean dv_sd
 ##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
-## 1 both       13.4 2.53 
-## 2 cat        16.2 4.06 
-## 3 dog        13.2 4.07 
-## 4 neither    16.5 0.707</code></pre>
+## 1 both       15.6  3.10
+## 2 cat        14.9  2.83
+## 3 dog        14.9  3.32
+## 4 neither    16.7  3.26</code></pre>
 <p>Once you have all this information, the write-up becomes:</p>
 <blockquote>
-<p>A one-way between subjects ANOVA found a significant difference between groups on introversion, <em>F</em>(3, 84) = 2.89, <em>p</em> = 0.04. However, pairwise comparisons (with a Bonferroni correction to control for family-wise error) did not find any significant differences between the groups.</p>
+<p>A one-way between subjects ANOVA found no significant difference
+between groups on introversion, <em>F</em>(3, 116) = 1.34, <em>p</em> =
+0.265.</p>
 </blockquote>
 </div>
 </div>
 <div id="paired-samples-t-test" class="section level2">
-<h2>Paired Samples t-test</h2>
-<p>As discussed in the lecture, a paired samples t-test is like an independent samples t-test, except rather than assess two separate groups of participants, the paired samples t-test is used when data is collected from the same participant in two separate conditions (i.e., a within-subjects design). A common example of this is testing for significant differences in an outcome variable before and after a treatment or intervention.</p>
-<p>In the example below, we test whether intention to drink is influenced by exposure to the <a href="https://www.gov.scot/publications/lower-risk-drinking-guidelines-factsheet/">Scottish Government’s drinking guidelines</a>.</p>
+<h2>Paired-samples t-test</h2>
+<p>As discussed in the lecture, a paired-samples t-test is like an
+independent-samples t-test, except rather than assess two separate
+groups of participants (i.e., a between-subjects design), the paired
+samples t-test is used when data is collected from the same participant
+in two separate conditions (i.e., a within-subjects design). A common
+example of this is testing for significant differences in an outcome
+variable before and after a treatment or intervention.</p>
+<p>In the example below, we test whether intended alcohol consumption is
+influenced by exposure to the <a
+href="https://www.gov.scot/publications/lower-risk-drinking-guidelines-factsheet/">Scottish
+Government’s drinking guidelines</a>.</p>
 <div id="prepare-the-data-for-analysis.-2" class="section level3">
 <h3>1. Prepare the data for analysis.</h3>
-<p>When conducting a statistical test, we follow the same procedure as before. First, we must clean the data. Below, we select the columns we need to run the paired-samples t-test. When running any within-subjects analysis, we also need to re-shape the data using the <code>gather()</code> function so that each observation is on a separate row (rather than each participant). The gather function works by first specifying a column name that distinguishes between observations made by the same participant (i.e., between <code>pre.drink</code> and <code>post.drink</code>), then a variable name the the response (i.e., the number of standard drinks participants report). Then, you specify the variables that you want to reshape.</p>
+<p>When conducting a statistical test, we follow the same procedure as
+before. First, we must clean the data. Below, we select the columns we
+need to run the paired-samples t-test. When running any within-subjects
+analysis, we also need to re-shape the data using the
+<code>gather()</code> function so that each observation is on a separate
+row (rather than each participant). The gather function works by first
+specifying a column name that distinguishes between observations made by
+the same participant (i.e., between <code>pre.drink</code> and
+<code>post.drink</code>), then a variable name the the response (i.e.,
+the number of standard drinks participants report). Then, you specify
+the variables that you want to reshape.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
   filter(!is.na(pre.drink)) %&gt;%
   filter(!is.na(post.drink)) %&gt;%
   select(student.no,pre.drink,post.drink) %&gt;%
   gather(key = &quot;condition&quot;,value = &quot;alcohol&quot;,pre.drink,post.drink) %&gt;%
   mutate(condition = factor(condition,levels = c(&quot;pre.drink&quot;,&quot;post.drink&quot;)))</code></pre>
-<p>Note: The last line above is only used so that the pre-drink and post-drink variables are in the right order when we plot the data below.</p>
+<p>Note: The last line above is only used so that the pre-drink and
+post-drink variables are in the right order when we plot the data
+below.</p>
 </div>
 <div id="run-the-statistical-test.-2" class="section level3">
 <h3>2. Run the statistical test.</h3>
-<p>We use the same function as with the independent-sample t-test to run a paired-samples t-test, the only difference is we must include the argument ‘paired’ to <code>TRUE</code>.</p>
+<p>We use the same function as with the independent-samples t-test to
+run a paired-samples t-test, the only difference is we must include the
+argument ‘paired’ and set it to <code>TRUE</code>.</p>
 <pre class="r"><code>t.test(alcohol ~ condition,data = data2.clean,paired = TRUE)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
 ## data:  alcohol by condition
-## t = -1.7323, df = 66, p-value = 0.08789
-## alternative hypothesis: true difference in means is not equal to 0
+## t = 1.363, df = 119, p-value = 0.1755
+## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -0.83532256  0.05920315
+##  -0.7017978  3.8017978
 ## sample estimates:
-## mean of the differences 
-##              -0.3880597</code></pre>
-<p>Alternatively, if you want to avoid reshaping the data, you can also use the following technique, but note that the arguments supplied here are different to almost all other analyses we will be covering in this module. The first and second arguments are the columns we want to compare. In this example, this is the ‘before’ and ‘after’ column. How we specify this is using the following syntax: <code>data$pre.drink</code>. This is short-hand for specifying the ‘pre.drink’ column in the ‘data’ data.frame. Again, we have to set ‘paired’ to <code>TRUE</code>, but we do not have to supply a data.frame. So the code looks like:</p>
+## mean difference 
+##            1.55</code></pre>
+<p>Alternatively, if you want to avoid reshaping the data, you can also
+use the following technique, but note that the arguments supplied here
+are different to almost all other analyses we will be covering in this
+module. The first and second arguments are the columns we want to
+compare. In this example, this is the ‘before’ and ‘after’ column. How
+we specify this is using the following syntax:
+<code>data$pre.drink</code>. This is short-hand for specifying the
+‘pre.drink’ column in the ‘data’ data.frame. Again, we have to set
+‘paired’ to <code>TRUE</code>; however, we do not have to supply a
+data.frame. So the code looks like:</p>
 <pre class="r"><code>t.test(data$pre.drink,data$post.drink,paired = TRUE)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
 ## data:  data$pre.drink and data$post.drink
-## t = -1.7323, df = 66, p-value = 0.08789
-## alternative hypothesis: true difference in means is not equal to 0
+## t = 1.363, df = 119, p-value = 0.1755
+## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -0.83532256  0.05920315
+##  -0.7017978  3.8017978
 ## sample estimates:
-## mean of the differences 
-##              -0.3880597</code></pre>
+## mean difference 
+##            1.55</code></pre>
 </div>
 <div id="visualise-the-data.-2" class="section level3">
 <h3>3. Visualise the data.</h3>
-<p>We can plot the data using a violin plot, the same way we visualised the data for an independent-samples t-test. However, this does not give an indication of the change in scores within a participant. One way to represent this graphically, is to plot the data point for each participant, and include a line between their scores between the two conditions. We also adjust the opacity of the points and lines using the <code>alpha</code> aesthetic, just so that it isn’t a complete mess. Note that the graphic below is made with the reshaped data.frame <code>data2.clean</code>.</p>
+<p>We can plot the data using a violin plot, the same way we visualised
+the data for an independent-samples t-test. However, this does not give
+an indication of the change in scores within a participant. One way to
+represent this graphically, is to plot the data point for each
+participant, and include a line between their scores across the two
+conditions. We also adjust the opacity of the points and lines using the
+<code>alpha</code> aesthetic, just so that the graph isn’t a complete
+mess. Note that the graphic below is made with the reshaped data.frame
+<code>data2.clean</code>.</p>
 <pre class="r"><code>ggplot(data = data2.clean,aes(x = condition,y = alcohol)) +
   geom_violin(aes(fill = condition)) +
   stat_summary() +
@@ -738,7 +939,9 @@ ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
 </div>
 <div id="write-up-analysis.-2" class="section level3">
 <h3>4. Write-up analysis.</h3>
-<p>Similar to the independent-samples t-test, we require information on the mean and standard deviation for each condition. This code is exactly the same as above.</p>
+<p>Similar to the independent-samples t-test, we require information on
+the mean and standard deviation for each condition. This code is exactly
+the same as above.</p>
 <pre class="r"><code>data2.summary &lt;- data2.clean %&gt;%
   group_by(condition) %&gt;%
   summarise(dv_mean = mean(alcohol),
@@ -748,8 +951,8 @@ data2.summary</code></pre>
 <pre><code>## # A tibble: 2 × 3
 ##   condition  dv_mean dv_sd
 ##   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt;
-## 1 pre.drink     4.87  5.62
-## 2 post.drink    5.25  6.04</code></pre>
+## 1 pre.drink     15.5  9.03
+## 2 post.drink    14.0  8.87</code></pre>
 <p>Or if you have not reshaped the data:</p>
 <pre class="r"><code>data2.summary &lt;- data %&gt;%
   summarise(pre.mean = mean(pre.drink,na.rm = TRUE),
@@ -758,18 +961,25 @@ data2.summary</code></pre>
             pst.sd = sd(post.drink,na.rm = TRUE))
 
 data2.summary</code></pre>
-<pre><code>##   pre.mean   pre.sd pst.mean   pst.sd
-## 1 4.810811 6.254151 4.888889 5.980145</code></pre>
+<pre><code>##   pre.mean  pre.sd pst.mean   pst.sd
+## 1 15.51667 9.03214 13.96667 8.865885</code></pre>
 <blockquote>
-<p>A paired-samples t-test found that there was no significant difference on intended alcohol consumption before (<em>M</em> = 4.81, <em>SD</em> = 6.25) and after (<em>M</em> = 4.89 , <em>SD</em> = 5.98) exposure to the Scottish Government’s anti-drinking campaign ad, <em>t</em>(66) = -1.73, <em>p</em> = 0.088.</p>
+<p>A paired-samples t-test found that there was no significant
+difference on intended alcohol consumption before (<em>M</em> = 15.52,
+<em>SD</em> = 9.03) and after (<em>M</em> = 13.97 , <em>SD</em> = 8.87)
+exposure to the Scottish Government’s anti-drinking campaign ad,
+<em>t</em>(119) = 1.36, <em>p</em> = 0.175.</p>
 </blockquote>
 </div>
 </div>
 </div>
 <div id="exercises-1" class="section level1">
 <h1>Exercises</h1>
-<p>Now that you’ve completed this week’s workbook, why not give this week’s exercises a go? You can download the interactive exercises by clicking the link below.</p>
-<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+<p>Now that you’ve completed this week’s workbook, why not give this
+week’s exercises a go? You can download the interactive exercises by
+clicking the link below.</p>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
 </div>
 
 

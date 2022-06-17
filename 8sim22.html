@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>HPSP131 - Workbook 8 - Power and Mediation</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HPSP131</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1intro.html">1. Intro</a>
+</li>
+<li>
+  <a href="2data.html">2. Data 1</a>
+</li>
+<li>
+  <a href="7GLM.html">3. Data 2</a>
+</li>
+<li>
+  <a href="3plot.html">4. Plot</a>
+</li>
+<li>
+  <a href="4LM1.html">5. ttest_ANOVA</a>
+</li>
+<li>
+  <a href="5LM2.html">6. Cor_Reg</a>
+</li>
+<li>
+  <a href="6mod.html">7. Mod</a>
+</li>
+<li>
+  <a href="8sim22.html">8. Pwr_Med</a>
+</li>
+<li>
+  <a href="9SEM.html">9. SEM</a>
+</li>
+<li>
+  <a href="10mixed.html">10. Mixed</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="extra_lists.html">Lists, Matrices, and Indexing</a>
+    </li>
+    <li>
+      <a href="extra_joins.html">Joining data.frames</a>
+    </li>
+    <li>
+      <a href="extra_cleaning.html">Cleaning and Data Preparation</a>
+    </li>
+    <li>
+      <a href="extra_chisquare.html">Chi-square Tests</a>
+    </li>
+    <li>
+      <a href="extra_nonparametric.html">Non-parametric Tests</a>
+    </li>
+    <li>
+      <a href="extra_logistic.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="extra_functions.html">Custom Functions</a>
+    </li>
+    <li>
+      <a href="extra_simulations.html">Simulations</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="exercises.html">Exercises</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">HPSP131 - Workbook 8 - Power and
+Mediation</h1>
+
+</div>
+
+
+<div id="objectives" class="section level1">
+<h1>Objectives</h1>
+<p>There are two separate aims for this week. We will be covering power
+analyses in R, as well as conducting mediation analyses. By the end of
+this workbook, you should be able to:</p>
+<ol style="list-style-type: decimal">
+<li>Use functions from the <code>pwr</code> package for power analyses
+for standard statistical tests.</li>
+<li>Conduct a mediation analysis, including:</li>
+</ol>
+<ul>
+<li>via regression.</li>
+<li>using the <code>mediate()</code> function from the
+<code>psych</code> package.</li>
+</ul>
+</div>
+<div id="class-data" class="section level1">
+<h1>Class Data</h1>
+<p><a href = files/simulated.data_2022.csv download>Click here to
+download the data used in these workbooks.</a> (You may need to
+right-click and select ‘Save Linked File’ option)</p>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
+</div>
+<div id="content" class="section level1">
+<h1>Content</h1>
+<p>These are the packages we will be using in this workbook. If you’ve
+been following the workbook sequentially, you should be familiar with
+the tidyverse package. The pwr package is used to conduct standard power
+analyses.</p>
+<pre class="r"><code>library(pwr)
+library(tidyverse)</code></pre>
+<div id="pwr-package" class="section level2">
+<h2>pwr Package</h2>
+<p>For most standard analyses, such as an independent-samples t-test,
+the easiest way to conduct power analyses is by using functions in the
+<code>pwr</code> package. Functions from the <code>pwr</code> package
+work by specifying three of four bits of information that influence
+statistical power: the expected effect size, power threshold, and
+significance level (alpha), and the sample size. The function will then
+return whichever of the four parts was not specified. Typically, power
+analyses are used to calculate the sample size required before a study
+is conducted; therefore, this is what we will be focusing on here.</p>
+<p>We will cover four examples: a power analysis for a correlation, an
+independent-samples t-test, a one-way ANOVA, and a multiple
+regression.</p>
+<div id="pwr-and-correlations" class="section level3">
+<h3>pwr and correlations</h3>
+<p>To conduct a power analysis for a correlation, we can use the
+<code>pwr.r.test()</code> function. This function expects three of four
+arguments:</p>
+<ol style="list-style-type: decimal">
+<li>n = Sample Size</li>
+<li>r = Expected Effect size</li>
+<li>sig.level = Significance Level</li>
+<li>power = Power threshold</li>
+</ol>
+<p>As discussed in the lecture, things like the significance level and
+power threshold are already chosen for you. Conventionally, the
+significance level is set to .05, while the power threshold is .80
+(80%). Therefore, you only need to decide the expected effect size to
+calculate the required sample size.</p>
+<p>Recall from the lecture series the following interpretation:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Effect size</th>
+<th>r</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Small</td>
+<td>.10</td>
+</tr>
+<tr class="even">
+<td>Medium</td>
+<td>.30</td>
+</tr>
+<tr class="odd">
+<td>Large</td>
+<td>.50</td>
+</tr>
+</tbody>
+</table>
+<p>Therefore, if we needed to calculate the required sample size for a
+correlation where you expect a medium effect, you could use the
+following code:</p>
+<pre class="r"><code>pwr.r.test(r = .30,sig.level = .05,power = .80)</code></pre>
+<pre><code>## 
+##      approximate correlation power calculation (arctangh transformation) 
+## 
+##               n = 84.07364
+##               r = 0.3
+##       sig.level = 0.05
+##           power = 0.8
+##     alternative = two.sided</code></pre>
+<p>This would indicate that we would require a sample of 85 participants
+(rounded-up) to detect a medium effect. By playing around with the
+expected effect size, we can see how this impacts the required number of
+participants. For instance, if we expect a small effect, we will need a
+much larger sample size:</p>
+<pre class="r"><code>pwr.r.test(r = .10,sig.level = .05,power = .80)</code></pre>
+<pre><code>## 
+##      approximate correlation power calculation (arctangh transformation) 
+## 
+##               n = 781.7516
+##               r = 0.1
+##       sig.level = 0.05
+##           power = 0.8
+##     alternative = two.sided</code></pre>
+</div>
+<div id="pwr-and-t.tests" class="section level3">
+<h3>pwr and t.tests</h3>
+<p>Similarly, we can use <code>pwr.t.test()</code> to conduct a power
+analysis for an independent-samples t-test. However, one thing to note
+is that the expected effect size for this function is a Cohen’s
+d. Therefore, we can use the following conventions:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Effect size</th>
+<th>d</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Small</td>
+<td>.20</td>
+</tr>
+<tr class="even">
+<td>Medium</td>
+<td>.50</td>
+</tr>
+<tr class="odd">
+<td>Large</td>
+<td>.80</td>
+</tr>
+</tbody>
+</table>
+<p>So, if we expect a medium effect, the code would be:</p>
+<pre class="r"><code>pwr.t.test(d = .50,sig.level = .05,power = .80)</code></pre>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 63.76561
+##               d = 0.5
+##       sig.level = 0.05
+##           power = 0.8
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+<p>Note that the expected effect size is the minimum for each group.
+Therefore, you would need a total sample of 128 participants
+(rounded-up).</p>
+</div>
+<div id="pwr-and-anovas" class="section level3">
+<h3>pwr and ANOVAs</h3>
+<p>For a one-way ANOVA, we can use the <code>pwr.anova.test()</code>
+function. This analysis assumes there will be equal numbers in each
+group. Again, this function uses another measure of effect size, Cohen’s
+f, which you can use the following interpretations:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Effect size</th>
+<th>f</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Small</td>
+<td>.10</td>
+</tr>
+<tr class="even">
+<td>Medium</td>
+<td>.25</td>
+</tr>
+<tr class="odd">
+<td>Large</td>
+<td>.40</td>
+</tr>
+</tbody>
+</table>
+<p>This function also requires an additional parameter <code>k</code>,
+which is the number of levels (or groups) in the IV. So, if you were
+conducting a one-way ANOVA with three groups in the IV, and expect a
+medium effect, the code would look like this:</p>
+<pre class="r"><code>pwr.anova.test(k = 3,f = .25,sig.level = .05,power = .80)</code></pre>
+<pre><code>## 
+##      Balanced one-way analysis of variance power calculation 
+## 
+##               k = 3
+##               n = 52.3966
+##               f = 0.25
+##       sig.level = 0.05
+##           power = 0.8
+## 
+## NOTE: n is number in each group</code></pre>
+<p>Again, the value provided for n is for each group, so you would need
+a total of 159 participants (rounded-up).</p>
+</div>
+<div id="pwr-and-multiple-regressions" class="section level3">
+<h3>pwr and multiple regressions</h3>
+<p>For a power analysis for a multiple regression, we use
+<code>pwr.f2.test()</code>. Annoyingly, we again have a different
+measure used for effect size again - f2. You can follow this guide to
+get your estimated effect size (I’ve also added a column with the
+corresponding R-square value):</p>
+<table>
+<thead>
+<tr class="header">
+<th>Effect size</th>
+<th>f2</th>
+<th>R-square</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Small</td>
+<td>.02</td>
+<td>.02</td>
+</tr>
+<tr class="even">
+<td>Medium</td>
+<td>.15</td>
+<td>.13</td>
+</tr>
+<tr class="odd">
+<td>Large</td>
+<td>.35</td>
+<td>.26</td>
+</tr>
+</tbody>
+</table>
+<p>For the <code>pwr.f2.test()</code> function, you need to also specify
+the number of predictors in the model as the argument <code>u</code>.
+Note, if you have an interaction term in your analysis, this counts as
+an additional predictor. As an example, if you were conducting a
+multiple regression with 4 predictors and expect a medium effect, the
+code for the power analysis would look like:</p>
+<pre class="r"><code>pwr.f2.test(u = 4,f2 = .15,sig.level = .05,power = .80)</code></pre>
+<pre><code>## 
+##      Multiple regression power calculation 
+## 
+##               u = 4
+##               v = 79.44992
+##              f2 = 0.15
+##       sig.level = 0.05
+##           power = 0.8</code></pre>
+<p>Therefore, you would need at least 80 participants for this study.
+Note that the power analysis in this instance is for the overall model
+(i.e., for the variance in the outcome variable that is explained by all
+the predictors in the regression).</p>
+</div>
+<div id="power-analyses-via-simulations." class="section level3">
+<h3>Power Analyses via Simulations.</h3>
+<p>Above, we cover functions that allow you to conduct power analyses
+for common statistical techniques used in psychological research.
+However, if you are dealing with a more complicated design/statistical
+test, then these easy-to-use functions become less helpful. One way to
+conduct a power analysis is via simulation.
+<a href = "extra_simulation.html">For more information on this, see this
+extra content page.</a></p>
+</div>
+</div>
+<div id="mediation" class="section level2">
+<h2>Mediation</h2>
+<p>As covered in the lecture series, mediation describes a relationship
+where the influence of one variable on another can be explained through
+a third variable. In the example below, we will test whether the
+relationship between attitudes towards exercise and exercise behaviour
+can be explained through intentions to exercise (i.e., individuals who
+have positive attitudes about exercise increase their intention to
+exercise, which in turn increases exercise behaviour). For more
+information on these scales (and some of the ones we will use later),
+see this paper: <a
+href="https://search.proquest.com/docview/202682863">https://search.proquest.com/docview/202682863</a>.
+Note, we only use the first 5-items on each scale to keep things
+simple.</p>
+<div id="clean-data-for-analysis." class="section level3">
+<h3>1. Clean data for analysis.</h3>
+<p>First, we must calculate the variables that we need for our analysis.
+This process should be fairly familiar by now.</p>
+<pre class="r"><code>data.clean &lt;- data %&gt;%
+  mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5,
+         intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5,
+         behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5) %&gt;%
+  dplyr::select(student.no,attitude,intention,behaviour) %&gt;%
+  filter(!is.na(attitude)) %&gt;%
+  filter(!is.na(intention)) %&gt;%
+  filter(!is.na(behaviour))</code></pre>
+</div>
+<div id="run-statistical-test" class="section level3">
+<h3>2. Run statistical test</h3>
+<p>Remember, mediation is when the effect of one IV could be explained
+through a third variable (mediation). If there is an effect in a model
+without the mediator, but that effect is reduced (or disappears) when
+the mediator is included, there is a chance the mediation is happening.
+In order to check whether our variables meet these conditions, we need
+to conduct a series of linear regressions.</p>
+<div id="model-1" class="section level4">
+<h4>Model 1</h4>
+<p>Here, we test whether there is an association between the predictor
+(attitudes) and the outcome variable (behaviour):</p>
+<pre class="r"><code>lm(behaviour ~ attitude,data = data.clean) %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = behaviour ~ attitude, data = data.clean)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.4637 -2.6804  0.1959  2.7345 12.2172 
+## 
+## Coefficients:
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 14.29876      0.00000    0.39191  36.485   &lt;2e-16 ***
+## attitude    -0.16490     -0.16712    0.08956  -1.841   0.0681 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.208 on 118 degrees of freedom
+## Multiple R-squared:  0.02793,    Adjusted R-squared:  0.01969 
+## F-statistic:  3.39 on 1 and 118 DF,  p-value: 0.0681</code></pre>
+</div>
+<div id="model-2" class="section level4">
+<h4>Model 2</h4>
+<p>Here, we test whether including the mediator (intention) in the model
+changes the relationship between the predictor (attitude) and the
+outcome variable (behaviour):</p>
+<pre class="r"><code>lm(behaviour ~ attitude + intention,data = data.clean) %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = behaviour ~ attitude + intention, data = data.clean)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.4419 -2.6591  0.1502  2.8002 12.2252 
+## 
+## Coefficients:
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 14.29955      0.00000    0.39360  36.331   &lt;2e-16 ***
+## attitude    -0.16519     -0.16741    0.08996  -1.836   0.0689 .  
+## intention   -0.01144     -0.01203    0.08672  -0.132   0.8953    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.226 on 117 degrees of freedom
+## Multiple R-squared:  0.02807,    Adjusted R-squared:  0.01146 
+## F-statistic:  1.69 on 2 and 117 DF,  p-value: 0.1891</code></pre>
+</div>
+<div id="model-3" class="section level4">
+<h4>Model 3</h4>
+<p>Also, in order for there to be a mediation, we must observe a
+relationship between the predictor (attitude) and the mediator
+(intention):</p>
+<pre class="r"><code>lm(intention ~ attitude,data = data.clean) %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = intention ~ attitude, data = data.clean)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -11.0695  -3.1143   0.0456   2.9561   9.9049 
+## 
+## Coefficients:
+##             Estimate Standardized Std. Error t value Pr(&gt;|t|)
+## (Intercept)  0.06950      0.00000    0.41778   0.166    0.868
+## attitude    -0.02558     -0.02465    0.09547  -0.268    0.789
+## 
+## Residual standard error: 4.486 on 118 degrees of freedom
+## Multiple R-squared:  0.0006078,  Adjusted R-squared:  -0.007862 
+## F-statistic: 0.07176 on 1 and 118 DF,  p-value: 0.7893</code></pre>
+</div>
+<div id="mediation-analysis" class="section level4">
+<h4>Mediation Analysis</h4>
+<p>While we may or may not meet the conditions for a mediation above, we
+will continue with the analysis to demonstrate the process of conducting
+a mediation analysis regardless.</p>
+<p>In order to conduct a mediation analysis in R, we will load the
+<code>psych</code> package. If you haven’t installed the
+<code>psych</code> package yet, make sure to do this before loading the
+<code>psych</code> package.</p>
+<pre class="r"><code>library(psych)</code></pre>
+<p>The function that runs the mediation analysis is aptly named
+<code>mediate()</code>. Like all analysis functions, the
+<code>mediate()</code> function accepts a formula and a data.frame, but
+also a couple of options that we will want to change. For the formula,
+the mediate function takes a specific form, where the mediator is put
+inside brackets on the right-hand side of the <code>~</code> symbol:</p>
+<pre class="r"><code>DV ~ IV + (Mediator)</code></pre>
+<p>So for our analysis, the code becomes the following. Note, we also
+want to set the ‘std’ argument to <code>TRUE</code> to ensure we receive
+standardised estimates, and the ‘plot’ argument to <code>FALSE</code> so
+we are only seeing the numeric output (we will see the plot later).</p>
+<pre class="r"><code>model &lt;- mediate(behaviour ~ attitude + (intention),data = data.clean,std = TRUE,plot = FALSE)
+
+model</code></pre>
+<pre><code>## 
+## Mediation/Moderation Analysis 
+## Call: mediate(y = behaviour ~ attitude + (intention), data = data.clean, 
+##     std = TRUE, plot = FALSE)
+## 
+## The DV (Y) was  behaviour . The IV (X) was  attitude . The mediating variable(s) =  intention .
+## 
+## Total effect(c) of  attitude  on  behaviour  =  -0.17   S.E. =  0.09  t  =  -1.84  df=  118   with p =  0.068
+## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  -0.17   S.E. =  0.09  t  =  -1.84  df=  117   with p =  0.069
+## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  0 
+## Mean bootstrapped indirect effect =  0  with standard error =  0.01  Lower CI =  -0.02    Upper CI =  0.02
+## R = 0.17 R2 = 0.03   F = 1.69 on 2 and 117 DF   p-value:  0.173 
+## 
+##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
+<p>Most of the information above is what we have encountered previously
+(e.g., we are given the total and direct effects that could be
+interpretted from the regressions above). The main information we are
+interested in this output is the line on the mean bootstrapped indirect
+effect. A large indirect effect (and consequently a greater drop between
+the total effect and the direct effect) would indicate that mediation is
+occurring. Since we are bootstrapping, we can tell the significance
+through confidence intervals. If the range between the lower CI and the
+upper CI contains zero, then the indirect effect is not significant
+(i.e., a population where the indirect effect is <code>0</code> could
+have produced our data). If this range does not contain zero, then we
+have a significant mediation effect.</p>
+</div>
+</div>
+<div id="plot-data" class="section level3">
+<h3>3. Plot data</h3>
+<div id="path-diagram" class="section level4">
+<h4>Path Diagram</h4>
+<p>For mediation, there’s no good way to plot the raw data that
+visualises the mediation. The most common way to visualise a mediated
+effect is through a path diagram. You can do this directly in the
+<code>mediate()</code> function by setting the ‘plot’ argument to
+<code>TRUE</code> or use the <code>mediate.diagram()</code> like
+below:</p>
+<pre class="r"><code>mediate.diagram(model)</code></pre>
+<p><img src="8sim22_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+</div>
+<div id="write-up-analysis." class="section level3">
+<h3>4. Write-up analysis.</h3>
+<p>There are several things you need to include when writing up a
+mediation analysis. Writing up a mediation analysis includes the
+write-up for each individual models with and without the mediator (Model
+1 and Model 2 above - these numbers are also included in the output for
+the <code>mediate()</code> function), and also the estimated indirect
+effect and associated confidence intervals. Usually, you would want to
+accompany the write-up with a path diagram such as the one above. It
+does not make much sense to write-up the analysis above as we failed to
+meet the criteria for a mediation in the first instance, but if we were
+to do it anyway, it may go something like this:</p>
+<blockquote>
+<p>In the model where attitudes towards exercise predicted variance in
+exercise behaviour, the effect of exercise attitudes was not significant
+(beta = -0.17, p = 0.068). When including intention to exercise into the
+model, the effect of attitudes on behaviour did not change (beta =
+-0.17, p = 0.069). Mediation analysis revealled a non-significant
+indirect effect of intentions to exercise on the association between
+attitudes towards exercise and exercise behaviour (mean bootstrapped
+indirect effect = -0.17, 95% CI = -0.02, 0.02).</p>
+</blockquote>
+<p>Note: While we report the results in text above, it is sometimes also
+easier to report the separate models in a table.</p>
+</div>
+</div>
+</div>
+<div id="exercises-1" class="section level1">
+<h1>Exercises</h1>
+<p>Now that you’ve completed this week’s workbook, why not give this
+week’s exercises a go? You can download the interactive exercises by
+clicking the link below.</p>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

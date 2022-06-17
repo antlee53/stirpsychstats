@@ -11,7 +11,7 @@
 
 
 
-<title>HPSP131 - Quantitative Methods in Psychological Research</title>
+<title>HPSP131 - Logistic Regression</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -398,151 +398,138 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Quantitative Methods in
-Psychological Research</h1>
+<h1 class="title toc-ignore">HPSP131 - Logistic Regression</h1>
 
 </div>
 
 
-<p>Last updated: Fri Jun 17 11:52:29 2022</p>
-<p>This module is designed to teach students the basic skills needed to
-conduct quantitative research in R. This module covers basic data
-skills, data tidying, plotting data, and analysing datasets in R. This
-is not meant to be a comprehensive guide to R (such a thing would be
-almost impossible!). Rather, this module is designed to be a gentle
-introduction to R, cover statistical techniques that are common in
-psychological research, and provide a solid base where you can
-investigate advanced techniques on your own. This website contains
-weekly workbooks designed to reinforce materials presented in lectures
-and demonstrations. Weekly exercises are also provided that are designed
-for you to practice your R skills, and introduce new concepts for
-students looking for an additional challenge.</p>
-<div id="syllabus" class="section level1">
-<h1>Syllabus</h1>
-<p>Each week, we will be tackling the following topics:</p>
-<ol style="list-style-type: decimal">
-<li>Introduction to R.</li>
-<li>Datasets in R.</li>
-<li>Data cleaning and data skills.</li>
-<li>Plotting data using ggplot2.</li>
-<li>t-tests and one-way ANOVAs.</li>
-<li>Correlation and regression.</li>
-<li>Moderation - multiple regression, two-way ANOVAs</li>
-<li>Power analyses and mediation.</li>
-<li>Structural Equation Modelling (Path Analysis)</li>
-<li>Mixed Effects Modelling (Multilevel Modelling)</li>
-</ol>
+<p>This page contains extra R content not covered in the demonstrations
+and could be considered supplementary to the module. This content is
+useful for completing the advanced exercises from Week 6 and focuses on
+conducting logistic regression in R. Logistic regression is typically
+used when the DV is categorical with one or more continuous IV.</p>
+<div id="logistic-regression" class="section level1">
+<h1>Logistic Regression</h1>
+<p>A logistic regression is used when you have a categorical DV and a
+continuous IV. The most simple scenario is when the DV is binary (i.e.,
+only has two categories). The two categories of the DV coded as
+<code>0</code> and <code>1</code>.</p>
+<p>To conduct a logistic regression in R, you can use the
+<code>glm()</code> function. In this instance, ‘glm’ stands for
+Generalised Linear Model, and can be used for many different types of
+analysis. Like most analysis functions, the <code>glm()</code> function
+accepts a formula and a data.frame. We also need to tell the function
+which type of analysis to conduct. This is done via the
+<code>family</code> argument. To conduct a binomial logistic regression,
+we set this argument to “binomial”. Much like with the <code>lm()</code>
+function, to view the results in an interpretable way you must use the
+<code>summary()</code> function.</p>
+<p>Altogether, this becomes:</p>
+<pre class="r"><code>#The DV must be a categorical variable with two levels.
+model &lt;- glm(DV ~ IV,data = data,family = &quot;binomial&quot;)
+summary(model)</code></pre>
+<div id="prepare-data-for-analysis" class="section level3">
+<h3>1. Prepare Data for Analysis</h3>
+<p>Let’s look an example using the class data. Let’s say that you
+predict that people who are more introverted are more likely to play
+videogames than not. A logistic regression is appropriate because you
+have a continuous IV (introversion score) and a categorical DV
+(videogamer vs. non-videogamer). Importantly, the two groups for the
+outcome variable must be coded as <code>0</code> and <code>1</code>. We
+can use the <code>ifelse()</code> function inside a
+<code>mutate()</code> function to achieve this. You can also do this by
+changing the variable class to a factor.</p>
+<p>First, let’s prepare the data by calculating the necessary scores. We
+have also loaded the necessary packages, being
+<code>tidyverse</code>.</p>
+<pre class="r"><code>library(tidyverse)
+
+analysis.data &lt;- data %&gt;%
+  mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10,
+          video.games = ifelse(video.games == &quot;Yes&quot;,1,0)) %&gt;%
+  select(introvert,video.games)</code></pre>
 </div>
-<div id="weekly-exercises" class="section level1">
-<h1>Weekly Exercises</h1>
-<p>Exercises are available each week and are designed to reinforce
-content. These exercises are split into basic and advance sections. It
-is expected that students can complete the basic sections of each weekly
-exercise, with the advanced sections designed for students who want an
-extra challenge or learn additional functions in R. If you can
-successfully complete these exercises, then you should be able to easily
-complete the marked assessments.</p>
+<div id="conduct-the-statistical-test" class="section level3">
+<h3>2. Conduct the Statistical Test</h3>
+<p>Following the example above, we can use the <code>glm()</code>
+function to conduct the logistic regression.</p>
+<pre class="r"><code>model &lt;- glm(video.games ~ introvert,data = analysis.data,family = &quot;binomial&quot;)
+
+summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = video.games ~ introvert, family = &quot;binomial&quot;, data = analysis.data)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4147  -1.1888   0.9831   1.1450   1.3464  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)
+## (Intercept)  1.07465    0.93018   1.155    0.248
+## introvert   -0.06653    0.06015  -1.106    0.269
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 166.22  on 119  degrees of freedom
+## Residual deviance: 164.98  on 118  degrees of freedom
+## AIC: 168.98
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+<div id="write-up-the-results" class="section level3">
+<h3>3. Write-up the Results</h3>
+<p>Much like with a standard regression, you get statistics about
+overall model performance, as well as statistics for each individual
+predictor. Similarly, you are expected to report both for a logistic
+regression. For the statistics for each predictor, however, there is not
+one standard way to report a logistic regression. Some people choose to
+report the unstandardised coefficients, z-statistic, and associated
+p-values as given in the <code>summary()</code> function. Others choose
+to convert these to odds-ratios and report 95% confidence intervals. You
+can use the following code if you want to convert the coefficients to
+odds-ratios.</p>
+<pre class="r"><code>exp(cbind(OR = coef(model), confint(model)))</code></pre>
+<pre><code>##                    OR     2.5 %    97.5 %
+## (Intercept) 2.9289740 0.4827306 19.052101
+## introvert   0.9356368 0.8289282  1.051419</code></pre>
+</div>
+<div id="visualise-the-data" class="section level3">
+<h3>4. Visualise the Data</h3>
+<p>To visualise a logistic regression, we can plot the probabilities. To
+do this, we can use the <code>geom_jitter()</code> and
+<code>geom_smooth()</code> functions, similar to with a standard
+regression.</p>
+<p>How to read the graph below is the line represents the probability of
+being in one of the two groups (0 = non-videogamers, 1 = videogamers)
+for each level of the variable on the x-axis (introversion). If there is
+a strong relationship, then the logistic regression line should have a
+very characteristic “S” shape. If there is no relationship, the logistic
+regression line will look quite straight. Note that since participants
+can only be in one of two groups, all the points will either be at the
+top, or bottom of the y-axis.</p>
+<p>There are a few things to note: 1), I have adjusted the
+<code>height</code>, <code>width</code> and <code>alpha</code>
+aesthetics in the <code>geom_jitter()</code> function so it makes it a
+bit easier to see all the individual points; and 2) we need to adjust
+the <code>method</code> and <code>method.arg</code> arguments in the
+<code>geom_smooth()</code> function to create a logistic regression
+line.</p>
+<pre class="r"><code>ggplot(analysis.data,aes(x = introvert,y = video.games)) +
+  geom_jitter(height = .05,width = 0,alpha = .3) +
+  geom_smooth(method = &quot;glm&quot;,method.args = list(family = &quot;binomial&quot;),se = FALSE) +
+  theme_classic()</code></pre>
+<p><img src="extra_logistic_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+</div>
+<div id="advanced-exercises" class="section level1">
+<h1>Advanced Exercises</h1>
+<p>If you would like to practice the skills on this page, weekly
+exercise questions on this content are available in the advanced
+exercises for Week 6. You can download the interactive exercises by
+clicking the link below.</p>
 <p><a href = "exercises.html">Click here to download this week’s
 exercises.</a></p>
-</div>
-<div id="before-you-start" class="section level1">
-<h1>Before You Start…</h1>
-<div id="complete-the-survey" class="section level2">
-<h2>Complete The Survey</h2>
-<p>Within these workbooks, we will be analysing real data collected in a
-survey at the beginning of semester. Before beginning the first
-workbook, it is a good idea to complete this survey yourself, as 1) it
-will give you an idea on how the data we are analysing was collected,
-and 2) if no one does the survey, then we won’t have any data to
-analyse!</p>
-<p><a href = "https://stirlingpsych.eu.qualtrics.com/jfe/form/SV_8wTPyPWWH2b6BeK">You
-can access the survey by clicking here.</a></p>
-</div>
-<div id="download-r" class="section level2">
-<h2>Download R</h2>
-<p>R is a free software environment for statistical computing and
-graphics. If you already have R installed on your computer, make sure
-you have the latest version. Otherwise, you can follow the instructions
-below to install R. R can be installed on most computers and laptops,
-but cannot be installed on tablets and some chromebooks.</p>
-<p>Note: Throughout the process of installing R and RStudio, do not
-change directories or roots. Always select the default options. Changing
-options can break links and cause many headaches down the line.</p>
-<ol style="list-style-type: decimal">
-<li><a href = "https://cran.ma.imperial.ac.uk" target = "_blank">Click
-here to go to the R download website (UK)</a></li>
-<li>Select your operating system (Linux, MacOS, or Windows).</li>
-<li>Windows users will want to click the ‘base’ subdirectory after
-selecting Windows, then click the Download R for Windows link. Mac users
-will want to download the most recent .pkg file.</li>
-<li>Select the latest release for your operating system to download to
-your computer.</li>
-<li>Open the downloaded file and follow the instructions.</li>
-</ol>
-</div>
-<div id="windows-users" class="section level2">
-<h2>Windows Users</h2>
-<p>Windows users will also need to download an additional extension
-called Rtools.</p>
-<ol style="list-style-type: decimal">
-<li><a href = https://cran.r-project.org/bin/windows/Rtools/ target = "_blank">Click
-here to go to the Rtools download site.</a></li>
-<li>Select the recommended version of Rtools.</li>
-<li>Open the downloaded install file and follow the instructions.</li>
-</ol>
-</div>
-<div id="download-rstudio" class="section level2">
-<h2>Download RStudio</h2>
-<p>RStudio provides a graphical user interface for R. It is designed to
-make R easier to use. All content from this module will be conducted in
-RStudio.</p>
-<ol style="list-style-type: decimal">
-<li><a href = https://www.rstudio.com/products/rstudio/download/ target = "_blank">Click
-here to go to the RStudio download website.</a></li>
-<li>Select the FREE RStudio Desktop Open Source License option.</li>
-<li>Select the version for your operating system (Linux, MacOS, Windows,
-etc.)</li>
-<li>Open the downloaded file and follow the instructions.</li>
-</ol>
-<p>Note: Downloading both R and RStudio will usually results two
-different icons that can be opened to start R. For all material in this
-course, make sure to open RStudio, and not R.</p>
-<div class="figure">
-<img src="images/RvsRstudio.png" alt="" />
-<p class="caption">Make sure to open RStudio and not R</p>
-</div>
-</div>
-</div>
-<div id="resources" class="section level1">
-<h1>Resources</h1>
-<p>Many online tutorials are available for learning R that can be used
-to compliment the materials here. If you are feeling overwhelmed, or
-just looking for additional content, try some of the following
-courses:</p>
-<ol style="list-style-type: decimal">
-<li><a href="https://swirlstats.com">Swirl</a></li>
-<li><a
-href="https://resources.rstudio.com/webinars/a-gentle-introduction-to-tidy-statistics-in-r">RStudio
-Webinars</a></li>
-<li><a href="http://swcarpentry.github.io/r-novice-gapminder/">R for
-Reproducible Scientific Analysis</a></li>
-<li><a
-href="https://www.computerworld.com/article/2497143/business-intelligence-beginner-s-guide-to-r-introduction.html">ComputerWorld
-Tutorial</a></li>
-<li><a
-href="https://www.datacamp.com/courses/free-introduction-to-r">datacamp</a></li>
-<li><a href="https://www.pluralsight.com/search?q=R">tryR</a></li>
-<li><a
-href="https://www.coursera.org/learn/r-programming">coursera</a></li>
-<li><a
-href="https://www.teamleada.com/courses/r-bootcamp">leada</a></li>
-<li>Google “r tutorials” for more.</li>
-</ol>
-<p>Note: Often there are more than one way to do things in R. During
-this module, I will primarily be teaching R using the tidyverse
-packages, but you may find other ways to achieve the same objective. In
-all cases, you should go with the method that makes the most sense to
-you.</p>
 </div>
 
 

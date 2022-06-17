@@ -11,7 +11,7 @@
 
 
 
-<title>HPSP131 - Quantitative Methods in Psychological Research</title>
+<title>HPSP131 - Joining Data.frames</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -398,151 +398,180 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Quantitative Methods in
-Psychological Research</h1>
+<h1 class="title toc-ignore">HPSP131 - Joining Data.frames</h1>
 
 </div>
 
 
-<p>Last updated: Fri Jun 17 11:52:29 2022</p>
-<p>This module is designed to teach students the basic skills needed to
-conduct quantitative research in R. This module covers basic data
-skills, data tidying, plotting data, and analysing datasets in R. This
-is not meant to be a comprehensive guide to R (such a thing would be
-almost impossible!). Rather, this module is designed to be a gentle
-introduction to R, cover statistical techniques that are common in
-psychological research, and provide a solid base where you can
-investigate advanced techniques on your own. This website contains
-weekly workbooks designed to reinforce materials presented in lectures
-and demonstrations. Weekly exercises are also provided that are designed
-for you to practice your R skills, and introduce new concepts for
-students looking for an additional challenge.</p>
-<div id="syllabus" class="section level1">
-<h1>Syllabus</h1>
-<p>Each week, we will be tackling the following topics:</p>
-<ol style="list-style-type: decimal">
-<li>Introduction to R.</li>
-<li>Datasets in R.</li>
-<li>Data cleaning and data skills.</li>
-<li>Plotting data using ggplot2.</li>
-<li>t-tests and one-way ANOVAs.</li>
-<li>Correlation and regression.</li>
-<li>Moderation - multiple regression, two-way ANOVAs</li>
-<li>Power analyses and mediation.</li>
-<li>Structural Equation Modelling (Path Analysis)</li>
-<li>Mixed Effects Modelling (Multilevel Modelling)</li>
-</ol>
+<p>This page contains extra R content not covered in the demonstrations
+and could be considered supplementary to the module. This content is
+useful for completing the advanced exercises from Week 2.</p>
+<div id="joining-data.frames" class="section level1">
+<h1>Joining data.frames</h1>
+<p>Sometimes, you will want to analyse data, but the variables of
+interest are in separate data.frames - maybe the data are from different
+sources, or collected using different programs.</p>
+<p>The R package <code>tidyverse</code> provides some handy functions
+for joining data.frames. Join functions are most useful in situations
+where different variables from the same participants are stored in
+separate data.frames. Here are some of the more useful join
+functions:</p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="84%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function name</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>left_join()</td>
+<td>Keeps all the data in the first table, and adds columns from the
+second to rows that match.</td>
+</tr>
+<tr class="even">
+<td>right_join()</td>
+<td>Keeps all the data in the second table, and adds columns from the
+first to rows that match.</td>
+</tr>
+<tr class="odd">
+<td>inner_join()</td>
+<td>Only returns rows that have a match in both tables.</td>
+</tr>
+<tr class="even">
+<td>full_join()</td>
+<td>Retains all information from both tables. If a row does not have a
+match in one table, it will receive a NA value for the other table’s
+columns.</td>
+</tr>
+</tbody>
+</table>
+<p>Each of the above functions joins two data.frames together. How they
+differ is what rows the function decides to retain/exclude. All of the
+above join functions have the same syntax:</p>
+<pre class="r"><code>XXX_join(x, y, by = NULL, suffix = c(&quot;.x&quot;,&quot;.y&quot;))</code></pre>
+<p>Let’s break down each or the arguments</p>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="88%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>x</td>
+<td>The first table you want to join, known as the “left” table.</td>
+</tr>
+<tr class="even">
+<td>y</td>
+<td>The second table you want to join, known as the “right” table.</td>
+</tr>
+<tr class="odd">
+<td>by</td>
+<td>The columns (variable names) you wish to join the two tables on
+(i.e., the variable you are ‘matching’ on). There must be a variable
+with this name in both tables.</td>
+</tr>
+<tr class="even">
+<td>suffix</td>
+<td>If columns have the same name in the two tables, you can add a
+suffix so you can distinguish between the two. The default for this is
+“.x” for the left table, and “.y” for the right table.</td>
+</tr>
+</tbody>
+</table>
+<p>Note: if you do not specify any columns to join on, these functions
+are smart enough to determine the best variable to match on, but it is
+best to get in the habit of always specifying a column using the
+<code>by</code> argument.</p>
+<div id="full_join" class="section level2">
+<h2>full_join()</h2>
+<p><code>full_join()</code> retains all information from both tables. If
+a row does not have a match in the other table, it will receive a NA
+value for that table’s columns.</p>
+<p>Here is an example of the <code>full_join()</code> function:</p>
+<pre class="r"><code>joined.data &lt;- full_join(data.left,data.right,by = &quot;participant_id&quot;)</code></pre>
 </div>
-<div id="weekly-exercises" class="section level1">
-<h1>Weekly Exercises</h1>
-<p>Exercises are available each week and are designed to reinforce
-content. These exercises are split into basic and advance sections. It
-is expected that students can complete the basic sections of each weekly
-exercise, with the advanced sections designed for students who want an
-extra challenge or learn additional functions in R. If you can
-successfully complete these exercises, then you should be able to easily
-complete the marked assessments.</p>
+<div id="left_join" class="section level2">
+<h2>left_join()</h2>
+<p><code>left_join()</code> is one of the more useful join functions.
+This function keeps all data from the first (left) table and joins all
+columns that has a matching row in the second (right) table. This is
+particularly helpful if there are cases (rows) in the right table that
+are not in the left (and is therefore not of interest to us), or if
+columns in the right table apply to multiple rows in the left table. By
+carefully considering which data.frame is on the left vs. right, in
+almost all cases, <code>left_join()</code> or <code>full_join()</code>
+will suit your needs.</p>
+<p>Here is an example of the <code>left_join()</code> function in
+action:</p>
+<pre class="r"><code>joined.data &lt;- left_join(data.left,data.countries,by = &quot;country_of_birth&quot;)</code></pre>
+</div>
+<div id="matching-on-multiple-variables." class="section level2">
+<h2>Matching on multiple variables.</h2>
+<p>What if you need the join function to match on more than one
+variable? Thankfully, the join functions can accomodate this. Using the
+‘by’ argument, rather than specifying one column, you can specify any
+number by putting the column names in a character vector. Remember, both
+data.frames need to have all match variables.</p>
+<p>In the code below, we match participants based on a
+<code>paricipant_id</code> variable, as well as a
+<code>country_of_birth</code> variable.</p>
+<pre class="r"><code>joined.data &lt;- left_join(data.1,data.2,by = c(&quot;participant_id&quot;,&quot;country_of_birth&quot;))</code></pre>
+</div>
+<div id="suffixes" class="section level2">
+<h2>Suffixes</h2>
+<p>How about a situation where both data.frames have variables with the
+same name, but you aren’t joining on these variables. By taking
+advantage of the ‘suffix’ argument in the join functions, you can create
+a way to unambiguously distinguish between the variables from the
+different data.frames. This argument accepts a character vector with a
+length of two. The first element of the vector will be pasted on the end
+of the variables from the left data.frame, while the second element will
+be pasted on the end of the variables on the right data.frame.</p>
+<p>In the code below, we join two data sets from data collected at two
+different time points, adding the <code>time1</code> and
+<code>time2</code> suffix to the respective variables.</p>
+<pre class="r"><code>joined.data &lt;- left_join(data.time1, data.time2, by = &quot;participant_id&quot;,suffix = c(&quot;.time1&quot;,&quot;.time2&quot;))</code></pre>
+</div>
+</div>
+<div id="bind_rows" class="section level1">
+<h1>bind_rows()</h1>
+<p>Up to now, we have exclusively dealt with join functions, which adds
+variables from one data.frame to another. A totally different way of
+merging data.frames together is combining rows. This is common when you
+have two data.frames with the same variables but different rows,
+e.g. data collected from different participants on the same task. This
+can be achieved by using the bind_rows() function. This function simply
+accepts two arguments: the two data.frames you wish to join.</p>
+<p>In the example below, we have two data.frames that were taken from
+two different computers running the same experiment. We wish to combine
+the data.frames by adding the rows of one data.frame to another so that
+we can analyse the data altogether.</p>
+<pre class="r"><code>complete.data &lt;- bind_rows(data_computer1,data_computer2)</code></pre>
+<p>A couple of things to note. First, between the data.frames, the
+number of columns must be the same and they must have the same names
+(though they don’t necessarily have to be in the same order). Second, if
+a row is duplicated between the two tables, the row will also be
+duplicated in the resulting table.</p>
+</div>
+<div id="advanced-exercises" class="section level1">
+<h1>Advanced Exercises</h1>
+<p>If you would like to practice the skills on this page, weekly
+exercise questions on this content are available in the advanced
+exercises for Week 2. You can download the interactive exercises by
+clicking the link below.</p>
 <p><a href = "exercises.html">Click here to download this week’s
 exercises.</a></p>
-</div>
-<div id="before-you-start" class="section level1">
-<h1>Before You Start…</h1>
-<div id="complete-the-survey" class="section level2">
-<h2>Complete The Survey</h2>
-<p>Within these workbooks, we will be analysing real data collected in a
-survey at the beginning of semester. Before beginning the first
-workbook, it is a good idea to complete this survey yourself, as 1) it
-will give you an idea on how the data we are analysing was collected,
-and 2) if no one does the survey, then we won’t have any data to
-analyse!</p>
-<p><a href = "https://stirlingpsych.eu.qualtrics.com/jfe/form/SV_8wTPyPWWH2b6BeK">You
-can access the survey by clicking here.</a></p>
-</div>
-<div id="download-r" class="section level2">
-<h2>Download R</h2>
-<p>R is a free software environment for statistical computing and
-graphics. If you already have R installed on your computer, make sure
-you have the latest version. Otherwise, you can follow the instructions
-below to install R. R can be installed on most computers and laptops,
-but cannot be installed on tablets and some chromebooks.</p>
-<p>Note: Throughout the process of installing R and RStudio, do not
-change directories or roots. Always select the default options. Changing
-options can break links and cause many headaches down the line.</p>
-<ol style="list-style-type: decimal">
-<li><a href = "https://cran.ma.imperial.ac.uk" target = "_blank">Click
-here to go to the R download website (UK)</a></li>
-<li>Select your operating system (Linux, MacOS, or Windows).</li>
-<li>Windows users will want to click the ‘base’ subdirectory after
-selecting Windows, then click the Download R for Windows link. Mac users
-will want to download the most recent .pkg file.</li>
-<li>Select the latest release for your operating system to download to
-your computer.</li>
-<li>Open the downloaded file and follow the instructions.</li>
-</ol>
-</div>
-<div id="windows-users" class="section level2">
-<h2>Windows Users</h2>
-<p>Windows users will also need to download an additional extension
-called Rtools.</p>
-<ol style="list-style-type: decimal">
-<li><a href = https://cran.r-project.org/bin/windows/Rtools/ target = "_blank">Click
-here to go to the Rtools download site.</a></li>
-<li>Select the recommended version of Rtools.</li>
-<li>Open the downloaded install file and follow the instructions.</li>
-</ol>
-</div>
-<div id="download-rstudio" class="section level2">
-<h2>Download RStudio</h2>
-<p>RStudio provides a graphical user interface for R. It is designed to
-make R easier to use. All content from this module will be conducted in
-RStudio.</p>
-<ol style="list-style-type: decimal">
-<li><a href = https://www.rstudio.com/products/rstudio/download/ target = "_blank">Click
-here to go to the RStudio download website.</a></li>
-<li>Select the FREE RStudio Desktop Open Source License option.</li>
-<li>Select the version for your operating system (Linux, MacOS, Windows,
-etc.)</li>
-<li>Open the downloaded file and follow the instructions.</li>
-</ol>
-<p>Note: Downloading both R and RStudio will usually results two
-different icons that can be opened to start R. For all material in this
-course, make sure to open RStudio, and not R.</p>
-<div class="figure">
-<img src="images/RvsRstudio.png" alt="" />
-<p class="caption">Make sure to open RStudio and not R</p>
-</div>
-</div>
-</div>
-<div id="resources" class="section level1">
-<h1>Resources</h1>
-<p>Many online tutorials are available for learning R that can be used
-to compliment the materials here. If you are feeling overwhelmed, or
-just looking for additional content, try some of the following
-courses:</p>
-<ol style="list-style-type: decimal">
-<li><a href="https://swirlstats.com">Swirl</a></li>
-<li><a
-href="https://resources.rstudio.com/webinars/a-gentle-introduction-to-tidy-statistics-in-r">RStudio
-Webinars</a></li>
-<li><a href="http://swcarpentry.github.io/r-novice-gapminder/">R for
-Reproducible Scientific Analysis</a></li>
-<li><a
-href="https://www.computerworld.com/article/2497143/business-intelligence-beginner-s-guide-to-r-introduction.html">ComputerWorld
-Tutorial</a></li>
-<li><a
-href="https://www.datacamp.com/courses/free-introduction-to-r">datacamp</a></li>
-<li><a href="https://www.pluralsight.com/search?q=R">tryR</a></li>
-<li><a
-href="https://www.coursera.org/learn/r-programming">coursera</a></li>
-<li><a
-href="https://www.teamleada.com/courses/r-bootcamp">leada</a></li>
-<li>Google “r tutorials” for more.</li>
-</ol>
-<p>Note: Often there are more than one way to do things in R. During
-this module, I will primarily be teaching R using the tidyverse
-packages, but you may find other ways to achieve the same objective. In
-all cases, you should go with the method that makes the most sense to
-you.</p>
 </div>
 
 

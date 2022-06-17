@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>HPSP131 - Simulations</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HPSP131</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1intro.html">1. Intro</a>
+</li>
+<li>
+  <a href="2data.html">2. Data 1</a>
+</li>
+<li>
+  <a href="7GLM.html">3. Data 2</a>
+</li>
+<li>
+  <a href="3plot.html">4. Plot</a>
+</li>
+<li>
+  <a href="4LM1.html">5. ttest_ANOVA</a>
+</li>
+<li>
+  <a href="5LM2.html">6. Cor_Reg</a>
+</li>
+<li>
+  <a href="6mod.html">7. Mod</a>
+</li>
+<li>
+  <a href="8sim22.html">8. Pwr_Med</a>
+</li>
+<li>
+  <a href="9SEM.html">9. SEM</a>
+</li>
+<li>
+  <a href="10mixed.html">10. Mixed</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="extra_lists.html">Lists, Matrices, and Indexing</a>
+    </li>
+    <li>
+      <a href="extra_joins.html">Joining data.frames</a>
+    </li>
+    <li>
+      <a href="extra_cleaning.html">Cleaning and Data Preparation</a>
+    </li>
+    <li>
+      <a href="extra_chisquare.html">Chi-square Tests</a>
+    </li>
+    <li>
+      <a href="extra_nonparametric.html">Non-parametric Tests</a>
+    </li>
+    <li>
+      <a href="extra_logistic.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="extra_functions.html">Custom Functions</a>
+    </li>
+    <li>
+      <a href="extra_simulations.html">Simulations</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="exercises.html">Exercises</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">HPSP131 - Simulations</h1>
+
+</div>
+
+
+<p>This page contains extra R content not covered in the demonstrations
+and could be considered supplementary to the module. This content is
+useful for completing the advanced exercises from Week 8 and covers
+simulating data in R. In particular, we will conduct a power analysis
+via simulation.</p>
+<div id="simulating-a-data.frame-via-a-custom-function"
+class="section level2">
+<h2>Simulating a data.frame via a Custom Function</h2>
+<p>If you’re not familiar with creating custom functions in R,
+<a href = "extra_functions.html">see the extra content page on custom
+functions</a>. In order to simulate data, we will be creating a custom
+function that creates a data.frame based on parameters we can set in the
+function. We are going to recreate the data.frame from Workbook 5 where
+we tested the hypothesis that cat-people are more introverted than
+dog-people. Before we can do that though, we must introduce some new
+functions:</p>
+<p><code>sample()</code></p>
+<p>This function randomly samples options from a vector. This function
+is ideal for randomly sampling a categorical variable. For instance,
+below we randomly sample 40 objects who are either in the ‘cat’ group or
+the ‘dog’ group. To see more about how this function works, read
+<code>help(sample)</code>.</p>
+<pre class="r"><code>sample(c(&quot;cat&quot;,&quot;dog&quot;),40,replace = TRUE)</code></pre>
+<pre><code>##  [1] &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot;
+## [15] &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot;
+## [29] &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot;</code></pre>
+<p><code>rnorm()</code></p>
+<p>This function creates a random continuous variable that is normally
+distributed. This function is ideal for sampling a continuous variable
+with a normal distribution. In the example below, we create a random
+normal distribution with a mean of 0 and a standard deviation of 1. To
+see more about how this function works, read
+<code>help(rnorm)</code>.</p>
+<pre class="r"><code>rnorm(40,mean = 0,sd = 1)</code></pre>
+<pre><code>##  [1]  0.89582988 -0.22116191  2.06752754  1.79430322  0.15943494  0.51593983  0.88636428
+##  [8] -2.48876599  0.56910389  0.15919930  1.55380412  1.08892029  0.11658267  2.52245869
+## [15] -0.43337692  1.91329935 -1.23972709  0.38199107 -0.08170057  0.80342046 -0.04040430
+## [22]  0.40447608 -0.76140134 -1.28185879 -1.58272719 -0.98301700  0.26365937  2.10037032
+## [29]  0.84901930  0.70438031 -0.92463905  0.04462185  1.26745090 -0.72124603 -0.62144103
+## [36] -2.13416990  1.76287973  1.71826265 -0.89292380 -0.58592500</code></pre>
+<p>We now have the tools to create our simulate data function, which we
+will save as <code>create_dataset</code>. For now, it will take one
+argument, n, which specifies the number of participants in the
+data.frame.</p>
+<p>We will set the mean and sd of the variable ‘introvert’ to 21.00 and
+3.00 respectively, which is close enough to what we found in the class
+dataset.</p>
+<pre class="r"><code>create_dataset &lt;- function(n){
+  result &lt;- data.frame(group = sample(c(&quot;cat&quot;,&quot;dog&quot;),n,replace = TRUE),
+                       introvert = rnorm(n,mean = 21,sd = 3))
+  return(result)
+}</code></pre>
+<p>Let’s test it out:</p>
+<pre class="r"><code>create_dataset(20)</code></pre>
+<pre><code>##    group introvert
+## 1    cat  20.17629
+## 2    cat  19.94622
+## 3    dog  21.73155
+## 4    dog  20.34097
+## 5    dog  18.24929
+## 6    dog  23.38654
+## 7    dog  17.80200
+## 8    cat  25.82150
+## 9    dog  18.25578
+## 10   dog  18.75015
+## 11   cat  22.17872
+## 12   dog  22.17619
+## 13   dog  26.80369
+## 14   dog  25.99025
+## 15   dog  20.59558
+## 16   cat  25.10680
+## 17   cat  27.95599
+## 18   dog  21.99530
+## 19   cat  20.23467
+## 20   dog  16.61887</code></pre>
+<p>As you can see above, our function is creating a data.frame with 20
+participants, and their scores on the <code>group</code> and
+<code>introvert</code> variables are randomly determined from the
+<code>sample()</code> and <code>rnorm()</code> functions
+respectively.</p>
+<div id="conduct-a-statistical-test-with-simulated-data."
+class="section level3">
+<h3>Conduct a statistical test with simulated data.</h3>
+<p>We can do anything with this new simulated data.frame as if it were a
+data based on real observations. For instance, we could conduct an
+independent-samples t-test. Remember, the variables we created are
+completely random, so we would expect a non-significant result here.</p>
+<pre class="r"><code>t.test(introvert ~ group,create_dataset(20))</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  introvert by group
+## t = 1.2882, df = 17.718, p-value = 0.2142
+## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
+## 95 percent confidence interval:
+##  -1.281269  5.331344
+## sample estimates:
+## mean in group cat mean in group dog 
+##          20.54103          18.51599</code></pre>
+<p>Let’s expand the function above. How about creating a function that
+simulates a dataset, then runs a t-test, and then returns the results of
+that test? We can do this by including the function that runs a t.test
+within the function we wrote above. Note that we use the
+<code>tidy()</code> function from the <code>broom</code> package to
+easily access the results from the t-test.</p>
+<pre class="r"><code>simulate_test &lt;- function(n){
+  result &lt;- data.frame(group = sample(c(&quot;cat&quot;,&quot;dog&quot;),n,replace = TRUE),
+                       introvert = rnorm(n,mean = m.introvert,sd = sd.introvert))
+  test &lt;- t.test(introvert ~ group, data = result) %&gt;%
+    tidy()
+  return(test$estimate)
+}</code></pre>
+<pre class="r"><code>simulate_test(20)</code></pre>
+<pre><code>## [1] 0.5881813</code></pre>
+<p>Let’s go another step further and say we want to run a t-tests on
+simulated data 1000 times. Doing so will give us a distribution of
+estimates given a certain statistical test and sample size. We can do
+this by using the <code>replicate()</code> function. This function
+expects two arguments, the first is the number of times we want to
+conduct a function, the second is the function itself. In the case
+below, the output is saved as a vector.</p>
+<pre class="r"><code>output_20 &lt;- replicate(1000,simulate_test(20))</code></pre>
+<p>To see the distribution of estimates, we can plot these values:</p>
+<pre class="r"><code>ggplot() +
+  geom_density(aes(output_20))</code></pre>
+<p><img src="extra_simulation_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>But hang on! We know there is no effect as the two variables in the
+t-test are completely random. So how come we are getting such a
+wide-range of t-statistics? This demonstrates one of the core issues
+with statistical tests. A sample is only a portion of the entire
+population, and your estimate can vary greatly depending on the slice of
+the population that happens to make it into your sample.</p>
+<p>What if we increase the number of participants in our simulated
+dataset to 200 participants?</p>
+<pre class="r"><code>output_200 &lt;- replicate(1000,simulate_test(200))</code></pre>
+<pre class="r"><code>ggplot() +
+  geom_density(aes(output_200))</code></pre>
+<p><img src="extra_simulation_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>We see that, while we still get a range of estimates, they are much
+less extreme. This is because with a larger sample size, the ‘slice’
+that is our sample is more likely to be representative of our
+population, and therefore the t-statistic is more likely to be around
+the correct value. Using this knowledge, we can construct a power
+analysis to determine the minimum number of participants needed to
+accurately detect an effect.</p>
+</div>
+</div>
+<div id="power-analysis-using-simulations" class="section level2">
+<h2>Power analysis using simulations</h2>
+<p>Above, we replicated a data.frame where we do not expect to find a
+significant effect (because the variables are completely random and
+unrelated from each other). However, what if we expect an association?
+Using the same technique, we can run a power analysis to determine
+whether a certain research design and analysis plan has the ability to
+detect an effect given different sample sizes.</p>
+<p>As covered in the lectures, power is the ability to detect an effect
+if it is there. Generally, things that influence power are effect size,
+alpha level (significance level), and number of observations.</p>
+<p>In the code below, we again create a function, but include an
+additional argument for effect size (in the form of a mean difference
+between the ‘cat’ and ‘dog’ groups). Also, instead of returning the
+estimate, we will return the p-value.</p>
+<pre class="r"><code>simulate_test2 &lt;- function(n,mean.diff){
+  result &lt;- data.frame(group = sample(c(&quot;cat&quot;,&quot;dog&quot;),n,replace = TRUE),
+                       introvert = rnorm(n,mean = m.introvert,sd = sd.introvert)) %&gt;%
+    mutate(mean.diff = mean.diff) %&gt;%
+    mutate(introvert = ifelse(group == &quot;cat&quot;,introvert - mean.diff/2,introvert + mean.diff/2))
+  test &lt;- t.test(introvert ~ group, data = result) %&gt;%
+    tidy()
+  return(test$p.value)
+}</code></pre>
+<p>Then, we can calculate the proportion of times we find a significant
+effect when alpha = .05. Let’s say that we expect a mean difference on
+of 2 on introversion between cat-people and dog-people.</p>
+<pre class="r"><code>cat.dog_difference &lt;- 2</code></pre>
+<p>Remember, using logical operators results in a logical variable,
+which is coded as TRUE = 1 and FALSE = 0. Therefore, we can use the
+<code>mean()</code> function to get the proportion of times out of the
+200 simulations we correctly found a significant effect.</p>
+<pre class="r"><code>sim.results &lt;- replicate(200,simulate_test2(20,cat.dog_difference))
+
+power &lt;- mean(sim.results &lt; .05)
+
+power</code></pre>
+<pre><code>## [1] 0.275</code></pre>
+<p>The convention is that the analysis is sufficiently powered if it can
+detect an effect that is present 80% of the time. The power calculated
+for a sample size of 20 was 27.5%, which falls quite short of this
+threshold. What if we increased our sample size?</p>
+<pre class="r"><code>sim.results &lt;- replicate(200,simulate_test2(240,cat.dog_difference))
+
+power &lt;- mean(sim.results &lt; .05)
+
+power</code></pre>
+<pre><code>## [1] 1</code></pre>
+<p>By running the above simulations at different sample sizes, we will
+be able to determine the sample sizes needed to detect this effect at
+80% power. Below is code to automatically run the
+<code>simulate_test2()</code> function at different sample sizes and
+save the results in a data.frame. There are some complicated things
+going on here, but see if you can make sense of it. You may need to look
+up what certain functions do.</p>
+<pre class="r"><code>power.grid &lt;- data.frame(candidate_n = rep(seq(20,200,by = 20),each = 200)) %&gt;%
+  mutate(power = vapply(candidate_n,simulate_test2,FUN.VALUE = 1,mean.diff = cat.dog_difference)) %&gt;%
+  group_by(candidate_n) %&gt;%
+  summarise(power = mean(power &lt; .05))</code></pre>
+<pre class="r"><code>power.grid</code></pre>
+<pre><code>## # A tibble: 10 × 2
+##    candidate_n power
+##          &lt;dbl&gt; &lt;dbl&gt;
+##  1          20 0.205
+##  2          40 0.395
+##  3          60 0.55 
+##  4          80 0.665
+##  5         100 0.845
+##  6         120 0.835
+##  7         140 0.94 
+##  8         160 0.93 
+##  9         180 0.955
+## 10         200 0.96</code></pre>
+<p>This suggests that to detect a mean difference of 2 on introversion
+between cat-people and dog-people with our data 80% of the time, we
+would require a sample size between 80 and 100 to be confident in our
+result. We can also plot the simulated power analyses to help determine
+the sample size required.</p>
+<pre class="r"><code>ggplot(data = power.grid,aes(x = candidate_n,y = power)) +
+  geom_point() + 
+  geom_smooth(colour = &quot;blue&quot;) +
+  geom_hline(yintercept = .80,colour = &quot;red&quot;)</code></pre>
+<p><img src="extra_simulation_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>Compare the power estimate above with the one using the
+<code>pwr.t.test()</code> function below. Note: the simulation above
+calculates total N, so you will need to divide it by two to get the
+sample size for each group.</p>
+<pre class="r"><code>library(pwr)
+
+#First we must calculate effect size (Cohen&#39;s D)
+
+D &lt;- cat.dog_difference/sqrt((sd.introvert^2 + sd.introvert^2)/2)
+
+D</code></pre>
+<pre><code>## [1] 0.6454431</code></pre>
+<pre class="r"><code>#We then put this effect size into the pwr.t.test() function.
+
+pwr.t.test(d = D,power = .8,sig.level = .05,type = &quot;two.sample&quot;)</code></pre>
+<pre><code>## 
+##      Two-sample t test power calculation 
+## 
+##               n = 38.66508
+##               d = 0.6454431
+##       sig.level = 0.05
+##           power = 0.8
+##     alternative = two.sided
+## 
+## NOTE: n is number in *each* group</code></pre>
+</div>
+<div id="advanced-exercises" class="section level1">
+<h1>Advanced Exercises</h1>
+<p>If you would like to practice the skills on this page, weekly
+exercise questions on this content are available in the advanced
+exercises for Week 8. You can download the interactive exercises by
+clicking the link below.</p>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

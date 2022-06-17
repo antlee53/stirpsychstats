@@ -13,8 +13,8 @@
 
 <title>HPSP131 - Workbook 4 - Data Visualisation</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -63,6 +63,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -83,6 +84,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -308,7 +312,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -330,16 +334,16 @@ div.tocify {
   <a href="3plot.html">4. Plot</a>
 </li>
 <li>
-  <a href="4LM1.html">5. LM1</a>
+  <a href="4LM1.html">5. ttest_ANOVA</a>
 </li>
 <li>
-  <a href="5LM2.html">6. LM2</a>
+  <a href="5LM2.html">6. Cor_Reg</a>
 </li>
 <li>
-  <a href="6mod_med2.html">7. Mod_Med</a>
+  <a href="6mod.html">7. Mod</a>
 </li>
 <li>
-  <a href="8sim.html">8. Power</a>
+  <a href="8sim22.html">8. Pwr_Med</a>
 </li>
 <li>
   <a href="9SEM.html">9. SEM</a>
@@ -349,7 +353,40 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="extra_lists.html">Lists, Matrices, and Indexing</a>
+    </li>
+    <li>
+      <a href="extra_joins.html">Joining data.frames</a>
+    </li>
+    <li>
+      <a href="extra_cleaning.html">Cleaning and Data Preparation</a>
+    </li>
+    <li>
+      <a href="extra_chisquare.html">Chi-square Tests</a>
+    </li>
+    <li>
+      <a href="extra_nonparametric.html">Non-parametric Tests</a>
+    </li>
+    <li>
+      <a href="extra_logistic.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="extra_functions.html">Custom Functions</a>
+    </li>
+    <li>
+      <a href="extra_simulations.html">Simulations</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="exercises.html">Exercises</a>
 </li>
       </ul>
@@ -361,17 +398,20 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Workbook 4 - Data Visualisation</h1>
+<h1 class="title toc-ignore">HPSP131 - Workbook 4 - Data
+Visualisation</h1>
 
 </div>
 
 
 <div id="objectives" class="section level1">
 <h1>Objectives</h1>
-<p>The aim of this week is to introduce you to visualising data with the ggplot2 package. By the end of this workbook, you should be able to:</p>
+<p>The aim of this week is to introduce you to visualising data with the
+ggplot2 package. By the end of this workbook, you should be able to:</p>
 <ol style="list-style-type: decimal">
 <li>Understand the importance of visualising your data.</li>
-<li>Understand which types of graphs are best for different types of data.</li>
+<li>Understand which types of graphs are best for different types of
+data.</li>
 <li>Understand the ggplot2 package for data visualisation.</li>
 <li>Create the following types of one-variable plots:</li>
 </ol>
@@ -382,17 +422,22 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2022.csv download>Click here to
+download the data used in these workbooks.</a> (You may need to
+right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
 </div>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <div id="setup" class="section level2">
 <h2>Setup</h2>
-<p>These packages are required for today’s workbook. Remember you need to install packages onto your computer if you haven’t used them before.</p>
+<p>These packages are required for today’s workbook. Remember you need
+to install packages onto your computer if you haven’t used them
+before.</p>
 <pre class="r"><code>library(tidyverse)
 library(ggplot2)</code></pre>
 </div>
@@ -402,15 +447,33 @@ library(ggplot2)</code></pre>
 <ol style="list-style-type: decimal">
 <li>It gives you the best idea of the distribution of your data.</li>
 <li>It can help inform the analysis you should conduct.</li>
-<li>It can identify if there is anything weird happening in your data.</li>
+<li>It can identify if there is anything weird happening in your
+data.</li>
 </ol>
-<p>However, there is an art for creating an informative plot. Unfortunately, there are no good rule-of-thumbs that work for all types of data, and each plot requires careful consideration depending on the data and the intended audience. The aim of this week is to give you idea of the tools at your disposal when making plots in R.</p>
+<p>However, there is an art for creating an informative plot.
+Unfortunately, there are no good rule-of-thumbs that work for all types
+of data, and each plot requires careful consideration depending on the
+data and the intended audience. The aim of this week is to give you idea
+of the tools at your disposal when making plots in R.</p>
 </div>
 <div id="the-philosophy-of-ggplot2" class="section level2">
 <h2>The Philosophy of ggplot2</h2>
-<p>R is celebrated for it’s ability to create high quality, publishable graphics. The ggplot2 package is one way you can make graphical representations of your data and is also highly flexible and customisable.</p>
-<p>ggplot2 works by adding layers, which are themselves customisable. Layers are then stacked on top of each other and this can lead to quite complicated looking graphs, even if each individual component on its own is fairly simple.</p>
-<p>Think of making a graph in ggplot similar to making a pizza. First, you need a base - in both cases, these act as a blank canvas for your masterpiece. You will then add components; for a pizza, these would be your toppings (e.g., you could add peppers), but for graphs these are known as geometric objects (or geoms for short). Geoms themselves are highly customisable by changing properties known as aesthetics; this is similar to how on a pizza the same toppings can come in different varieties (e.g., you could have green peppers, or red peppers).</p>
+<p>R is celebrated for it’s ability to create high quality, publishable
+graphics. The ggplot2 package is one way you can make graphical
+representations of your data and is also highly flexible and
+customisable.</p>
+<p>ggplot2 works by adding layers, which are themselves customisable.
+Layers are then stacked on top of each other and this can lead to quite
+complicated looking graphs, even if each individual component on its own
+is fairly simple.</p>
+<p>Think of making a graph in ggplot similar to making a pizza. First,
+you need a base - in both cases, these act as a blank canvas for your
+masterpiece. You will then add components; for a pizza, these would be
+your toppings (e.g., you could add peppers), but for graphs these are
+known as geometric objects (or geoms for short). Geoms themselves are
+highly customisable by changing properties known as aesthetics; this is
+similar to how on a pizza the same toppings can come in different
+varieties (e.g., you could have green peppers, or red peppers).</p>
 <p>This is what code to make a graph in ggplot looks like:</p>
 <pre class="r"><code>ggplot(data = example.data,aes(x = var1, y = var2)) +
   geom_point(colour = &quot;red&quot;) +
@@ -420,18 +483,41 @@ library(ggplot2)</code></pre>
 <p>Let’s break down each of these components:</p>
 <div id="ggplot" class="section level3">
 <h3>ggplot()</h3>
-<p>The <code>ggplot()</code> command can be considered the base of your pizza. Here you specify the parameters of your graph, such as the data you want to visualise (in the case above, a dataset called ‘example.data’), and what variable is on the x- or y-axis (var1 and var2 respectively in the example above). What you specify in this command will be used by all following geoms.</p>
-<p>The first thing you must specify is the data.frame that contains the data you wish to visualise. The other thing you must specify is any aesthetics that you wish to pass to all geoms in the plot. In this example, we specify the variables in the data.frame we want on the x- and y-axis. Whenever you specify an aesthetics that is dependent on something in the data.frame, you must map it using the <code>aes()</code> function.</p>
-<p>Just to reiterate, any aesthetics that you specify here will be passed to all geoms.</p>
+<p>The <code>ggplot()</code> command can be considered the base of your
+pizza. Here you specify the parameters of your graph, such as the data
+you want to visualise (in the case above, a dataset called
+‘example.data’), and what variable is on the x- or y-axis (var1 and var2
+respectively in the example above). What you specify in this command
+will be used by all following geoms.</p>
+<p>The first thing you must specify is the data.frame that contains the
+data you wish to visualise. The other thing you must specify is any
+aesthetics that you wish to pass to all geoms in the plot. In this
+example, we specify the variables in the data.frame we want on the x-
+and y-axis. Whenever you specify an aesthetics that is dependent on
+something in the data.frame, you must map it using the
+<code>aes()</code> function.</p>
+<p>Just to reiterate, any aesthetics that you specify here will be
+passed to all geoms.</p>
 </div>
 <div id="geometric-objects" class="section level3">
 <h3>Geometric Objects</h3>
-<p>Once you have your base, you then add geometric objects (or geoms for short) - in the pizza analogy these are your toppings. Geoms details the type of information you would like to include on your plot. Each geom equates to an additional layer on your plot. You can have one or multiple geoms on a plot. You can add as many geoms as you want simply by using <code>+</code> symbol. In the example above, there are two geoms: <code>geom_point()</code>, which plots the individual points, and <code>geom_smooth()</code>, which plots the line-of-best-fit.</p>
+<p>Once you have your base, you then add geometric objects (or geoms for
+short) - in the pizza analogy these are your toppings. Geoms details the
+type of information you would like to include on your plot. Each geom
+equates to an additional layer on your plot. You can have one or
+multiple geoms on a plot. You can add as many geoms as you want simply
+by using <code>+</code> symbol. In the example above, there are two
+geoms: <code>geom_point()</code>, which plots the individual points, and
+<code>geom_smooth()</code>, which plots the line-of-best-fit.</p>
 </div>
 <div id="aesthetics" class="section level3">
 <h3>Aesthetics</h3>
-<p>Within each geom, are aesthetics commands. These are used to customise the look of the plot. In the example above, in <code>geom_point()</code> we changed the ‘colour’ aesthetic to edit the colour of the points to red.</p>
-<p>Here are examples of aesthetics you can change. Note that not all types of aethetics make sense for all types of graphs:</p>
+<p>Within each geom, are aesthetics commands. These are used to
+customise the look of the plot. In the example above, in
+<code>geom_point()</code> we changed the ‘colour’ aesthetic to edit the
+colour of the points to red.</p>
+<p>Here are examples of aesthetics you can change. Note that not all
+types of aesthetics make sense for all types of graphs:</p>
 <ul>
 <li>Position (both along the x- and y- axis)</li>
 <li>Colour</li>
@@ -439,9 +525,26 @@ library(ggplot2)</code></pre>
 <li>Size</li>
 <li>Opacity (referred to as alpha)</li>
 </ul>
-<p>Note about aesthetics: as with the <code>ggplot()</code> command above, if aesthetics are dependent on variables in your data.frame, you need to assign it to the mapping argument using <code>aes()</code>. This could be useful if you want different aesthetics to represent differences in your data. Using different aesthetic properties for different variables can lead to visualisations that convey a lot of information, but are still readily interpretable.</p>
-<p>Below is an example of representing data using multiple aesthetics. The data come from Lee, DeBruine, and Jones (2018) and investigate the relationship between a country’s life expectancy, and future discounting (i.e., the proportion of trial where participants choose a larger reward in the future, compared to a smaller, immediate reward). Each point represents a different country in the dataset. The country’s life expectancy is on the x-axis. The region of the world the country falls in is represented by colour, while the number of participants from that country is represented by the size of the point.</p>
-<p>From the code below, can you understand how this plot was put together?</p>
+<p>Note about aesthetics: as with the <code>ggplot()</code> command
+above, if aesthetics are dependent on variables in your data.frame, you
+need to assign it to the mapping argument using <code>aes()</code>. This
+could be useful if you want different aesthetics to represent
+differences in your data. Using different aesthetic properties for
+different variables can lead to visualisations that convey a lot of
+information, but are still readily interpretable.</p>
+<p>Below is an example of representing data using multiple aesthetics.
+The data come from Lee, DeBruine, and Jones (2018) and investigates the
+relationship between a country’s life expectancy, and future discounting
+(i.e., the proportion of trial where participants choose a larger reward
+in the future, compared to a smaller, immediate reward). Each point
+represents a different country in the dataset. The country’s life
+expectancy is on the x-axis, while the corresponding proportion on the
+future discounting task is on the y-axis. The region of the world the
+country falls in is represented by colour, while the number of
+participants from that country is represented by the size of the
+point.</p>
+<p>From the code below, can you understand how this plot was put
+together?</p>
 <pre class="r"><code>ggplot(discounting.data,aes(x = life.expectancy,y = dv)) +
   geom_point(aes(size = n,colour = region)) +
   theme_classic() +
@@ -450,40 +553,71 @@ library(ggplot2)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <div id="other-things" class="section level4">
 <h4>Other Things…</h4>
-<p>There are also a few other commands that can customise the look of your plot. You can change things like axis text size, labels, or split your graph into multiple panels. These don’t really fit well within the pizza analogy.</p>
+<p>There are also a few other commands that can customise the look of
+your plot. You can change things like axis text size, labels, or split
+your graph into multiple panels. These don’t really fit well within the
+pizza analogy.</p>
 </div>
 </div>
 </div>
 <div id="one-variable-graphs" class="section level2">
 <h2>One Variable Graphs</h2>
-<p>Plotting your variables gives you the best idea of the spread of your data. It can highlight whether there are problematic issues with your variable and help inform which analysis to conduct. For the remaining plots, we will be visualising variables collected as part of the class questionnaire.</p>
+<p>Plotting the distribution of your variables gives you the best idea
+of the spread of your data. It can highlight whether there are
+problematic issues with your variable and help inform which analysis to
+conduct. For the remaining plots, we will be visualising variables
+collected as part of the class questionnaire.</p>
 <div id="bar-charts---1-variable-categorical" class="section level3">
 <h3>Bar Charts - 1 Variable Categorical</h3>
-<p>Below is code for a bar chart that visualises the responses to the item asking about your favourite Australian animal. Bar charts are ideal for visualising count data. Each category is along the x-axis, while the number of responses associated with that category is on the y-axis.</p>
+<p>Below is code for a bar chart that visualises the responses to the
+item asking about your favourite Australian animal. Bar charts are ideal
+for visualising count data. Each possible category is along the x-axis,
+while the number of responses associated with that category is on the
+y-axis. We can also make the bars a bright green colour by adjusting the
+‘fill’ aesthetic… just for fun.</p>
 <pre class="r"><code>ggplot(data = data,mapping = aes(x = aus.animal)) +
   geom_bar(fill = &quot;green&quot;)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="histograms---1-variable-continuous" class="section level3">
 <h3>Histograms - 1 Variable Continuous</h3>
-<p>One way to visualise a continuous variable is via a histogram. Similar to a bar chart, all possible responses (or a range of responses) of a variable are on the x-axis, while the y-axis shows the counts associated with that value. Below is the code to make a histogram of people’s response to height:</p>
+<p>One way to visualise a continuous variable is via a histogram.
+Similar to a bar chart, all possible responses (or a range of responses)
+of a variable are on the x-axis, while the y-axis shows the counts
+associated with that value. Below is the code to make a histogram of
+people’s response to height:</p>
 <pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
   geom_histogram(binwidth = 2)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<p>The first thing that should be clear is that there are responses that are outside the range of what we could reasonably expect someone’s height to be. This could be because participants misunderstood the question. This demonstrates one of the key reasons you should visualise your data - it is easy to identify whether there are potential issues you need to deal with.</p>
-<p>Let’s replot the data, but exclude participants who report being less than 100cm tall and more than 300cm tall.</p>
+<p>The first thing that should be clear is that there are responses that
+are outside the range of what we could reasonably expect someone’s
+height to be. This could be because participants misunderstood the
+question. This demonstrates one of the key reasons you should visualise
+your data - it is easy to identify whether there are potential issues
+that you need to deal with.</p>
+<p>Let’s re-plot the data, but exclude participants who report being
+less than 100cm tall and more than 300cm tall.</p>
 <pre class="r"><code>plot.data &lt;- filter(data,height &gt; 100) %&gt;%
   filter(height &lt; 300)
 
 ggplot(data = plot.data,mapping = aes(x = height)) +
   geom_histogram(binwidth = 2)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>This looks more reasonable. We will continue plotting height excluding these participants.</p>
-<p>Related to this is a density plot. Density plots are slightly different because, rather than represent counts, they represent percentage of responses that fall in a certain bandwidth.</p>
+<p>This looks more reasonable. We will continue plotting height
+excluding these participants.</p>
+<p>Related to this is a density plot. Density plots are slightly
+different because, rather than represent counts, they represent
+percentage of responses that fall in a certain bandwidth.</p>
 <pre class="r"><code>ggplot(data = plot.data,mapping = aes(x = height)) +
   geom_density(fill = &quot;purple&quot;)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>By adjusting some of the aesthetic components, we can begin to customise our plot, and make more complicated visualisations. In the code below, we change the ‘fill’ aesthetic to map onto whether participants like to play videogames. We can then visualise the height for videogamers vs non-videogamers separately on the one plot.</p>
+<p>By adjusting some of the aesthetic components, we can begin to
+customise our plot, and make more complicated visualisations. In the
+code below, we change the ‘fill’ aesthetic to map onto whether
+participants like to play videogames. We can then visualise the height
+for videogamers vs non-videogamers separately on the one plot, either by
+adjusting the ‘position’ aesthetic, or the ‘alpha’ aesthetic (which
+adjusts opacity).</p>
 <pre class="r"><code>ggplot(data = plot.data,mapping = aes(x = height)) +
   geom_histogram(aes(fill = video.games),binwidth = 2,position = &quot;dodge&quot;)</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
@@ -495,8 +629,17 @@ ggplot(data = plot.data,mapping = aes(x = height)) +
 </div>
 <div id="customising-the-look" class="section level2">
 <h2>Customising The Look</h2>
-<p>Often to get the figures suitable for publication, or inclusion in a dissertation, you will need to customise some aspects of your plot. For instance, you will need to change the axis labels, or the theme of the plot.</p>
-<p>By default, ggplot will use the variable names for labels on the axes. You can set custom axis labels by adding <code>xlab()</code> or <code>ylab()</code> when building your ggplot. You can also add a title to the plot by adding <code>ggtitle()</code>. You can also set the theme for a plot, which is a set of pre-chosen aesthetics. There are many pre-existing themes, but an elegant, simple theme that will suit most needs is the classic theme.</p>
+<p>Often to get the figures suitable for publication, or inclusion in a
+dissertation, you will need to customise some aspects of your plot. For
+instance, you will need to change the axis labels, or the theme of the
+plot.</p>
+<p>By default, ggplot will use the variable names for labels on the
+axes. You can set custom axis labels by adding <code>xlab()</code> or
+<code>ylab()</code> when building your ggplot. You can also add a title
+to the plot by adding <code>ggtitle()</code>. You can also set the theme
+for a plot, which is a set of pre-chosen aesthetics. There are many
+pre-existing themes, but an elegant, simple theme that will suit most
+needs is the classic theme.</p>
 <p>Using these components, we can edit the density plot above:</p>
 <pre class="r"><code>ggplot(data = plot.data,mapping = aes(x = height)) +
   geom_density(aes(fill = video.games),alpha = .5) +
@@ -507,14 +650,23 @@ ggplot(data = plot.data,mapping = aes(x = height)) +
 <p><img src="3plot_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <div id="in-the-coming-weeks" class="section level3">
 <h3>In The Coming Weeks…</h3>
-<p>In the coming weeks, we will be introducing a number of other geoms that can be used to represent different types of data, and geoms that can visualise the relationship between two variables. Like with all things covered in this module, if want to do a specific thing using ggplot, but we have not covered it here, you can find the answer by Googling how to do it (E.g., you could search for “ggplot how to change y-axis label”).</p>
+<p>In the coming weeks, we will be introducing a number of other geoms
+that can be used to represent different types of data, and geoms that
+can visualise the relationship between two variables. Like with all
+things covered in this module, if want to do a specific thing using
+ggplot, but we have not covered it here, you can find the answer by
+Googling how to do it (E.g., you could search for “ggplot how to change
+y-axis label”).</p>
 </div>
 </div>
 </div>
 <div id="exercises-1" class="section level1">
 <h1>Exercises</h1>
-<p>Now that you’ve completed this week’s workbook, why not give this week’s exercises a go? You can download the interactive exercises by clicking the link below.</p>
-<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+<p>Now that you’ve completed this week’s workbook, why not give this
+week’s exercises a go? You can download the interactive exercises by
+clicking the link below.</p>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
 </div>
 
 

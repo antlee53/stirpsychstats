@@ -13,8 +13,8 @@
 
 <title>HPSP131 - Workbook 2 - Data Skills: Data Frames and Descriptive Statistics</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -63,6 +63,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -83,6 +84,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -308,7 +312,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -330,16 +334,16 @@ div.tocify {
   <a href="3plot.html">4. Plot</a>
 </li>
 <li>
-  <a href="4LM1.html">5. LM1</a>
+  <a href="4LM1.html">5. ttest_ANOVA</a>
 </li>
 <li>
-  <a href="5LM2.html">6. LM2</a>
+  <a href="5LM2.html">6. Cor_Reg</a>
 </li>
 <li>
-  <a href="6mod_med2.html">7. Mod_Med</a>
+  <a href="6mod.html">7. Mod</a>
 </li>
 <li>
-  <a href="8sim.html">8. Power</a>
+  <a href="8sim22.html">8. Pwr_Med</a>
 </li>
 <li>
   <a href="9SEM.html">9. SEM</a>
@@ -349,7 +353,40 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="extra_lists.html">Lists, Matrices, and Indexing</a>
+    </li>
+    <li>
+      <a href="extra_joins.html">Joining data.frames</a>
+    </li>
+    <li>
+      <a href="extra_cleaning.html">Cleaning and Data Preparation</a>
+    </li>
+    <li>
+      <a href="extra_chisquare.html">Chi-square Tests</a>
+    </li>
+    <li>
+      <a href="extra_nonparametric.html">Non-parametric Tests</a>
+    </li>
+    <li>
+      <a href="extra_logistic.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="extra_functions.html">Custom Functions</a>
+    </li>
+    <li>
+      <a href="extra_simulations.html">Simulations</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="exercises.html">Exercises</a>
 </li>
       </ul>
@@ -361,20 +398,26 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Workbook 2 - Data Skills: Data Frames and Descriptive Statistics</h1>
+<h1 class="title toc-ignore">HPSP131 - Workbook 2 - Data Skills: Data
+Frames and Descriptive Statistics</h1>
 
 </div>
 
 
 <div id="objectives" class="section level1">
 <h1>Objectives</h1>
-<p>The aim of this week is introduce data skills necessary for cleaning a dataset. We will also cover further R basics, such as packages and the working directory. By the end of this workbook, you should be able to:</p>
+<p>The aim of this week is introduce data skills necessary for cleaning
+a data set. We will also cover further R basics, such as packages and
+the working directory. By the end of this workbook, you should be able
+to:</p>
 <ol style="list-style-type: decimal">
 <li>Understand scripts.</li>
 <li>Install and load packages.</li>
 <li>Understand the working directory.</li>
-<li>Import a dataset from the working directory (CSV and Excel files).</li>
-<li>Calculate descriptive statistics for a variable using the <code>summarise()</code> function, including:</li>
+<li>Import a data set from the working directory (CSV and Excel
+files).</li>
+<li>Calculate descriptive statistics for a variable using the
+<code>summarise()</code> function, including:</li>
 </ol>
 <ul>
 <li>Mean</li>
@@ -383,67 +426,129 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2022.csv download>Click here to
+download the data used in these workbooks.</a> (You may need to
+right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
 </div>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <div id="scripts" class="section level2">
 <h2>Scripts</h2>
-<p>One of the advantages of using R to clean and analyse data is the use of scripts. Scripts are where you can save code used to manipulate a dataset for analysis. Having a script is advantageous because:</p>
+<p>One of the advantages of using R to clean and analyse data is the use
+of scripts. Scripts are where you can save code used to manipulate a
+data set for analysis. As a reminder, a script is different from the
+console; the script is where you save code for later use, while the
+console is where you would run the code. If you would like to run code
+saved in a script, you will need to copy it or “send” it to the console.
+In RStudio, the script is in the top left window, while the console is
+the bottom left window.</p>
+<p>Having a script is advantageous because:</p>
 <ol style="list-style-type: decimal">
 <li>Reduces human error.</li>
-<li>Keeps a record of manipulations on datasets (again, reducing errors and data corruption, or reliance on your own memory).</li>
+<li>Keeps a record of manipulations on data sets (again, reducing errors
+and data corruption, or reliance on your own memory).</li>
 <li>Is easily shareable and reproducible.</li>
-<li>A change can be introduced in the analysis pipeline without re-doing the whole process.</li>
+<li>A change can be introduced in the analysis pipeline without re-doing
+the whole process.</li>
 </ol>
-<p>A good way to structure scripts are the following steps. There is no obligation to follow this convention for your own scripts, but I would highly suggest sticking to it to begin with:</p>
+<p>A good way to structure scripts are the following steps. There is no
+obligation to follow this convention for your own scripts, but I would
+highly suggest sticking to it to begin with:</p>
 <ol style="list-style-type: decimal">
 <li>Load in any packages you need to use (more on this below).</li>
 <li>Define any custom functions (more on this in Workbook 8).</li>
 <li>Import the data you will be working with (more on this below).</li>
-<li>Work with the data (e.g., cleaning your data ready for analysis).</li>
+<li>Work with the data (e.g., cleaning your data ready for
+analysis).</li>
 <li>Analyse your data (more on this in future Workbooks).</li>
 </ol>
-<p>A new script can be created in RStudio by selecting the following in the drop-down menus:</p>
+<p>A new script can be created in RStudio by selecting the following in
+the drop-down menus:</p>
 <p>File &gt;&gt; New File &gt;&gt; R Script</p>
-<p>You can also save and open R Scripts under the File tab. Scripts are opened in the text editor window (top left window) of RStudio.</p>
-<p>This is what an R script looks likes:</p>
-<div class="figure">
-<img src="images/script.png" alt="" />
-<p class="caption">An R Script</p>
-</div>
-<p>You can make comments on your code by using the ‘#’ symbol. Anything after this symbol on a line will not be treated as code. This is handy for making notes to yourself about what your code does, or making your code more readable. Here are some examples of using comments:</p>
+<p>You can also save and open R Scripts under the File tab. Scripts are
+opened in the text editor window (top left window) of RStudio.</p>
+<p>A handy thing to know is that you can make comments on your code in a
+script by using the ‘#’ symbol. Anything after this symbol on a line
+will not be treated as code. This is handy for making notes to yourself
+about what your code does, or making your code more readable. Here are
+some examples of using comments:</p>
 <pre class="r"><code>#This line will not run because it is commented out.
 
 x &lt;- 2 #This line save the object &#39;x&#39; as the number 2.</code></pre>
+<p>There are no limits to the number of comments you can have in a
+script, so if it helps you remember what each bit of code does, add as
+many comments as you want!</p>
 </div>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
-<p>Base R comes with a lot of in-built functions, but one of the great things about R is that there is a large community writing functions and including them in packages for free. Packages are like add-ons that can expand the number of functions you can use in R. There are thousands of packages that different R users have created to solve many different kinds of problems. If you want to do something in R, it is highly likely there’s already a package for that.</p>
-<p>Packages have to be downloaded and installed onto your computer before you can use them in R. You can install packages from the main R repository (CRAN) using the <code>install.packages()</code> function.</p>
-<p>There is an important distinction between installing a package and loading a package. Installing a package is done using <code>install.packages()</code>. This is like installing an app on your smartphone: you only have to do it once and the app will remain installed until you remove it. Likewise, when you install a package, the package will be available (but not loaded) every time you open up R.</p>
-<p>Once a package has been installed, you can load a package using the <code>library()</code> function. This is like launching an app on your phone. Likewise, if you were to run the code <code>library(packagename)</code>, you will load all the functions in the package called ‘packagename’ and they will be available to you for the rest of your R session. However, the next time you start R, you will need to run the <code>library(packagename)</code> function again if you want access to those functions again.</p>
-<p>A package we will use frequently is called ‘tidyverse’. ‘tidyverse’ is actually a group of packages that are useful for cleaning and organising data.frames. Install and load ‘tidyverse’ using the following commands. When installing a package, you may be asked to select a CRAN. This is the repository files will be downloaded from. Select a sever in the UK. Remember, you only need to install the ‘tidyverse’ package onto your computer once, but you will need to load it every time you start a new R session.</p>
+<p>Base R comes with a lot of in-built functions, but one of the great
+things about R is that there is a large community writing functions and
+including them in packages for free. Packages are like add-ons that can
+expand the number of functions you can use in R. There are thousands of
+packages that different R users have created to solve many different
+kinds of problems. If you want to do something in R, it is highly likely
+there’s already a package for that.</p>
+<p>Packages have to be downloaded and installed onto your computer
+before you can use them in R. You can install packages from the main R
+repository (CRAN) using the <code>install.packages()</code>
+function.</p>
+<p>There is an important distinction between installing a package and
+loading a package. Installing a package is done using
+<code>install.packages()</code>. This is like installing an app on your
+smartphone: you only have to do it once and the app will remain
+installed until you remove it. Likewise, when you install a package, the
+package will be available (but not loaded) every time you open up R.</p>
+<p>Once a package has been installed, you can load a package using the
+<code>library()</code> function. This is like launching an app on your
+phone. Likewise, if you were to run the code
+<code>library(packagename)</code>, you will load all the functions in
+the package called ‘packagename’ and they will be available to you for
+the rest of your R session. However, the next time you start R, you will
+need to run the <code>library(packagename)</code> function again if you
+want access to those functions again.</p>
+<p>A package we will use frequently is called ‘tidyverse’. ‘tidyverse’
+is actually a group of packages that are useful for cleaning and
+organising data.frames. Install and load ‘tidyverse’ using the following
+commands. When installing a package, you may be asked to select a CRAN.
+This is the repository files will be downloaded from. Select a sever in
+the UK. Remember, you only need to install the ‘tidyverse’ package onto
+your computer once, but you will need to load it every time you start a
+new R session.</p>
 <pre class="r"><code>install.packages(&quot;tidyverse&quot;)   #This line installs tidyverse onto your computer
 
 library(tidyverse)              #This line loads tidyverse for this session</code></pre>
 </div>
 <div id="the-working-directory" class="section level2">
 <h2>The Working Directory</h2>
-<p>Often in R, you will need to import files saved on your computer, such as datasets. When analysing data in R, you usually want to have all of your scripts and data files in one folder of your computer. This folder is known as the working directory. It is best practice for different projects to be saved in different folders, and therefore each have a separate working directory.</p>
-<p>To change your working directory, from the drop-down menus click on:</p>
-<p>Sessions &gt;&gt;&gt; Set Working Directory &gt;&gt;&gt; Choose Directory…</p>
+<p>Often in R, you will need to import files saved on your computer,
+such as data sets. When analysing data in R, you usually want to have
+all of your scripts and data files in one folder of your computer. This
+folder is known as the working directory. It is best practice for
+different projects to be saved in different folders, and therefore each
+has a separate working directory.</p>
+<p>To change your working directory, from the drop-down menus click
+on:</p>
+<p>Sessions &gt;&gt;&gt; Set Working Directory &gt;&gt;&gt; Choose
+Directory…</p>
 <p>Then select the desired folder.</p>
-<p>Alternatively, you can use the <code>setwd()</code> function within a script. Just note that if you change computers, the file directory path will most likely be different.</p>
-<p>Your working directory will be displayed in the bottom right window or RStudio when you click on the ‘Files’ tab.</p>
+<p>Alternatively, you can use the <code>setwd()</code> function within a
+script. Just note that if you change computers, the file directory path
+will most likely be different.</p>
+<p>Your working directory will be displayed in the bottom right window
+or RStudio when you click on the ‘Files’ tab.</p>
 </div>
-<div id="import-dataset" class="section level2">
-<h2>Import Dataset</h2>
-<p>Data can be saved as many different file types on your computer. These different file types are usually distinguished by the three letter extension following a period at the end of the file name. Here are some examples of common data file types and the functions you would use to read them in or write them out.</p>
+<div id="importing-data" class="section level2">
+<h2>Importing Data</h2>
+<p>Data can be saved as many different file types on your computer.
+These different file types are usually distinguished by the three letter
+extension following a period at the end of the file name. Here are some
+examples of common data file types and the functions you would use to
+read them in or write them out.</p>
 <table>
 <thead>
 <tr class="header">
@@ -474,47 +579,99 @@ library(tidyverse)              #This line loads tidyverse for this session</cod
 </tr>
 </tbody>
 </table>
-<p>In general, I would suggest using a .csv file. This is advantageous because it can be read by many programs and is not tied to a specific program (like a SPSS or excel file), which future-proofs your data. Most programs, such as SPSS and excel, can also read .csv files. You can save a dataset to your computer using the <code>write_csv()</code> function.</p>
-<p>Note, you can also read and write .csv file using base R functions read.csv() and write.csv() respectively; however, these functions have some default settings that can cause headaches in the future, so best to avoid these. Also note, the read_csv() function will output some red text that looks like an error message, but this is just R telling you how it interpretted all the variables, and usually means everything is okay.</p>
-<p>Remember to download the data for this week’s workbook and put it in your working directory before running the code below.</p>
+<p>In general, I would suggest using a .csv file. This is advantageous
+because it can be read by many programs and is not tied to a specific
+program (like a SPSS or excel file), which future-proofs your data. Most
+programs, such as SPSS and excel, can also read .csv files. Regardless
+of which file type you are importing, R is expecting the data to be in a
+certain format. Namely, each variable should be in a separate column,
+and the variable names should be in the first row. If your data is not
+in this exact format (e.g., if there is any blank space in your data
+file), then R may not read it properly. You may need to edit your data
+file manually to make sure it matches this format (there are ways you
+can do it in R, but for beginners, is generally easier to do this bit
+manually). You can save a data set to your computer in R using the
+<code>write_csv()</code> function.</p>
+<p>Note, you can also read and write .csv file using base R functions
+read.csv() and write.csv() respectively; however, these functions have
+some default settings that can cause headaches in the future, so best to
+avoid these. Also note, the read_csv() function will output some red
+text that looks like an error message, but this is just R telling you
+how it interpreted all the variables, and usually means everything is
+okay.</p>
+<p>Remember to download the data for this week’s workbook and put it in
+your working directory before running the code below. Note that the
+class data set is already in the correct format.</p>
 <pre class="r"><code>#Remember to load the tidyverse library if you haven&#39;t already.
 #The exact directory the file is in may differ depending on where the data file is on your computer.
 
-data &lt;- read_csv(&quot;data_2021.csv&quot;)</code></pre>
-<p>Once data is loaded, you can view the data.frame by either clicking on the dataframe icon in the work space, or using the <code>View()</code> function in the console. This will open a tab in the top left window, and clicking on this will show you the data.frame. This can be handy to make sure your data has loaded correctly, or double-checking whether functions used to clean your data has worked as intended.</p>
+data &lt;- read_csv(&quot;data_2022.csv&quot;)</code></pre>
+<p>Once data is loaded, you can view the data.frame by either clicking
+on the data.frame icon in the work space, or using the
+<code>View()</code> function in the console. This will open a tab in the
+top left window, and clicking on this will show you the data.frame. This
+can be handy to make sure your data has loaded correctly, or
+double-checking whether functions used to clean your data has worked as
+intended.</p>
 </div>
-<div id="calculate-descriptive-statistics" class="section level2">
-<h2>Calculate Descriptive Statistics</h2>
-<p>In the lecture series, we covered measures of central tendancy and dispersion. In particular, important statistics that you will need to calculate often are the mean, and the standard deviation of a variable. Thankfully, there are simple functions in R that can calculate these for you. In both cases, the first argument of the function accepts a numeric vector.</p>
-<p>In the following examples, we will calculate the mean and standard deviation for the following numeric vectors:</p>
+<div id="calculating-descriptive-statistics" class="section level2">
+<h2>Calculating Descriptive Statistics</h2>
+<p>In the lecture series, we covered measures of central tendancy and
+dispersion. In particular, important statistics that you will need to
+calculate often are the mean and the standard deviation of a continuous
+variable. Thankfully, there are simple functions in R that can calculate
+these for you. In both cases, the first argument of the function accepts
+a numeric vector.</p>
+<p>In the following examples, we will calculate the mean and standard
+deviation for the following numeric vectors:</p>
 <pre class="r"><code>prime.numbers &lt;- c(1,2,3,5,7,11,13,17,19,53)
 
 prime.numbers.na &lt;- c(1,NA,3,5,7,NA,17,NA,53)</code></pre>
 <div id="calculating-the-mean" class="section level3">
 <h3>Calculating the Mean</h3>
-<p>The function that calculates the mean in R is called <code>mean()</code>. The first argument for this function accepts a numeric vector, which is the list of numbers you want to calculate the mean of.</p>
-<p>So to calculate the mean for the <code>prime.numbers</code> vector above, we can use the following code:</p>
+<p>The function that calculates the mean in R is called
+<code>mean()</code>. The first argument for this function accepts a
+numeric vector, which is the list of numbers you want to calculate the
+mean of.</p>
+<p>So to calculate the mean for the <code>prime.numbers</code> vector
+above, we can use the following code:</p>
 <pre class="r"><code>mean(prime.numbers)</code></pre>
 <pre><code>## [1] 13.1</code></pre>
-<p>So, the mean for the numbers in <code>prime.numbers</code> is 13.10.</p>
-<p>This seems simple enough; however, if we try the same code to compute the mean for the vector <code>prime.numbers.na</code>, an error message is returned. This is because <code>prime.numbers.na</code> has missing values. R considers any value coded as <code>NA</code> as a missing value. Missing values can be due to many reasons, sometimes they are meaningful, but other times they can be ignored. To ignore missing values in the <code>mean()</code> function, we can set the <code>na.rm</code> argument to <code>TRUE</code>:</p>
+<p>So, the mean for the numbers in <code>prime.numbers</code> is
+13.10.</p>
+<p>This seems simple enough; however, if we try the same code to compute
+the mean for the vector <code>prime.numbers.na</code>, an error message
+is returned. This is because <code>prime.numbers.na</code> has missing
+values. R considers any value coded as <code>NA</code> as a missing
+value. Missing values can be due to many reasons, sometimes they are
+meaningful, but other times they can be ignored. To ignore missing
+values in the <code>mean()</code> function, we can set the
+<code>na.rm</code> argument to <code>TRUE</code>:</p>
 <pre class="r"><code>mean(prime.numbers.na, na.rm = TRUE)</code></pre>
 <pre><code>## [1] 14.33333</code></pre>
 </div>
 <div id="calculating-the-standard-deviation" class="section level3">
 <h3>Calculating the Standard Deviation</h3>
-<p>The Standard Deviation of a vector can be calculated in the exact same way as the mean, except we use the <code>sd()</code> function.</p>
-<p>So to calculate the standard deviation for the <code>prime.numbers</code> vector, we use the code:</p>
+<p>The Standard Deviation of a vector can be calculated in the exact
+same way as the mean, except we use the <code>sd()</code> function.</p>
+<p>So to calculate the standard deviation for the
+<code>prime.numbers</code> vector, we use the code:</p>
 <pre class="r"><code>sd(prime.numbers)</code></pre>
 <pre><code>## [1] 15.35108</code></pre>
 <p>So the standard deviation of <code>prime.numbers</code> is 15.35.</p>
-<p>Similarly, the <code>sd()</code> function doesn’t deal well with missing values. So to calculate the standard deviation of <code>prime.numbers.na</code>, we use:</p>
+<p>Similarly, the <code>sd()</code> function doesn’t deal well with
+missing values. So to calculate the standard deviation of
+<code>prime.numbers.na</code>, we use:</p>
 <pre class="r"><code>sd(prime.numbers.na, na.rm = TRUE)</code></pre>
 <pre><code>## [1] 19.74504</code></pre>
 </div>
 <div id="other-descriptive-statistic-functions" class="section level3">
 <h3>Other Descriptive Statistic Functions</h3>
-<p>Here are some other functions that may come in handy… why not try some of them out? There are many more functions that exist in R. If you ever need to calculate a certain descriptive statistic for a variable, there is probably a function for it, and you can discover what it is with a bit of Googling.</p>
+<p>Here are some other functions that may come in handy… why not try
+some of them out? There are many more functions that exist in R. If you
+ever need to calculate a certain descriptive statistic for a variable,
+there is probably a function for it, and you can discover what it is
+with a bit of Google-ing.</p>
 <table>
 <colgroup>
 <col width="15%" />
@@ -541,51 +698,106 @@ prime.numbers.na &lt;- c(1,NA,3,5,7,NA,17,NA,53)</code></pre>
 </tr>
 <tr class="even">
 <td><code>is.na()</code></td>
-<td>Returns a logical vector telling you whether an element is missing.</td>
+<td>Returns a logical vector telling you whether an element is
+missing.</td>
 </tr>
 </tbody>
 </table>
 </div>
 <div id="table-function" class="section level3">
 <h3>table() Function</h3>
-<p>Another useful function is the <code>table()</code> function. This function tells you the frequency that each value appears for a vector. This can be handy if you need to quickly see the separate values that exists for a variable, and also a quick way you can count up how often a value appears (e.g., if you need to calculate which value is the mode).</p>
-<p>Here is an example of using the <code>table()</code> function with a vector:</p>
+<p>Another useful function is the <code>table()</code> function. This
+function tells you the frequency that each value appears for a vector.
+This can be handy if you need to quickly see the separate values that
+exists for a variable, or quickly count how often a value appears (e.g.,
+if you need to calculate which value is the mode).</p>
+<p>Here is an example of using the <code>table()</code> function with a
+vector:</p>
 <pre class="r"><code>catagories &lt;- c(&quot;CatA&quot;,&quot;CatB&quot;,&quot;CatA&quot;,&quot;CatC&quot;,&quot;CatB&quot;,&quot;CatA&quot;)
 
 table(catagories)</code></pre>
 <pre><code>## catagories
 ## CatA CatB CatC 
 ##    3    2    1</code></pre>
-<p>So for instance, above, we can quickly see that there are three separate values in the vector <code>catagories</code>, and the one that appears most frequently (i.e., is the mode) is <code>CatA</code>.</p>
-<p>We can also use the <code>table()</code> function for variables in data.frames. An example of this is below using the class data and the question above favourite Australia animals. How to read the code below is that we use the <code>$</code> symbol to index which variable we want to look at in the data.frame called <code>data</code>.</p>
+<p>So for instance, above, we can quickly see that there are three
+separate values in the vector <code>catagories</code>, and the one that
+appears most frequently (i.e., is the mode) is <code>CatA</code>.</p>
+<p>We can also use the <code>table()</code> function for variables in
+data.frames. An example of this is below using the class data and the
+question about favourite Australia animals. How to read the code below
+is that we use the <code>$</code> symbol to index which variable we want
+to look at in the data.frame called <code>data</code>.
+<a href = "extra_lists.html">See the extra materials for more
+information on indexing.</a></p>
 <pre class="r"><code>table(data$aus.animal)</code></pre>
 <pre><code>## 
 ##  echidna kangaroo    koala platypus   wombat 
-##        5       21       41       10       11</code></pre>
-<p>So above, we see that there are five separate values (if we ignore missing data), and the most frequent response was <code>koala</code>.</p>
+##       22       24       20       25       29</code></pre>
+<p>So above, we see that there are five separate values (if we ignore
+missing data), and the most frequent response was
+<code>koala</code>.</p>
 </div>
 </div>
 <div id="tidyverse-functions" class="section level2">
 <h2>Tidyverse Functions</h2>
-<p>The tidyverse package provides handy functions for data cleaning and manipulation. Remember, these functions work like all other functions: they take a number of arguments, such as a data.frame and instructions, then gives you an output that can be saved as an object, such as another data.frame. In this workbook, we will cover one function that you can use to calculate descriptive statistics; however, there are many more tidyverse functions. We will cover a few more next week, but for a full list, see <a href="https://www.rstudio.com/resources/cheatsheets/#dplyr">the tidyverse cheatsheets</a>, or view the help documentation using <code>help()</code>.</p>
-<p>All tidyverse functions to do with data cleaning follow the same structure:</p>
+<p>The tidyverse package provides handy functions for data cleaning and
+manipulation. Remember, these functions work like all other functions:
+they take a number of arguments, such as a data.frame and instructions,
+then gives you an output that can be saved as an object, such as another
+data.frame. In this workbook, we will cover one function that you can
+use to calculate descriptive statistics; however, there are many more
+tidyverse functions. We will cover a few more next week, but for a full
+list, see <a
+href="https://www.rstudio.com/resources/cheatsheets/#dplyr">the
+tidyverse cheatsheets</a>, or view the help documentation using
+<code>help()</code>.</p>
+<p>All tidyverse functions to do with data cleaning follow the same
+structure:</p>
 <p><code>function_name(data.frame,instructions)</code></p>
-<p>where the first argument is always the data.frame you wish to perform the function on, and the remaining arguments are instructions on how you wish to perform that function.</p>
+<p>where the first argument is always the data.frame you wish to perform
+the function on, and the remaining arguments are instructions on how you
+wish to perform that function.</p>
 <div id="summarise" class="section level3">
 <h3>summarise()</h3>
-<p>Functions like <code>mean()</code> and <code>sd()</code> are great when you want to calculate descriptive statistics from a vector, but more often than not, you will need to get these values from a variable in a dataset. One way to do this is use the <code>summarise()</code> function from the tidyverse package.</p>
-<p>So how does the <code>summarise()</code> function work? This function takes multiple arguments. The first argument of the function is the data.frame that has the variables you’re interested in. The remaining arguments tells R which descriptive statistics you would like it to calculate (i.e., multiple descriptive statistics can be calculated at once). You can tell <code>summarise()</code> which stats you want it to calculate using the same functions we covered above (e.g., <code>mean()</code>,<code>sd()</code>, etc.). In return, <code>summarise()</code> will return another data.frame with the descriptive statistics you’ve asked for. Threfore, for each stat that you calculate, you will need to provide a new variable name. For each descriptive stat that you want to calculate using <code>summarise()</code>, you will need to provide an additional argument that takes the following form:</p>
+<p>Functions like <code>mean()</code> and <code>sd()</code> are great
+when you want to calculate descriptive statistics from a vector, but
+more often than not, you will need to get these values from a variable
+in a data set. One way to do this is use the <code>summarise()</code>
+function from the tidyverse package.</p>
+<p>So how does the <code>summarise()</code> function work? This function
+takes multiple arguments. The first argument of the function is the
+data.frame that has the variables you’re interested in. The remaining
+arguments tells R which descriptive statistics you would like it to
+calculate (i.e., multiple descriptive statistics can be calculated at
+once). You can tell <code>summarise()</code> which stats you want it to
+calculate using the same functions we covered above (e.g.,
+<code>mean()</code>,<code>sd()</code>, etc.). In return,
+<code>summarise()</code> will return another data.frame with the
+descriptive statistics you’ve asked for. Therefore, for each stat that
+you calculate, you will need to provide a new variable name. For each
+descriptive stat that you want to calculate using
+<code>summarise()</code>, you will need to provide an additional
+argument that takes the following form:</p>
 <p><code>variable_name = function(variable)</code></p>
-<p>This may sound confusing, but it helps to see it in action. Below is the code to calculate the mean and standard deviation of the variable <code>stats_exp</code> in the data.frame called <code>data</code>.</p>
+<p>This may sound confusing, but it helps to see it in action. Below is
+the code to calculate the mean and standard deviation of the variable
+<code>stats_exp</code> in the data.frame called <code>data</code>.</p>
 <pre class="r"><code>summarise(data,
           stats_exp.mean = mean(stats.exp, na.rm = TRUE),
           stats_exp.sd = sd(stats.exp, na.rm = TRUE))</code></pre>
 <pre><code>## # A tibble: 1 × 2
 ##   stats_exp.mean stats_exp.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;
-## 1           3.85         1.97</code></pre>
-<p>A couple of things to note. First, I have broken the above code across several lines. This is just to make it easier to read (remember R ignores white space inside an incomplete command). Second, it doesn’t matter what you name the new variable (but ideally you want a label that is helpful).</p>
-<p>As mentioned, you are not limited in the number of stats you can compute using the <code>summarise()</code> function, so by expanding the code above, we can calculate the means and standard deviations of multiple variables:</p>
+## 1           4.88         2.73</code></pre>
+<p>A couple of things to note. First, I have broken the above code
+across several lines. This is just to make it easier to read (remember R
+ignores white space inside an incomplete command). Second, it doesn’t
+matter what you name the new variable (but ideally you want a label that
+is helpful).</p>
+<p>As mentioned, you are not limited in the number of stats you can
+compute using the <code>summarise()</code> function, so by expanding the
+code above, we can calculate the means and standard deviations of
+multiple variables:</p>
 <pre class="r"><code>summarise(data,
           stats_exp.mean = mean(stats.exp, na.rm = TRUE),
           stats_exp.sd = sd(stats.exp, na.rm = TRUE),
@@ -594,15 +806,22 @@ table(catagories)</code></pre>
 <pre><code>## # A tibble: 1 × 4
 ##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;
-## 1           3.85         1.97           5.52         2.30</code></pre>
-<p>Note: An annoying thing about the summarise function is that sometimes it will not show results to two-decimal places (which is the requirement for APA format). To see all the decimal places, you can <code>View()</code> the data.frame produced by the <code>summarise()</code> function.</p>
+## 1           4.88         2.73           5.25         2.48</code></pre>
+<p>Note: An annoying thing about the <code>summarise()</code> function
+is that sometimes it will not show results to two-decimal places (which
+is the requirement for APA format). To see all the decimal places, you
+can <code>View()</code> the data.frame produced by the
+<code>summarise()</code> function.</p>
 </div>
 </div>
 </div>
 <div id="exercises-1" class="section level1">
 <h1>Exercises</h1>
-<p>Now that you’ve completed this week’s workbook, why not give this week’s exercises a go? You can download the interactive exercises by clicking the link below.</p>
-<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+<p>Now that you’ve completed this week’s workbook, why not give this
+week’s exercises a go? You can download the interactive exercises by
+clicking the link below.</p>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
 </div>
 
 

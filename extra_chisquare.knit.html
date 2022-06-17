@@ -11,7 +11,7 @@
 
 
 
-<title>HPSP131 - Quantitative Methods in Psychological Research</title>
+<title>HPSP131 - Chi-Square Tests</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -398,151 +398,167 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Quantitative Methods in
-Psychological Research</h1>
+<h1 class="title toc-ignore">HPSP131 - Chi-Square Tests</h1>
 
 </div>
 
 
-<p>Last updated: Fri Jun 17 11:52:29 2022</p>
-<p>This module is designed to teach students the basic skills needed to
-conduct quantitative research in R. This module covers basic data
-skills, data tidying, plotting data, and analysing datasets in R. This
-is not meant to be a comprehensive guide to R (such a thing would be
-almost impossible!). Rather, this module is designed to be a gentle
-introduction to R, cover statistical techniques that are common in
-psychological research, and provide a solid base where you can
-investigate advanced techniques on your own. This website contains
-weekly workbooks designed to reinforce materials presented in lectures
-and demonstrations. Weekly exercises are also provided that are designed
-for you to practice your R skills, and introduce new concepts for
-students looking for an additional challenge.</p>
-<div id="syllabus" class="section level1">
-<h1>Syllabus</h1>
-<p>Each week, we will be tackling the following topics:</p>
-<ol style="list-style-type: decimal">
-<li>Introduction to R.</li>
-<li>Datasets in R.</li>
-<li>Data cleaning and data skills.</li>
-<li>Plotting data using ggplot2.</li>
-<li>t-tests and one-way ANOVAs.</li>
-<li>Correlation and regression.</li>
-<li>Moderation - multiple regression, two-way ANOVAs</li>
-<li>Power analyses and mediation.</li>
-<li>Structural Equation Modelling (Path Analysis)</li>
-<li>Mixed Effects Modelling (Multilevel Modelling)</li>
-</ol>
+<p>This page contains extra R content not covered in the demonstrations
+and could be considered supplementary to the module. This content is
+useful for completing the advanced exercises from Week 6 and focuses on
+conducting chi-square tests in R. This includes the chi-square goodness
+of fit test, and the chi-square test of independence.</p>
+<div id="contingency-tables" class="section level1">
+<h1>Contingency Tables</h1>
+<p>To conduct chi-square tests in R, we use the
+<code>chisq.test()</code> function. Unlike most of the statistical
+analysis functions we’ve looked at so far, this function does not accept
+a formula and a dataset. Instead, the main argument that this function
+expects is a contingency table.</p>
+<p>To create a contingency table in R, we can use the
+<code>table()</code> function. We have briefly talked about the
+<code>table()</code> function (to view the frequencies for a single
+variable)[<a
+href="https://antlee53.github.io/stirpsychstats/2data.html#table"
+class="uri">https://antlee53.github.io/stirpsychstats/2data.html#table</a>()_Function],
+but as a quick recap, if you wanted to view the frequencies for
+favourite Australian animals in the class dataset, the code would
+be:</p>
+<pre class="r"><code>table(data$aus.animal)</code></pre>
+<pre><code>## 
+##  echidna kangaroo    koala platypus   wombat 
+##       22       24       20       25       29</code></pre>
+<p>However, the <code>table()</code> function can also be used to create
+a contingency table. A two-variable contingency table will be created
+from a data.frame that only has two variables in it. Therefore, you can
+use the <code>select()</code> function (covered in Week 3) to create a
+data.frame that only includes the two variables that you’re interested
+in.</p>
+<p>So for example, if we wanted to create a contingency table of
+videogamers vs. non-videogamers across the three programmes in the class
+dataset, the code would look like this:</p>
+<pre class="r"><code>select(data,video.games,program) %&gt;%
+  table()</code></pre>
+<p>Alternatively, this could be done by inputting two vectors of
+variables from the same dataset as arguments. Here is that code:</p>
+<pre class="r"><code>table(data$video.games,data$program)</code></pre>
+<pre><code>##      
+##       Conversion MSc Health MSc Other Research MSc
+##   No              20         18                 20
+##   Yes             29         12                 21</code></pre>
 </div>
-<div id="weekly-exercises" class="section level1">
-<h1>Weekly Exercises</h1>
-<p>Exercises are available each week and are designed to reinforce
-content. These exercises are split into basic and advance sections. It
-is expected that students can complete the basic sections of each weekly
-exercise, with the advanced sections designed for students who want an
-extra challenge or learn additional functions in R. If you can
-successfully complete these exercises, then you should be able to easily
-complete the marked assessments.</p>
+<div id="chi-square-goodness-of-fit-test" class="section level1">
+<h1>Chi-square Goodness of Fit Test</h1>
+<p>As covered in the lecture series, the chi-square goodness of fit test
+is used to compare the observed distribution of a single categorical
+variable with an expected distribution.</p>
+<p>The function that performs a chi-square goodness of fit test is the
+<code>chisq.test()</code> function. There are two inputs we require.
+First, is a numeric vector with the observed frequencies. Second, is the
+probability of the expected frequencies (argument named
+<code>p</code>).</p>
+<p>For instance, if we conducted a study that counted the frequency of
+100 people’s favourite colour, and observed 20 people reported “red”, 35
+people reported “green”, and 45 people reported “blue”, then the first
+argument would be:</p>
+<pre class="r"><code>c(20,35,45)</code></pre>
+<pre><code>## [1] 20 35 45</code></pre>
+<p>Note: if the variable we are interested in is a variable in a
+dataset, then, as described above, we can use the <code>table()</code>
+function to get the frequencies.</p>
+<p>If we expect an equal distribution among the three colours, our
+expected probabilities would be represented as:</p>
+<pre class="r"><code>c(1/3,1/3,1/3)</code></pre>
+<pre><code>## [1] 0.3333333 0.3333333 0.3333333</code></pre>
+<p>Altogether, to conduct the chi-square goodness of fit test, we input
+these vectors into the <code>chisq.test()</code> function:</p>
+<pre class="r"><code>chisq.test(c(20,35,45),p = c(1/3,1/3,1/3))</code></pre>
+<pre><code>## 
+##  Chi-squared test for given probabilities
+## 
+## data:  c(20, 35, 45)
+## X-squared = 9.5, df = 2, p-value = 0.008652</code></pre>
+<div id="conduct-the-statistical-test" class="section level3">
+<h3>1. Conduct the Statistical Test</h3>
+<p>Following the example from the lecture series, let’s conduct a
+chi-square goodness of fit test for favourite Australian animals using
+the class dataset. We want to compare the frequencies in the class
+dataset with the expected proportions form a national UK poll to see if
+the class distribution is similar to national rates, or if there’s
+something different about this cohort.</p>
+<p>To conduct this analysis, we enter the frequencies from the dataset
+as the first argument, and a vector with the expected probabilities as
+the second argument.</p>
+<pre class="r"><code>chisq.test(table(data$aus.animal),p = c(.0171,.2222,.4615,.1624,.1368))</code></pre>
+<pre><code>## 
+##  Chi-squared test for given probabilities
+## 
+## data:  table(data$aus.animal)
+## X-squared = 227.99, df = 4, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div id="write-up-the-results" class="section level3">
+<h3>2. Write-up the Results</h3>
+<p>To report a chi-square test, you need the following information: *
+The chi-square statistic (the test statistic). * The degrees of freedom.
+* The p-value.</p>
+<p>Once you have this information, the write-up becomes:</p>
+<blockquote>
+<p>A chi-square goodness of fit test found a significant difference
+between the class distribution of favourite Australian animals and the
+expected values based on national rates, chi-square(4) = 227.99, p &lt;
+.001.</p>
+</blockquote>
+</div>
+</div>
+<div id="chi-square-test-of-independence" class="section level1">
+<h1>Chi-square Test of Independence</h1>
+<p>The chi-square test of independence is used to determine if the
+distribution of frequencies of a categorical DV are different at
+different levels of an IV.</p>
+<p>The chi-square test of independence uses the same function as the
+chi-square goodness of fit test, but the inputs are different. The
+function is smart enough to know which test to conduct given which
+inputs it receives.</p>
+<div id="conduct-the-statistical-test-1" class="section level3">
+<h3>1. Conduct the Statistical Test</h3>
+<p>If you input a contingency table that has 2 variables, then the
+function knows to conduct a chi-square test of independence. As
+described above, contingency tables can be created using the
+<code>table()</code> function.</p>
+<p>As such, if we were to test whether the proportion of video gamers
+was different across the three programmes in the class dataset, the code
+looks like this:</p>
+<pre class="r"><code>c.table &lt;- select(data,video.games,program) %&gt;%
+  table()
+
+chisq.test(c.table)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  c.table
+## X-squared = 2.7472, df = 2, p-value = 0.2532</code></pre>
+</div>
+<div id="write-up-the-results-1" class="section level3">
+<h3>2. Write-up the Results</h3>
+<p>To write-up a chi-square test of independence, you need the same
+information as above, being the test statistic, the associated degrees
+of freedom, and the p-value. Altogether, the write-up then can look
+something like this:</p>
+<blockquote>
+<p>A chi-square test of independence did not find a significant
+difference in videogamers across the three programmes, chi-square(2) =
+2.75, p = 0.253.</p>
+</blockquote>
+</div>
+</div>
+<div id="advanced-exercises" class="section level1">
+<h1>Advanced Exercises</h1>
+<p>If you would like to practice the skills on this page, weekly
+exercise questions on this content are available in the advanced
+exercises for Week 6. You can download the interactive exercises by
+clicking the link below.</p>
 <p><a href = "exercises.html">Click here to download this week’s
 exercises.</a></p>
-</div>
-<div id="before-you-start" class="section level1">
-<h1>Before You Start…</h1>
-<div id="complete-the-survey" class="section level2">
-<h2>Complete The Survey</h2>
-<p>Within these workbooks, we will be analysing real data collected in a
-survey at the beginning of semester. Before beginning the first
-workbook, it is a good idea to complete this survey yourself, as 1) it
-will give you an idea on how the data we are analysing was collected,
-and 2) if no one does the survey, then we won’t have any data to
-analyse!</p>
-<p><a href = "https://stirlingpsych.eu.qualtrics.com/jfe/form/SV_8wTPyPWWH2b6BeK">You
-can access the survey by clicking here.</a></p>
-</div>
-<div id="download-r" class="section level2">
-<h2>Download R</h2>
-<p>R is a free software environment for statistical computing and
-graphics. If you already have R installed on your computer, make sure
-you have the latest version. Otherwise, you can follow the instructions
-below to install R. R can be installed on most computers and laptops,
-but cannot be installed on tablets and some chromebooks.</p>
-<p>Note: Throughout the process of installing R and RStudio, do not
-change directories or roots. Always select the default options. Changing
-options can break links and cause many headaches down the line.</p>
-<ol style="list-style-type: decimal">
-<li><a href = "https://cran.ma.imperial.ac.uk" target = "_blank">Click
-here to go to the R download website (UK)</a></li>
-<li>Select your operating system (Linux, MacOS, or Windows).</li>
-<li>Windows users will want to click the ‘base’ subdirectory after
-selecting Windows, then click the Download R for Windows link. Mac users
-will want to download the most recent .pkg file.</li>
-<li>Select the latest release for your operating system to download to
-your computer.</li>
-<li>Open the downloaded file and follow the instructions.</li>
-</ol>
-</div>
-<div id="windows-users" class="section level2">
-<h2>Windows Users</h2>
-<p>Windows users will also need to download an additional extension
-called Rtools.</p>
-<ol style="list-style-type: decimal">
-<li><a href = https://cran.r-project.org/bin/windows/Rtools/ target = "_blank">Click
-here to go to the Rtools download site.</a></li>
-<li>Select the recommended version of Rtools.</li>
-<li>Open the downloaded install file and follow the instructions.</li>
-</ol>
-</div>
-<div id="download-rstudio" class="section level2">
-<h2>Download RStudio</h2>
-<p>RStudio provides a graphical user interface for R. It is designed to
-make R easier to use. All content from this module will be conducted in
-RStudio.</p>
-<ol style="list-style-type: decimal">
-<li><a href = https://www.rstudio.com/products/rstudio/download/ target = "_blank">Click
-here to go to the RStudio download website.</a></li>
-<li>Select the FREE RStudio Desktop Open Source License option.</li>
-<li>Select the version for your operating system (Linux, MacOS, Windows,
-etc.)</li>
-<li>Open the downloaded file and follow the instructions.</li>
-</ol>
-<p>Note: Downloading both R and RStudio will usually results two
-different icons that can be opened to start R. For all material in this
-course, make sure to open RStudio, and not R.</p>
-<div class="figure">
-<img src="images/RvsRstudio.png" alt="" />
-<p class="caption">Make sure to open RStudio and not R</p>
-</div>
-</div>
-</div>
-<div id="resources" class="section level1">
-<h1>Resources</h1>
-<p>Many online tutorials are available for learning R that can be used
-to compliment the materials here. If you are feeling overwhelmed, or
-just looking for additional content, try some of the following
-courses:</p>
-<ol style="list-style-type: decimal">
-<li><a href="https://swirlstats.com">Swirl</a></li>
-<li><a
-href="https://resources.rstudio.com/webinars/a-gentle-introduction-to-tidy-statistics-in-r">RStudio
-Webinars</a></li>
-<li><a href="http://swcarpentry.github.io/r-novice-gapminder/">R for
-Reproducible Scientific Analysis</a></li>
-<li><a
-href="https://www.computerworld.com/article/2497143/business-intelligence-beginner-s-guide-to-r-introduction.html">ComputerWorld
-Tutorial</a></li>
-<li><a
-href="https://www.datacamp.com/courses/free-introduction-to-r">datacamp</a></li>
-<li><a href="https://www.pluralsight.com/search?q=R">tryR</a></li>
-<li><a
-href="https://www.coursera.org/learn/r-programming">coursera</a></li>
-<li><a
-href="https://www.teamleada.com/courses/r-bootcamp">leada</a></li>
-<li>Google “r tutorials” for more.</li>
-</ol>
-<p>Note: Often there are more than one way to do things in R. During
-this module, I will primarily be teaching R using the tidyverse
-packages, but you may find other ways to achieve the same objective. In
-all cases, you should go with the method that makes the most sense to
-you.</p>
 </div>
 
 

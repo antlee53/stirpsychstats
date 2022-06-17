@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>HPSP131 - Workbook 7 - Moderation (Interaction Effects)</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">HPSP131</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="1intro.html">1. Intro</a>
+</li>
+<li>
+  <a href="2data.html">2. Data 1</a>
+</li>
+<li>
+  <a href="7GLM.html">3. Data 2</a>
+</li>
+<li>
+  <a href="3plot.html">4. Plot</a>
+</li>
+<li>
+  <a href="4LM1.html">5. ttest_ANOVA</a>
+</li>
+<li>
+  <a href="5LM2.html">6. Cor_Reg</a>
+</li>
+<li>
+  <a href="6mod.html">7. Mod</a>
+</li>
+<li>
+  <a href="8sim22.html">8. Pwr_Med</a>
+</li>
+<li>
+  <a href="9SEM.html">9. SEM</a>
+</li>
+<li>
+  <a href="10mixed.html">10. Mixed</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="extra_lists.html">Lists, Matrices, and Indexing</a>
+    </li>
+    <li>
+      <a href="extra_joins.html">Joining data.frames</a>
+    </li>
+    <li>
+      <a href="extra_cleaning.html">Cleaning and Data Preparation</a>
+    </li>
+    <li>
+      <a href="extra_chisquare.html">Chi-square Tests</a>
+    </li>
+    <li>
+      <a href="extra_nonparametric.html">Non-parametric Tests</a>
+    </li>
+    <li>
+      <a href="extra_logistic.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="extra_functions.html">Custom Functions</a>
+    </li>
+    <li>
+      <a href="extra_simulations.html">Simulations</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="exercises.html">Exercises</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">HPSP131 - Workbook 7 - Moderation
+(Interaction Effects)</h1>
+
+</div>
+
+
+<div id="objectives" class="section level1">
+<h1>Objectives</h1>
+<p>The aim of this week’s workbook is to cover moderation (interaction
+effects). By the end of this workbook, you should be able to:</p>
+<ol style="list-style-type: decimal">
+<li>Perform a multiple regression with interaction effects.</li>
+<li>Plot relationship between data with two continuous IVs and one
+continuous DV, including:</li>
+</ol>
+<ul>
+<li>interaction plots</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Perform a two-way ANOVAs (including between-subjects,
+within-subjects, and mixed-design)</li>
+</ol>
+</div>
+<div id="class-data" class="section level1">
+<h1>Class data</h1>
+<p><a href = files/simulated.data_2022.csv download>Click here to
+download the data used in these workbooks.</a> (You may need to
+right-click and select ‘Save Linked File’ option)</p>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
+</div>
+<div id="content" class="section level1">
+<h1>Content</h1>
+<div id="before-we-begin" class="section level2">
+<h2>Before we begin…</h2>
+<p>Remember, whenever we analyse data, we will roughly be following this
+procedure:</p>
+<ol style="list-style-type: decimal">
+<li>Clean the data for analysis.</li>
+<li>Run the statistical test.</li>
+<li>Plot the data.</li>
+<li>Write-up analysis.</li>
+</ol>
+<p>We will be using the following packages. If this is your first time
+using these packages, remember to install them before loading the
+packages.</p>
+<pre class="r"><code>library(tidyverse)
+library(lm.beta)</code></pre>
+</div>
+<div id="reminder-moderation-interaction-effects"
+class="section level2">
+<h2>Reminder: Moderation (Interaction Effects)</h2>
+<p>As covered in the Lecture series, moderation is when the effect of an
+IV (predictor) on the DV (outcome) depends on another IV (predictor). To
+begin with, we can test for an interaction effect in a linear
+regression. Linear regression is ideal when the the predictor,
+moderator, and outcome variables are all continuous.</p>
+<p>In the example below, we will extend the regression we conducted last
+week and test the hypothesis that the association between sleep quality
+and stress is moderated by social support (for instance, the
+relationship between sleep quality and stress is stronger (more
+negative) for participants low in social support).</p>
+</div>
+<div id="regression-with-interaction-effect" class="section level2">
+<h2>Regression with Interaction Effect</h2>
+<div id="clean-the-data-for-analysis." class="section level3">
+<h3>1. Clean the data for analysis.</h3>
+<p>First we must calculate the scores for each scale in the analysis
+from the individual items. As we have done previously, we can do this by
+using the <code>mutate()</code> function. The code below is the same as
+the code we used last week. Remember to reverse code sleep quality so
+that higher scores indicate greater sleep quality.</p>
+<pre class="r"><code>data1.vars  &lt;- data %&gt;%
+  mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,
+         support = support.1 + support.2 + support.3 + support.4 + support.5,
+         sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5) %&gt;%
+  dplyr::select(student.no,stress,support,sleep.quality)</code></pre>
+</div>
+<div id="standardising-variables" class="section level3">
+<h3>Standardising Variables</h3>
+<p>When including interaction terms in a linear regression, including
+uncentered variables can be problematic. In order to center the
+variables, we can use the <code>scale()</code> function. The
+<code>scale()</code> function expects a numeric vector. There are two
+additional arguments called <code>center</code> and <code>scale</code>.
+If <code>center</code> is set to <code>TRUE</code>, but
+<code>scale</code> is set to <code>FALSE</code>, the
+<code>scale()</code> function will output the ‘centred’ variable. If
+both arguments are set to <code>TRUE</code>, the <code>scale()</code>
+function will return a ‘standardised’ argument.</p>
+<p>Because of a quirk with the <code>scale()</code> function, we also
+need to tell R that the output is a vector. We can do this by wrapping
+the results from the <code>scale()</code> function inside a
+<code>c()</code> function.</p>
+<p>You can see the <code>scale()</code> function in action below:</p>
+<pre class="r"><code>v &lt;- c(3,32,5,6,12,59,96)
+
+#Get the centered variable.
+
+c.v  &lt;- c(scale(v,center = TRUE,scale = FALSE))
+
+c.v</code></pre>
+<pre><code>## [1] -27.428571   1.571429 -25.428571 -24.428571 -18.428571  28.571429  65.571429</code></pre>
+<pre class="r"><code>#Get the standardised variable.
+
+z.v &lt;- c(scale(v, center = TRUE,scale = TRUE))
+
+z.v</code></pre>
+<pre><code>## [1] -0.7782022  0.0445845 -0.7214583 -0.6930863 -0.5228546  0.8106273  1.8603896</code></pre>
+<p>We can use this combination of the <code>scale()</code> and
+<code>c()</code> functions within the <code>mutate()</code> to calculate
+the standardised/centred variables of columns in our data.frame:</p>
+<pre class="r"><code>#Compute centred variables for analysis.
+data1.clean &lt;- mutate(data1.vars,
+         c.stress = c(scale(stress,center = TRUE,scale = FALSE)),
+         c.support = c(scale(support,center = TRUE,scale = FALSE))) %&gt;%
+
+#Compute standardised variables.
+  mutate(z.sleep.quality = c(scale(sleep.quality,center = TRUE,scale = TRUE)),
+         z.support = c(scale(support,center = TRUE,scale = TRUE)),
+         z.stress = c(scale(stress,center = TRUE,scale = TRUE)))</code></pre>
+</div>
+<div id="run-statistical-test" class="section level3">
+<h3>2. Run statistical test</h3>
+<p>Recall that interaction effects are the multiplication of the two
+variable. Therefore, to specify an interaction, we change the formula we
+specify to include the multiplication of the variable whose interaction
+we are interested in. For the unstandardised model, make sure you
+include the centred variables in the formula.</p>
+<pre class="r"><code>#Unstandardised Model
+model1 &lt;- lm(sleep.quality ~ c.stress*c.support,data = data1.clean)
+summary(model1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = sleep.quality ~ c.stress * c.support, data = data1.clean)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.9094 -2.3096 -0.3428  2.3752 10.0355 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        14.722958   0.299140  49.218   &lt;2e-16 ***
+## c.stress           -0.084010   0.102668  -0.818    0.415    
+## c.support           0.013932   0.066674   0.209    0.835    
+## c.stress:c.support  0.009744   0.024502   0.398    0.692    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.276 on 116 degrees of freedom
+## Multiple R-squared:  0.006911,   Adjusted R-squared:  -0.01877 
+## F-statistic: 0.2691 on 3 and 116 DF,  p-value: 0.8476</code></pre>
+<p>Looking at the output above, notice how R automatically includes the
+main effects in the model? In most cases, you should include the
+separate main effects when investigating an interaction, but in the odd
+occasion when you want to include the interaction effect without the
+main effect, you can specify it using the <code>:</code> symbol. In
+other words:</p>
+<p><code>sleep.quality ~ stress*support</code> is identical to
+<code>sleep.quality ~ stress + support + stress:support</code></p>
+<p>Above are the unstandardised coefficients. However, in order to
+report in APA format, we require the standardised coefficient. Similar
+to with an ordinary regression, we can use the <code>lm.beta()</code>
+function to get the standardised coefficients, like here:</p>
+<pre class="r"><code>#Standardised Model
+model1 %&gt;%
+  lm.beta() %&gt;%
+  summary()</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = sleep.quality ~ c.stress * c.support, data = data1.clean)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.9094 -2.3096 -0.3428  2.3752 10.0355 
+## 
+## Coefficients:
+##                     Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        14.722958     0.000000   0.299140  49.218   &lt;2e-16 ***
+## c.stress           -0.084010    -0.076336   0.102668  -0.818    0.415    
+## c.support           0.013932     0.019379   0.066674   0.209    0.835    
+## c.stress:c.support  0.009744     0.037180   0.024502   0.398    0.692    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.276 on 116 degrees of freedom
+## Multiple R-squared:  0.006911,   Adjusted R-squared:  -0.01877 
+## F-statistic: 0.2691 on 3 and 116 DF,  p-value: 0.8476</code></pre>
+</div>
+<div id="plot-data" class="section level3">
+<h3>3. Plot data</h3>
+<p>Interactions can often be difficult to intuit from just looking at
+the numbers in the model. Therefore, it is almost always necessary to
+plot them. The most common way to plot an interaction is to split the
+dataset in two according to the moderator: one with participants who
+score high on the moderator, and the other with participants who score
+low on the moderator. We can categorise participants based on whether
+they score above or below the mean on the variable (like we will do in
+our example), but you can also use the median if that’s more
+appropriate. In our example, we will split the data into participants
+who are above and below the mean on social support. We can do this by
+creating a new variable using the <code>ifelse()</code> function within
+the <code>mutate()</code> function.</p>
+<p>The <code>ifelse()</code> function works by first specify a condition
+as the first argument. The second argument is what happens if data from
+a participant meets that condition. The third argument is what happens
+if a participant does not meet that condition. So in the code below, we
+are creating a new variable called ‘cat.support’. We want to categorise
+support into two levels, so the condition in the <code>ifelse()</code>
+function is <code>z.support &gt; 0</code>. Since we standardised the
+moderator during the cleaning scale. The mean for support equals 0, so
+we can split the data on this. Participants who meet this condition are
+in the “high support” group, while those that are not are in the “low
+support” group.</p>
+<pre class="r"><code>plot.data &lt;- mutate(data1.clean,cat.support = ifelse(z.support &gt; 0,&quot;high support&quot;,&quot;low support&quot;)) %&gt;%
+  filter(!is.na(cat.support))</code></pre>
+<p>We then can plot the regression line adding in a ‘group’ and ‘colour’
+aesthetic to separate our data of participants with high and low
+support.</p>
+<pre class="r"><code>ggplot(plot.data,mapping = aes(x = stress,y = sleep.quality,group = cat.support,colour = cat.support)) +
+  geom_smooth(method = &quot;lm&quot;) +
+  theme_classic()</code></pre>
+<p><img src="6mod_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Even better is if can visualise the raw data in a scatterplot:</p>
+<pre class="r"><code>ggplot(plot.data,mapping = aes(x = stress,y = sleep.quality,group = cat.support,colour = cat.support)) +
+  geom_smooth(method = &quot;lm&quot;) +
+  geom_point() +
+  theme_classic()</code></pre>
+<p><img src="6mod_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="write-up-analysis." class="section level3">
+<h3>4. Write-up analysis.</h3>
+<p>Given that a moderation is exactly the same as a regression, we
+require the same information to do the write-up. As a reminder, here are
+the components you need to write up a regression:</p>
+<p>For the model, you need the following information:</p>
+<ul>
+<li>the R-squared statistic.</li>
+<li>the F-statistic and associated degrees of freedom.</li>
+<li>the p-value for the model.</li>
+</ul>
+<p>For each predictor, you need the following information:</p>
+<ul>
+<li>the standardised coefficient.</li>
+<li>the t-statistic.</li>
+<li>the p-value for that coefficient.</li>
+</ul>
+<p>As mentioned last week, with more than one predictor in the model, it
+may make more sense to report the statistics in a table. This includes
+models with interaction effects (in the case above, the interaction
+effect is our third predictor).</p>
+<p>Here is an example of the write-up:</p>
+<blockquote>
+<p>We used a linear regression to predict sleep quality from the level
+of perceived stress, level of social support, and the interaction
+between the two. We found that model explained 0.69% of the variance
+(F(3,116) = 0.27, p = 0.848). Regression coefficients are reported in
+Table 1. There was no significant main effect of stress on sleep
+quality. There was no significant main effect of social support on sleep
+quality. The interaction between perceived stress and social support was
+not significant.</p>
+</blockquote>
+<p>Table 1. Regression coefficients for linear model predicting
+stress.</p>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="26%" />
+<col width="26%" />
+<col width="29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>predictor</th>
+<th>beta</th>
+<th>t</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Perceived Stress</td>
+<td>-0.08</td>
+<td>-0.82</td>
+<td>0.415</td>
+</tr>
+<tr class="even">
+<td>Social Support</td>
+<td>0.02</td>
+<td>0.21</td>
+<td>0.835</td>
+</tr>
+<tr class="odd">
+<td>PS * SS</td>
+<td>0.04</td>
+<td>0.4</td>
+<td>0.692</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="two-way-between-subjects-anova" class="section level2">
+<h2>Two-Way Between-Subjects ANOVA</h2>
+<p>A two-way ANOVA is used when you want to evaluate the effects of two
+categorical IVs (and the interaction between them) on a continuous DV.
+Much of what we have covered regarding a linear regression with multiple
+predictors applies with a two-way ANOVA, but with two categorical IVs.
+In the example below, we will test whether there is an association
+between between introversion and identifying as either a cat- or
+dog-person, and whether this association differs depending on whether
+you play video-games or not.</p>
+<div id="clean-the-data-for-analysis.-1" class="section level3">
+<h3>1. Clean the data for analysis.</h3>
+<pre class="r"><code>clean.data2 &lt;- data %&gt;%
+  filter(cat.dog != &quot;both&quot;) %&gt;%
+  filter(cat.dog != &quot;neither&quot;) %&gt;%
+  filter(cat.dog != &quot;&quot;) %&gt;%
+  mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10,
+          introvert = (introvert * -1) + 6*6 ) %&gt;%
+  select(introvert,video.games,cat.dog)</code></pre>
+</div>
+<div id="run-statistical-test-1" class="section level3">
+<h3>2. Run statistical test</h3>
+<p>The function to run a two-way ANOVA is the same as a one-way ANOVA:
+<code>aov()</code>. R is smart enough to determine which statistical
+test to run based on how many IVs are in the formula. The formula works
+the same as an interaction in a regression, where both categorical IVs
+are “multiplied” together. R will automatically include the main effects
+for each IV and the interaction. Also, similar to the one-way ANOVA, in
+order to get output that is interpretable, you can pipe the result to
+the <code>summary()</code> function.</p>
+<pre class="r"><code>aov(introvert ~ cat.dog*video.games,data = clean.data2) %&gt;%
+  summary()</code></pre>
+<pre><code>##                     Df Sum Sq Mean Sq F value Pr(&gt;F)
+## cat.dog              1    0.0   0.018   0.002  0.966
+## video.games          1    2.6   2.555   0.268  0.606
+## cat.dog:video.games  1    3.3   3.339   0.351  0.555
+## Residuals           90  856.6   9.517</code></pre>
+<p>Similar to a one-way ANOVA, the two-way ANOVA will tell you whether
+or not there is a difference, but it will not tell you where that
+difference is. In order to determine this, you will need to calculate
+summary statistics (e.g., means for each cell) and conduct follow-up
+comparisons.</p>
+<div id="calculate-summary-statistics" class="section level4">
+<h4>Calculate Summary Statistics</h4>
+<pre class="r"><code>clean.data2 %&gt;%
+  group_by(video.games,cat.dog) %&gt;%
+  summarise(
+    count = n(),
+    mean = mean(introvert,na.rm = TRUE),
+    sd = sd(introvert,na.rm = TRUE)
+  )</code></pre>
+<pre><code>## # A tibble: 4 × 5
+## # Groups:   video.games [2]
+##   video.games cat.dog count  mean    sd
+##   &lt;chr&gt;       &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 No          cat        25  21.1  3.00
+## 2 No          dog        20  20.8  3.93
+## 3 Yes         cat        27  21.1  2.72
+## 4 Yes         dog        22  21.5  2.70</code></pre>
+</div>
+<div id="multiple-comparisons" class="section level4">
+<h4>Multiple Comparisons</h4>
+<p>In the ANOVA table above, we do not find a significant interaction
+between playing video games and being a cat or dog person. However, we
+will conduct the comparisons below to determine as if there were a
+significant interaction. To assess a significant interaction, we would
+test whether the difference between cat-people and dog-people differs
+depending on whether they play video-games or not.</p>
+<pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(clean.data2,video.games == &quot;Yes&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  introvert by cat.dog
+## t = -0.49927, df = 45.143, p-value = 0.62
+## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
+## 95 percent confidence interval:
+##  -1.957562  1.179784
+## sample estimates:
+## mean in group cat mean in group dog 
+##          21.11111          21.50000</code></pre>
+<pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(clean.data2,video.games == &quot;No&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  introvert by cat.dog
+## t = 0.34744, df = 34.871, p-value = 0.7304
+## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
+## 95 percent confidence interval:
+##  -1.792224  2.532224
+## sample estimates:
+## mean in group cat mean in group dog 
+##             21.12             20.75</code></pre>
+</div>
+</div>
+<div id="plot-data-1" class="section level3">
+<h3>3. Plot data</h3>
+<p>When plotting the data, we want to visualise the relationship between
+introversion and cat-people/dog-people separated by the moderator -
+whether participants play video-games or not. We can do this by adding a
+<code>facet_wrap()</code> to our standard violin plot. Here, we only
+need to specify which variable to separate the plot on.</p>
+<pre class="r"><code>ggplot(clean.data2,aes(x = cat.dog,y = introvert,fill = video.games)) +
+  geom_violin() +
+  stat_summary() +
+  facet_wrap(~ video.games) +
+  theme_classic() +
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="6mod_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+</div>
+</div>
+<div id="mixed-design-anova" class="section level2">
+<h2>Mixed-Design ANOVA</h2>
+<p>In the two-way ANOVA above, both IVs were between-subjects variables.
+However, the <code>aov()</code> can also run an ANOVA when one (or both)
+IVs are within-subjects. These are known as mixed-designs ANOVAs (or
+repeated-measures ANOVA if both IVs are within-subjects).</p>
+<p>In the example below, we will test whether receiving positive
+feedback while filling in a long questionnaire (compared to receiving no
+feedback) moderates the change in mood at the start and at the end of
+filling in the survey. Here, whether or not participants received
+positive feedback is a between-subjects categorical variable, while time
+(start vs. end) is a within-subjects categorical variable, while mood is
+measured on a continuous scale. As such, a mixed-design ANOVA is
+appropriate to test this interaction.</p>
+<div id="clean-data-for-analysis." class="section level3">
+<h3>1. Clean data for analysis.</h3>
+<p>Below, we select the key variables for analysis and reshape the data.
+This second step is necessary since we are dealing with within-subjects
+variables. Also, since we will be group data by the
+<code>student.no</code>, we will need to ensure that R treats it as a
+factor.</p>
+<pre class="r"><code>mx.data &lt;- data %&gt;%
+  select(student.no,mood.start,mood.end,progress.update) %&gt;%
+  gather(key = &quot;Time&quot;,value = &quot;mood&quot;,mood.start,mood.end) %&gt;%
+  mutate(student.no = as.factor(student.no))</code></pre>
+</div>
+<div id="conduct-statistical-test." class="section level3">
+<h3>2. Conduct statistical test.</h3>
+<p>Again, we use the <code>aov()</code> function to run our mixed-design
+ANOVA. However, in order to tell R which factor is within-subjects, we
+need to adjust our formula to the following format:</p>
+<pre class="r"><code>DV ~ IV1*IV2 + Error(ID/IV2)</code></pre>
+<p>So much like before, the DV is on the left of the <code>~</code>
+symbol, and the IVs are on the right. In order to denote that we are
+interested in the interaction between the two, we continue to “multiply”
+the IVs together. The new part of the formula comes where we add to the
+formula the “Error” part above. This tells R 1) what is the
+within-subjects variable, and 2) how that within-subjects variable is
+grouped. In our example, <code>condition</code> is the within-subjects
+variable, and since the data is within-participants, we will use
+<code>student.no</code> to tell R which observations are linked.</p>
+<pre class="r"><code>aov(mood ~ Time*progress.update + Error(student.no/Time),data = mx.data) %&gt;%
+  summary()</code></pre>
+<pre><code>## 
+## Error: student.no
+##                  Df Sum Sq Mean Sq F value Pr(&gt;F)
+## progress.update   1    442   442.5   0.528  0.469
+## Residuals       118  98846   837.7               
+## 
+## Error: student.no:Time
+##                       Df Sum Sq Mean Sq F value Pr(&gt;F)
+## Time                   1    403   403.0   0.439  0.509
+## Time:progress.update   1   1515  1514.9   1.652  0.201
+## Residuals            118 108219   917.1</code></pre>
+<pre class="r"><code>mx.anova &lt;- aov(mood ~ Time*progress.update + Error(student.no/Time),data = mx.data) %&gt;%
+  summary()
+
+mx.b &lt;- mx.anova$`Error: student.no`
+mx.w &lt;- mx.anova$`Error: student.no:Time`
+
+if(mx.b[[1]][1,5] &lt; .05){
+  mxb.text &lt;- &quot;Interestingly, the effect of receiving positive feedback is significant in the example above. Indicating that, overall, mood was different between the two conditions (though we would have to look at the means for each group to determine which direction this effect goes in).&quot;
+} else {
+  mxb.text &lt;- &quot;In the example above this is not significant, indicating that, overall, there was no difference in mood between the two conditions.&quot;
+}
+
+if(mx.w[[1]][1,5] &gt; .05){
+  mxw.text1 &lt;- &quot;the main effect of time is non-significant, indicating there is no overall change in mood at the start and end of the questionnaire.&quot;
+} else {
+  mxw.text1 &lt;- &quot;the main effect of time is significant, indicating there is an overall change in mood at the start and end of questionnaire.&quot;
+}
+
+if(mx.w[[1]][2,5] &gt; .05){
+  mxw.text2 &lt;- &quot;non-significant, indicating that receiving positive feedback during the questionnaire does not influence the change in mood between timepoints&quot;
+} else {
+  mxw.text2 &lt;- &quot;significant, indicating that receiving positive feedback during the questionnaire influences the change in mood between timepoints (however, again, determining the nature of this interaction requires post-hoc comparisons, or plotting the data).&quot;
+}</code></pre>
+<p>Notice in the output above that there are two ANOVA tables. The first
+is the between-subjects effects, which reports the main effect for
+<code>progress.update</code> on alcohol consumption. In the example
+above this is not significant, indicating that, overall, there was no
+difference in mood between the two conditions.. The second table has the
+within-subjects effects. This includes the main effect of
+<code>Time</code>, plus the interaction between our two IVs. In the
+example above, the main effect of time is non-significant, indicating
+there is no overall change in mood at the start and end of the
+questionnaire. The interaction is also non-significant, indicating that
+receiving positive feedback during the questionnaire does not influence
+the change in mood between timepoints.</p>
+</div>
+</div>
+<div id="within-subjects-anova-also-known-as-a-repeated-measures-anova"
+class="section level2">
+<h2>Within-Subjects ANOVA (also known as a Repeated-Measures ANOVA)</h2>
+<p>While we will not be going through an example of a within-subjects
+ANOVA here, the method for conducting one is identical to both the
+between-subjects and mixed-designs ANOVA above (i.e., using the
+<code>aov()</code> function). The output is also similar to interpret;
+however, unlike with the mixed-designs ANOVA where two separate tables
+are given (one for the between-subjects effects and one for the
+within-subjects effects), you are only given one table (i.e., only a
+table for the within-subjects effects).</p>
+</div>
+</div>
+<div id="exercises-1" class="section level1">
+<h1>Exercises</h1>
+<p>Now that you’ve completed this week’s workbook, why not give this
+week’s exercises a go? You can download the interactive exercises by
+clicking the link below.</p>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

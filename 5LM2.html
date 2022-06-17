@@ -13,8 +13,8 @@
 
 <title>HPSP131 - Workbook 6 - The General Linear Model: Correlation and Regression</title>
 
-<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -63,6 +63,7 @@ if (window.hljs) {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -83,6 +84,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -308,7 +312,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -330,16 +334,16 @@ div.tocify {
   <a href="3plot.html">4. Plot</a>
 </li>
 <li>
-  <a href="4LM1.html">5. LM1</a>
+  <a href="4LM1.html">5. ttest_ANOVA</a>
 </li>
 <li>
-  <a href="5LM2.html">6. LM2</a>
+  <a href="5LM2.html">6. Cor_Reg</a>
 </li>
 <li>
-  <a href="6mod_med2.html">7. Mod_Med</a>
+  <a href="6mod.html">7. Mod</a>
 </li>
 <li>
-  <a href="8sim.html">8. Power</a>
+  <a href="8sim22.html">8. Pwr_Med</a>
 </li>
 <li>
   <a href="9SEM.html">9. SEM</a>
@@ -349,7 +353,40 @@ div.tocify {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="extra_lists.html">Lists, Matrices, and Indexing</a>
+    </li>
+    <li>
+      <a href="extra_joins.html">Joining data.frames</a>
+    </li>
+    <li>
+      <a href="extra_cleaning.html">Cleaning and Data Preparation</a>
+    </li>
+    <li>
+      <a href="extra_chisquare.html">Chi-square Tests</a>
+    </li>
+    <li>
+      <a href="extra_nonparametric.html">Non-parametric Tests</a>
+    </li>
+    <li>
+      <a href="extra_logistic.html">Logistic Regression</a>
+    </li>
+    <li>
+      <a href="extra_functions.html">Custom Functions</a>
+    </li>
+    <li>
+      <a href="extra_simulations.html">Simulations</a>
+    </li>
+  </ul>
+</li>
+<li>
   <a href="exercises.html">Exercises</a>
 </li>
       </ul>
@@ -361,18 +398,23 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Workbook 6 - The General Linear Model: Correlation and Regression</h1>
+<h1 class="title toc-ignore">HPSP131 - Workbook 6 - The General Linear
+Model: Correlation and Regression</h1>
 
 </div>
 
 
 <div id="objectives" class="section level1">
 <h1>Objectives</h1>
-<p>The aim of this week is to continue working through the General Linear Model (GLM) in R and provide a practical guide for analysing data with a continuous IV and and continuous DV. By the end of this workbook, you should be able to:</p>
+<p>The aim of this week is to continue working through the General
+Linear Model (GLM) in R and provide a practical guide for analysing data
+with a continuous IV and and continuous DV. By the end of this workbook,
+you should be able to:</p>
 <ol style="list-style-type: decimal">
 <li>Perform a correlation in R.</li>
 <li>Perform a regression in R.</li>
-<li>Plot the relationship between data with a continuous IV and continuous DV, including:</li>
+<li>Plot the relationship between data with a continuous IV and
+continuous DV, including:</li>
 </ol>
 <ul>
 <li>scatterplots</li>
@@ -380,24 +422,39 @@ div.tocify {
 </div>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
-<p><a href = files/data_2021.csv download>Click here to download the data used in these workbooks.</a> (You may need to right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2022.csv download>Click here to
+download the data used in these workbooks.</a> (You may need to
+right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
 </div>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <div id="before-we-begin" class="section level2">
 <h2>Before we begin…</h2>
-<p>We will be using these packages in this workbook. This is the first time we have encountered the <code>lm.beta</code> package, so make sure to install it before loading the packages.</p>
+<p>We will be using these packages in this workbook. This is the first
+time we have encountered the <code>lm.beta</code> package, so make sure
+to install it before loading the packages.</p>
 <pre class="r"><code>library(tidyverse)
 library(lm.beta)</code></pre>
 </div>
 <div id="correlation" class="section level2">
 <h2>Correlation</h2>
-<p>As discussed in the lecture, a correlation assesses the relationship between two continuous variables. In the example below, we will assess the association between stress levels and sleep quality. For more detail on the Perceived Stress Scale, <a href="https://das.nh.gov/wellness/docs/percieved%20stress%20scale.pdf">click here</a>. For more detail on the sleep quality scale, <a href="http://www.psychwiki.com/dms/other/labgroup/Measu235sdgse5234234resWeek2/Rocio2/yi2006.pdf">click here</a>. Again, we will only be using a subset of the items from each scale.</p>
-<p>Remember, whenever we analyse data, we will roughly be following this procedure:</p>
+<p>As discussed in the lecture, a correlation assesses the relationship
+between two continuous variables. In the example below, we will assess
+the association between stress levels and sleep quality. For more detail
+on the Perceived Stress Scale, <a
+href="https://das.nh.gov/wellness/docs/percieved%20stress%20scale.pdf">click
+here</a>. For more detail on the sleep quality scale, <a
+href="http://www.psychwiki.com/dms/other/labgroup/Measu235sdgse5234234resWeek2/Rocio2/yi2006.pdf">click
+here</a>. Note that we have reversed-coded the sleep quality items so
+that higher scores mean higher sleep quality. Again, we will only be
+using a subset of the items from each scale.</p>
+<p>Remember, whenever we analyse data, we will roughly be following this
+procedure:</p>
 <ol style="list-style-type: decimal">
 <li>Clean the data for analysis.</li>
 <li>Run statistical test</li>
@@ -406,18 +463,36 @@ library(lm.beta)</code></pre>
 </ol>
 <div id="clean-the-data-for-analysis." class="section level3">
 <h3>1. Clean the data for analysis.</h3>
-<p>First, we must calculate the perceived stress and sleep quality variables that we will use in the correlation (summing the items for both scales), and then select the variables in the data.frame. Similar to previous weeks, we use the <code>mutate()</code> function to calculate a new variable from ones that already exist. There’s two ways we can do this - we can add all the relevant variables, or we can use the code below to add all the variables that start with the same word to avoid typing out all the variable names (handy for long scales). We will also use the <code>select()</code> function to only include the variables relevant to our analysis.</p>
-<p>Note, usually larger scores on the scale equates to poorer sleep quality, which can be a bit confusing, so we will reverse code it so that higher score indicate greater sleep quality.</p>
+<p>First, we must calculate the perceived stress and sleep quality
+variables that we will use in the correlation (summing the items for
+both scales), and then select the variables in the data.frame. Similar
+to previous weeks, we use the <code>mutate()</code> function to
+calculate a new variable from ones that already exist. There’s two ways
+we can do this - we can add all the relevant variables, or we can use
+the code below to add all the variables that start with the same word to
+avoid typing out all the variable names (handy for long scales). We will
+also use the <code>select()</code> function to only include the
+variables relevant to our analysis.</p>
+<p>Note, usually larger scores on the scale equates to poorer sleep
+quality, which can be a bit confusing, so we will reverse code it so
+that higher score indicate greater sleep quality.</p>
 <pre class="r"><code>data1.clean &lt;- data %&gt;%
   mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,    #Method 1
-         sleep.quality = rowSums(select(.,starts_with(&quot;sleep&quot;))),          #Method 2
-         sleep.quality = 31 - sleep.quality) %&gt;%      
+         sleep.quality = rowSums(select(.,starts_with(&quot;sleep&quot;)))) %&gt;%      #Method 2
   dplyr::select(student.no,stress,sleep.quality)</code></pre>
 </div>
 <div id="run-statistical-test" class="section level3">
 <h3>2. Run statistical test</h3>
-<p>To run the correlation, we can use the <code>cor.test()</code> function. Similar to analyses we have covered previously, this function requires a formula, and a data.frame.</p>
-<p>Normally, the formula has the form: <code>DV ~ IV</code>. However, for a correlation, given that there are no IVs/DVs per se (i.e., we cannot infer causality - does decreased sleep quality lead to higher perceived stress, or does higher perceived stress lead to decreased sleep quality?), this is reflected in the formula for a correlation, where both variables are on the right side of the <code>~</code> symbol:</p>
+<p>To run the correlation, we can use the <code>cor.test()</code>
+function. Similar to analyses we have covered previously, this function
+requires a formula, and a data.frame.</p>
+<p>Normally, the formula has the form: <code>DV ~ IV</code>. However,
+for a correlation, given that there are no IVs/DVs per se (i.e., we
+cannot infer causality - does decreased sleep quality lead to higher
+perceived stress, or does higher perceived stress lead to decreased
+sleep quality?), this is reflected in the formula for a correlation,
+where both variables are on the right side of the <code>~</code>
+symbol:</p>
 <p><code>~ variable1 + variable2</code></p>
 <p>Below is the code and output from a correlation conducted in R.</p>
 <pre class="r"><code>cor.test(~ stress + sleep.quality,data = data1.clean)</code></pre>
@@ -425,27 +500,43 @@ library(lm.beta)</code></pre>
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  stress and sleep.quality
-## t = -5.0149, df = 86, p-value = 2.819e-06
+## t = -1.3845, df = 118, p-value = 0.1688
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  -0.6230433 -0.2956883
+##  -0.2989018  0.0540316
 ## sample estimates:
 ##        cor 
-## -0.4756723</code></pre>
+## -0.1264342</code></pre>
 <p>The key parts of the output that we are interested in are:</p>
 <ul>
-<li>The r-statistic - this is specified at the bottom of the output under ‘cor’, and equals -0.48 above.</li>
-<li>The p-value - this tells you whether the test is significant or not. Above, p &lt; .001.</li>
-<li>We can also get an indication of how many observations were included in the correlation from the degrees of freedom. The df above is 86, therefore, the sample size for this correlation is 88 (86 + 2).</li>
+<li>The r-statistic - this is specified at the bottom of the output
+under ‘cor’, and equals -0.13 above.</li>
+<li>The p-value - this tells you whether the test is significant or not.
+Above, p &lt; .001.</li>
+<li>The degrees of freedom (df), which above is 118.</li>
 </ul>
 </div>
 <div id="plot-data" class="section level3">
 <h3>3. Plot data</h3>
 <div id="scatterplot" class="section level4">
 <h4>Scatterplot</h4>
-<p>Scatterplots are the best way to visualise correlations, as it allows you to see the individual data points and whether you can have confidence in your correlation coefficient. For instance, it can tell you if your significant correlation is due to a small number of outliers.</p>
-<p>Usually in a scatterplot, each point represents a single participant, with each variable on the x- and y-axis. Technically this is interchangable, but usually your IV and DV (according to your hypothesis) would be on the x- and y-axis respectively.</p>
-<p>In the code below, the <code>geom_point()</code> function adds the points on the scatterplot. The <code>geom_smooth()</code> function adds the line-of-best-fit. <code>geom_smooth()</code> requires the additional ‘method’ argument, which tells it what type of line you want. In this instance, we specify “lm” to tell it we want a linear model. Note:, you can also use <code>geom_jitter()</code> instead of <code>geom_point()</code> to add a bit of randomness to your scatterplot - this is useful if you have a lot of points on top of each other.</p>
+<p>Scatterplots are the best way to visualise correlations, as it allows
+you to see the individual data points and whether you can have
+confidence in your correlation coefficient. For instance, it can tell
+you if your significant correlation is due to a small number of
+outliers.</p>
+<p>Usually in a scatterplot, each point represents a single participant,
+with each variable on the x- and y-axis. Technically this is
+interchangable, but usually your IV and DV (according to your
+hypothesis) would be on the x- and y-axis respectively.</p>
+<p>In the code below, the <code>geom_point()</code> function adds the
+points on the scatterplot. The <code>geom_smooth()</code> function adds
+the line-of-best-fit. <code>geom_smooth()</code> requires the additional
+‘method’ argument, which tells it what type of line you want. In this
+instance, we specify “lm” to tell it we want a linear model. Note:, you
+can also use <code>geom_jitter()</code> instead of
+<code>geom_point()</code> to add a bit of randomness to your scatterplot
+- this is useful if you have a lot of points on top of each other.</p>
 <pre class="r"><code>ggplot(data1.clean,aes(x = stress,y = sleep.quality)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;) +
@@ -455,21 +546,28 @@ library(lm.beta)</code></pre>
 </div>
 <div id="write-up-analysis." class="section level3">
 <h3>4. Write-up analysis.</h3>
-<p>In order to write-up a correlation in APA format, you need the following information:</p>
+<p>In order to write-up a correlation in APA format, you need the
+following information:</p>
 <ul>
-<li>The number of participants.</li>
+<li>The degrees of freedom.</li>
 <li>The correlation coefficient (i.e., the test statistic).</li>
 <li>The p-value.</li>
 </ul>
-<p>Here is an example of a write-up for the correlation above (can you see where each of the numbers came from in the output above?):</p>
+<p>Here is an example of a write-up for the correlation above (can you
+see where each of the numbers came from in the output above?):</p>
 <blockquote>
-<p>There was a significant, negative correlation between perceived stress and sleep quality, <em>r</em>(88) = -0.48, <em>p</em> &lt; .001.</p>
+<p>There was no significant correlation between perceived stress and
+sleep quality, <em>r</em>(118) = -0.13, <em>p</em> = 0.169.</p>
 </blockquote>
 </div>
 </div>
 <div id="regression-with-one-predictor" class="section level2">
 <h2>Regression with One Predictor</h2>
-<p>When running a regression with one predictor (i.e., one IV), it is usually easier to run a correlation. However, for demonstrative purposes, we are going to run the same analysis above, except using a regression function. See the results from the regression below and compare it to the results from the correlation above.</p>
+<p>When running a regression with one predictor (i.e., one IV), it is
+usually easier to run a correlation. However, for demonstrative
+purposes, we are going to run the same analysis above, except using a
+regression function. See the results from the regression below and
+compare it to the results from the correlation above.</p>
 <div id="clean-the-data-for-analysis.-1" class="section level3">
 <h3>1. Clean the data for analysis.</h3>
 <p>This code is identical to the code above.</p>
@@ -480,7 +578,15 @@ library(lm.beta)</code></pre>
 </div>
 <div id="run-statistical-test-1" class="section level3">
 <h3>2. Run statistical test</h3>
-<p>To run a regression, we use the <code>lm()</code> function, which stands for ‘linear model’. Again, the first argument of this function is the analysis formula, and the second is the data.frame being analysed. For the formula, we revert back to the original form with the DV (outcome variable) on the right of the <code>~</code> symbol, and IVs (predictors) on the left. In order to get interpretable output from the ‘lm()’ function, we need to use the ‘summary()’ function. We can pipe the output of the former straight into the latter.</p>
+<p>To run a regression, we use the <code>lm()</code> function, which
+stands for ‘linear model’. Again, the first argument of this function is
+the analysis formula, and the second is the data.frame being analysed.
+For the formula, we revert back to the original form with the DV
+(outcome variable) on the right of the <code>~</code> symbol, and IVs
+(predictors) on the left. In order to get interpretable output from the
+<code>lm()</code> function, we need to use the <code>summary()</code>
+function. We can pipe the output of the former straight into the
+latter.</p>
 <pre class="r"><code>#Unstandardised Model
 model2 &lt;- lm(sleep.quality ~ stress,data = data2.clean) %&gt;%
 summary()
@@ -491,20 +597,26 @@ model2</code></pre>
 ## lm(formula = sleep.quality ~ stress, data = data2.clean)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -14.1012  -3.7000  -0.9866   3.5110  12.3574 
+##     Min      1Q  Median      3Q     Max 
+## -7.0322 -2.4672  0.0384  1.7178  7.8266 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)   -2.733      3.973  -0.688    0.493    
-## stress         1.615      0.322   5.015 2.82e-06 ***
+## (Intercept)  19.1621     1.0803  17.737   &lt;2e-16 ***
+## stress       -0.1412     0.1020  -1.385    0.169    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.721 on 86 degrees of freedom
-## Multiple R-squared:  0.2263, Adjusted R-squared:  0.2173 
-## F-statistic: 25.15 on 1 and 86 DF,  p-value: 2.819e-06</code></pre>
-<p>In order to report a regression in APA format, we are required to have standardised coefficients. To do this, we can use the <code>lm.beta()</code> function from the lm.beta package. The <code>lm.beta()</code> function takes the original unstandardised model as its first argument, then returns output that includes the standardised coefficients. The simplest way to use it is to add it to the pipeline before the <code>summary()</code> function.</p>
+## Residual standard error: 3.282 on 118 degrees of freedom
+## Multiple R-squared:  0.01599,    Adjusted R-squared:  0.007647 
+## F-statistic: 1.917 on 1 and 118 DF,  p-value: 0.1688</code></pre>
+<p>In order to report a regression in APA format, we are required to
+have standardised coefficients. To do this, we can use the
+<code>lm.beta()</code> function from the lm.beta package. The
+<code>lm.beta()</code> function takes the original unstandardised model
+as its first argument, then returns output that includes the
+standardised coefficients. The simplest way to use it is to add it to
+the pipeline before the <code>summary()</code> function.</p>
 <pre class="r"><code>model2.standardised &lt;- lm(sleep.quality ~ stress,data = data2.clean) %&gt;%
 lm.beta() %&gt;%
 summary()
@@ -515,55 +627,84 @@ model2.standardised</code></pre>
 ## lm(formula = sleep.quality ~ stress, data = data2.clean)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -14.1012  -3.7000  -0.9866   3.5110  12.3574 
+##     Min      1Q  Median      3Q     Max 
+## -7.0322 -2.4672  0.0384  1.7178  7.8266 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  -2.7333       0.0000     3.9730  -0.688    0.493    
-## stress        1.6147       0.4757     0.3220   5.015 2.82e-06 ***
+## (Intercept)  19.1621       0.0000     1.0803  17.737   &lt;2e-16 ***
+## stress       -0.1412      -0.1264     0.1020  -1.385    0.169    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.721 on 86 degrees of freedom
-## Multiple R-squared:  0.2263, Adjusted R-squared:  0.2173 
-## F-statistic: 25.15 on 1 and 86 DF,  p-value: 2.819e-06</code></pre>
-<p>Notice that in the summary table above, an additional column named <code>Standardized</code> is added. Everytime you calculate the standardised coefficients, the estimate for the intercept will equal 0. Therefore, you do not need to report the estimated intercept when reporting standardised coefficients.</p>
+## Residual standard error: 3.282 on 118 degrees of freedom
+## Multiple R-squared:  0.01599,    Adjusted R-squared:  0.007647 
+## F-statistic: 1.917 on 1 and 118 DF,  p-value: 0.1688</code></pre>
+<p>Notice that in the summary table above, an additional column named
+<code>Standardized</code> is added. Everytime you calculate the
+standardised coefficients, the estimate for the intercept will equal 0.
+Therefore, you do not need to report the estimated intercept when
+reporting standardised coefficients.</p>
 </div>
 <div id="plot-data-1" class="section level3">
 <h3>3. Plot data</h3>
-<p>With only two variables (one predictor), the plot would be the same as with a correlation, so let’s skip this step as it would be identical to what we did above with the correlation.</p>
+<p>With only two variables (one predictor), the plot would be the same
+as with a correlation, so let’s skip this step as it would be identical
+to what we did above with the correlation.</p>
 </div>
 <div id="write-up-analysis.-1" class="section level3">
 <h3>4. Write-up analysis.</h3>
-<p>Everything reported in a regression is given in the <code>summary()</code> function. APA guidelines specify that standardised coefficients (betas) should be reported. Therefore, make sure you report the standardised model.</p>
+<p>Everything reported in a regression is given in the
+<code>summary()</code> function. APA guidelines specify that
+standardised coefficients (betas) should be reported. Therefore, make
+sure you report the standardised model.</p>
 <p>For the model, you need the following information:</p>
 <ul>
 <li>the R-squared statistic.</li>
 <li>the F-statistic and associated degrees of freedom.</li>
 <li>the p-value for the model.</li>
 </ul>
-<p>Note, the R-squared statistic is the <code>Multiple R-squared</code> stat in the output, rather than the <code>Adjusted R-squared</code> stat. The latter adjusts the R-squared value to penalise models with a large number of predictors.</p>
+<p>Note, the R-squared statistic is the <code>Multiple R-squared</code>
+stat in the output, rather than the <code>Adjusted R-squared</code>
+stat. The latter adjusts the R-squared value to penalise models with a
+large number of predictors.</p>
 <p>For each predictor, you need the following information:</p>
 <ul>
 <li>the standardised coefficient.</li>
 <li>the t-statistic.</li>
 <li>the p-value for that coefficient.</li>
 </ul>
-<p>Note, when reporting standardised coefficient, there is no need to report the estimate for the intercept (because it is always 0).</p>
-<p>So the write-up for the regression above would look something like this below. Again, with only one predictor, the results from a regression is identical to a correlation, so you’re better off reporting it that way to avoid confusion and the extra hassle, but we will go through the write-up below just to demonstrate:</p>
+<p>Note, when reporting standardised coefficient, there is no need to
+report the estimate for the intercept (because it is always 0).</p>
+<p>So the write-up for the regression above would look something like
+this below. Again, with only one predictor, the results from a
+regression is identical to a correlation, so you’re better off reporting
+it that way to avoid confusion and the extra hassle, but we will go
+through the write-up below just to demonstrate:</p>
 <blockquote>
-<p>Linear regression indicated that 22.63% of variance in sleep quality could be explained by the predictor, (<em>F</em>(1, 86) = 25.15, <em>p</em> &lt; .001). Perceived stress significantly predicted sleep quality (<em>Beta</em> = 0.48, <em>p</em> &lt; .001).</p>
+<p>Linear regression indicated that 1.6% of variance in sleep quality
+could be explained by the predictor, (<em>F</em>(1, 118) = 1.92,
+<em>p</em> = 0.169). Perceived stress did not significantly predict
+sleep quality (<em>Beta</em> = -0.13, <em>p</em> = 0.169).</p>
 </blockquote>
-<p>For one or two predictors, it is simple enough to include the coefficients and p-value of predictors in-text like above. However, as your model becomes more complicated, it may be more useful to include a table instead. More on this later.</p>
+<p>For one or two predictors, it is simple enough to include the
+coefficients and p-value of predictors in-text like above. However, as
+your model becomes more complicated, it may be more useful to include a
+table instead. More on this later.</p>
 </div>
 </div>
 <div id="regression-with-multiple-predictors." class="section level2">
 <h2>Regression with Multiple Predictors.</h2>
-<p>The real advantage of regression is when there is more than one predictor in the model. In the example below, we run a regression with sleep quality as the outcome variable, and perceived stress and social support as predictors. <a href="https://www.jstor.org/stable/2136404?seq=9#metadata_info_tab_contents">For more detail on the Stress Scale, click here</a>.</p>
+<p>The real advantage of regression is when there is more than one
+predictor in the model. In the example below, we run a regression with
+sleep quality as the outcome variable, and perceived stress and social
+support as predictors. <a
+href="https://www.jstor.org/stable/2136404?seq=9#metadata_info_tab_contents">For
+more detail on the Stress Scale, click here</a>.</p>
 <div id="clean-the-data-for-analysis.-2" class="section level3">
 <h3>1. Clean the data for analysis.</h3>
-<p>First, we need to calculate the variables from each individual item. Again, this is just the sum of the items from the respective scales.</p>
+<p>First, we need to calculate the variables from each individual item.
+Again, this is just the sum of the items from the respective scales.</p>
 <pre class="r"><code>data3.clean &lt;- data %&gt;%
   mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,
          support = support.1 + support.2 + support.3 + support.4 + support.5,
@@ -572,7 +713,9 @@ model2.standardised</code></pre>
 </div>
 <div id="run-statistical-test-2" class="section level3">
 <h3>2. Run statistical test</h3>
-<p>Again, we run the regression using the <code>lm()</code> function. In order to add extra predictors to the model, we adjust the formula by adding variables on the right side of the <code>~</code> symbol.</p>
+<p>Again, we run the regression using the <code>lm()</code> function. In
+order to add extra predictors to the model, we adjust the formula by
+adding variables on the right side of the <code>~</code> symbol.</p>
 <pre class="r"><code>#Unstandardised Model
 model3 &lt;- lm(sleep.quality ~ support + stress,data = data3.clean)
 summary(model3)</code></pre>
@@ -581,20 +724,20 @@ summary(model3)</code></pre>
 ## lm(formula = sleep.quality ~ support + stress, data = data3.clean)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -14.1290  -3.7009  -0.9707   3.6076  12.2739 
+##     Min      1Q  Median      3Q     Max 
+## -7.0271 -2.4803  0.0162  1.6759  7.8095 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -2.33888    4.80307  -0.487    0.628    
-## support     -0.01439    0.09724  -0.148    0.883    
-## stress       1.61513    0.32384   4.987  3.2e-06 ***
+## (Intercept) 18.93975    1.73695  10.904   &lt;2e-16 ***
+## support      0.01097    0.06693   0.164     0.87    
+## stress      -0.14150    0.10245  -1.381     0.17    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.754 on 85 degrees of freedom
-## Multiple R-squared:  0.2265, Adjusted R-squared:  0.2083 
-## F-statistic: 12.44 on 2 and 85 DF,  p-value: 1.822e-05</code></pre>
+## Residual standard error: 3.296 on 117 degrees of freedom
+## Multiple R-squared:  0.01621,    Adjusted R-squared:  -0.0006054 
+## F-statistic: 0.964 on 2 and 117 DF,  p-value: 0.3844</code></pre>
 <pre class="r"><code>#Standardised Model
 model3 %&gt;%
   lm.beta() %&gt;%
@@ -604,24 +747,30 @@ model3 %&gt;%
 ## lm(formula = sleep.quality ~ support + stress, data = data3.clean)
 ## 
 ## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -14.1290  -3.7009  -0.9707   3.6076  12.2739 
+##     Min      1Q  Median      3Q     Max 
+## -7.0271 -2.4803  0.0162  1.6759  7.8095 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -2.33888      0.00000    4.80307  -0.487    0.628    
-## support     -0.01439     -0.01412    0.09724  -0.148    0.883    
-## stress       1.61513      0.47581    0.32384   4.987  3.2e-06 ***
+## (Intercept) 18.93975      0.00000    1.73695  10.904   &lt;2e-16 ***
+## support      0.01097      0.01503    0.06693   0.164     0.87    
+## stress      -0.14150     -0.12667    0.10245  -1.381     0.17    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 5.754 on 85 degrees of freedom
-## Multiple R-squared:  0.2265, Adjusted R-squared:  0.2083 
-## F-statistic: 12.44 on 2 and 85 DF,  p-value: 1.822e-05</code></pre>
+## Residual standard error: 3.296 on 117 degrees of freedom
+## Multiple R-squared:  0.01621,    Adjusted R-squared:  -0.0006054 
+## F-statistic: 0.964 on 2 and 117 DF,  p-value: 0.3844</code></pre>
 </div>
 <div id="plot-data-2" class="section level3">
 <h3>3. Plot data</h3>
-<p>It is difficult to plot data from a multiple regression, as, in extreme circumstances, controlling for the variance in one predictor could change the direction of relationship in another. The simplest way is to plot scatterplot for each predictor with the dependent variable separately. If plots don’t appear to map well onto the predicted model - it could indicate you have an issue with your model (e.g., multicollinearity).</p>
+<p>It is difficult to plot data from a multiple regression, as, in
+extreme circumstances, controlling for the variance in one predictor
+could change the direction of relationship in another. The simplest way
+is to plot scatterplot for each predictor with the dependent variable
+separately. If plots don’t appear to map well onto the predicted model -
+it could indicate you have an issue with your model (e.g.,
+multicollinearity).</p>
 <pre class="r"><code>ggplot(data3.clean,aes(x = stress,y = sleep.quality)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;) +
@@ -635,12 +784,30 @@ model3 %&gt;%
 </div>
 <div id="write-up-analysis.-2" class="section level3">
 <h3>4. Write-up analysis.</h3>
-<p>Since we have numerous predictors now, it may make more sense to report the regression coefficients in a table to help with readability (though you can still report the statistics in-text if you prefer). In the write-up below, the beta, t-statistic, and p-value for each predictor is now in a table. However, when reporting regression coefficients in a table, you still need to describe the pattern of results in words.</p>
+<p>Since we have numerous predictors now, it may make more sense to
+report the regression coefficients in a table to help with readability
+(though you can still report the statistics in-text if you prefer). In
+the write-up below, the beta, t-statistic, and p-value for each
+predictor is now in a table. However, when reporting regression
+coefficients in a table, you still need to describe the pattern of
+results in words.</p>
 <blockquote>
-<p>We used multiple regression to predict sleep quality from perceived stress and social support. We found that both predictors explained 22.65% of the variance (<em>F</em>(2, 85) = 12.44, <em>p</em> &lt; .001). Regression coefficients are reported in Table 1. Social support positively predicted sleep quality. There was no significant effect of perceived stress.</p>
+<p>We used multiple regression to predict sleep quality from perceived
+stress and social support. We found that both predictors explained 1.62%
+of the variance (<em>F</em>(2, 117) = 0.96, <em>p</em> = 0.384).
+Regression coefficients are reported in Table 1. Neither perceived
+stress or social support significantly predicted intention to
+exercise.</p>
 </blockquote>
-<p>Table 1. Regression coefficients for linear model predicting intention to exercise.</p>
+<p>Table 1. Regression coefficients for linear model predicting
+intention to exercise.</p>
 <table>
+<colgroup>
+<col width="16%" />
+<col width="27%" />
+<col width="27%" />
+<col width="29%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>predictor</th>
@@ -652,15 +819,15 @@ model3 %&gt;%
 <tbody>
 <tr class="odd">
 <td>Stress</td>
-<td>-0.01</td>
-<td>-0.15</td>
-<td>0.88</td>
+<td>0.02</td>
+<td>0.16</td>
+<td>0.87</td>
 </tr>
 <tr class="even">
 <td>Support</td>
-<td>0.48</td>
-<td>4.99</td>
-<td>&lt; .001</td>
+<td>-0.13</td>
+<td>-1.38</td>
+<td>0.17</td>
 </tr>
 </tbody>
 </table>
@@ -669,8 +836,11 @@ model3 %&gt;%
 </div>
 <div id="exercises-1" class="section level1">
 <h1>Exercises</h1>
-<p>Now that you’ve completed this week’s workbook, why not give this week’s exercises a go? You can download the interactive exercises by clicking the link below.</p>
-<p><a href = "exercises.html">Click here to download this week’s exercises.</a></p>
+<p>Now that you’ve completed this week’s workbook, why not give this
+week’s exercises a go? You can download the interactive exercises by
+clicking the link below.</p>
+<p><a href = "exercises.html">Click here to download this week’s
+exercises.</a></p>
 </div>
 
 
