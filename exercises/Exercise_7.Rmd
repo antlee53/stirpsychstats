@@ -119,93 +119,144 @@ if(!exists("marmoset.data")){
 
 }
 
-if(label == "question_4"){
-
-correct_imitation.data <- data.frame(ID = 1:60,
-	age = c(9,8,4,10,8,9,3,9,5,7,9,9,10,7,6,8,4,7,5,10,3,3,8,8,6,10,6,7,9,5,9,5,8,3,7,4,10,5,4,5,7,3,6,9,7,9,5,7,8,6,7,5,5,3,8,4,9,8,8,3),
-	imitation = c(0.7,0.79,0.72,0.73,0.26,0.46,0.23,0.56,0.06,0.86,0.68,0.94,0.55,0.75,0.13,1,0.35,0.49,0.05,1,0,0,0.34,0.38,0,0.49,0.57,0.34,0.8,0.52,0.5,0.29,0.48,0.45,0.54,0,1,0.16,0.31,0.34,0.21,0.16,0.2,0.75,0.73,0.3,0.47,0.22,0.29,0.25,0.2,0.36,0.33,0.45,0.7,0,0.25,0.55,0.58,0.58),
-	problem_solving = c(7,6,7,6,4,2,0,2,5,6,6,10,5,7,0,9,7,4,9,9,1,3,1,2,5,3,12,10,13,11,3,1,0,12,6,1,20,0,6,9,2,3,6,16,10,3,1,2,0,3,6,1,4,1,7,2,7,10,1,0))
+#Question 7
+if (label == "question_a1b"){
 	
-correct_y.model <- lm(problem_solving ~ age,data = correct_imitation.data) %>%
-  lm.beta() %>%
-  summary()
-
-correct_y2.model <- lm(problem_solving ~ age + imitation,data = correct_imitation.data) %>%
-  lm.beta() %>%
-  summary()
-
-correct_m.model <- lm(imitation ~ age,data = correct_imitation.data) %>%
-  lm.beta() %>%
-  summary()
-
-if (!exists("imitation.data")){
-	out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-} else {
-	if(!identical(imitation.data,correct_imitation.data)){
-		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-	} else {
-		if(!exists("y.model")){
-			out <- list(message = "No object saved as `y.model`.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("y2.model")){
-				out <- list(message = "No object saved as `y2.model`.", correct = FALSE, location = "append")
-			} else {
-				if(!exists("m.model")){
-					out <- list(message = "No object saved as `m.model`.", correct = FALSE, location = "append")
-				} else {
-					if(!("summary.lm.beta" %in% class(y.model)) | !("summary.lm.beta" %in% class(y2.model)) | !("summary.lm.beta" %in% class(m.model))){
-						out <- list(message = "One of `y.model`, `y2.model`, or `m.model` is not the output from the `lm()` function after using the `lm.beta()` and `summary()` functions. Ensure that this is the case.", correct = FALSE, location = "append")
-					} else {
-						if(!(.29 %in% round(y.model$coefficients[,"Standardized"],2))){
-							out <- list(message = "The object `y.model` does not match the correct answer.", correct = FALSE, location = "append")
-						} else {
-							if(!(.56 %in% round(y2.model$coefficients[,"Standardized"],2))){
-								out <- list(message = "The object `y2.model` does not match the correct answer.", correct = FALSE, location = "append")
-							} else {
-								if(!(.56 %in% round(m.model$coefficients[,"Standardized"],2))){
-									out <- list(message = "The object `m.model` does not match the correct answer.", correct = FALSE, location = "append")
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
+	correct_anxiety.data <- data.frame(ID = 1:120,
+	drug_condition = c(rep("experimental",60),rep("control",60)),
+	dosage = c(rep("low",20),rep("medium",20),rep("high",20),rep("low",20),rep("medium",20),rep("high",20)),
+	anxiety = c(50,43,39,46,43,32,66,33,38,44,39,16,38,45,-3,51,20,43,57,48,30,40,50,60,-1,56,36,42,50,34,33,34,43,34,18,17,19,27,35,31,3,33,28,17,27,41,9,32,15,9,15,33,5,31,24,-11,16,39,-2,36,48,46,37,73,37,40,32,53,38,34,26,35,22,20,74,19,26,51,60,32,45,60,56,28,70,40,45,19,46,57,52,54,35,22,37,10,25,50,36,61,50,29,30,42,58,47,63,58,21,48,78,54,39,29,48,46,69,46,34,54))
 	
-}
-
-#Question 6
-if(label == "question_6"){
-
-correct_imitation.data <- data.frame(ID = 1:60,
-	age = c(9,8,4,10,8,9,3,9,5,7,9,9,10,7,6,8,4,7,5,10,3,3,8,8,6,10,6,7,9,5,9,5,8,3,7,4,10,5,4,5,7,3,6,9,7,9,5,7,8,6,7,5,5,3,8,4,9,8,8,3),
-	imitation = c(0.7,0.79,0.72,0.73,0.26,0.46,0.23,0.56,0.06,0.86,0.68,0.94,0.55,0.75,0.13,1,0.35,0.49,0.05,1,0,0,0.34,0.38,0,0.49,0.57,0.34,0.8,0.52,0.5,0.29,0.48,0.45,0.54,0,1,0.16,0.31,0.34,0.21,0.16,0.2,0.75,0.73,0.3,0.47,0.22,0.29,0.25,0.2,0.36,0.33,0.45,0.7,0,0.25,0.55,0.58,0.58),
-	problem_solving = c(7,6,7,6,4,2,0,2,5,6,6,10,5,7,0,9,7,4,9,9,1,3,1,2,5,3,12,10,13,11,3,1,0,12,6,1,20,0,6,9,2,3,6,16,10,3,1,2,0,3,6,1,4,1,7,2,7,10,1,0))
-
-if (!exists("imitation.data")){
-	out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-} else {
-	if(!identical(imitation.data,correct_imitation.data)){
-		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-	} else {
-									if(!exists("med.model")){
-										out <- list(message = "No object saved as `med.model`. Save the output from the `mediate()` function as `med.model`.", correct = FALSE, location = "append")
-									} else {
-										if(!("mediate" %in% class(med.model))){
-											out <- list(message = "The object saved as `med.model` does not appear to be the output from the `mediate()` function. Check that there are no errors in the code.", correct = FALSE, location = "append")
-										} else {
-											if(round(med.model$ab,2) != .31){
-												out <- list(message = "There results from the mediate() function does not match the correct answer. Please check there are no errors in the code.", correct = FALSE, location = "append")
-											}
-										}
-									}
-								}
-							}
+	correct_anxiety.aov <- aov(anxiety ~ drug_condition*dosage,data = anxiety.data) %>%
+  summary()
+ 	
+ 	if (!exists("anxiety.data")){
+ 		out <- list(message = "The data.frame anxiety.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 	} else {
+ 		if(!identical(anxiety.data,correct_anxiety.data)){
+ 			out <- list(message = "The data.frame anxiety.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 		} else {
+ 			if(!exists("anxiety.aov")){
+ 				out <- list(message = "There is no object saved as anxiety.aov. Make sure to save the output from the ANOVA as `anxiety.aov`.", correct = FALSE, location = "append")
+ 			} else {
+ 				if(!("summary.aov" %in% class(anxiety.aov))){
+ 					out <- list(message = "It doesn't appear as if the `summary()` function has been used. Make sure to use it to give you interpretable output.", correct = FALSE, location = "append")
+ 				} else {
+ 					if(!identical(anxiety.aov,correct_anxiety.aov)){
+ 						out <- list(message = "The object saved as `anxiety.aov` does not match the correct answer. Please double-check there are no errors in the submitted code.", correct = FALSE, location = "append")
+ 					}
+ 				}
+ 			}
+ 		}
+ 	}
+} 
+  
+#Question 8
+if (label == "question_a2b"){
 	
+	correct_engagement.data <- data.frame(
+  Subject = c("BF","DK","MS","RV"),
+  Early = c(23,7,11,5),
+  Middle = c(22,14,14,15),
+  Late = c(31,3,11,14))
+	
+  correct_reshaped.data <- gather(engagement.data,key = "Time",value = "Output",Early,Middle,Late) %>%
+  mutate(Subject = as.factor(Subject))
+  
+	correct_engagement.aov <- aov(Output ~ Time + Error(Subject/Time),data = reshaped.data) %>%
+  summary()
+ 	
+ 	if (!exists("engagement.data")){
+ 		out <- list(message = "The data.frame engagement.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 	} else {
+ 		if(!identical(engagement.data,correct_engagement.data)){
+ 			out <- list(message = "The data.frame engagement.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 		} else {
+ 		  if(!exists("reshaped.data")){
+ 		    out <- list(message = "The data.frame reshaped.data appears to be altered. There is no need to alter the code that creates this data.frame. Click the 'Start Over' button if necessary.")
+ 		  } else {
+ 		    if(!identical(reshaped.data,correct_reshaped.data)){
+ 		      out <- list(message = "The data.frame reshaped.data appears to be altered. There is no need to alter the code that creates this data.frame. Click the 'Start Over' button if necessary.")
+ 		    } else {
+ 			if(!exists("engagement.aov")){
+ 				out <- list(message = "There is no object saved as engagement.aov. Make sure to save the output from the ANOVA as `engagement.aov`.", correct = FALSE, location = "append")
+ 			} else {
+ 				if(!("summary.aovlist" %in% class(engagement.aov))){
+ 					out <- list(message = "It doesn't appear as if the `summary()` function has been used. Make sure to use it to give you interpretable output.", correct = FALSE, location = "append")
+ 				} else {
+ 					if(!identical(engagement.aov,correct_engagement.aov)){
+ 						out <- list(message = "The object saved as `engagement.aov` does not match the correct answer. Please double-check there are no errors in the submitted code.", correct = FALSE, location = "append")
+ 					}
+ 				}
+ 			}
+ 		}
+ 	}
+ 	}
+ 	}
 }
-    
+
+#Question 7
+if (label == "question_a3b"){
+	
+	pd <- matrix(c("LN","M",105,100,
+              "DZ","M",104,97,
+              "JL","M",98,95,
+              "MR","M",94,88,
+              "HMC","M",91,78,
+              "DR","D",88,72,
+              "CEY","M",88,82,
+              "SM","R",85,101,
+              "JB","M",80,77,
+              "AW","D",75,88,
+              "CC","F",67,65,
+              "AC","F",64,65,
+              "CAC","M",62,59,
+              "LMC","F",60,49,
+              "DG","D",58,60,
+              "EH","F",57,56,
+              "RM","F",57,62,
+              "HA","D",56,67,
+              "OMI","R",56,53,
+              "RL","D",56,64,
+              "DMS","F",52,52,
+              "MA","D",49,62,
+              "ZB","D",48,52,
+              "AS","R",46,46,
+              "CR","F",45,59,
+              "MC","F",44,38,
+              "JA","M",44,48,
+              "BS","D",31,34),byrow = TRUE,ncol = 4)
+correct_performance.data <- data.frame(ID = as.character(pd[,1]),
+                               regiment = as.character(pd[,2]),
+                               baseline = as.numeric(pd[,3]),
+                               time2 = as.numeric(pd[,4])) %>%
+  gather(key = "test.time",value = "performance",baseline,time2) %>%
+  mutate(ID = as.factor(ID))
+	
+	correct_performance.aov <- aov(performance ~ test.time*regiment + Error(ID/test.time),data = performance.data) %>%
+  summary()
+ 	
+ 	if (!exists("performance.data")){
+ 		out <- list(message = "The data.frame performance.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 	} else {
+ 		if(!identical(performance.data,correct_performance.data)){
+ 			out <- list(message = "The data.frame performance.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 		} else {
+ 			if(!exists("performance.aov")){
+ 				out <- list(message = "There is no object saved as performance.aov. Make sure to save the output from the ANOVA as `anxiety.aov`.", correct = FALSE, location = "append")
+ 			} else {
+ 				if(!("summary.aovlist" %in% class(performance.aov))){
+ 					out <- list(message = "It doesn't appear as if the `summary()` function has been used. Make sure to use it to give you interpretable output.", correct = FALSE, location = "append")
+ 				} else {
+ 					if(!identical(performance.aov,correct_performance.aov)){
+ 						out <- list(message = "The object saved as `performance.aov` does not match the correct answer. Please double-check there are no errors in the submitted code.", correct = FALSE, location = "append")
+ 					}
+ 				}
+ 			}
+ 		}
+ 	}
+}   
+        
   return(out)
 }
 
@@ -296,6 +347,21 @@ checker()
 ### Question 3
 
 You measure the personality characteristics of 100 common marmosets on five domains (see data.frame `marmoset.data`). You predict that older marmosets will be more assertive, but only if they are low in patience. Run a linear regression with an interaction term to test this hypothesis. Save standardised regression coefficients from the function `lm.beta()` to an object named `marmoset.beta`.
+
+```{r,echo = FALSE}
+marmoset.data <- data.frame(ID = 1:100,
+							age = c(13,2,9,8,14,6,3,12,5,2,5,10,3,10,2,7,3,14,9,11,3,9,14,12,14,3,9,2,5,12,14,2,10,10,11,2,8,2,12,8,9,6,8,10,7,2,3,9,12,4,9,4,2,13,8,11,12,13,4,13,3,3,2,8,8,8,12,3,13,7,2,3,2,12,14,6,7,7,11,6,6,8,8,2,5,3,14,13,8,8,4,12,6,9,7,3,12,4,5,11),
+							conscientiousness = c(-0.99,-0.55,-1.03,0.45,-0.97,0.28,0.87,-0.47,0.63,-0.48,0.32,0.39,1.05,-0.54,-1.89,-1.23,-1.69,0.34,-0.86,1.41,-0.78,-1.57,-0.77,0.48,1.48,1.06,-0.12,0.07,0.54,0.92,1.21,0.13,0.51,0.22,-0.5,-0.8,-2.25,0.29,0,-0.36,-0.94,1.27,0.56,-0.33,-1.66,-0.33,-2.17,-1.11,-0.66,0.39,0.32,-0.6,-1.73,-0.09,0.6,-0.66,1.56,-0.82,0.69,0.09,-1.08,0.87,1.73,0.13,-0.75,-0.21,-1.91,-1.41,-1.21,0.78,1.17,0.67,-0.08,0.05,-2.28,1.68,1.15,0.15,0.12,-0.01,-1.21,-2.29,-0.34,-0.71,0.16,0.2,0.2,-0.07,0.1,-0.98,-0.38,0.27,0.22,0.27,-0.59,0.53,-0.69,1.64,-1.4,-0.87),
+							agreeableness = c(-1.4,0.36,-0.55,-1.28,1.07,-0.84,0.69,-1.63,0.31,0.82,-0.55,1.51,-0.86,-1.63,-3.11,1.46,-0.71,0.21,-0.68,-0.12,-0.62,0.02,0.48,-1.08,0.35,-0.11,0.7,0.29,1.1,-0.83,-0.58,-0.05,1.09,-0.71,-1.17,-0.74,-0.13,0.45,1.79,1.04,-0.5,-0.08,-0.82,0.15,0.63,0.36,-2.22,-0.06,1.69,0.76,-1.52,0.47,-0.58,-0.93,-1.87,0.67,1.98,-1.22,-1.5,0.01,-0.44,2.53,0.02,-2.32,0.42,-0.33,-1.14,-0.43,0.21,-2.28,0.45,1.13,-1.43,2.03,-0.81,-0.16,-0.9,-2.51,-0.81,0.73,0.48,-1.35,0.17,-0.2,0.04,1.52,0.58,-1.41,0.09,0.42,-0.29,0.18,-0.44,0.4,0.61,1.31,0.91,0.46,0.55,0.01),
+							assertiveness = c(0.77,-1.28,0.47,-0.81,-0.17,0.28,-1.34,-1.12,-0.13,-0.42,-2.3,-0.74,-1.78,2.11,-0.18,-0.06,-1.13,-2.13,-0.24,0.06,-2.55,-0.45,-0.77,-0.53,0.35,-0.65,1.27,-1.19,-1.25,0.1,1.67,-0.81,1.13,-1.39,0.34,-2.23,0.96,1.28,0.21,0.04,-1.99,0.04,0.31,-0.32,-0.56,-0.61,-0.04,1.41,-0.62,-2.12,-0.51,0.1,1.37,-1.65,-0.38,0.95,1.09,0.15,-0.28,-0.61,0.55,0.73,1.65,-0.95,-0.25,0.86,-0.81,0.85,0.32,-0.83,-0.54,-0.69,-0.9,1.47,0.47,-1.12,0.09,-0.11,1.08,-2.19,-1.23,0.13,-0.2,-0.95,0.87,-0.04,-0.79,-0.33,0.6,0.69,0.13,0.52,0.59,-0.15,1.03,-0.5,-0.21,-1.8,-0.21,-2.25),
+							patience = c(-0.67,-0.33,-2,1.73,-0.3,0.55,-0.77,-1.47,-0.01,1.02,-1.07,1.78,-1.41,-0.21,0.53,0.33,-1.2,1.11,-0.39,-0.23,-0.32,-0.88,-0.18,1.46,-0.74,2.78,-0.03,-0.07,0.06,-0.66,-1.65,0.16,2.18,1.08,0.64,0.29,-0.35,-1.64,0.21,-0.02,-0.34,0.67,-0.46,-1.21,0.76,0.55,-0.81,-0.17,-0.37,-0.58,-0.18,0.68,1.34,0.83,0.46,0.72,-0.72,0.31,-0.87,-0.58,0.7,0.15,-0.48,-0.27,-0.58,-1.17,0.54,1.25,0.25,-0.09,1.39,0.16,0.95,0.98,-0.87,0.88,-1.6,-0.13,-0.49,0.5,0.83,-0.44,0.41,-0.13,0.23,0.26,0.63,2.32,-1.15,-0.97,-0.35,-0.15,-1.92,-0.98,0.77,0.76,-1.46,-0.47,0.55,-0.58),
+							inquisitiveness = c(0.36,-1.42,1.03,0.44,0.14,-1.24,-0.85,-0.8,-0.51,-1.29,-0.03,0.46,0.58,0.71,0.4,0.96,-1.86,1.07,-1,-0.8,0.26,0.44,0.98,-0.09,1.04,0.17,-0.86,-0.32,-1.01,-0.29,-0.48,2.05,-0.26,-0.96,0.69,-1.64,1.29,-0.73,0.08,-0.43,0.27,1.31,-2.09,0.85,-2.42,1.54,0.4,-1.07,0.22,0.03,0.11,0.48,-0.06,0.62,0.57,0.91,0.22,0.56,0.6,-0.29,1.04,0.93,-0.83,0.84,1.68,-0.65,1.74,0.27,-0.27,-1,-0.82,-0.39,0.99,-0.18,0.27,1.62,0.1,0.7,1.5,-1.5,-0.83,-0.59,-0.45,0.57,-0.84,-1.48,-0.55,1.22,0.02,0.68,-0.36,-0.53,-0.9,-0.28,0.2,0.74,-0.31,0.23,-1.09,1.81)) %>%
+	mutate(i = ((age-7.54)*patience + 0.292178)/3.716451,
+			assertiveness = round(-.8*i + assertiveness,2)) %>%
+	dplyr::select(-i)
+
+marmoset.data
+```
 
 ```{r question_2-setup}
 marmoset.data <- data.frame(ID = 1:100,
@@ -393,118 +459,230 @@ quiz(question("The correct interpretation for the analysis above is...",
 
 ### Question 5
 
-As young children get older, they get better at a problem-solving task. You hypothesise that the association between age and performance on this problem-solving task can be explained by the child's propensity to automatically imitate the behaviour of others. You collect data from 60 children between the ages of 3 and 10 years, and measure the percentage of behaviours automatically imitated in a lab setting, and also test them on the problem solving task (see data.frame `imitation.data`). Complete the code below to determine whether it is possible that `imitation` mediates the association between `age` and `problem_solving`.
+In the code box below, there is a dataset testing whether the use of an experimental drug helps with anxiety. In a randomised controlled trial, participants are either assigned to the experimental drug condition, or a control group. Participants are also randomly assigned to one of three dosage groups (low, medium, and high). Conduct the appropriate two-way ANOVA to determine whether the use of the drug, as well as dosage levels, helps with levels of anxiety. Save the results from the `aov()` function (after using the `summary()` function) to an object called `anxiety.aov`.
 
-```{r question_4-setup}
-imitation.data <- data.frame(ID = 1:60,
-	age = c(9,8,4,10,8,9,3,9,5,7,9,9,10,7,6,8,4,7,5,10,3,3,8,8,6,10,6,7,9,5,9,5,8,3,7,4,10,5,4,5,7,3,6,9,7,9,5,7,8,6,7,5,5,3,8,4,9,8,8,3),
-	imitation = c(0.7,0.79,0.72,0.73,0.26,0.46,0.23,0.56,0.06,0.86,0.68,0.94,0.55,0.75,0.13,1,0.35,0.49,0.05,1,0,0,0.34,0.38,0,0.49,0.57,0.34,0.8,0.52,0.5,0.29,0.48,0.45,0.54,0,1,0.16,0.31,0.34,0.21,0.16,0.2,0.75,0.73,0.3,0.47,0.22,0.29,0.25,0.2,0.36,0.33,0.45,0.7,0,0.25,0.55,0.58,0.58),
-	problem_solving = c(7,6,7,6,4,2,0,2,5,6,6,10,5,7,0,9,7,4,9,9,1,3,1,2,5,3,12,10,13,11,3,1,0,12,6,1,20,0,6,9,2,3,6,16,10,3,1,2,0,3,6,1,4,1,7,2,7,10,1,0))
+```{r,echo = FALSE}
+anxiety.data <- data.frame(ID = 1:120,
+	drug_condition = c(rep("experimental",60),rep("control",60)),
+	dosage = c(rep("low",20),rep("medium",20),rep("high",20),rep("low",20),rep("medium",20),rep("high",20)),
+	anxiety = c(50,43,39,46,43,32,66,33,38,44,39,16,38,45,-3,51,20,43,57,48,30,40,50,60,-1,56,36,42,50,34,33,34,43,34,18,17,19,27,35,31,3,33,28,17,27,41,9,32,15,9,15,33,5,31,24,-11,16,39,-2,36,48,46,37,73,37,40,32,53,38,34,26,35,22,20,74,19,26,51,60,32,45,60,56,28,70,40,45,19,46,57,52,54,35,22,37,10,25,50,36,61,50,29,30,42,58,47,63,58,21,48,78,54,39,29,48,46,69,46,34,54))
+
+anxiety.data
 ```
 
-```{r question_4, exercise=TRUE,exercise.lines = 20}
-#imitation.data
-
-#1. Is there an association between the IV and the DV?
-y.model <- lm() %>%
-  lm.beta() %>%
-  summary()
-
-#2. Does the association between the IV and the DV decrease when including the mediator?
-y2.model <- lm() %>%
-  lm.beta() %>%
-  summary()
-
-#3. Is there an association between the mediator and the IV?
-m.model <- lm() %>%
-  lm.beta() %>%
-  summary()
+```{r question_a1b-setup}
+anxiety.data <- data.frame(ID = 1:120,
+	drug_condition = c(rep("experimental",60),rep("control",60)),
+	dosage = c(rep("low",20),rep("medium",20),rep("high",20),rep("low",20),rep("medium",20),rep("high",20)),
+	anxiety = c(50,43,39,46,43,32,66,33,38,44,39,16,38,45,-3,51,20,43,57,48,30,40,50,60,-1,56,36,42,50,34,33,34,43,34,18,17,19,27,35,31,3,33,28,17,27,41,9,32,15,9,15,33,5,31,24,-11,16,39,-2,36,48,46,37,73,37,40,32,53,38,34,26,35,22,20,74,19,26,51,60,32,45,60,56,28,70,40,45,19,46,57,52,54,35,22,37,10,25,50,36,61,50,29,30,42,58,47,63,58,21,48,78,54,39,29,48,46,69,46,34,54))
 ```
 
-```{r question_4-hint-1}
-Create models that test each of the relationships specified.
+```{r question_a1b, exercise=TRUE,exercise.lines = 12}
+#anxiety.data
+
+anxiety.aov <-
+  
+anxiety.aov
+
 ```
 
-```{r question_4-hint-2}
-Check the data.frame `imitation.data` to get the variable names.
+```{r question_a1b-hint-1}
+Use the `aov()` function to conduct the two-way ANOVA. Remember the formula should include the interaction between the two IVs.
+```
+
+```{r question_a1b-hint-2}
+You will need to decide whether a between-subjects ANOVA, a within-subjects ANOVA, or a mixed-design ANOVA is appropriate. This will influence the formula you enter in the `aov()` function.
 
 Next hint will show the solution...
 ```
 
-```{r question_4-solution}
-#1. Is there an association between the IV and the DV?
-y.model <- lm(problem_solving ~ age,data = imitation.data) %>%
-  lm.beta() %>%
+```{r question_a1b-solution}
+anxiety.aov <- aov(anxiety ~ drug_condition*dosage,data = anxiety.data) %>%
   summary()
 
-y.model
-
-#2. Does the association between the IV and the DV decrease when including the mediator?
-y2.model <- lm(problem_solving ~ age + imitation,data = imitation.data) %>%
-  lm.beta() %>%
-  summary()
-
-y2.model
-
-#3. Is there an association between the mediator and the IV?
-m.model <- lm(imitation ~ age,data = imitation.data) %>%
-  lm.beta() %>%
-  summary()
-
-m.model
+anxiety.aov
 ```
 
-```{r question_4-check}
+```{r question_a1b-check}
 checker()
+```
+
+```{r question_a1b-quiz}
+quiz(question("What is the correct interpretation for the analysis above? (You may need to conduct post-hoc comparisons, or plot the data).",
+     answer("There is no significant interaction between condition and dosage level."),
+     answer("Anxiety is negatively associated with dosage, but only in the experimental condition.", correct = TRUE),
+     answer("Overall, anxiety was higher for those in the experimental condition."),
+     answer("Overall, there is a significant main effect of dosage on anxiety levels."),allow_retry = TRUE))
 ```
 
 ### Question 6
 
-```{r question_5-quiz}
-quiz(question("For the `imitation.data` above, select all true statements:",
-     answer("There is an association between the IV (age) and the DV (problem-solving score).",correct = TRUE),
-     answer("The association between the IV (age) and the DV (problem-solving score) is reduced or eliminated once the mediator (imitation) is added to the model.", correct = TRUE),
-     answer("There is an association between the IV (age) and the mediator (imitation).",correct = TRUE),
-     answer("This data meets the conditions of a mediation.",correct = TRUE),
-     answer("This data does NOT meet the conditions of a mediation."),allow_retry = TRUE, correct = "Correct! Awesome stuff you legend."))
+```{r question_a2b-setup}
+engagement.data <- data.frame(
+  Subject = c("BF","DK","MS","RV"),
+  Early = c(23,7,11,5),
+  Middle = c(22,14,14,15),
+  Late = c(31,3,11,14)
+)
 ```
 
-### Question 7
+In the code box below, there is a dataset testing the engagement of four participants in a group activity. Engagement is measured by the number of outputs produced from the group activity by each individual. We expect that engagement differs across three different time points (early, middle, and late).
 
-For the `imitation.data`, use the `mediate()` function to determine the direct and indirect effect for the hypothesised mediation.
-
-```{r question_6-setup}
-imitation.data <- data.frame(ID = 1:60,
-	age = c(9,8,4,10,8,9,3,9,5,7,9,9,10,7,6,8,4,7,5,10,3,3,8,8,6,10,6,7,9,5,9,5,8,3,7,4,10,5,4,5,7,3,6,9,7,9,5,7,8,6,7,5,5,3,8,4,9,8,8,3),
-	imitation = c(0.7,0.79,0.72,0.73,0.26,0.46,0.23,0.56,0.06,0.86,0.68,0.94,0.55,0.75,0.13,1,0.35,0.49,0.05,1,0,0,0.34,0.38,0,0.49,0.57,0.34,0.8,0.52,0.5,0.29,0.48,0.45,0.54,0,1,0.16,0.31,0.34,0.21,0.16,0.2,0.75,0.73,0.3,0.47,0.22,0.29,0.25,0.2,0.36,0.33,0.45,0.7,0,0.25,0.55,0.58,0.58),
-	problem_solving = c(7,6,7,6,4,2,0,2,5,6,6,10,5,7,0,9,7,4,9,9,1,3,1,2,5,3,12,10,13,11,3,1,0,12,6,1,20,0,6,9,2,3,6,16,10,3,1,2,0,3,6,1,4,1,7,2,7,10,1,0))
+```{r question_a2b-quiz}
+quiz(question("Given the description above, what is the appropriate statistical analysis?",
+     answer("One-way Within-Subjects ANOVA", correct = TRUE),
+     answer("Two-way Between-Subjects ANOVA"),
+     answer("Two-way Mixed-Design ANOVA"),
+     answer("Two-way Within-Subjects ANOVA"),allow_retry = TRUE))
 ```
 
-```{r question_6, exercise=TRUE,exercise.lines = 12}
-#imitation.data
+```{r,echo = FALSE}
+engagement.data <- data.frame(
+  Subject = c("BF","DK","MS","RV"),
+  Early = c(23,7,11,5),
+  Middle = c(22,14,14,15),
+  Late = c(31,3,11,14)
+)
 
-med.model <- mediate()
+engagement.data
 ```
 
-```{r question_6-hint-1}
-Remember, the formula for the mediate function is slightly different. The mediator is put within brackets.
+ Conduct the appropriate ANOVA to test this hypothesis. Save the results from the `aov()` function (after using the `summary()` function) to an object called `engagement.aov`. Note, you may need to reshape the data. If so, the code to reshape the data has been provided.
 
-DV ~ IV + (Mediator)
+```{r question_a2b, exercise=TRUE,exercise.lines = 12}
+#engagement.data
+
+reshaped.data <- gather(engagement.data,key = "Time",value = "Output",Early,Middle,Late) %>%
+  mutate(Subject = as.factor(Subject))
+
+engagement.aov <- 
 ```
 
-```{r question_6-hint-2}
-Remember to set the 'std' argument to `TRUE` to get standardised estimates.
+```{r question_a2b-hint-1}
+Given that the IV of "Time" is a within-subjects variable, the appropriate analysis is a repeated-measures one-way ANOVA.
+```
+
+```{r question_a2b-hint-2}
+Remember the formula should include a part that tells the function that a variable is repeated within another variable. This takes the form of `+ Error(.../...)`
 
 Next hint will show the solution...
 ```
 
-```{r question_6-solution}
-med.model <- mediate(problem_solving ~ age + (imitation),data = imitation.data,std = TRUE)
+```{r question_a2b-solution}
+reshaped.data <- gather(engagement.data,key = "Time",value = "Output",Early,Middle,Late) %>%
+  mutate(Subject = as.factor(Subject))
 
-med.model
+engagement.aov <- aov(Output ~ Time + Error(Subject/Time),data = reshaped.data) %>%
+  summary()
 ```
 
-```{r question_6-check}
+```{r question_a2b-check}
+checker()
+```
+
+### Question 7
+
+```{r question_a3b-setup}
+pd <- matrix(c("LN","M",105,100,
+              "DZ","M",104,97,
+              "JL","M",98,95,
+              "MR","M",94,88,
+              "HMC","M",91,78,
+              "DR","D",88,72,
+              "CEY","M",88,82,
+              "SM","R",85,101,
+              "JB","M",80,77,
+              "AW","D",75,88,
+              "CC","F",67,65,
+              "AC","F",64,65,
+              "CAC","M",62,59,
+              "LMC","F",60,49,
+              "DG","D",58,60,
+              "EH","F",57,56,
+              "RM","F",57,62,
+              "HA","D",56,67,
+              "OMI","R",56,53,
+              "RL","D",56,64,
+              "DMS","F",52,52,
+              "MA","D",49,62,
+              "ZB","D",48,52,
+              "AS","R",46,46,
+              "CR","F",45,59,
+              "MC","F",44,38,
+              "JA","M",44,48,
+              "BS","D",31,34),byrow = TRUE,ncol = 4)
+performance.data <- data.frame(ID = as.character(pd[,1]),
+                               regiment = as.character(pd[,2]),
+                               baseline = as.numeric(pd[,3]),
+                               time2 = as.numeric(pd[,4])) %>%
+  gather(key = "test.time",value = "performance",baseline,time2) %>%
+  mutate(ID = as.factor(ID))
+```
+
+In the code box below, there is a dataset testing the performance of elite athletes before and after a training regiment (higher numbers means greater performance). These athletes were randomly assigned into one of four training regiment (D,M,R,F). Conduct a mixed-design ANOVA to determine whether change in performance between `baseline` and `time2` differs based on the training regiment. Save the results from the `aov()` function (after using the `summary()` function) to an object called `performance.aov`. Note, the dataset below has already been reshaped.
+
+```{r,echo = FALSE}
+pd <- matrix(c("LN","M",105,100,
+              "DZ","M",104,97,
+              "JL","M",98,95,
+              "MR","M",94,88,
+              "HMC","M",91,78,
+              "DR","D",88,72,
+              "CEY","M",88,82,
+              "SM","R",85,101,
+              "JB","M",80,77,
+              "AW","D",75,88,
+              "CC","F",67,65,
+              "AC","F",64,65,
+              "CAC","M",62,59,
+              "LMC","F",60,49,
+              "DG","D",58,60,
+              "EH","F",57,56,
+              "RM","F",57,62,
+              "HA","D",56,67,
+              "OMI","R",56,53,
+              "RL","D",56,64,
+              "DMS","F",52,52,
+              "MA","D",49,62,
+              "ZB","D",48,52,
+              "AS","R",46,46,
+              "CR","F",45,59,
+              "MC","F",44,38,
+              "JA","M",44,48,
+              "BS","D",31,34),byrow = TRUE,ncol = 4)
+performance.data <- data.frame(ID = as.character(pd[,1]),
+                               regiment = as.character(pd[,2]),
+                               baseline = as.numeric(pd[,3]),
+                               time2 = as.numeric(pd[,4])) %>%
+  gather(key = "test.time",value = "performance",baseline,time2) %>%
+  mutate(ID = as.factor(ID))
+
+performance.data %>%
+  arrange(ID)
+```
+
+```{r question_a3b, exercise=TRUE,exercise.lines = 12}
+#performance.data
+
+performance.aov <- 
+```
+
+```{r question_a3b-hint-1}
+Use the `aov()` function to conduct a mixed design ANOVA.
+```
+
+```{r question_a3b-hint-2}
+Remember the formula should include an interaction term and a part that tells the function that a variable is repeated within another variable. This takes the form of `+ Error(.../...)`
+
+Next hint will show the solution...
+```
+
+```{r question_a3b-solution}
+performance.aov <- aov(performance ~ test.time*regiment + Error(ID/test.time),data = performance.data) %>%
+  summary()
+```
+
+```{r question_a3b-check}
 checker()
 ```
 
@@ -568,10 +746,10 @@ Next hint will show the solution...
 ```{r question_a1-solution}
 ##Center Variables.
 marmoset.data.c <- mutate(marmoset.data,
-					c.patience = scale(patience) %>% as.vector(),
-					c.age = scale(age) %>% as.vector(),
-					c.agreeableness = scale(agreeableness) %>% as.vector(),
-					c.conscientiousness = scale(conscientiousness) %>% as.vector())
+					c.patience = c(scale(patience)),
+					c.age = c(scale(age)),
+					c.agreeableness = c(scale(agreeableness)),
+					c.conscientiousness = c(scale(conscientiousness)))
 
 ##Run regression and get standardised coefficients.
 marmoset.beta <- lm(assertiveness ~ c.patience*c.age + c.patience*c.agreeableness + c.patience*c.conscientiousness + c.age*c.agreeableness + c.age*c.conscientiousness,data = marmoset.data.c) %>%
@@ -581,62 +759,11 @@ marmoset.beta <- lm(assertiveness ~ c.patience*c.age + c.patience*c.agreeablenes
 marmoset.beta
 ```
 
-### Question A2 - Mediation with Control Variables
+### Question A2 - Three-way Interaction Effects
 
-Similar to with the moderation, including a control variable in each of the `lm()` models to determine whether a mediation is possible simply involves adding the control variable to each of the formulas. The way to interpret this is that any relationship between the outcome/predictor/mediator first removes any covariance associated with the control variable. This can be shown below:
+Up to now, when talking about an interaction, we have mentioned that the influence of one variable on the outcome depends on a another variable, but what if we add ANOTHER variable into the mix. A three-way interaction is when three predictors combine to explain variance in our outcome variable. There are a couple of ways you can think about this: one way is that the interaction between two variables depends on a third predictor. Another way is that the association between one variable and the outcome depends on two other variables.
 
-```{r,echo = TRUE, eval = FALSE}
-#Model 1: Is there an association between the predictor and the outcome variable.
-lm(outcome ~ predictor + control, data = data)
-
-#Model 2: Does the association between the predictor and outcome change once the mediator is included.
-lm(outcome ~ predictor + mediator + control,data = data)
-
-#Model 3: Is there an association between the predictor and the mediator.
-lm(mediator ~ predictor + control, data = data)
-```
-
-However, when using the `mediate()` function, including a control variable in the formula works differently than for any other analysis we have covered. Rather than add control variables to the formula, the mediate function expects control variables to be "subtracted". As such, the formula takes the following form:
-
-> outcome ~ predictor + (mediator) -control
-
-In the code box below, using the imitation dataset from Question 5, conduct a mediation analysis to determine whether the association between age and problem-solving score is mediated by imitation behaviour, while controlling for the children's verbal IQ.
-
-```{r question_a2-setup}
-imitation.data <- data.frame(ID = 1:60,
-	age = c(9,8,4,10,8,9,3,9,5,7,9,9,10,7,6,8,4,7,5,10,3,3,8,8,6,10,6,7,9,5,9,5,8,3,7,4,10,5,4,5,7,3,6,9,7,9,5,7,8,6,7,5,5,3,8,4,9,8,8,3),
-	imitation = c(0.7,0.79,0.72,0.73,0.26,0.46,0.23,0.56,0.06,0.86,0.68,0.94,0.55,0.75,0.13,1,0.35,0.49,0.05,1,0,0,0.34,0.38,0,0.49,0.57,0.34,0.8,0.52,0.5,0.29,0.48,0.45,0.54,0,1,0.16,0.31,0.34,0.21,0.16,0.2,0.75,0.73,0.3,0.47,0.22,0.29,0.25,0.2,0.36,0.33,0.45,0.7,0,0.25,0.55,0.58,0.58),
-	problem_solving = c(7,6,7,6,4,2,0,2,5,6,6,10,5,7,0,9,7,4,9,9,1,3,1,2,5,3,12,10,13,11,3,1,0,12,6,1,20,0,6,9,2,3,6,16,10,3,1,2,0,3,6,1,4,1,7,2,7,10,1,0),
-	vIQ = rnorm(60,100,15))
-```
-
-```{r question_a2, exercise=TRUE,exercise.lines = 12}
-#imitation.data
-
-
-```
-
-```{r question_a2-hint-1}
-Use the `mediate()` function to conduct the mediation analysis.
-```
-
-```{r question_a2-hint-2}
-Remember to adjust the formula to 'subtract' the control variable.
-
-Next hint will show the solution...
-```
-
-```{r question_a2-solution}
-med.model <- mediate(problem_solving ~ age + (imitation) - vIQ,data = imitation.data,std = TRUE)
-
-med.model
-```
-
-### Question A3 - Three-way Interaction Effects
-
-Up to now, when talking about an interaction, we have mentioned that the influence of one variable on the outcome depends on a another variable, but what if we add ANOTHER variable into the mix. A two-way interaction is when three predictors combine to explain variance in our outcome variable. There are a couple of ways you can think about this: one way is that the interaction between two variables depends on a third predictor. Another way is that the association between one variable and the outcome depends on two other variables.
-
-Three-way interactions is just an extension of the normal (two-way) interaction. Rather than multiple two variables together, we now multiple three variables together to create the interaction term. Everything we have learnt about the interactions applies to three-way interactions - we need to centre variables first before entering them into the model. Also, it is usually best to include all lower level terms in the model - this includes main effects for all three variables, and respecitively two-way interactions between each pair of predictors.
+Three-way interactions is just an extension of the normal (two-way) interaction. Rather than multiple two variables together, we now multiple three variables together to create the interaction term. Everything we have learnt about the interactions applies to three-way interactions - we need to centre variables first before entering them into the model. Also, it is usually best to include all lower level terms in the model - this includes main effects for all three variables, and respectively two-way interactions between each pair of predictors.
 
 So, the formula for a three-way interaction becomes:
 
@@ -678,9 +805,9 @@ Next hint will show the solution...
 ```{r question_a3-solution}
 ##Center Variables.
 marmoset.data.c <- mutate(marmoset.data,
-					c.patience = scale(patience) %>% as.vector(),
-					c.age = scale(age) %>% as.vector(),
-					c.inquisitiveness = scale(inquisitiveness) %>% as.vector())
+					c.patience = c(scale(patience)),
+					c.age = c(scale(age)),
+					c.inquisitiveness = c(scale(inquisitiveness)))
 
 ##Run regression (with three-way interaction effect) and get standardised coefficients.
 marmoset.beta <- lm(assertiveness ~ c.age*c.patience*c.inquisitiveness,data = marmoset.data.c) %>%
@@ -709,9 +836,9 @@ marmoset.data <- data.frame(ID = 1:100,
 
 ```{r,warning = FALSE}
 marmoset.data.c <- mutate(marmoset.data,
-					c.patience = scale(patience) %>% as.vector(),
-					c.age = scale(age) %>% as.vector(),
-					c.inquisitiveness = scale(inquisitiveness) %>% as.vector())
+					c.patience = c(scale(patience)),
+					c.age = c(scale(age)),
+					c.inquisitiveness = c(scale(inquisitiveness)))
 
 plot.data <- marmoset.data.c %>%
   mutate(patience_cat = ifelse(patience > 0,"High Patience","Low Patience"),
@@ -730,7 +857,7 @@ quiz(question("Based on the visualisation above, what is the correct interpretat
               answer("Age and assertiveness has a positive association, except when patience is low, and inquisitiveness is high."),allow_retry = TRUE))
 ```
 
-### Question A4 - Non-linear Effects
+### Question A3 - Non-linear Effects
 
 Even though we are using a technique called "linear regression", we can still use it to assess non-linear relationships, such as quadratic relationships.
 
@@ -751,7 +878,7 @@ Ideally, the formula for a non-linear relationship would look something like `va
 
 Again, everything we have learnt about the interactions applies to non-linear terms - we need to centre variables first before entering them into the model, and we also need to include the main effect of the predictor (the poly function will automatically include the main effect of the predictor as well as the non-linear term).
 
-In the code box below, there is a data.frame called `performance.data`. This data set aims to assess the relationship between stress and perfomance. Previous research has indicated that an intermediate level of stress is ideal for performance (known as the Yerkes-Dodson effect). Determine if this is the case for our data.
+In the code box below, there is a data.frame called `performance.data`. This data set aims to assess the relationship between stress and performance. Previous research has indicated that an intermediate level of stress is ideal for performance (known as the Yerkes-Dodson effect). Determine if this is the case for our data.
 
 ```{r question_a4-setup}
 performance.data <- data.frame(stress = rnorm(100,0,1),
@@ -777,7 +904,7 @@ Next hint will show the solution...
 ```{r question_a4-solution}
 ##Center Variables.
 performance.data.c <- mutate(performance.data,
-					c.stress = scale(stress) %>% as.vector())
+					c.stress = c(scale(stress)))
 
 ##Run regression and get standardised coefficients.
 performance.beta <- lm(performance ~ poly(c.stress,2),data = performance.data.c) %>%

@@ -190,7 +190,7 @@ quiz(
 
 The following code calculates two plus two and saves the object as `x`. Edit the code so that the code calculates two plus five and save the result as object `x`:
 
-```{r question_2, exercise=TRUE}
+```{r question_2, exercise=TRUE,exercise.lines = 5}
 x <- 2 + 2
 
 x
@@ -343,7 +343,7 @@ mystery.object <- factor(c("what class does this object have?","it is a mystery!
 ```
 
 ```{r question_7-hint-1}
-Running the code may give you some insight...
+Calling the object in the console (running to code) may give you some insight...
 ```
 
 ```{r question_7-hint-2}
@@ -443,6 +443,17 @@ quiz(
 )
 ```
 
+```{r question_11-quiz}
+quiz(
+  question("Typically, each row in a data table represents:",
+    answer("A variable."),
+    answer("Data from a single participant.", correct = TRUE),
+    answer("The number of participants."),
+    answer("A numeric value."),allow_retry = TRUE,random_answer_order = TRUE
+  )
+)
+```
+
 Congrats! This is end of the basic exercises for this week. If you looking for an extra challenge, or wish to practice your R skills a bit more, why not try the advanced exercises?
 
 ## Advanced Exercises
@@ -453,7 +464,7 @@ NOTE: Content in these advanced exercises are NOT covered in demonstrations. The
 
 ### Question 1A - Lists in R
 
-Lists are the most flexible objects in R. Similar to vectors, lists are an ordered set of elements; however, unlike vectors, the elements within a list can contain different classes of objects. For example, the first element of a list could be a single numeric vector, the second could be a character vector, the third could an entire data.frame, and fourth could be another list!
+Lists are the most flexible objects in R. Similar to vectors, lists are an ordered set of elements; however, unlike vectors, the elements within a list can contain different classes of objects. For example, the first element of a list could be a single numeric vector, the second could be a character vector, the third could be an entire data.frame, and fourth could be another list! Lists are most useful for advanced coding or creating your own R functions. For all content covered in this module, using vectors will be sufficient.
 
 To create a list, use the `list()` function, where each argument is a separate element in the list.
 ```{r,eval = FALSE,echo = TRUE}
@@ -482,7 +493,7 @@ Next hint will show the solution...
 ```{r question_a1-solution}
 responses <- list(c(53,8,42),c("blue","maroon","gold"),TRUE)
 
-#Note: your favourite numbers and colours could be different from mine.
+#Note: your favourite numbers and colours could be different from mine. Whether or not you love coding should always be TRUE.
 ```
 
 ### Question 2A - Selecting Elements in a List
@@ -513,6 +524,8 @@ You can use the following functions to determine if an object is a numeric or a 
   
 is.numeric()
 is.character()
+
+You could also use the class() function.
 ```
 
 ```{r question_a2-hint-2}
@@ -539,6 +552,18 @@ So, if you wish to select the third element of a vector called `this_vector`, yo
 
 ```{r,eval = FALSE,echo = TRUE}
 this_vector[3]
+```
+
+To select a range of elements, you can use a colon. For instance, the code below selects all elements between the third and the ninth element.
+
+```{r,eval = FALSE,echo = TRUE}
+this_vector[3:9]
+```
+
+You can even use a numeric vector within the indexing. The code below selects only the first, third, and fifth elements:
+
+```{r,eval = FALSE,echo = TRUE}
+this_vector[c(1,3,5)]
 ```
 
 In the code box below, there is an object called `numeric_vector`, which is a vector of numbers. Using indexing, multiply the 53rd and 88th element of the vector. Save the result as an object called `product`.
@@ -629,7 +654,7 @@ anxiety.data <- as.data.frame(anxiety.matrix)
 
 ### Question A5 - Indexing Matrices and Data.frames
 
-Simiar to lists and vectors, individual elements of matrices and data.frames can be accessed via indexing. Indexing is the same for both matrices and data.frames. To select an individual element, use the square brackets after the name of the matrix/data.frame followed by the row number, then a comma, then the column number.
+Similar to lists and vectors, individual elements of matrices and data.frames can be accessed via indexing. Indexing is the same for both matrices and data.frames. To select an individual element, use the square brackets after the name of the matrix/data.frame followed by the row number, then a comma, then the column number.
 
 So to select the element in the 2nd row and the 3rd column from the following data.frame, you would use the following code:
 ```{r,eval = FALSE,echo = TRUE}

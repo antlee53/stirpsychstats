@@ -258,6 +258,15 @@ checker()
 
 You have measured the dark triad traits (narcissism, machiavellianism, and psychopathy) in 40 participants. This data is saved in a data.frame called `darktriad.data`. Which two of the three traits has the largest, positive correlation between them?
 
+```{r,echo = FALSE}
+darktriad.data <- data.frame(ID = 1:40,
+narcissism = c(-0.01,1.34,1.39,0.19,-1.31,-0.83,-0.36,0.02,-0.38,-0.42,-1.6,1.63,1.35,-0.97,0.98,-0.54,-0.26,-0.37,-0.23,0.82,-0.77,0.31,-0.31,-0.67,-0.25,-1.78,0.34,-0.45,-0.38,0.24,0.12,0.98,-1.04,0.89,1.18,-0.54,-0.05,-0.69,-0.28,-0.55),
+machiavellianism = c(1.1,-0.97,-0.8,-0.18,-0.56,0.1,-0.8,0.3,1.43,0.49,-0.79,0,0.03,-0.09,-0.94,-2.51,2.29,-0.21,-0.45,-0.03,-1.08,0.34,-0.59,0.43,0.1,1.56,0.63,0.36,0.58,-0.69,-1.75,0.36,0.77,-0.92,-0.07,0.02,-0.4,0.63,-0.15,0.2),
+psychopathy = c(0.86,2.08,-1.18,-0.66,0.09,0.25,-0.92,-1.05,0.92,1.52,0.74,0.72,2.21,1.76,-0.59,-0.67,1.86,0.6,1.7,1.46,0.91,-0.28,-0.38,1.13,-0.12,-0.43,1.66,0.25,1.8,0.13,-0.85,-1.27,-1,-0.2,0.76,0.35,-1.56,-0.93,0.8,-1.05))
+
+darktriad.data
+```
+
 ```{r question_2-setup}
 darktriad.data <- data.frame(ID = 1:40,
 narcissism = c(-0.01,1.34,1.39,0.19,-1.31,-0.83,-0.36,0.02,-0.38,-0.42,-1.6,1.63,1.35,-0.97,0.98,-0.54,-0.26,-0.37,-0.23,0.82,-0.77,0.31,-0.31,-0.67,-0.25,-1.78,0.34,-0.45,-0.38,0.24,0.12,0.98,-1.04,0.89,1.18,-0.54,-0.05,-0.69,-0.28,-0.55),
@@ -290,7 +299,7 @@ cor.test(~ machiavellianism + psychopathy,data = darktriad.data)
 ```
 
 ```{r question_2-quiz}
-quiz(question("Which two traits have the largest, positive correlation?",
+quiz(question("Which two traits has the largest, positive correlation between them?",
               answer("Narcissism and Machiavellianism"),
               answer("Narcissism and Psychopathy"),
               answer("Machiavellianism and Psychopathy",correct = TRUE),
@@ -299,7 +308,18 @@ quiz(question("Which two traits have the largest, positive correlation?",
 
 ### Question 3
 
-In the data.frame `pain.data`, you've asked participants to rate (on a 5-point scale) how much chronic pain they experience across 5 days. Compute a mean (average) pain rating across the 5 days and test whether this correlates with level of social support. Save the correlation output as `pain.cor`.
+In the data.frame `pain.data` below, you've asked participants to rate (on a 5-point scale) how much chronic pain they experience across 5 days. Compute a mean (average) pain rating across the 5 days and test whether this correlates with level of social support. Save the correlation output as `pain.cor`.
+
+```{r,echo = FALSE}
+pain.data <- data.frame(pain1 = c(1,3,4,3,5,5,2,4,3,2,3,5,1,3,2,2,2,1,4,3,3,2,4,1,3,1,2,4,1,3,4,1,4,3,5,2,4,4,1,1,5,2,3,5,1,1,5,4,1,5,5,3,2,2,2,3,1,5,2,5),
+	pain2 = c(1,4,2,3,4,5,3,3,2,1,5,1,1,5,1,2,3,5,3,4,3,2,2,4,1,5,5,4,2,4,3,1,1,3,1,3,5,1,2,4,2,4,4,1,1,2,3,5,5,3,2,3,1,1,5,5,1,3,3,5),
+	pain3 = c(1,4,4,5,3,1,4,5,3,4,5,2,3,2,1,4,4,5,5,1,3,5,1,2,3,4,3,4,2,3,3,5,2,2,2,3,5,4,5,2,2,4,1,3,4,4,5,2,2,3,3,3,1,4,2,2,2,4,4,1),
+	pain4 = c(1,4,2,4,4,2,5,5,2,3,5,2,2,5,2,4,4,2,3,1,4,3,5,2,1,1,4,3,2,3,1,1,2,1,2,1,2,5,1,3,1,3,1,4,3,2,2,2,5,3,4,5,2,1,4,4,1,2,4,1),
+	pain5 = c(4,4,5,1,5,3,1,5,5,3,4,1,2,4,4,4,3,5,5,1,4,3,4,1,5,3,3,2,4,4,1,3,4,1,2,5,3,5,2,3,1,3,3,2,1,4,1,5,5,1,5,2,2,3,3,5,2,3,3,2),
+	social_support = c(3,4,8,1,1,8,4,3,8,6,4,6,5,5,2,4,2,4,4,1,3,3,7,6,2,1,4,8,7,7,7,5,6,7,2,4,1,9,7,7,3,7,6,3,2,6,8,1,9,1,8,8,9,3,1,5,3,1,2,6))
+
+pain.data
+```
 
 ```{r question_3-setup}
 pain.data <- data.frame(pain1 = c(1,3,4,3,5,5,2,4,3,2,3,5,1,3,2,2,2,1,4,3,3,2,4,1,3,1,2,4,1,3,4,1,4,3,5,2,4,4,1,1,5,2,3,5,1,1,5,4,1,5,5,3,2,2,2,3,1,5,2,5),
@@ -379,6 +399,18 @@ checker()
 ### Question 5
 
 You are interested in factors that predict women's engagement in collective action. You measure a number of personality traits, including Social Dominance Orientation (SDO), Hostile Sexism (HS) and Benevolent Sexism (BS). Run an unstandardised linear regression to determine the unique contribution each has on women's likelihood of engaging in collective action (CA). Save the regression output as `CA.summary`.
+
+```{r,echo = FALSE}
+CA.data <- data.frame(ID = 1:60,
+	SDO = c(96,19,83,92,90,104,54,50,109,89,108,102,109,30,26,100,82,74,70,85,47,84,52,45,53,101,41,68,63,33,32,41,72,39,63,83,69,82,68,112,111,76,63,40,21,23,63,54,73,73,81,57,58,66,74,20,99,82,60,18),
+	HS = c(65,41,24,61,42,62,19,72,66,42,60,15,11,58,72,65,46,33,20,14,19,71,60,60,60,54,39,16,48,39,62,14,64,33,30,40,57,40,50,11,55,52,38,14,68,50,65,49,54,14,25,68,25,23,43,14,28,74,57,44),
+	BS = c(37,41,65,59,48,16,19,20,46,52,35,21,42,48,12,70,71,40,50,67,67,58,19,36,43,68,60,70,33,26,60,52,59,36,56,25,21,54,57,73,25,21,54,61,24,45,44,51,43,59,39,56,55,38,40,21,40,33,45,31),
+	e = c(0.24,0.08,0.08,-0.16,-0.07,-0.16,-0.15,-0.05,-0.21,0.24,0.19,-0.3,0.11,-0.37,-0.22,-0.33,0.07,-0.36,-0.01,-0.13,-0.36,-0.15,0.2,0.55,-0.21,-0.09,-0.17,0.19,-0.2,-0.22,-0.01,-0.07,-0.34,-0.01,0.21,0,0.11,0.13,0.02,0.46,0.07,0.06,-0.37,0.41,-0.3,0.22,-0.39,-0.01,-0.19,0.01,0.26,0.14,-0.14,-0.05,0.37,-0.1,-0.02,0.13,-0.1,0)) %>%
+	mutate(CA = scale(.3*SDO + .1*HS + .05*BS) %>% round(2) + e) %>%
+	select(-e)
+
+CA.data
+```
 
 ```{r question_5-setup}
 CA.data <- data.frame(ID = 1:60,
@@ -501,6 +533,17 @@ ggplot(data = CA.data,aes(x = SDO,y = CA)) +
 
 You conducted a study investigating whether priming participants with words about childhood increases the speed of recollection of childhood memory. Participants were assigned to either a prime or no prime condition (coded as -.5 and .5 respectively) before being asked to recall a childhood memory, with recall time being recorded. Run a standardised linear regression using the `lm()` and `lm.beta()` functions to determine whether recall time is associated with the priming condition, while controlling for participant's age. The data.frame for this question is called `memory.data`, save the output of the standardised linear regression as `memory.summary`.
 
+```{r,echo = FALSE}
+memory.data <- data.frame(ID = 1:34,
+	age = c(26,30,22,23,29,32,25,26,21,18,27,26,31,27,25,25,18,32,18,27,22,32,18,29,34,31,30,22,34,22,18,21,34,21),
+	condition = c(0.5,0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,0.5,0.5,0.5,0.5,0.5,0.5,-0.5,-0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,0.5,0.5,0.5,-0.5,-0.5),
+	e = c(782.6,343.5,204.2,1263.4,284.8,1032.8,-143.9,410.9,506.9,-100,162.7,1066.1,-166.1,737.8,847.6,464.8,1197.5,550.9,968.6,535.4,675,1484.1,224.4,1259.6,-96.9,750.1,502.6,913.4,186.3,315.3,669.8,598.6,765.2,324.9)) %>%
+	mutate(recall = abs(e) + 10*(age-25.76) + .2*condition) %>%
+	select(-e)
+
+memory.data
+```
+
 ```{r question_8-setup}
 memory.data <- data.frame(ID = 1:34,
 	age = c(26,30,22,23,29,32,25,26,21,18,27,26,31,27,25,25,18,32,18,27,22,32,18,29,34,31,30,22,34,22,18,21,34,21),
@@ -553,7 +596,7 @@ For instance, if we conducted a study that counted the frequency of 100 people's
 c(20,35,45)
 ```
 
-If we expect an equal distribution amongst the three colours, our expected probabilities would be represented as:
+If we expect an equal distribution among the three colours, our expected probabilities would be represented as:
 
 ```{r,echo = TRUE}
 c(1/3,1/3,1/3)
@@ -566,6 +609,13 @@ chisq.test(c(20,35,45),p = c(1/3,1/3,1/3))
 ```
 
 In the code box below, you have conducted a study investigating people's choices when donating to four different charities. You expect that people would donate to each charity equally. Calculate the frequencies from the data, and conduct a chi-square goodness of fit test. To get the observed frequencies from a vector, you could use the `table()` function.
+
+```{r,echo = FALSE}
+charity.data <- data.frame(ID = 1:80,
+                           charity = c(rep("Red Cross",24),rep("Marie Curie",22),rep("British Heart",18),rep("Anthony Nolan",16)))
+
+charity.data
+```
 
 ```{r question_a1-setup}
 charity.data <- data.frame(ID = 1:80,
@@ -596,7 +646,7 @@ chisq.test(table(charity.data$charity),p = c(.25,.25,.25,.25))
 
 ### Question A2 - Chi-Square Test of Independence
 
-The chi-square test of independence is used to determine if the distribution of frequencies of a categorical DV are different at different levels of the IV.
+The chi-square test of independence is used to determine if the distribution of frequencies of a categorical DV are different at different levels of an IV.
 
 The chi-square test of independence uses the same function as the chi-square goodness of fit test, but the inputs are different. The function is smart enough to know which test to conduct given which inputs it receives.
 
@@ -609,6 +659,14 @@ c.table <- select(data,var1,var2) %>%
 ```
 
 In the code box below, you measure the exercise levels (categorised into 4 categories) of a group of smokers and non-smokers. You predict that non-smokers are more likely to exercise than non-smokers.
+
+```{r,echo = FALSE}
+smoker.data <- data.frame(ID = 1:150,
+                          smoker = c(rep("smoker",59),rep("non-smoker",91)),
+                          exercise = c('medium','low','low','none','medium','high','medium','low','none','none','low','low','high','medium','low','none','medium','high','medium','medium','none','high','medium','low','none','low','low','high','low','medium','low','medium','medium','medium','high','low','low','high','medium','low','low','medium','medium','low','medium','low','high','medium','low','high','low','low','medium','high','none','none','medium','low','high','low','medium','high','high','high','low','high','low','medium','medium','high','low','high','high','medium','medium','low','high','low','medium','high','low','low','high','low','medium','medium','low','low','medium','none','none','none','low','high','low','low','high','medium','high','medium','low','medium','medium','low','low','low','high','low','medium','high','high','high','low','medium','low','medium','low','medium','high','medium','low','high','none','low','none','low','none','low','low','low','high','high','low','high','high','low','low','medium','none','high','low','none','low','high','low','low','high','medium','medium','none'))
+
+smoker.data
+```
 
 ```{r question_a2-setup}
 smoker.data <- data.frame(ID = 1:150,
@@ -642,7 +700,7 @@ chisq.test(c.table)
 
 ### Question A3 - Logistic Regression
 
-A logistic regression is used when you have a categorical DV and a continuous IV. The most simple scenario is when the DV is binary (i.e., only has two categories). The two categories of the DV are usually coded as `0` and `1` (if it is not coded this way, R will usually recode it for you!).
+A logistic regression is used when you have a categorical DV and a continuous IV. The most simple scenario is when the DV is binary (i.e., only has two categories). The two categories of the DV are coded as `0` and `1`.
 
 To conduct a logistic regression in R, you can use the `glm()` function. In this instance, 'glm' stands for Generalised Linear Model, and can be used for many different types of analysis. Like most analysis functions, the `glm()` function accepts a formula and a data.frame. We also need to tell the function which type of analysis to conduct. This is done via the `family` argument. To conduct a binomial logistic regression, we set this argument to "binomial". Much like with the `lm()` function, to view the results in an interpretable way you must use the `summary()` function.
 
@@ -654,6 +712,16 @@ summary(model)
 ```
 
 In the code box below, you have conducted a study on factors the predict whether someone is admitted to the emergency clinic at a hospital. You predict that the higher level of pain someone reports, the more likely they are to be admitted compared to refused. Conduct a logistic regression to test this hypothesis.
+
+```{r,echo = FALSE}
+ae.data <- data.frame(ID = 1:80,
+                      admitted = c('Yes','Yes','No','No','No','Yes','No','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','No','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','No','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','Yes','Yes','Yes','No','No','No','Yes','Yes','Yes'),
+                      pain = c(4,3,5,3,-3,5,4,5,1,9,7,3,3,2,3,1,8,8,2,7,1,5,7,5,6,5,1,6,9,3,5,4,3,10,5,3,5,2,2,4,5,7,5,2,4,5,5,2,2,7,8,5,6,3,4,6,7,6,5,2,2,7,10,7,4,5,4,5,6,1,9,5,2,7,4,3,9,4,3,5),
+                      blood.loss = c(0,460,0,0,0,0,142,0,0,0,438,0,247,0,389,0,0,27,355,0,354,0,0,229,0,0,0,0,0,0,183,353,106,0,25,161,0,466,262,0,155,70,0,204,281,0,0,364,486,341,98,157,329,0,62,0,0,33,93,0,0,0,0,387,331,0,314,0,218,202,0,411,0,255,0,438,74,398,359,471),
+                      consciousness = c(8,4,8,8,1,2,9,7,9,3,7,5,1,7,7,2,5,1,4,6,3,9,7,7,6,9,7,5,2,7,6,4,9,1,4,6,7,4,9,9,3,9,6,5,1,6,2,7,9,8,4,1,6,7,8,2,5,9,6,5,4,7,8,9,4,6,1,3,3,5,1,5,7,3,9,4,2,9,2,4)
+                      )
+ae.data
+```
 
 ```{r question_a3-setup}
 ae.data <- data.frame(ID = 1:80,

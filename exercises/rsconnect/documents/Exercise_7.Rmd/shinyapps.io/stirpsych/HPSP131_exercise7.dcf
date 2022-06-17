@@ -1,0 +1,14 @@
+name: HPSP131_exercise7
+title: HPSP131_exercise7
+username:
+account: stirpsych
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 6384760
+bundleId: 5952040
+url: https://stirpsych.shinyapps.io/HPSP131_exercise7/
+when: 1653665446.62222
+lastSyncTime: 1653665446.62223
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .Rapp.history|Exercise_1.Rmd|Exercise_10.Rmd|Exercise_2.Rmd|Exercise_3.Rmd|Exercise_4.Rmd|Exercise_5.html|Exercise_5.Rmd|Exercise_6.Rmd|Exercise_7.html|Exercise_8.html|Exercise_8.Rmd|Exercise_9.Rmd|images/Question_3.png|images/Question_6.png|Standardise Question.Rmd|Weekly_Exercises.zip|Exercise_7_files

@@ -167,7 +167,7 @@ if (label == "question_7"){
 						performance = c(0.6,0.5,0.7,0.7,0.5,0.9,0.9,0.7,0.7,0.9,0.5,0.5,0,0.2,0.3,0.6,0.5,0.6,0.2,0.1,0.5,0.4,0.5,0.3,0.4,0.1,0,0.3,0.3,0,0.2,0.2,0.3,0.1,0.2,0.1,0.2,0.2,0.1,0.1))
 	
 	correct_time.aov <- aov(performance ~ species,data = time.data) %>%
- 		 tidy()
+ 		 summary()
  	
  	if (!exists("time.data")){
  		out <- list(message = "The data.frame time.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
@@ -178,8 +178,8 @@ if (label == "question_7"){
  			if(!exists("time.aov")){
  				out <- list(message = "There is no object saved as time.aov. Make sure to save the output from the ANOVA as `time.aov`.", correct = FALSE, location = "append")
  			} else {
- 				if("lm" %in% class(time.aov)){
- 					out <- list(message = "It doesn't appear as if the `tidy()` function has been used. Make sure to use it to give you interpretable output.", correct = FALSE, location = "append")
+ 				if(!("summary.aov" %in% class(time.aov))){
+ 					out <- list(message = "It doesn't appear as if the `summary()` function has been used. Make sure to use it to give you interpretable output.", correct = FALSE, location = "append")
  				} else {
  					if(!identical(time.aov,correct_time.aov)){
  						out <- list(message = "The object saved as `time.aov` does not match the correct answer. Please double-check there are no errors in the submitted code.", correct = FALSE, location = "append")
@@ -229,7 +229,7 @@ This is the fifth weekly exercise. These exercises are designed to reinforce con
 
 ```{r question_1}
 quiz(
-  question("You want to predict an individual's emotional stability from the amount of social support and their level of perfectionism. Select the correct formula below that would be used in an analysis in R.",
+  question("You want to predict an individual's emotional stability from the amount of social support they receive and their level of perfectionism. Select the correct formula below that would be used in an analysis in R.",
     answer("emotional_stability ~ social_support + perfectionism",correct = TRUE),
     answer("social_support + perfectionism ~ emotional_stability"),
     answer("emotional_stability ~ social_support ~ perfectionism"),
@@ -241,6 +241,14 @@ quiz(
 ### Question 2
 
 You've measured the reaction time of participants who have either drunk coffee or not. Use the `group_by()` and `summarise()` functions to calculate the mean and standard deviation. Data.frame is saved below as an object called `coffee.data`. Save the result as `coffee.summary` and name the variables `rt_mean` and `rt_sd` respectively.
+
+```{r,echo = FALSE}
+coffee.data <- data.frame(ID = 1:40,
+coffee_condition = c('no_coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','no_coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','coffee','coffee','coffee','coffee','no_coffee','no_coffee','no_coffee','no_coffee','coffee','coffee'),
+rt = c(0.76,1.18,0.46,1.47,0.88,1.32,0.28,1.45,0.04,0.51,1.46,0.61,0.79,2.2,0.84,0.34,0.66,0.77,0.8,0.87,0.05,0.27,1.35,0.02,0.82,0,0.45,0.53,0.1,1.83,0.27,0.25,1.48,1.62,1.22,0.86,1.56,0.04,0.74,0.05)) %>% mutate(rt = ifelse(coffee_condition == "coffee",rt,rt + .5))
+
+coffee.data
+```
 
 ```{r question_2-setup}
 coffee.data <- data.frame(ID = 1:40,
@@ -326,6 +334,14 @@ quiz(
 
 You decide to replicate your study above using a within-subjects design. So rather than have separate groups who have either had coffee or not, you test 40 participants twice each, once before they've had coffee, and once after. Conduct a paired-samples t-test from the `coffee.data2` data.frame below. Then select the correct option from the ones below.
 
+```{r,echo = FALSE}
+coffee.data2 <- coffee.data2 <- data.frame(ID = 1:40,
+							rt_before = c(0.46,1.54,0.54,0.55,0.61,1.4,0.13,0.41,0.7,0.14,1.87,0.94,1.11,0.94,0.01,0.32,2.13,1.4,1.25,0.2,1.34,0.13,0.07,1.49,0.57,0.77,1.59,0.75,0.37,0.51,1.12,1.15,0.53,1.01,0.19,0.88,0.65,0.14,0.29,0.25), e = c(0,0.33,0.14,0.31,0.02,0.14,0.06,0.35,0.18,0.13,0.11,0.12,0.41,0.4,0.02,0.02,0.02,0.08,0.17,0.15,0.11,0.4,0.13,0.04,0.17,0.13,0.05,0.24,0.23,0.29,0.1,0.28,0.11,0.02,0.02,0.21,0.17,0.04,0.01,0.24)) %>% mutate(rt_after = abs(rt_before - e)) %>%
+	select(ID,rt_before,rt_after)
+
+coffee.data2
+```
+
 ```{r question_4-setup}
 coffee.data2 <- coffee.data2 <- data.frame(ID = 1:40,
 							rt_before = c(0.46,1.54,0.54,0.55,0.61,1.4,0.13,0.41,0.7,0.14,1.87,0.94,1.11,0.94,0.01,0.32,2.13,1.4,1.25,0.2,1.34,0.13,0.07,1.49,0.57,0.77,1.59,0.75,0.37,0.51,1.12,1.15,0.53,1.01,0.19,0.88,0.65,0.14,0.29,0.25), e = c(0,0.33,0.14,0.31,0.02,0.14,0.06,0.35,0.18,0.13,0.11,0.12,0.41,0.4,0.02,0.02,0.02,0.08,0.17,0.15,0.11,0.4,0.13,0.04,0.17,0.13,0.05,0.24,0.23,0.29,0.1,0.28,0.11,0.02,0.02,0.21,0.17,0.04,0.01,0.24)) %>% mutate(rt_after = abs(rt_before - e)) %>%
@@ -375,7 +391,16 @@ quiz(
 
 ### Question 5
 
-You are interested in whether hormonal contraception use in women is associated with risk-taking behaviours. You collect a sample of 50 participants; however, a few participants report as being men. First, remove the men from the data.frame, then conduct an independent-samples t-test to determine whether women who are taking hormonal contraception (as oppose to not) are more risk-taking. The data is saved in the object `hc_data`. Save the data without men as `hc_data_women_only`. Save the output for the t-test as `hc_t.test`.
+You are interested in whether hormonal contraception use in women is associated with risk-taking behaviours. You collect a sample of 50 participants; however, a few participants report being men. First, remove the men from the data.frame, then conduct an independent-samples t-test to determine whether women who are taking hormonal contraception (as oppose to not) are more risk-taking. The data is saved in the object `hc_data`. Save the data without men as `hc_data_women_only`. Save the output for the t-test as `hc_t.test`.
+
+```{r,echo = FALSE}
+hc_data <- data.frame(ID = 1:50,
+							gender = c('woman','woman','woman','man','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','man','woman','woman','woman','woman','man','woman','woman','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman'),
+							hc_use = c('no','yes','no','yes','yes','yes','yes','no','yes','no','no','yes','yes','yes','no','no','yes','no','yes','yes','yes','no','yes','yes','yes','yes','yes','yes','no','no','no','no','no','yes','yes','no','yes','yes','no','no','yes','no','no','no','yes','no','no','no','no','no'),
+							risk_taking = c(9,14,5,17,18,11,29,9,14,6,5,9,15,8,26,17,17,22,33,34,16,18,22,18,30,24,18,5,6,15,29,5,20,30,28,6,34,33,20,33,35,30,28,24,29,34,8,17,35,20))
+
+hc_data
+```
 
 ```{r question_5-setup}
 hc_data <- data.frame(ID = 1:50,
@@ -422,7 +447,7 @@ exercise_data <- data.frame(ID = 1:80,
 
 ```{r question_6, exercise=TRUE,exercise.lines = 8}
 aov.results <- anova(group ~ DV,data = exercise_data) %>%
-  tidy()
+  summary()
 
 aov.results
 ```
@@ -440,7 +465,7 @@ Next hint will show the solution...
 
 ```{r question_6-solution}
 aov.results <- aov(DV ~ group,data = exercise_data) %>%
-  tidy()
+  summary()
 
 anova.results
 
@@ -454,7 +479,15 @@ checker()
 
 ### Question 7
 
-You're interested in the development of mental time travel across species. You develop a comparative behavioural test and collect data on 40 individuals across 5 species (data.frame saved as `time.data`). Run a One-Way ANOVA to determine if there is a difference in performance on the task across species. Save the results from the `aov()` function (after it has been tidied using the `tidy()` function) to an object called `time.aov`.
+You're interested in the development of mental time travel across species. You develop a comparative behavioural test and collect data on 40 individuals across 5 species (data.frame saved as `time.data`). Run a one-way ANOVA to determine if there is a difference in performance on the task across species. Save the results from the `aov()` function (after using the `summary()` function) to an object called `time.aov`.
+
+```{r,echo = FALSE}
+time.data <- data.frame(ID = 1:40,
+						species = c(rep("human child",10),rep("chimpanzee",8),rep("orangutan",5),rep("gibbon",10),rep("macaque",7)),
+						performance = c(0.6,0.5,0.7,0.7,0.5,0.9,0.9,0.7,0.7,0.9,0.5,0.5,0,0.2,0.3,0.6,0.5,0.6,0.2,0.1,0.5,0.4,0.5,0.3,0.4,0.1,0,0.3,0.3,0,0.2,0.2,0.3,0.1,0.2,0.1,0.2,0.2,0.1,0.1))
+
+time.data
+```
 
 ```{r question_7-setup}
 time.data <- data.frame(ID = 1:40,
@@ -476,14 +509,14 @@ Have a look at the data.frame saved as `time.data` to get the variable names.
 ```
 
 ```{r question_7-hint-2}
-Make sure you use the `tidy()` function from the broom package to make the ANOVA output interpretable.
+Make sure you use the `summary()` function to make the ANOVA output interpretable.
 
 Next hint will show the solution...
 ```
 
 ```{r question_7-solution}
 time.aov <- aov(performance ~ species,data = time.data) %>%
-  tidy()
+  summary()
 
 time.aov
 ```
@@ -514,7 +547,7 @@ Have a look at the data.frame saved as `time.data` to get the variable names.
 ```
 
 ```{r question_8-hint-2}
-If you can't remember how to make a graph using ggplot, review material from last week's workbooks/exercises.
+If you can't remember how to make a graph using ggplot, review material from last week's demonstration/exercises.
 
 Next hint will show the solution...
 ```
@@ -536,8 +569,7 @@ This week's advanced exercises focuses on conducting non-parametric tests in R.
 
 ### Question A1 - Non-parametric Tests
 
-As covered in the lecture series, non-parametric tests are distribution-free tests. They are useful if your data does not meet the assumptions of the parametric test - particularly the assumption about normally distributed data.
-
+As covered in the lecture series, non-parametric tests are distribution-free tests. They are useful if your data does not meet the assumptions of the parametric test.
 ```{r question_a1-quiz}
 quiz(
   question("As covered in the lecture series, what are valid reasons for choosing a non-parametric test over a parametric test? Select all valid reasons.",
@@ -605,7 +637,7 @@ ggplot(data2,aes(x = DV_cont,group = IV_cat,colour = IV_cat)) +
 
 ### Question A2 - Mann-Whitney U Test
 
-The Mann-Whitney U Test is a non-parametric test for when you have a categorical IV (with two levels) and a continuous DV. The equivalent parametric test is an independent-samples t-test. The function that runs a Mann-Whitney U Test is the `wilcox.test()` function. It's a bit confusing that the Mann-Whitney U Test uses a function with a different name, but the reason for this is because the Mann-Whitney U Test could be considered as an 'unpaired' version of the Wilcoxon Signed Rank Test.
+The Mann-Whitney U Test is a non-parametric test for when you have a categorical IV (with two levels) and a continuous DV. The equivalent parametric test is an independent-samples t-test. The function that runs a Mann-Whitney U Test is the `wilcox.test()` function. It's a bit confusing that the Mann-Whitney U Test uses a function with a different name, but the reason for this is because the Mann-Whitney U Test is also called the Wilcoxon Rank Sum Test (though I avoid using this name as it is easily confused with the Wilcoxon Signed Rank Test).
 
 To conduct a Mann-Whitney U Test, you need to specify the two things needed for all analysis functions: the formula, and the data.frame.
 
@@ -616,6 +648,15 @@ wilcox.test(DV ~ IV,data = data)
 You attempt to conduct an exact replication the same study from Question 2 and 3, investigating the effects of coffee vs no coffee on reaction time. However, you are not able to collect a big sample size this second time around, so you're considering whether a non-parametric test is more appropriate. This data is saved as a data.frame named `coffee.data2`.
 
 Conduct a Mann-Whitney U Test to determine whether there is a significant difference between reaction time between the coffee and no coffee groups.
+
+```{r,echo = FALSE}
+coffee.data2 <- data.frame(ID = 1:16,
+coffee_condition = c('no_coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee'),
+rt = c(4.23,3.93,2.01,3.14,2.81,3.23,4.46,1.92,4.41,2.37,2.77,2.86,4.75,4.48,2.22,2.41)) %>%
+  mutate(rt = ifelse(coffee_condition == "coffee",rt,rt + 1))
+
+coffee.data2
+```
 
 ```{r question_a2-setup}
 coffee.data2 <- data.frame(ID = 1:16,
@@ -656,6 +697,16 @@ wilcox.test(DV ~ IV,data = data,paired = TRUE)
 In the code box below, you run a study investigating the amount of sleep patients with sleep apnoea get before and after a treatment. However, it is difficult to find participants that meet this criteria, so you are only able to collect data on 8 participants. This data.frame is named `sleep.data`.
 
 Conduct a Wilcoxon Signed Rank Test to determine whether there is a significant difference between the amount of sleep patients get before and after treatment.
+
+```{r,echo = FALSE}
+sleep.data <- data.frame(ID = 1:8,
+sleep_before = c(1.2,1.4,5,2.2,2.6,2.5,3,1.1),
+e = c(-0.8,0.7,-0.6,1,0.2,-0.6,1.5,0.6)) %>%
+  mutate(sleep_after = sleep_before + 2 + e) %>%
+  select(-e)
+
+sleep.data
+```
 
 ```{r question_a3-setup}
 sleep.data <- data.frame(ID = 1:8,
@@ -704,6 +755,14 @@ kruskal.test(DV ~ IV,data = data)
 In the code box below, you have run a study investigating unhealthy mobile phone usage between two separate interventions with a control group. This data.frame is saved as `mobile.data`. Data appears to be skewed, so you consider running a non-parametric test.
 
 Conduct a Kruskal-Wallis Test to determine whether there is a significant difference the three groups.
+
+```{r,echo = FALSE}
+mobile.data <- data.frame(ID = 1:30,
+                          group = c(rep("control",10),rep("treatment1",10),rep("treatment2",10)),
+                          mobile.usage = c(7,5,9,7,8,5,10,8,9,7,8,5,6,9,8,7,6,3,2,8,7,5,9,8,7,4,10,6,9,9))
+
+mobile.data
+```
 
 ```{r question_a4-setup}
 mobile.data <- data.frame(ID = 1:30,

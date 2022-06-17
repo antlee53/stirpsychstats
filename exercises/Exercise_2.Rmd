@@ -385,6 +385,15 @@ checker()
 
 Below is a data.frame called `data`. Edit the code below to use the summarise function to calculate the mean and standard deviation of `var1` and `var2`. Save the result as `descript_stats`. Do not adjust the new variable names in the summarise function.
 
+```{r,echo = FALSE}
+data <- data.frame(ID = c(1,2,3,4,5,6,7,8,9,10),
+                   var1 = c(10,29,38,47,56,13,24,35,46,57),
+                   var2 = c(10.5,11,2,9,4,6,8,5.3,2.9,10))
+```
+```{r}
+data
+```
+
 ```{r question_7-setup, include = FALSE}
 #source("https://raw.githubusercontent.com/antlee53/stirpsychstats/master/exercises/dependencies.R")
 
@@ -431,6 +440,15 @@ checker()
 ### Question 8
 
 Below is a data.frame called `data`. Use the `summarise()` function to calculate the maximum and minimum values from `var1` and `var2`. Save the resulting data.frame as `data_minmax` and name the new variables computed by the `summarise()` function in the following order: max_var1, min_var1, max_var2, and min_var2.
+
+```{r, echo = FALSE}
+data <- data.frame(ID = c(1,2,3,4,5,6,7,8,9,10),
+                   var1 = c(10,92,NA,74,65,31,42,53,64,75),
+                   var2 = c(10.5,11,2,9,4,6,8,5.3,2.9,10))
+```
+```{r}
+data
+```
 
 ```{r question_8-setup, include = FALSE}
 data <- data.frame(ID = c(1,2,3,4,5,6,7,8,9,10),
