@@ -7,7 +7,7 @@ output: html_document
 library(broom)
 library(tidyverse)
 if(!("data.name" %in% ls())){
-  data.name <- "data_2021.csv"
+  data.name <- "simulated.data_2022.csv"
 }
 data <- read.csv(data.name,stringsAsFactors = FALSE)
 ```
@@ -15,8 +15,7 @@ data <- read.csv(data.name,stringsAsFactors = FALSE)
 
 ```{r 8sim Setup,eval = FALSE}
 data <- read.csv(data.name,stringsAsFactors = FALSE) %>%
-  mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10,
-          introvert = (introvert * -1) + 6*6 ) %>%
+  mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10) %>%
   select(cat.dog,introvert)
 
 m.introvert <- mean(data$introvert,na.rm = TRUE)
