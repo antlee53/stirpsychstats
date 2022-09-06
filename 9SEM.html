@@ -769,15 +769,15 @@ behaviour.</p>
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
-##   Number of model parameters                        13
+##   Number of model parameters                        14
 ##                                                       
 ##   Number of observations                           120
 ##                                                       
 ## Model Test User Model:
 ##                                                       
-##   Test statistic                                 5.482
-##   Degrees of freedom                                 2
-##   P-value (Chi-square)                           0.065
+##   Test statistic                                 1.557
+##   Degrees of freedom                                 1
+##   P-value (Chi-square)                           0.212
 ## 
 ## Model Test Baseline Model:
 ## 
@@ -787,28 +787,28 @@ behaviour.</p>
 ## 
 ## User Model versus Baseline Model:
 ## 
-##   Comparative Fit Index (CFI)                    0.136
-##   Tucker-Lewis Index (TLI)                      -3.322
+##   Comparative Fit Index (CFI)                    0.862
+##   Tucker-Lewis Index (TLI)                      -0.384
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)              -1713.314
+##   Loglikelihood user model (H0)              -1711.351
 ##   Loglikelihood unrestricted model (H1)      -1710.573
 ##                                                       
-##   Akaike (AIC)                                3452.627
-##   Bayesian (BIC)                              3488.865
-##   Sample-size adjusted Bayesian (BIC)         3447.765
+##   Akaike (AIC)                                3450.703
+##   Bayesian (BIC)                              3489.728
+##   Sample-size adjusted Bayesian (BIC)         3445.466
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
-##   RMSEA                                          0.120
+##   RMSEA                                          0.068
 ##   90 Percent confidence interval - lower         0.000
-##   90 Percent confidence interval - upper         0.246
-##   P-value RMSEA &lt;= 0.05                          0.120
+##   90 Percent confidence interval - upper         0.264
+##   P-value RMSEA &lt;= 0.05                          0.278
 ## 
 ## Standardized Root Mean Square Residual:
 ## 
-##   SRMR                                           0.054
+##   SRMR                                           0.028
 ## 
 ## Parameter Estimates:
 ## 
@@ -823,8 +823,9 @@ behaviour.</p>
 ##     norms             0.025    0.084    0.302    0.763    0.025    0.028
 ##     control           0.081    0.116    0.699    0.485    0.081    0.064
 ##   behaviour ~                                                           
-##     intention        -0.022    0.084   -0.266    0.790   -0.022   -0.024
-##     control           0.299    0.108    2.777    0.005    0.299    0.246
+##     intention        -0.027    0.083   -0.323    0.747   -0.027   -0.028
+##     control           0.304    0.106    2.875    0.004    0.304    0.251
+##     attitude         -0.172    0.086   -1.997    0.046   -0.172   -0.174
 ## 
 ## Covariances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
@@ -837,7 +838,7 @@ behaviour.</p>
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##    .intention        19.691    2.542    7.746    0.000   19.691    0.994
-##    .behaviour        16.830    2.173    7.746    0.000   16.830    0.940
+##    .behaviour        16.289    2.103    7.746    0.000   16.289    0.909
 ##     attitude         18.399    2.375    7.746    0.000   18.399    1.000
 ##     norms            23.422    3.024    7.746    0.000   23.422    1.000
 ##     control          12.181    1.573    7.746    0.000   12.181    1.000
@@ -845,7 +846,7 @@ behaviour.</p>
 ## R-Square:
 ##                    Estimate
 ##     intention         0.006
-##     behaviour         0.060</code></pre>
+##     behaviour         0.091</code></pre>
 <p>Notice above in the <code>summary()</code> function, we have included
 the additional arguments to get extra statistics that are helpful when
 it comes to report the analysis.</p>
@@ -897,8 +898,8 @@ chi-square difference test.</p>
 <pre><code>## Chi-Squared Difference Test
 ## 
 ##            Df    AIC    BIC   Chisq Chisq diff Df diff Pr(&gt;Chisq)   
-## sem.model   2 3452.6 3488.9  5.4819                                 
-## sem.model2  3 3458.1 3491.6 12.9583     7.4764       1   0.006251 **
+## sem.model   1 3450.7 3489.7  1.5573                                 
+## sem.model2  3 3458.1 3491.6 12.9583     11.401       2   0.003344 **
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Above, we find that there is a significant difference between the two
