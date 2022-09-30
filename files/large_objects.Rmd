@@ -7,7 +7,7 @@ output: html_document
 library(broom)
 library(tidyverse)
 if(!("data.name" %in% ls())){
-  data.name <- "simulated.data_2022.csv"
+  data.name <- "data_2022.csv"
 }
 data <- read.csv(data.name,stringsAsFactors = FALSE)
 ```
