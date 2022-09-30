@@ -426,9 +426,9 @@ files).</li>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/simulated.data_2022.csv download>Click here to
-download the data used in these workbooks.</a> (You may need to
-right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/data_2022.csv download>Click here to download the
+data used in these workbooks.</a> (You may need to right-click and
+select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -449,10 +449,11 @@ In RStudio, the script is in the top left window, while the console is
 the bottom left window.</p>
 <p>Having a script is advantageous because:</p>
 <ol style="list-style-type: decimal">
-<li>Reduces human error.</li>
-<li>Keeps a record of manipulations on data sets (again, reducing errors
-and data corruption, or reliance on your own memory).</li>
-<li>Is easily shareable and reproducible.</li>
+<li>Scripts reduces human error.</li>
+<li>Scripts keeps a record of manipulations on data sets (again,
+reducing errors and data corruption, or reliance on your own
+memory).</li>
+<li>Scripts are easily shareable and reproducible.</li>
 <li>A change can be introduced in the analysis pipeline without re-doing
 the whole process.</li>
 </ol>
@@ -461,16 +462,17 @@ obligation to follow this convention for your own scripts, but I would
 highly suggest sticking to it to begin with:</p>
 <ol style="list-style-type: decimal">
 <li>Load in any packages you need to use (more on this below).</li>
-<li>Define any custom functions (more on this in Workbook 8).</li>
 <li>Import the data you will be working with (more on this below).</li>
-<li>Work with the data (e.g., cleaning your data ready for
+<li>Prepare the data for analysis (e.g., cleaning your data ready for
 analysis).</li>
-<li>Analyse your data (more on this in future Workbooks).</li>
+<li>Analyse your data (e.g., conduct statistical tests, create
+visualisations of the data, etc. More on this in future
+Demonstrations).</li>
 </ol>
 <p>A new script can be created in RStudio by selecting the following in
 the drop-down menus:</p>
 <p>File &gt;&gt; New File &gt;&gt; R Script</p>
-<p>You can also save and open R Scripts under the File tab. Scripts are
+<p>You can also save and open R scripts under the File tab. Scripts are
 opened in the text editor window (top left window) of RStudio.</p>
 <p>A handy thing to know is that you can make comments on your code in a
 script by using the ‘#’ symbol. Anything after this symbol on a line
@@ -515,10 +517,10 @@ want access to those functions again.</p>
 is actually a group of packages that are useful for cleaning and
 organising data.frames. Install and load ‘tidyverse’ using the following
 commands. When installing a package, you may be asked to select a CRAN.
-This is the repository files will be downloaded from. Select a sever in
-the UK. Remember, you only need to install the ‘tidyverse’ package onto
-your computer once, but you will need to load it every time you start a
-new R session.</p>
+This is the repository packages will be downloaded from. Select a server
+in the UK. Remember, you only need to install the ‘tidyverse’ package
+onto your computer once, but you will need to load it every time you
+start a new R session.</p>
 <pre class="r"><code>install.packages(&quot;tidyverse&quot;)   #This line installs tidyverse onto your computer
 
 library(tidyverse)              #This line loads tidyverse for this session</code></pre>
@@ -589,7 +591,7 @@ and the variable names should be in the first row. If your data is not
 in this exact format (e.g., if there is any blank space in your data
 file), then R may not read it properly. You may need to edit your data
 file manually to make sure it matches this format (there are ways you
-can do it in R, but for beginners, is generally easier to do this bit
+can do it in R, but for beginners, it is generally easier to do this bit
 manually). You can save a data set to your computer in R using the
 <code>write_csv()</code> function.</p>
 <p>Note, you can also read and write .csv file using base R functions
@@ -599,9 +601,9 @@ avoid these. Also note, the read_csv() function will output some red
 text that looks like an error message, but this is just R telling you
 how it interpreted all the variables, and usually means everything is
 okay.</p>
-<p>Remember to download the data for this week’s workbook and put it in
-your working directory before running the code below. Note that the
-class data set is already in the correct format.</p>
+<p>Remember to download the data for this week’s demonstration and put
+it in your working directory before running the code below. Note that
+the class data set is already in the correct format.</p>
 <pre class="r"><code>#Remember to load the tidyverse library if you haven&#39;t already.
 #The exact directory the file is in may differ depending on where the data file is on your computer.
 
@@ -616,7 +618,7 @@ intended.</p>
 </div>
 <div id="calculating-descriptive-statistics" class="section level2">
 <h2>Calculating Descriptive Statistics</h2>
-<p>In the lecture series, we covered measures of central tendancy and
+<p>In the lecture series, we covered measures of central tendency and
 dispersion. In particular, important statistics that you will need to
 calculate often are the mean and the standard deviation of a continuous
 variable. Thankfully, there are simple functions in R that can calculate
@@ -724,7 +726,7 @@ separate values in the vector <code>catagories</code>, and the one that
 appears most frequently (i.e., is the mode) is <code>CatA</code>.</p>
 <p>We can also use the <code>table()</code> function for variables in
 data.frames. An example of this is below using the class data and the
-question about favourite Australia animals. How to read the code below
+question about favourite Australian animals. How to read the code below
 is that we use the <code>$</code> symbol to index which variable we want
 to look at in the data.frame called <code>data</code>.
 <a href = "extra_lists.html">See the extra materials for more
@@ -732,7 +734,7 @@ information on indexing.</a></p>
 <pre class="r"><code>table(data$aus.animal)</code></pre>
 <pre><code>## 
 ##  echidna kangaroo    koala platypus   wombat 
-##       22       24       20       25       29</code></pre>
+##        3       12       37       10        5</code></pre>
 <p>So above, we see that there are five separate values (if we ignore
 missing data), and the most frequent response was
 <code>koala</code>.</p>
@@ -744,10 +746,10 @@ missing data), and the most frequent response was
 manipulation. Remember, these functions work like all other functions:
 they take a number of arguments, such as a data.frame and instructions,
 then gives you an output that can be saved as an object, such as another
-data.frame. In this workbook, we will cover one function that you can
-use to calculate descriptive statistics; however, there are many more
-tidyverse functions. We will cover a few more next week, but for a full
-list, see <a
+data.frame. In this week’s demonstration, we will cover one function
+that you can use to calculate descriptive statistics; however, there are
+many more tidyverse functions. We will cover a few more next week, but
+for a full list, see <a
 href="https://www.rstudio.com/resources/cheatsheets/#dplyr">the
 tidyverse cheatsheets</a>, or view the help documentation using
 <code>help()</code>.</p>
@@ -788,7 +790,7 @@ the code to calculate the mean and standard deviation of the variable
 <pre><code>## # A tibble: 1 × 2
 ##   stats_exp.mean stats_exp.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.88         2.73</code></pre>
+## 1           4.07         2.11</code></pre>
 <p>A couple of things to note. First, I have broken the above code
 across several lines. This is just to make it easier to read (remember R
 ignores white space inside an incomplete command). Second, it doesn’t
@@ -806,7 +808,7 @@ multiple variables:</p>
 <pre><code>## # A tibble: 1 × 4
 ##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.88         2.73           5.25         2.48</code></pre>
+## 1           4.07         2.11           6.24         1.95</code></pre>
 <p>Note: An annoying thing about the <code>summarise()</code> function
 is that sometimes it will not show results to two-decimal places (which
 is the requirement for APA format). To see all the decimal places, you
@@ -817,9 +819,9 @@ can <code>View()</code> the data.frame produced by the
 </div>
 <div id="exercises-1" class="section level1">
 <h1>Exercises</h1>
-<p>Now that you’ve completed this week’s workbook, why not give this
-week’s exercises a go? You can download the interactive exercises by
-clicking the link below.</p>
+<p>Now that you’ve completed this week’s demonstration, why not give
+this week’s exercises a go? You can download the interactive exercises
+by clicking the link below.</p>
 <p><a href = "exercises.html">Click here to download this week’s
 exercises.</a></p>
 </div>

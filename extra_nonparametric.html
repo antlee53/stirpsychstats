@@ -443,7 +443,7 @@ needed for all analysis functions: the formula, and the data.frame.</p>
 ##  Wilcoxon rank sum test with continuity correction
 ## 
 ## data:  introvert by cat.dog
-## W = 1139.5, p-value = 0.7191
+## W = 137, p-value = 0.04366
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <div id="visualise-the-data." class="section level3">
@@ -481,12 +481,12 @@ data1.summary</code></pre>
 ##   cat.dog introvert_median
 ##   &lt;chr&gt;              &lt;dbl&gt;
 ## 1 cat                   15
-## 2 dog                   14</code></pre>
+## 2 dog                   12</code></pre>
 <p>Therefore, the write-up becomes:</p>
 <blockquote>
-<p>A Mann-Whitney U test indicated that there was a non-significant
+<p>A Mann-Whitney U test indicated that there was a significant
 differences in introversion between cat-people (Mdn = 15) and dog-people
-(Mdn = 14), U = 1139.5, p = 0.719.</p>
+(Mdn = 12), U = 137, p = 0.044.</p>
 </blockquote>
 </div>
 </div>
@@ -524,7 +524,7 @@ t-test with the <code>t.test()</code> function.</p>
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  alcohol by condition
-## V = 3723, p-value = 0.2793
+## V = 43, p-value = 0.1157
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <div id="visualise-the-data" class="section level3">
@@ -550,15 +550,15 @@ data2.summary</code></pre>
 <pre><code>## # A tibble: 2 × 2
 ##   condition  introvert_median
 ##   &lt;fct&gt;                 &lt;dbl&gt;
-## 1 pre.drink              16.5
-## 2 post.drink             14</code></pre>
+## 1 pre.drink                 4
+## 2 post.drink                4</code></pre>
 <p>We also need the test statistic (W) and the associated p-value. Once
 we have all this information, the final write-up looks like this:</p>
 <blockquote>
 <p>A Wilcoxon signed rank test indicated that there was a
 non-significant difference on intended alcohol consumption before (Mdn =
-16.5) and after (Mdn = 14) exposure to the Scottish government’s
-drinking guidelines, W = 3723, p = 0.279.</p>
+4) and after (Mdn = 4) exposure to the Scottish government’s drinking
+guidelines, W = 43, p = 0.116.</p>
 </blockquote>
 </div>
 </div>
@@ -621,10 +621,10 @@ data3.summary</code></pre>
 <pre><code>## # A tibble: 4 × 2
 ##   cat.dog introvert_median
 ##   &lt;chr&gt;              &lt;dbl&gt;
-## 1 both                  15
+## 1 both                  13
 ## 2 cat                   15
-## 3 dog                   14
-## 4 neither               17</code></pre>
+## 3 dog                   12
+## 4 neither               13</code></pre>
 <p>With this information, you can write-up your results. Remember, much
 like with the one-way ANOVA, this Kruskal-Wallis test will tell you
 whether the groups are significantly different, but it does not tell you
@@ -632,9 +632,9 @@ where those differences are. In order to determine this, you will need
 to conduct post-hoc comparisons.</p>
 <blockquote>
 <p>A Kruskal-Wallis test indicated that there was a non-significant
-differences in introversion between cat-people (Mdn = 15), dog-people
-(Mdn = 15), those who like both (Mdn = 14), and those who like neither
-(Mdn =16), Chi-square(3) = 4.94, p = 0.176.</p>
+differences in introversion between cat-people (Mdn = 16), dog-people
+(Mdn = 15), those who like both (Mdn = 12), and those who like neither
+(Mdn =7.5), Chi-square(3) = 6.07, p = 0.108.</p>
 </blockquote>
 </div>
 </div>

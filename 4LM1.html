@@ -431,9 +431,9 @@ DV, including:</li>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/simulated.data_2022.csv download>Click here to
-download the data used in these workbooks.</a> (You may need to
-right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/data_2022.csv download>Click here to download the
+data used in these workbooks.</a> (You may need to right-click and
+select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -539,21 +539,21 @@ called <code>data1.clean</code>.</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 0.042518, df = 80.841, p-value = 0.9662
+## t = 2.3009, df = 21.846, p-value = 0.03132
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -1.258169  1.313114
+##  0.2804645 5.4260572
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          14.88462          14.85714</code></pre>
+##          15.37500          12.52174</code></pre>
 <p>The output from the statistical test gives you a lot of information,
 but there are a couple bits that are particularly important:</p>
 <ul>
 <li>The t-statistic - this is the value for the test statistic (above
-this equals 0.04)</li>
-<li>The degrees of freedom (above this equals 80.84)</li>
+this equals 2.3)</li>
+<li>The degrees of freedom (above this equals 21.85)</li>
 <li>The p-value - this tells you whether the test is significant or not
-(above this equals 0.966)</li>
+(above this equals 0.031)</li>
 </ul>
 <p>Can you see where each of these values come from in the output
 above?</p>
@@ -621,8 +621,8 @@ data1.summary</code></pre>
 <pre><code>## # A tibble: 2 × 3
 ##   cat.dog introvert_mean introvert_sd
 ##   &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;
-## 1 cat               14.9         2.83
-## 2 dog               14.9         3.32</code></pre>
+## 1 cat               15.4         2.45
+## 2 dog               12.5         4.26</code></pre>
 <p>Once we have all the required information, we can write-up! A few
 things to note about APA formatting:</p>
 <ul>
@@ -632,10 +632,10 @@ p-values which are rounded to 3 decimal points.</li>
 italicised.</li>
 </ul>
 <blockquote>
-<p>An independent-samples t-test found that there was no significant
-difference on introversion between cat-people (<em>M</em> = 14.88,
-<em>SD</em> = 2.83) and dog-people (<em>M</em> = 14.86, <em>SD</em> =
-3.32), <em>t</em>(80.84) = 0.04, <em>p</em> = 0.966.</p>
+<p>An independent-samples t-test found that there was a significant
+difference on introversion between cat-people (<em>M</em> = 15.38,
+<em>SD</em> = 2.45) and dog-people (<em>M</em> = 12.52, <em>SD</em> =
+4.26), <em>t</em>(21.85) = 2.3, <em>p</em> = 0.031.</p>
 </blockquote>
 <div id="bar-graphs" class="section level4">
 <h4>Bar Graphs</h4>
@@ -694,9 +694,9 @@ pipe it to the <code>summary()</code> function to get interpretable
 output.</p>
 <pre class="r"><code>aov(introvert ~ cat.dog,data = data3.clean) %&gt;%
   summary()</code></pre>
-<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
-## cat.dog       3   38.3   12.75    1.34  0.265
-## Residuals   116 1104.3    9.52</code></pre>
+<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)
+## cat.dog      3   49.5   16.51   1.457  0.235
+## Residuals   63  713.9   11.33</code></pre>
 <p>The table above tells us whether there is a significant difference
 between any of the groups, but it does not tell us which groups are
 significantly different. In order to do this, we need to do follow-up
@@ -714,26 +714,26 @@ participants who are in the dog ‘or’ cat group.</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 0.042518, df = 80.841, p-value = 0.9662
+## t = 2.3009, df = 21.846, p-value = 0.03132
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -1.258169  1.313114
+##  0.2804645 5.4260572
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          14.88462          14.85714</code></pre>
+##          15.37500          12.52174</code></pre>
 <p>Now, we are only including participants in the dog or both group:</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;both&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 0.80564, df = 23.745, p-value = 0.4284
+## t = 0.81533, df = 38.317, p-value = 0.4199
 ## alternative hypothesis: true difference in means between group both and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -1.228275  2.799704
+##  -1.271114  2.986256
 ## sample estimates:
 ## mean in group both  mean in group dog 
-##           15.64286           14.85714</code></pre>
+##           13.37931           12.52174</code></pre>
 <p>We continue to repeat this process until we have tested all possible
 linear combinations:</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;neither&quot;))</code></pre>
@@ -741,49 +741,49 @@ linear combinations:</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -1.6896, df = 18.095, p-value = 0.1083
+## t = -1.1085, df = 26.337, p-value = 0.2777
 ## alternative hypothesis: true difference in means between group dog and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  -4.0587132  0.4396656
+##  -3.402510  1.017417
 ## sample estimates:
 ##     mean in group dog mean in group neither 
-##              14.85714              16.66667</code></pre>
+##              12.52174              13.71429</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;cat&quot; | cat.dog == &quot;both&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 0.82616, df = 19.24, p-value = 0.4188
+## t = -1.9347, df = 13.567, p-value = 0.07416
 ## alternative hypothesis: true difference in means between group both and group cat is not equal to 0
 ## 95 percent confidence interval:
-##  -1.161084  2.677567
+##  -4.214744  0.223365
 ## sample estimates:
 ## mean in group both  mean in group cat 
-##           15.64286           14.88462</code></pre>
+##           13.37931           15.37500</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;cat&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -1.749, df = 15.078, p-value = 0.1006
+## t = 1.5727, df = 12.147, p-value = 0.1415
 ## alternative hypothesis: true difference in means between group cat and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  -3.9528287  0.3887261
+##  -0.6370078  3.9584363
 ## sample estimates:
 ##     mean in group cat mean in group neither 
-##              14.88462              16.66667</code></pre>
+##              15.37500              13.71429</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;both&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -0.81661, df = 22.999, p-value = 0.4225
+## t = -0.40514, df = 17.932, p-value = 0.6902
 ## alternative hypothesis: true difference in means between group both and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  -3.617348  1.569729
+##  -2.072542  1.402591
 ## sample estimates:
 ##    mean in group both mean in group neither 
-##              15.64286              16.66667</code></pre>
+##              13.37931              13.71429</code></pre>
 <p>Remember, in your interpretation to adjust the significance level
 (alpha) to account for family-wise error rate. Since we conducted six
 comparisons, the significance level should be reduced to 0.008 (that is,
@@ -827,15 +827,15 @@ this for the t-test.</p>
 <pre><code>## # A tibble: 4 × 3
 ##   cat.dog dv_mean dv_sd
 ##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
-## 1 both       15.6  3.10
-## 2 cat        14.9  2.83
-## 3 dog        14.9  3.32
-## 4 neither    16.7  3.26</code></pre>
+## 1 both       13.4  3.03
+## 2 cat        15.4  2.45
+## 3 dog        12.5  4.26
+## 4 neither    13.7  1.60</code></pre>
 <p>Once you have all this information, the write-up becomes:</p>
 <blockquote>
 <p>A one-way between subjects ANOVA found no significant difference
-between groups on introversion, <em>F</em>(3, 116) = 1.34, <em>p</em> =
-0.265.</p>
+between groups on introversion, <em>F</em>(3, 63) = 1.46, <em>p</em> =
+0.235.</p>
 </blockquote>
 </div>
 </div>
@@ -885,13 +885,13 @@ argument ‘paired’ and set it to <code>TRUE</code>.</p>
 ##  Paired t-test
 ## 
 ## data:  alcohol by condition
-## t = 1.363, df = 119, p-value = 0.1755
+## t = -0.76689, df = 45, p-value = 0.4472
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -0.7017978  3.8017978
+##  -1.3401679  0.6010375
 ## sample estimates:
 ## mean difference 
-##            1.55</code></pre>
+##      -0.3695652</code></pre>
 <p>Alternatively, if you want to avoid reshaping the data, you can also
 use the following technique, but note that the arguments supplied here
 are different to almost all other analyses we will be covering in this
@@ -907,13 +907,13 @@ data.frame. So the code looks like:</p>
 ##  Paired t-test
 ## 
 ## data:  data$pre.drink and data$post.drink
-## t = 1.363, df = 119, p-value = 0.1755
+## t = -0.76689, df = 45, p-value = 0.4472
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -0.7017978  3.8017978
+##  -1.3401679  0.6010375
 ## sample estimates:
 ## mean difference 
-##            1.55</code></pre>
+##      -0.3695652</code></pre>
 </div>
 <div id="visualise-the-data.-2" class="section level3">
 <h3>3. Visualise the data.</h3>
@@ -951,8 +951,8 @@ data2.summary</code></pre>
 <pre><code>## # A tibble: 2 × 3
 ##   condition  dv_mean dv_sd
 ##   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt;
-## 1 pre.drink     15.5  9.03
-## 2 post.drink    14.0  8.87</code></pre>
+## 1 pre.drink     5     5.74
+## 2 post.drink    5.37  5.80</code></pre>
 <p>Or if you have not reshaped the data:</p>
 <pre class="r"><code>data2.summary &lt;- data %&gt;%
   summarise(pre.mean = mean(pre.drink,na.rm = TRUE),
@@ -961,14 +961,14 @@ data2.summary</code></pre>
             pst.sd = sd(post.drink,na.rm = TRUE))
 
 data2.summary</code></pre>
-<pre><code>##   pre.mean  pre.sd pst.mean   pst.sd
-## 1 15.51667 9.03214 13.96667 8.865885</code></pre>
+<pre><code>##   pre.mean   pre.sd pst.mean   pst.sd
+## 1 4.358491 5.595652 4.862745 5.720208</code></pre>
 <blockquote>
 <p>A paired-samples t-test found that there was no significant
-difference on intended alcohol consumption before (<em>M</em> = 15.52,
-<em>SD</em> = 9.03) and after (<em>M</em> = 13.97 , <em>SD</em> = 8.87)
+difference on intended alcohol consumption before (<em>M</em> = 4.36,
+<em>SD</em> = 5.6) and after (<em>M</em> = 4.86 , <em>SD</em> = 5.72)
 exposure to the Scottish Government’s anti-drinking campaign ad,
-<em>t</em>(119) = 1.36, <em>p</em> = 0.175.</p>
+<em>t</em>(45) = -0.77, <em>p</em> = 0.447.</p>
 </blockquote>
 </div>
 </div>
