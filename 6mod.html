@@ -503,13 +503,15 @@ the results from the <code>scale()</code> function inside a
 c.v  &lt;- c(scale(v,center = TRUE,scale = FALSE))
 
 c.v</code></pre>
-<pre><code>## [1] -27.428571   1.571429 -25.428571 -24.428571 -18.428571  28.571429  65.571429</code></pre>
+<pre><code>## [1] -27.428571   1.571429 -25.428571 -24.428571 -18.428571
+## [6]  28.571429  65.571429</code></pre>
 <pre class="r"><code>#Get the standardised variable.
 
 z.v &lt;- c(scale(v, center = TRUE,scale = TRUE))
 
 z.v</code></pre>
-<pre><code>## [1] -0.7782022  0.0445845 -0.7214583 -0.6930863 -0.5228546  0.8106273  1.8603896</code></pre>
+<pre><code>## [1] -0.7782022  0.0445845 -0.7214583 -0.6930863 -0.5228546
+## [6]  0.8106273  1.8603896</code></pre>
 <p>We can use this combination of the <code>scale()</code> and
 <code>c()</code> functions within the <code>mutate()</code> to calculate
 the standardised/centred variables of columns in our data.frame:</p>
@@ -579,11 +581,16 @@ model1 %&gt;%
 ## -8.8346 -2.3341  0.1891  2.9969  7.6914 
 ## 
 ## Coefficients:
-##                    Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        16.07526      0.00000    0.49529  32.457   &lt;2e-16 ***
-## c.stress           -0.35104     -0.18988    0.23477  -1.495    0.140    
-## c.support           0.06819      0.10735    0.07985   0.854    0.396    
-## c.stress:c.support -0.01288     -0.03849    0.04227  -0.305    0.762    
+##                    Estimate Standardized Std. Error t value
+## (Intercept)        16.07526      0.00000    0.49529  32.457
+## c.stress           -0.35104     -0.18988    0.23477  -1.495
+## c.support           0.06819      0.10735    0.07985   0.854
+## c.stress:c.support -0.01288     -0.03849    0.04227  -0.305
+##                    Pr(&gt;|t|)    
+## (Intercept)          &lt;2e-16 ***
+## c.stress              0.140    
+## c.support             0.396    
+## c.stress:c.support    0.762    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 

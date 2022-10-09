@@ -671,17 +671,26 @@ statistics for the model.</p>
 ##   Information saturated (h1) model          Structured
 ## 
 ## Regressions:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##   behaviour ~                                                           
-##     attitude   (c)    0.782    0.168    4.653    0.000    0.782    0.536
-##     intention  (b)    0.098    0.137    0.717    0.474    0.098    0.083
-##   intention ~                                                           
-##     attitude   (a)    0.610    0.132    4.639    0.000    0.610    0.496
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
+##   behaviour ~                                                  
+##     attitude   (c)    0.782    0.168    4.653    0.000    0.782
+##     intention  (b)    0.098    0.137    0.717    0.474    0.098
+##   intention ~                                                  
+##     attitude   (a)    0.610    0.132    4.639    0.000    0.610
+##   Std.all
+##          
+##     0.536
+##     0.083
+##          
+##     0.496
 ## 
 ## Variances:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .behaviour        31.269    5.443    5.745    0.000   31.269    0.661
-##    .intention        25.390    4.420    5.745    0.000   25.390    0.754
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
+##    .behaviour        31.269    5.443    5.745    0.000   31.269
+##    .intention        25.390    4.420    5.745    0.000   25.390
+##   Std.all
+##     0.661
+##     0.754
 ## 
 ## R-Square:
 ##                    Estimate
@@ -689,10 +698,14 @@ statistics for the model.</p>
 ##     intention         0.246
 ## 
 ## Defined Parameters:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##     indirect          0.060    0.084    0.708    0.479    0.060    0.041
-##     direct            0.782    0.168    4.653    0.000    0.782    0.536
-##     total             0.842    0.147    5.745    0.000    0.842    0.577</code></pre>
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
+##     indirect          0.060    0.084    0.708    0.479    0.060
+##     direct            0.782    0.168    4.653    0.000    0.782
+##     total             0.842    0.147    5.745    0.000    0.842
+##   Std.all
+##     0.041
+##     0.536
+##     0.577</code></pre>
 <p>If we compare the results here to mediation, we should see that we
 get very similar, if not the same, results.</p>
 </div>
@@ -817,31 +830,52 @@ behaviour.</p>
 ##   Information saturated (h1) model          Structured
 ## 
 ## Regressions:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##   intention ~                                                           
-##     attitude          0.674    0.131    5.129    0.000    0.674    0.547
-##     norms             0.295    0.095    3.102    0.002    0.295    0.307
-##     control          -0.209    0.193   -1.083    0.279   -0.209   -0.116
-##   behaviour ~                                                           
-##     intention         0.145    0.132    1.100    0.271    0.145    0.122
-##     control           0.559    0.223    2.505    0.012    0.559    0.261
-##     attitude          0.610    0.175    3.488    0.000    0.610    0.418
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
+##   intention ~                                                  
+##     attitude          0.674    0.131    5.129    0.000    0.674
+##     norms             0.295    0.095    3.102    0.002    0.295
+##     control          -0.209    0.193   -1.083    0.279   -0.209
+##   behaviour ~                                                  
+##     intention         0.145    0.132    1.100    0.271    0.145
+##     control           0.559    0.223    2.505    0.012    0.559
+##     attitude          0.610    0.175    3.488    0.000    0.610
+##   Std.all
+##          
+##     0.547
+##     0.307
+##    -0.116
+##          
+##     0.122
+##     0.261
+##     0.418
 ## 
 ## Covariances:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##   attitude ~~                                                           
-##     norms            -0.725    3.504   -0.207    0.836   -0.725   -0.025
-##     control           5.713    1.994    2.866    0.004    5.713    0.377
-##   norms ~~                                                              
-##     control          -1.174    2.394   -0.490    0.624   -1.174   -0.060
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
+##   attitude ~~                                                  
+##     norms            -0.725    3.504   -0.207    0.836   -0.725
+##     control           5.713    1.994    2.866    0.004    5.713
+##   norms ~~                                                     
+##     control          -1.174    2.394   -0.490    0.624   -1.174
+##   Std.all
+##          
+##    -0.025
+##     0.377
+##          
+##    -0.060
 ## 
 ## Variances:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .intention        21.707    3.779    5.745    0.000   21.707    0.645
-##    .behaviour        28.555    4.971    5.745    0.000   28.555    0.604
-##     attitude         22.218    3.868    5.745    0.000   22.218    1.000
-##     norms            36.441    6.344    5.745    0.000   36.441    1.000
-##     control          10.340    1.800    5.745    0.000   10.340    1.000
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
+##    .intention        21.707    3.779    5.745    0.000   21.707
+##    .behaviour        28.555    4.971    5.745    0.000   28.555
+##     attitude         22.218    3.868    5.745    0.000   22.218
+##     norms            36.441    6.344    5.745    0.000   36.441
+##     control          10.340    1.800    5.745    0.000   10.340
+##   Std.all
+##     0.645
+##     0.604
+##     1.000
+##     1.000
+##     1.000
 ## 
 ## R-Square:
 ##                    Estimate
@@ -897,9 +931,12 @@ chi-square difference test.</p>
 <pre class="r"><code>anova(sem.model,sem.model2)</code></pre>
 <pre><code>## Chi-Squared Difference Test
 ## 
-##            Df    AIC    BIC   Chisq Chisq diff Df diff Pr(&gt;Chisq)    
-## sem.model   1 1974.6 2005.3  2.5007                                  
-## sem.model2  3 1995.3 2021.6 27.2148     24.714       2  4.299e-06 ***
+##            Df    AIC    BIC   Chisq Chisq diff Df diff Pr(&gt;Chisq)
+## sem.model   1 1974.6 2005.3  2.5007                              
+## sem.model2  3 1995.3 2021.6 27.2148     24.714       2  4.299e-06
+##               
+## sem.model     
+## sem.model2 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Above, we find that there is a significant difference between the two
@@ -946,22 +983,36 @@ attitude.model &lt;- sem(attitude.formula,data = data)</code></pre>
 ##   Information saturated (h1) model          Structured
 ## 
 ## Latent Variables:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##   attitude =~                                                           
-##     exercis.tttd.1    1.000                               0.985    0.897
-##     exercis.tttd.2    1.212    0.149    8.132    0.000    1.194    0.825
-##     exercis.tttd.3    0.141    0.234    0.601    0.548    0.139    0.078
-##     exercis.tttd.4    0.833    0.110    7.544    0.000    0.821    0.781
-##     exercis.tttd.5    1.002    0.162    6.184    0.000    0.987    0.679
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
+##   attitude =~                                                  
+##     exercis.tttd.1    1.000                               0.985
+##     exercis.tttd.2    1.212    0.149    8.132    0.000    1.194
+##     exercis.tttd.3    0.141    0.234    0.601    0.548    0.139
+##     exercis.tttd.4    0.833    0.110    7.544    0.000    0.821
+##     exercis.tttd.5    1.002    0.162    6.184    0.000    0.987
+##   Std.all
+##          
+##     0.897
+##     0.825
+##     0.078
+##     0.781
+##     0.679
 ## 
 ## Variances:
-##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .exercis.tttd.1    0.236    0.083    2.823    0.005    0.236    0.195
-##    .exercis.tttd.2    0.669    0.162    4.142    0.000    0.669    0.319
-##    .exercis.tttd.3    3.138    0.547    5.741    0.000    3.138    0.994
-##    .exercis.tttd.4    0.430    0.093    4.614    0.000    0.430    0.390
-##    .exercis.tttd.5    1.135    0.220    5.151    0.000    1.135    0.538
-##     attitude          0.970    0.218    4.444    0.000    1.000    1.000</code></pre>
+##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv
+##    .exercis.tttd.1    0.236    0.083    2.823    0.005    0.236
+##    .exercis.tttd.2    0.669    0.162    4.142    0.000    0.669
+##    .exercis.tttd.3    3.138    0.547    5.741    0.000    3.138
+##    .exercis.tttd.4    0.430    0.093    4.614    0.000    0.430
+##    .exercis.tttd.5    1.135    0.220    5.151    0.000    1.135
+##     attitude          0.970    0.218    4.444    0.000    1.000
+##   Std.all
+##     0.195
+##     0.319
+##     0.994
+##     0.390
+##     0.538
+##     1.000</code></pre>
 <pre class="r"><code>semPaths(attitude.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
 <p><img src="9SEM_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>How about we compute latent variables for all the variables in the
