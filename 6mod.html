@@ -382,7 +382,7 @@ div.tocify {
       <a href="extra_functions.html">Custom Functions</a>
     </li>
     <li>
-      <a href="extra_simulations.html">Simulations</a>
+      <a href="extra_simulation.html">Simulations</a>
     </li>
   </ul>
 </li>
@@ -503,15 +503,13 @@ the results from the <code>scale()</code> function inside a
 c.v  &lt;- c(scale(v,center = TRUE,scale = FALSE))
 
 c.v</code></pre>
-<pre><code>## [1] -27.428571   1.571429 -25.428571 -24.428571 -18.428571
-## [6]  28.571429  65.571429</code></pre>
+<pre><code>## [1] -27.428571   1.571429 -25.428571 -24.428571 -18.428571  28.571429  65.571429</code></pre>
 <pre class="r"><code>#Get the standardised variable.
 
 z.v &lt;- c(scale(v, center = TRUE,scale = TRUE))
 
 z.v</code></pre>
-<pre><code>## [1] -0.7782022  0.0445845 -0.7214583 -0.6930863 -0.5228546
-## [6]  0.8106273  1.8603896</code></pre>
+<pre><code>## [1] -0.7782022  0.0445845 -0.7214583 -0.6930863 -0.5228546  0.8106273  1.8603896</code></pre>
 <p>We can use this combination of the <code>scale()</code> and
 <code>c()</code> functions within the <code>mutate()</code> to calculate
 the standardised/centred variables of columns in our data.frame:</p>
@@ -581,16 +579,11 @@ model1 %&gt;%
 ## -8.8346 -2.3341  0.1891  2.9969  7.6914 
 ## 
 ## Coefficients:
-##                    Estimate Standardized Std. Error t value
-## (Intercept)        16.07526      0.00000    0.49529  32.457
-## c.stress           -0.35104     -0.18988    0.23477  -1.495
-## c.support           0.06819      0.10735    0.07985   0.854
-## c.stress:c.support -0.01288     -0.03849    0.04227  -0.305
-##                    Pr(&gt;|t|)    
-## (Intercept)          &lt;2e-16 ***
-## c.stress              0.140    
-## c.support             0.396    
-## c.stress:c.support    0.762    
+##                    Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        16.07526      0.00000    0.49529  32.457   &lt;2e-16 ***
+## c.stress           -0.35104     -0.18988    0.23477  -1.495    0.140    
+## c.support           0.06819      0.10735    0.07985   0.854    0.396    
+## c.stress:c.support -0.01288     -0.03849    0.04227  -0.305    0.762    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -880,29 +873,6 @@ variable, and since the data is within-participants, we will use
 ## Time                  1     23   22.53   0.207  0.651
 ## Time:progress.update  1      9    9.49   0.087  0.769
 ## Residuals            58   6329  109.12</code></pre>
-<pre class="r"><code>mx.anova &lt;- aov(mood ~ Time*progress.update + Error(student.no/Time),data = mx.data) %&gt;%
-  summary()
-
-mx.b &lt;- mx.anova$`Error: student.no`
-mx.w &lt;- mx.anova$`Error: student.no:Time`
-
-if(mx.b[[1]][1,5] &lt; .05){
-  mxb.text &lt;- &quot;Interestingly, the effect of receiving positive feedback is significant in the example above. Indicating that, overall, mood was different between the two conditions (though we would have to look at the means for each group to determine which direction this effect goes in).&quot;
-} else {
-  mxb.text &lt;- &quot;In the example above this is not significant, indicating that, overall, there was no difference in mood between the two conditions.&quot;
-}
-
-if(mx.w[[1]][1,5] &gt; .05){
-  mxw.text1 &lt;- &quot;the main effect of time is non-significant, indicating there is no overall change in mood at the start and end of the questionnaire.&quot;
-} else {
-  mxw.text1 &lt;- &quot;the main effect of time is significant, indicating there is an overall change in mood at the start and end of questionnaire.&quot;
-}
-
-if(mx.w[[1]][2,5] &gt; .05){
-  mxw.text2 &lt;- &quot;non-significant, indicating that receiving positive feedback during the questionnaire does not influence the change in mood between timepoints&quot;
-} else {
-  mxw.text2 &lt;- &quot;significant, indicating that receiving positive feedback during the questionnaire influences the change in mood between timepoints (however, again, determining the nature of this interaction requires post-hoc comparisons, or plotting the data).&quot;
-}</code></pre>
 <p>Notice in the output above that there are two ANOVA tables. The first
 is the between-subjects effects, which reports the main effect for
 <code>progress.update</code> on alcohol consumption. In the example
