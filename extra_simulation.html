@@ -426,9 +426,9 @@ below we randomly sample 40 objects who are either in the ‘cat’ group or
 the ‘dog’ group. To see more about how this function works, read
 <code>help(sample)</code>.</p>
 <pre class="r"><code>sample(c(&quot;cat&quot;,&quot;dog&quot;),40,replace = TRUE)</code></pre>
-<pre><code>##  [1] &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot;
-## [17] &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot;
-## [33] &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot;</code></pre>
+<pre><code>##  [1] &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot;
+## [17] &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot;
+## [33] &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot;</code></pre>
 <p><code>rnorm()</code></p>
 <p>This function creates a random continuous variable that is normally
 distributed. This function is ideal for sampling a continuous variable
@@ -437,11 +437,11 @@ normal distribution with a mean of 0 and a standard deviation of 1. To
 see more about how this function works, read
 <code>help(rnorm)</code>.</p>
 <pre class="r"><code>rnorm(40,mean = 0,sd = 1)</code></pre>
-<pre><code>##  [1] -1.41240179 -0.68055867 -0.51966357  0.23766560 -0.31480971 -1.13857586  1.45361845 -0.26529601
-##  [9] -0.43235461 -0.09507573  2.11867589 -1.50596251 -0.45104072  2.30015185 -0.32892688 -0.78336265
-## [17] -1.42190262  0.18568129  0.03752830 -1.35522067 -0.67348700 -2.49750252  0.45857210  0.08009239
-## [25] -1.78474118  0.11532128 -0.43948748 -0.06574881  0.92946278 -0.02325451  1.86153589 -1.07329864
-## [33]  0.55231420 -1.95146781 -0.04420716 -0.39400877 -1.20811899 -0.81388626  1.08224230  0.15319025</code></pre>
+<pre><code>##  [1] -0.91429924 -1.40960806  1.22661554 -0.20682553 -0.12272974  0.76481000  0.01307538  0.61685642
+##  [9] -0.05118743  1.01548183 -0.29668105  1.47022136 -0.32567588  1.74056663  2.06784467 -0.55742073
+## [17] -2.54855378  0.45064735 -0.42101555  0.26476696 -0.29850582  0.42926547 -1.11497394 -0.93764513
+## [25]  0.91433609  0.20536315 -0.28885925  0.67473013 -0.29574009  0.01544061  0.74155233  0.58291422
+## [33]  0.25153335  0.14042827 -0.67702219  0.24032273 -1.06919261  0.38197270  0.69263129 -0.91579577</code></pre>
 <p>We now have the tools to create our simulate data function, which we
 will save as <code>create_dataset</code>. For now, it will take one
 argument, n, which specifies the number of participants in the
@@ -457,26 +457,26 @@ dataset.</p>
 <p>Let’s test it out:</p>
 <pre class="r"><code>create_dataset(20)</code></pre>
 <pre><code>##    group introvert
-## 1    dog  22.47741
-## 2    dog  21.10962
-## 3    cat  17.95208
-## 4    cat  21.09075
-## 5    dog  22.28099
-## 6    dog  16.10200
-## 7    dog  19.88083
-## 8    cat  19.44131
-## 9    dog  24.23470
-## 10   dog  22.16474
-## 11   dog  23.26760
-## 12   dog  23.55653
-## 13   dog  16.29654
-## 14   cat  21.39103
-## 15   dog  25.99650
-## 16   cat  22.08751
-## 17   cat  16.46143
-## 18   cat  21.95290
-## 19   dog  16.96699
-## 20   cat  26.19312</code></pre>
+## 1    dog  22.26483
+## 2    cat  22.14966
+## 3    cat  19.31673
+## 4    cat  14.64096
+## 5    dog  21.73258
+## 6    cat  17.88938
+## 7    dog  23.63298
+## 8    cat  18.38172
+## 9    dog  19.58090
+## 10   dog  23.84042
+## 11   dog  17.59835
+## 12   dog  24.42830
+## 13   cat  21.47506
+## 14   dog  17.37736
+## 15   cat  22.71591
+## 16   dog  24.07023
+## 17   cat  18.50745
+## 18   cat  19.09467
+## 19   dog  21.56955
+## 20   cat  21.47573</code></pre>
 <p>As you can see above, our function is creating a data.frame with 20
 participants, and their scores on the <code>group</code> and
 <code>introvert</code> variables are randomly determined from the
@@ -494,13 +494,13 @@ completely random, so we would expect a non-significant result here.</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by group
-## t = 1.1797, df = 17.876, p-value = 0.2536
+## t = -1.6188, df = 13.42, p-value = 0.1287
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -0.8516363  3.0303633
+##  -4.8145267  0.6824425
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          22.18749          21.09813</code></pre>
+##          19.23183          21.29787</code></pre>
 <p>Let’s expand the function above. How about creating a function that
 simulates a dataset, then runs a t-test, and then returns the results of
 that test? We can do this by including the function that runs a t.test
@@ -515,7 +515,7 @@ easily access the results from the t-test.</p>
   return(test$estimate)
 }</code></pre>
 <pre class="r"><code>simulate_test(20)</code></pre>
-<pre><code>## [1] -1.826526</code></pre>
+<pre><code>## [1] 0.9766951</code></pre>
 <p>Let’s go another step further and say we want to run a t-tests on
 simulated data 1000 times. Doing so will give us a distribution of
 estimates given a certain statistical test and sample size. We can do
@@ -586,17 +586,17 @@ which is coded as TRUE = 1 and FALSE = 0. Therefore, we can use the
 power &lt;- mean(sim.results &lt; .05)
 
 power</code></pre>
-<pre><code>## [1] 0.19</code></pre>
+<pre><code>## [1] 0.2</code></pre>
 <p>The convention is that the analysis is sufficiently powered if it can
 detect an effect that is present 80% of the time. The power calculated
-for a sample size of 20 was 19%, which falls quite short of this
+for a sample size of 20 was 20%, which falls quite short of this
 threshold. What if we increased our sample size?</p>
 <pre class="r"><code>sim.results &lt;- replicate(200,simulate_test2(240,cat.dog_difference))
 
 power &lt;- mean(sim.results &lt; .05)
 
 power</code></pre>
-<pre><code>## [1] 0.975</code></pre>
+<pre><code>## [1] 1</code></pre>
 <p>By running the above simulations at different sample sizes, we will
 be able to determine the sample sizes needed to detect this effect at
 80% power. Below is code to automatically run the

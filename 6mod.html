@@ -454,7 +454,7 @@ library(lm.beta)</code></pre>
 class="section level2">
 <h2>Reminder: Moderation (Interaction Effects)</h2>
 <p>As covered in the Lecture series, moderation is when the effect of an
-IV (predictor) on the DV (outcome) depends on another IV (predictor). To
+IV (predictor) on the DV (outcome) depends on another IV (moderator). To
 begin with, we can test for an interaction effect in a linear
 regression. Linear regression is ideal when the the predictor,
 moderator, and outcome variables are all continuous.</p>
@@ -479,18 +479,18 @@ that higher scores indicate greater sleep quality.</p>
          sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5) %&gt;%
   dplyr::select(student.no,stress,support,sleep.quality)</code></pre>
 </div>
-<div id="standardising-variables" class="section level3">
-<h3>Standardising Variables</h3>
+<div id="centering-and-standardising-variables" class="section level3">
+<h3>Centering and Standardising Variables</h3>
 <p>When including interaction terms in a linear regression, including
-uncentered variables can be problematic. In order to center the
-variables, we can use the <code>scale()</code> function. The
-<code>scale()</code> function expects a numeric vector. There are two
-additional arguments called <code>center</code> and <code>scale</code>.
-If <code>center</code> is set to <code>TRUE</code>, but
-<code>scale</code> is set to <code>FALSE</code>, the
-<code>scale()</code> function will output the ‘centred’ variable. If
-both arguments are set to <code>TRUE</code>, the <code>scale()</code>
-function will return a ‘standardised’ argument.</p>
+uncentered variables can be problematic as it can lead to
+multicollinearity issues. In order to center the variables, we can use
+the <code>scale()</code> function. The <code>scale()</code> function
+expects a numeric vector. There are two additional arguments called
+<code>center</code> and <code>scale</code>. If <code>center</code> is
+set to <code>TRUE</code>, but <code>scale</code> is set to
+<code>FALSE</code>, the <code>scale()</code> function will output the
+‘centred’ variable. If both arguments are set to <code>TRUE</code>, the
+<code>scale()</code> function will return a ‘standardised’ argument.</p>
 <p>Because of a quirk with the <code>scale()</code> function, we also
 need to tell R that the output is a vector. We can do this by wrapping
 the results from the <code>scale()</code> function inside a
@@ -580,7 +580,7 @@ model1 %&gt;%
 ## 
 ## Coefficients:
 ##                    Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        16.07526      0.00000    0.49529  32.457   &lt;2e-16 ***
+## (Intercept)        16.07526           NA    0.49529  32.457   &lt;2e-16 ***
 ## c.stress           -0.35104     -0.18988    0.23477  -1.495    0.140    
 ## c.support           0.06819      0.10735    0.07985   0.854    0.396    
 ## c.stress:c.support -0.01288     -0.03849    0.04227  -0.305    0.762    
@@ -596,16 +596,17 @@ model1 %&gt;%
 <h3>3. Plot data</h3>
 <p>Interactions can often be difficult to intuit from just looking at
 the numbers in the model. Therefore, it is almost always necessary to
-plot them. The most common way to plot an interaction is to split the
-dataset in two according to the moderator: one with participants who
-score high on the moderator, and the other with participants who score
-low on the moderator. We can categorise participants based on whether
-they score above or below the mean on the variable (like we will do in
-our example), but you can also use the median if that’s more
-appropriate. In our example, we will split the data into participants
-who are above and below the mean on social support. We can do this by
-creating a new variable using the <code>ifelse()</code> function within
-the <code>mutate()</code> function.</p>
+visualise the data. The most common way to plot an interaction is to
+split the data set in two according to the moderator: one with
+participants who score high on the moderator, and the other with
+participants who score low on the moderator. We can categorise
+participants based on whether they score above or below the mean on the
+variable (like we will do in our example), but you can also use the
+median if that’s more appropriate. In our example, we will split the
+data into participants who are above and below the mean on social
+support. We can do this by creating a new variable using the
+<code>ifelse()</code> function within the <code>mutate()</code>
+function.</p>
 <p>The <code>ifelse()</code> function works by first specify a condition
 as the first argument. The second argument is what happens if data from
 a participant meets that condition. The third argument is what happens
@@ -721,8 +722,7 @@ you play video-games or not.</p>
   filter(cat.dog != &quot;both&quot;) %&gt;%
   filter(cat.dog != &quot;neither&quot;) %&gt;%
   filter(cat.dog != &quot;&quot;) %&gt;%
-  mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10,
-          introvert = (introvert * -1) + 6*6 ) %&gt;%
+  mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10) %&gt;%
   select(introvert,video.games,cat.dog)</code></pre>
 </div>
 <div id="run-statistical-test-1" class="section level3">
@@ -762,10 +762,10 @@ comparisons.</p>
 ## # Groups:   video.games [2]
 ##   video.games cat.dog count  mean    sd
 ##   &lt;chr&gt;       &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 No          cat         4  20.2  2.99
-## 2 No          dog        13  23.2  4.38
-## 3 Yes         cat         4  21    2.16
-## 4 Yes         dog        10  23.8  4.32</code></pre>
+## 1 No          cat         4  15.8  2.99
+## 2 No          dog        13  12.8  4.38
+## 3 Yes         cat         4  15    2.16
+## 4 Yes         dog        10  12.2  4.32</code></pre>
 </div>
 <div id="multiple-comparisons" class="section level4">
 <h4>Multiple Comparisons</h4>
@@ -780,25 +780,25 @@ depending on whether they play video-games or not.</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -1.6089, df = 10.934, p-value = 0.1361
+## t = 1.6089, df = 10.934, p-value = 0.1361
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -6.633337  1.033337
+##  -1.033337  6.633337
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##              21.0              23.8</code></pre>
+##              15.0              12.2</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(clean.data2,video.games == &quot;No&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -1.5485, df = 7.4704, p-value = 0.1628
+## t = 1.5485, df = 7.4704, p-value = 0.1628
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -7.475133  1.513594
+##  -1.513594  7.475133
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          20.25000          23.23077</code></pre>
+##          15.75000          12.76923</code></pre>
 </div>
 </div>
 <div id="plot-data-1" class="section level3">
@@ -827,20 +827,23 @@ repeated-measures ANOVA if both IVs are within-subjects).</p>
 feedback while filling in a long questionnaire (compared to receiving no
 feedback) moderates the change in mood at the start and at the end of
 filling in the survey. Here, whether or not participants received
-positive feedback is a between-subjects categorical variable, while time
-(start vs. end) is a within-subjects categorical variable, while mood is
-measured on a continuous scale. As such, a mixed-design ANOVA is
-appropriate to test this interaction.</p>
+positive feedback is a between-subjects categorical variable (as
+participants are either assigned to one condition or the other), while
+time (start vs. end) is a within-subjects categorical variable. Our DV,
+mood, is measured on a continuous scale. As such, a mixed-design ANOVA
+is appropriate to test this interaction.</p>
 <div id="clean-data-for-analysis." class="section level3">
 <h3>1. Clean data for analysis.</h3>
 <p>Below, we select the key variables for analysis and reshape the data.
 This second step is necessary since we are dealing with within-subjects
 variables. Also, since we will be group data by the
 <code>student.no</code>, we will need to ensure that R treats it as a
-factor.</p>
+factor. Also note that we have removed participants with missing
+data.</p>
 <pre class="r"><code>mx.data &lt;- data %&gt;%
   select(student.no,mood.start,mood.end,progress.update) %&gt;%
-  gather(key = &quot;Time&quot;,value = &quot;mood&quot;,mood.start,mood.end) %&gt;%
+  filter(!is.na(mood.start),!is.na(mood.end)) %&gt;%
+  gather(key = &quot;time&quot;,value = &quot;mood&quot;,mood.start,mood.end) %&gt;%
   mutate(student.no = as.factor(student.no))</code></pre>
 </div>
 <div id="conduct-statistical-test." class="section level3">
@@ -858,20 +861,18 @@ within-subjects variable, and 2) how that within-subjects variable is
 grouped. In our example, <code>condition</code> is the within-subjects
 variable, and since the data is within-participants, we will use
 <code>student.no</code> to tell R which observations are linked.</p>
-<pre class="r"><code>aov(mood ~ Time*progress.update + Error(student.no/Time),data = mx.data) %&gt;%
+<pre class="r"><code>aov(mood ~ time*progress.update + Error(student.no/time),data = mx.data) %&gt;%
   summary()</code></pre>
 <pre><code>## 
 ## Error: student.no
-##                      Df Sum Sq Mean Sq F value Pr(&gt;F)
-## Time                  1    245   245.5   0.315  0.576
-## progress.update       1     21    21.0   0.027  0.870
-## Time:progress.update  1      8     7.5   0.010  0.922
-## Residuals            63  49043   778.5               
+##                 Df Sum Sq Mean Sq F value Pr(&gt;F)
+## progress.update  1     47    46.8   0.057  0.812
+## Residuals       58  47692   822.3               
 ## 
-## Error: student.no:Time
+## Error: student.no:time
 ##                      Df Sum Sq Mean Sq F value Pr(&gt;F)
-## Time                  1     23   22.53   0.207  0.651
-## Time:progress.update  1      9    9.49   0.087  0.769
+## time                  1     23   22.53   0.207  0.651
+## time:progress.update  1      9    9.49   0.087  0.769
 ## Residuals            58   6329  109.12</code></pre>
 <p>Notice in the output above that there are two ANOVA tables. The first
 is the between-subjects effects, which reports the main effect for
