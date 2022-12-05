@@ -435,10 +435,13 @@ exercises.</a></p>
 <h1>Content</h1>
 <p>These are the packages we will be using in this workbook. If you’ve
 been following the workbook sequentially, you should be familiar with
-the tidyverse package. The pwr package is used to conduct standard power
-analyses.</p>
+the tidyverse and lm.beta packages. The pwr package is used to conduct
+standard power analyses, while the psych package has many useful
+functions; however, we will just be using it to run a mediation analysis
+via bootstrapping.</p>
 <pre class="r"><code>library(pwr)
-library(tidyverse)</code></pre>
+library(tidyverse)
+library(lm.beta)</code></pre>
 <div id="pwr-package" class="section level2">
 <h2>pwr Package</h2>
 <p>For most standard analyses, such as an independent-samples t-test,
@@ -823,7 +826,7 @@ model</code></pre>
 ## Total effect(c) of  attitude  on  behaviour  =  0.58   S.E. =  0.1  t  =  5.66  df=  64   with p =  3.9e-07
 ## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.54   S.E. =  0.12  t  =  4.55  df=  63   with p =  2.5e-05
 ## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  0.04 
-## Mean bootstrapped indirect effect =  0.04  with standard error =  0.06  Lower CI =  -0.09    Upper CI =  0.15
+## Mean bootstrapped indirect effect =  0.03  with standard error =  0.06  Lower CI =  -0.09    Upper CI =  0.14
 ## R = 0.58 R2 = 0.34   F = 16.12 on 2 and 63 DF   p-value:  6.94e-08 
 ## 
 ##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
@@ -872,7 +875,7 @@ model, the effect of attitudes on behaviour did not change (beta = 0.54,
 p = 0). Mediation analysis revealled a non-significant indirect effect
 of intentions to exercise on the association between attitudes towards
 exercise and exercise behaviour (mean bootstrapped indirect effect =
-0.54, 95% CI = -0.09, 0.15).</p>
+0.54, 95% CI = -0.09, 0.14).</p>
 </blockquote>
 <p>Note: While we report the results in text above, it is sometimes also
 easier to report the separate models in a table.</p>
@@ -886,6 +889,7 @@ week’s exercises a go? You can download the interactive exercises by
 clicking the link below.</p>
 <p><a href = "exercises.html">Click here to download this week’s
 exercises.</a></p>
+<pre class="r"><code>rm(list=setdiff(ls(), &quot;data.name&quot;))</code></pre>
 </div>
 
 
