@@ -1,0 +1,466 @@
+---
+title: "HPSP131 - Workbook 7 - Moderation (Interaction Effects), Two-Way ANOVA, and Mediation Analysis"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_float: true
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(message = FALSE,warning = FALSE)
+if(!("data.name" %in% ls())){
+  data.name <- "files/simulated.data_2022.csv"
+}
+```
+
+# Objectives
+
+The aim of this week's workbook is to cover moderation (interaction effects) and mediation analyses in R. By the end of this workbook, you should be able to:
+
+1. Perform a multiple regression with interaction effects.
+1. Plot relationship between data with two continuous IVs and one continuous DV, including:
+  + interaction plots
+1. Perform a two-way ANOVA (both between-subjects and mixed-design)
+1. Perform a mediation analysis
+
+# Class data
+
+<a href = `r data.name` download>Click here to download the data used in these workbooks.</a>
+(You may need to right-click and select 'Save Linked File' option)
+```{r,echo = FALSE}
+if("mediation" %in% (.packages())){
+  detach("package:mediation", unload=TRUE) 
+}
+if("lmerTest" %in% (.packages())){
+  detach("package:lmerTest", unload=TRUE) 
+}
+if("lme4" %in% (.packages())){
+  detach("package:lme4", unload=TRUE) 
+}
+if("MASS" %in% (.packages())){
+  detach("package:MASS", unload=TRUE) 
+}
+library(broom)
+if(!("data.name" %in% ls())){
+  data.name <- "files/simulated.data_2022.csv"
+}
+#data <- read.csv("files/data_2021.csv",stringsAsFactors = FALSE)
+```
+
+# Exercises
+
+<a href = "exercises.html">Click here to download this week's exercises.</a>
+
+# Content
+
+## Before we begin...
+
+Remember, whenever we analyse data, we will roughly be following this procedure:
+
+1. Clean the data for analysis.
+1. Run the statistical test.
+1. Plot the data.
+1. Write-up analysis.
+
+We will be using the following packages. If this is your first time using these packages, remember to install them before loading the packages.
+
+```{r,warning = FALSE,message = FALSE}
+library(tidyverse)
+library(lm.beta)
+```
+
+## Reminder: Moderation (Interaction Effects)
+
+As covered in the Lecture series, moderation is when the effect of an IV (predictor) on the DV (outcome) depends on another IV (predictor). We can test for an interaction effect in a linear regression.
+
+In the example below, we will extend the regression we conducted last week and test the hypothesis that the association between sleep quality and stress is moderated by social support (for instance, the relationship between sleep quality and stress is more negative for participants low in social support).
+
+## Regression with Interaction Effect
+
+### 1. Clean the data for analysis.
+
+First we must calculate the scores for each scale in the analysis from the individual items. As we have done previously, we can do this by using the `mutate()` function. The code below is the same as the code we used last week. Remember to reverse code sleep quality so that higher scores indicate greater sleep quality.
+
+```{r}
+data1.vars  <- data %>%
+  mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,
+         support = support.1 + support.2 + support.3 + support.4 + support.5,
+         sleep.quality = sleep1 + sleep2 + sleep3 + sleep4 + sleep5,
+         sleep.quality = sleep.quality * - 1) %>%
+  dplyr::select(student.no,stress,support,sleep.quality)
+```
+
+When including interaction terms in a linear regression, including uncentered variables can be problematic. In order to center the variables, we can use the `scale()` function. The `scale()` function expects a numeric vector. There are two additional arguments called `center` and `scale`. If `center` is set to `TRUE`, but `scale` is set to `FALSE`, the `scale()` function will output the 'centred' variable. If both arguments are set to `TRUE`, the `scale()` function will return a 'standardised' argument.
+
+Because of a quirk with the `scale()` function, we also need to tell R that the output is a vector. We can do this by wrapping the results from the `scale()` function inside a `c()` function.
+
+You can see the `scale()` function in action below:
+
+```{r}
+v <- c(3,32,5,6,12,59,96)
+
+#Get the centered variable.
+
+c.v  <- c(scale(v,center = TRUE,scale = FALSE))
+
+c.v
+```
+
+```{r}
+#Get the standardised variable.
+
+z.v <- c(scale(v, center = TRUE,scale = TRUE))
+
+z.v
+```
+
+We can use this combination of the `scale()` and `c()` functions within the `mutate()` to calculate the standardised/centred variables of columns in our data.frame:
+
+```{r}
+#Compute centred variables for analysis.
+data1.clean <- mutate(data1.vars,
+         c.stress = c(scale(stress,center = TRUE,scale = FALSE)),
+         c.support = c(scale(support,center = TRUE,scale = FALSE))) %>%
+
+#Compute standardised variables.
+  mutate(z.sleep.quality = c(scale(sleep.quality,center = TRUE,scale = TRUE)),
+         z.support = c(scale(support,center = TRUE,scale = TRUE)),
+         z.stress = c(scale(stress,center = TRUE,scale = TRUE)))
+```
+
+### 2. Run statistical test
+
+Recall that interaction effects are the multiplication of the two variable. Therefore, to specify an interaction, we change the formula we specify to include the multiplication of the variable whose interaction we are interested in. For the unstandardised model, make sure you include the centred variables in the formula.
+
+```{r}
+#Unstandardised Model
+model1 <- lm(sleep.quality ~ c.stress*c.support,data = data1.clean)
+summary(model1)
+```
+
+Notice how R automatically includes the main effects in the model? In most cases, you will want to include the separate main effects when including an interaction term, but in the odd occassion when you want to include the interaction effect without the main effect, you can specify it using the `:` symbol. In other words:
+
+`sleep.quality ~ stress*support` is identical to `sleep.quality ~ stress + support + stress:support`
+
+Above are the unstandardised coefficients. However, in order to report in APA format, we require the standardised coefficient. Similar to with an ordinary regression, we can use the `lm.beta()` function to get the standardised coefficients, like here:
+
+```{r}
+#Standardised Model
+model1 %>%
+  lm.beta() %>%
+  summary()
+```
+
+### 3. Plot data
+
+Interactions can often be difficult to intuit from just looking at the numbers in the model. Therefore, it is almost always necessary to plot them. The most common way to plot an interaction is to split the dataset in two according to the moderator: one with participants who score above the mean on the moderator, and the other with participants who score below the mean on the moderator. In our example, this means splitting the data into participants who are above and below the mean in social support. We can do this by creating a new variable using the `ifelse()` function within the `mutate()` function.
+
+The `ifelse()` function works by first specify a condition as the first argument. The second argument is what happens if data from a participant meets that condition. The third arguement is what happens if a participant does not meet that condition. So in the code below, we are creating a new variable called 'cat.support'. We want to categorise support into two levels, so the condition in the `ifelse()` function is `z.support > 0`. Since we standardised the moderator during the cleaning scale. The mean for support equals 0, so we can split the data on this. Participants who meet this condition are in the "high support" group, while those that are not are in the "low support" group.
+
+```{r}
+plot.data <- mutate(data1.clean,cat.support = ifelse(z.support > 0,"high support","low support")) %>%
+  filter(!is.na(cat.support))
+```
+
+We then can plot the regression line adding in a 'group' and 'colour' aesthetic to separate our data of participants with high and low support.
+
+```{r}
+ggplot(plot.data,mapping = aes(x = stress,y = sleep.quality,group = cat.support,colour = cat.support)) +
+  geom_smooth(method = "lm") +
+  theme_classic()
+```
+
+Even better is if can visualise the raw data in a scatterplot:
+
+```{r}
+ggplot(plot.data,mapping = aes(x = stress,y = sleep.quality,group = cat.support,colour = cat.support)) +
+  geom_smooth(method = "lm") +
+  geom_point() +
+  theme_classic()
+  
+```
+
+### 4. Write-up analysis.
+```{r,echo = FALSE}
+s2 <- model1 %>% lm.beta() %>% summary()
+
+td <- s2$coefficients[2,2] > 0
+sd <- s2$coefficients[3,2] > 0
+id <- s2$coefficients[4,2] > 0
+if (s2$coefficients[2,5] <= .05){t <- TRUE} else {t <- FALSE}
+if (s2$coefficients[3,5] <= .05){s <- TRUE} else {s <- FALSE}
+if (s2$coefficients[4,5] <= .05){i <- TRUE} else {i <- FALSE}
+
+if (t == TRUE){
+  if (td == TRUE){
+    m1 <- "There was a significant, positive main effect of stress on sleep quality."
+  } else {
+    m1 <- "There was a significant, negative main effect of stress on sleep quality."
+  }
+} else {
+  m1 <- "There was no significant main effect of stress on sleep quality."
+}
+
+if (s == TRUE){
+  if (sd == TRUE){
+    m2 <- "There was a significant, positive main effect of social support on sleep quality."
+  } else {
+    m2 <- "There was a significant, negative main effect of social support on sleep quality."
+  }
+} else {
+  m2 <- "There was no significant main effect of social support on sleep quality."
+}
+
+if (i == TRUE) {
+  i0 <- "significant, such that... [go on to describe the pattern of results]"
+} else {
+  i0 <- "not significant."
+}
+
+```
+
+Given that a moderation is exactly the same as a regression, we require the same information to do the write-up. As a reminder, here are the components you need to write up a regression:
+
+For the model, you need the following information:
+
+* the R-squared statistic.
+* the F-statistic and associated degrees of freedom.
+* the p-value for the model.
+
+For each predictor, you need the following information:
+
+* the standardised coefficient.
+* the t-statistic.
+* the p-value for that coefficient.
+
+As mentioned last week, with more than one predictor in the model, it may make more sense to report the statistics in a table. This includes models with interaction effects (in the case above, the interaction effect is our third predictor).
+
+Here is an example of the write-up:
+
+>We used a linear regression to predict sleep quality from the level of perceived stress, level of social support, and the interaction between the two. We found that model explained `r round(s2$r.squared * 100,2)`% of the variance (F(`r round(s2$fstatistic[2],0)`,`r round(s2$fstatistic[3],0)`) = `r round(s2$fstatistic[1],2)`, p = `r round(pf(s2$fstatistic[1],s2$fstatistic[2],s2$fstatistic[3],lower.tail = FALSE),3)`). Regression coefficients are reported in Table 1. `r m1` `r m2` The interaction between perceived stress and social support was `r i0`
+
+Table 1. Regression coefficients for linear model predicting stress.
+
+predictor            |beta                             |t                                |p-value
+---------------------|---------------------------------|---------------------------------|------------------------------------
+Perceived Stress     |`r round(s2$coefficients[2,2],2)`|`r round(s2$coefficients[2,4],2)`|`r round(s2$coefficients[2,5],3)`
+Social Support       |`r round(s2$coefficients[3,2],2)`|`r round(s2$coefficients[3,4],2)`|`r round(s2$coefficients[3,5],3)`
+PS * SS              |`r round(s2$coefficients[4,2],2)`|`r round(s2$coefficients[4,4],2)`|`r round(s2$coefficients[4,5],3)`
+
+## Two-Way Between-Subjects ANOVA
+
+A two-way ANOVA is used when you want to evaluate the effects of two categorical IVs on a continuous DV. Much of what we have covered regarding a linear regression with multiple predictors applies with a two-way ANOVA, but with two categorical IVs. In the example below, we will test whether there is an association between between introversion and identifying as either a cat- or dog-person, and whether this association differs depending on whether you play video-games or not.
+
+### 1. Clean the data for analysis.
+
+```{r}
+clean.data2 <- data %>%
+  filter(cat.dog != "both") %>%
+  filter(cat.dog != "neither") %>%
+  filter(cat.dog != "") %>%
+  mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10,
+          introvert = (introvert * -1) + 6*6 ) %>%
+  select(introvert,video.games,cat.dog)
+```
+
+### 2. Run statistical test
+
+The function to run a two-way ANOVA is the same as a one-way ANOVA: `aov()`. R is smart enough to determine which statistical test to run based on how many IVs are in the formula. The formula works the same as an interaction in a regression, where both categorical IVs are "multiplied" together. R will automatically include the main effects for each IV and the interaction. Also, similar to the one-way ANOVA, in order to get output that is interpretable, you can pipe the result to the `summary()` function.
+
+```{r}
+aov(introvert ~ cat.dog*video.games,data = clean.data2) %>%
+  summary()
+```
+
+Similar to a one-way ANOVA, the two-way ANOVA will tell you whether or not there is a difference, but it will not tell you where that difference is. In order to determine this, you will need to calculate summary statistics (e.g., means for each cell) and conduct follow-up comparisons.
+
+#### Calculate Summary Statistics
+
+```{r}
+clean.data2 %>%
+  group_by(video.games,cat.dog) %>%
+  summarise(
+    count = n(),
+    mean = mean(introvert,na.rm = TRUE),
+    sd = sd(introvert,na.rm = TRUE)
+  )
+```
+
+#### Multiple Comparisons
+
+```{r,echo = FALSE}
+s_aov <- aov(introvert ~ cat.dog*video.games,data = clean.data2) %>% tidy()
+sig.int <- if(s_aov[3,6] < .05){TRUE}else{FALSE}
+```
+
+`r if(sig.int == FALSE){"In the ANOVA table above, we do not find a significant interaction between playing video games and being a cat or dog person. However, we will conduct the comparisons below to determine as if there were a significant interaction."}` To assess the significant interaction, we test whether the difference between cat-people and dog-people differs depending on whether they play video-games or not.
+
+```{r}
+t.test(introvert ~ cat.dog,data = filter(clean.data2,video.games == "Yes" & (cat.dog == "cat" | cat.dog == "dog")))
+```
+
+```{r}
+t.test(introvert ~ cat.dog,data = filter(clean.data2,video.games == "No" & (cat.dog == "cat" | cat.dog == "dog")))
+```
+
+### 3. Plot data
+
+When plotting the data, we want to visualise the relationship between introversion and cat-people/dog-people separated by the moderator - whether participants play video-games or not. We can do this by adding a `facet_wrap()` to our standard violin plot. Here, we only need to specify which variable to separate the plot on.
+
+```{r}
+ggplot(clean.data2,aes(x = cat.dog,y = introvert,fill = video.games)) +
+  geom_violin() +
+  stat_summary() +
+  facet_wrap(~ video.games) +
+  theme_classic() +
+  theme(legend.position = "none")
+```
+
+## Mixed-Design ANOVA
+
+In the two-way ANOVA above, both IVs were between-subjects variables. However, the `aov()` can also run an ANOVA when one (or both) IVs are within-subjects. These are known as mixed-designs ANOVAs (or repeated-measures ANOVA if both IVs are within-subjects).
+
+In the example below, we will test whether playing video games moderates the association between intended alcoholic drinks before and after viewing the Scottish government's drinking guidelines.
+
+### 1. Clean data for analysis.
+
+Below, we select the key variables for analysis and reshape the data. This second step is necessary since we are dealing with within-subjects variables. Also, since we will be group data by the `student.no`, we will need to ensure that R treats it as a factor.
+
+```{r}
+mx.data <- data %>%
+  select(student.no,video.games,pre.drink,post.drink) %>%
+  filter(!is.na(pre.drink),!is.na(post.drink)) %>%
+  gather(key = "condition",value = "alcohol",pre.drink,post.drink) %>%
+  mutate(student.no = as.factor(student.no))
+```
+
+### 2. Conduct statistical test.
+
+Again, we use the `aov()` function to run our mixed-design ANOVA. However, in order to tell R which factor is within-subjects, we need to adjust our formula to the following format:
+
+```{r, eval = FALSE}
+DV ~ IV1*IV2 + Error(ID/IV2)
+```
+
+So much like before, the DV is on the left of the `~` symbol, and the IVs are on the right. In order to denote that we are interested in the interaction between the two, we continue to "multiply" the IVs together. The new part of the formula comes where we add to the formula the "Error" part above. This tells R 1) what is the within-subjects variable, and 2) how that within-subjects variable is grouped. In our example, `condition` is the within-subjects variable, and since the data is within-participants, we will use `student.no` to tell R which observations are linked.
+
+```{r}
+aov(alcohol ~ condition*video.games + Error(student.no/condition),data = mx.data) %>%
+  summary()
+```
+
+Notice in the output above that there are two ANOVA tables. The first is the between-subjects effects, which reports the main effect for `video.games` on alcohol consumption. Interestingly, this is significant in the above example. The second table has the within-subjects effects. This includes the main effect of `condition`, plus the interaction between our two IVs. In the example above, the interaction is non-significant, indicating that playing video games does not moderate the intended consumption of alcohol before and after viewing the Scottish government's guidelines.
+
+## Mediation
+
+As covered in the Lecture series, mediation describes a relationship where the influence of one variable on another can be explained through a third variable. In the example below, we will test whether the relationship between attitudes towards exercise and exercise behaviour can be explained through intentions to exercise (i.e., individuals who have positive attitudes about exercise increase their intention to exercise, which in turn increases exercise behaviour). For more information on these scales (and some of the ones we will use later), see this paper: [https://search.proquest.com/docview/202682863](https://search.proquest.com/docview/202682863). Note, we only use the first 5-items on each scale to keep things simple.
+
+### 1. Clean data for analysis.
+
+First, we must calculate the variables that we need for our analysis. This process should be fairly familiar by now.
+
+```{r}
+data.clean <- data %>%
+  mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5,
+         intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5,
+         behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5) %>%
+  dplyr::select(student.no,attitude,intention,behaviour) %>%
+  filter(!is.na(attitude)) %>%
+  filter(!is.na(intention)) %>%
+  filter(!is.na(behaviour))
+```
+
+### 2. Run statistical test
+
+Remember, mediation is when the effect of one IV could be explained through a third variable (mediation). If there is an effect in a model without the mediator, but that effect is reduced (or disappears) when the mediator is included, there is a chance the mediation is happening. In order to check whether our variables meet these conditions, we need to conduct a number of linear regressions.
+
+#### Model 1
+Here, we test whether there is an association between the predictor (attitudes) and the outcome variable (behaviour):
+```{r}
+lm(behaviour ~ attitude,data = data.clean) %>%
+  lm.beta() %>%
+  summary()
+```
+
+#### Model 2
+Here, we test whether including the mediator (intention) in the model changes the relationship between the predictor (attitude) and the outcome variable (behaviour):
+```{r}
+lm(behaviour ~ attitude + intention,data = data.clean) %>%
+  lm.beta() %>%
+  summary()
+```
+
+#### Model 3
+Also, in order for there to be a mediation, we must observe a relationship between the predictor (attitude) and the mediator (intention):
+```{r}
+lm(intention ~ attitude,data = data.clean) %>%
+  lm.beta() %>%
+  summary()
+```
+
+#### Mediation Analysis
+While we may or may not meet the conditions for a mediation above, we will continue with the analysis to demonstrate the process of conducting a mediation analysis regardless.
+
+In order to conduct a mediation analysis in R, we will load the `psych` package. If you haven't installed the `psych` package yet, make sure to do this before loading the `psych` package.
+
+```{r,warning = FALSE}
+library(psych)
+```
+
+The function that runs the mediation analysis is aptly named `mediate()`. Like all analysis functions, the `mediate()` function accepts a formula and a data.frame, but also a couple of options that we will want to change. For the formula, the mediate function takes a specific form, where the mediator is put inside brackets on the right-hand side of the `~` symbol:
+
+```{r,eval = FALSE}
+DV ~ IV + (Mediator)
+```
+
+So for our analysis, the code becomes the following. Note, we also want to set the 'std' argument to `TRUE` to ensure we receive standardised estimates, and the 'plot' argument to `FALSE` so we are only seeing the numeric output (we will see the plot later).
+
+```{r}
+model <- mediate(behaviour ~ attitude + (intention),data = data.clean,std = TRUE,plot = FALSE)
+
+model
+```
+
+Most of the information above is what we have encountered previously. The main information we are interested in this output is the line on the mean bootstrapped indirect effect. A large indirect effect (and consequently a greater drop between the total effect and the direct effect) would indicate that mediation is occurring. Since we are bootstrapping, we can tell the significance through confidence intervals. If the range between the lower CI and the upper CI contains zero, then the indirect effect is not significant. If this range does not contain zero, then we have a significant mediation effect.
+
+### 3. Plot data
+
+#### Path Diagram
+
+For mediation, there's no good way to plot the raw data that visualises the mediation. The most common way to visualise a mediated effect is through a path diagram. You can do this directly in the `mediate()` function by setting the 'plot' argument to `TRUE` or use the `mediate.diagram()` like below:
+
+```{r}
+mediate.diagram(model)
+```
+
+### 4. Write-up analysis.
+```{r,echo = FALSE}
+ac <- lm(behaviour ~ attitude,data = data.clean) %>%
+  lm.beta() %>%
+  summary()
+
+abc <- lm(behaviour ~ attitude + intention,data = data.clean) %>%
+  lm.beta() %>%
+  summary()
+
+ab <- lm(intention ~ attitude,data = data.clean) %>%
+  lm.beta() %>%
+  summary()
+
+ab.sig <- ab$coefficients[2,5] < .05
+
+med.sig <- !(model$boot$ci[1,1] < 0 & model$boot$ci[2,1] > 0)
+```
+
+There are several things you need to include when writing up a mediation analysis. Writing up a mediation analysis includes the write-up for each individual models with and without the mediator (Model 1 and Model 2 above - these numbers are also included in the output for the `mediate()` function), and also the estimated indirect effect and associated confidence intervals. Usually, you would want to accompany the write-up with a path diagram such as the one above. `r if(ab.sig == FALSE){"It does not make much sense to write-up the analysis above as we failed to meet the criteria for a mediation in the first instance, but if we were to do it anyway, it may go something like this:"}`
+
+> In the model where attitudes towards exercise predicted variance in exercise behaviour, the effect of exercise attitudes was not significant (beta = `r round(ac$coefficients[2,2],2)`, p = `r round(ac$coefficients[2,5],3)`). When including intention to exercise into the model, the effect of attitudes on behaviour `r if(abc$coefficients[2,5] < .05 & ab$coefficients[2,5] > .05){"was reduced"}else{"did not change"}` (beta = `r round(abc$coefficients[2,2],2)`, p = `r round(abc$coefficients[2,5],3)`). Mediation analysis revealled a `r if(med.sig == TRUE){significant}else{"non-significant"}` indirect effect of intentions to exercise on the association between attitudes towards exercise and exercise behaviour (mean bootstrapped indirect effect = `r round(model$indirect,2)`, 95% CI = `r round(model$boot$ci[1,1],2)`, `r round(model$boot$ci[2,1],2)`).
+
+Note: While we report the results in text above, it is sometimes also easier to report the separate models in a table.
+
+# Exercises
+
+Now that you've completed this week's workbook, why not give this week's exercises a go? You can download the interactive exercises by clicking the link below.
+
+<a href = "exercises.html">Click here to download this week's exercises.</a>
