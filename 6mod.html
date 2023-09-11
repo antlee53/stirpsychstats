@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Workbook 7 - Moderation (Interaction Effects)</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -144,11 +144,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -177,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -186,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -417,15 +414,15 @@ continuous DV, including:</li>
 <li>interaction plots</li>
 </ul>
 <ol style="list-style-type: decimal">
-<li>Perform a two-way ANOVAs (including between-subjects,
-within-subjects, and mixed-design)</li>
+<li>Perform two-way ANOVAs (including between-subjects, within-subjects,
+and mixed-design)</li>
 </ol>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
-<p><a href = files/data_2022.csv download>Click here to download the
-data used in these workbooks.</a> (You may need to right-click and
-select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2023.csv download>Click here to
+download the data used in these workbooks.</a> (You may need to
+right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -538,22 +535,21 @@ summary(model1)</code></pre>
 ## lm(formula = sleep.quality ~ c.stress * c.support, data = data1.clean)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -8.8346 -2.3341  0.1891  2.9969  7.6914 
+##    Min     1Q Median     3Q    Max 
+## -7.743 -1.846  0.036  2.049  7.704 
 ## 
 ## Coefficients:
-##                    Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        16.07526    0.49529  32.457   &lt;2e-16 ***
-## c.stress           -0.35104    0.23477  -1.495    0.140    
-## c.support           0.06819    0.07985   0.854    0.396    
-## c.stress:c.support -0.01288    0.04227  -0.305    0.762    
+##                     Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        14.884772   0.293256  50.757   &lt;2e-16 ***
+## c.stress           -0.102404   0.095166  -1.076    0.284    
+## c.support          -0.014343   0.071918  -0.199    0.842    
+## c.stress:c.support -0.006075   0.021151  -0.287    0.774    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.962 on 61 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.04673,    Adjusted R-squared:  -0.0001562 
-## F-statistic: 0.9967 on 3 and 61 DF,  p-value: 0.4005</code></pre>
+## Residual standard error: 3.202 on 116 degrees of freedom
+## Multiple R-squared:  0.01041,    Adjusted R-squared:  -0.01518 
+## F-statistic: 0.4068 on 3 and 116 DF,  p-value: 0.7484</code></pre>
 <p>Looking at the output above, notice how R automatically includes the
 main effects in the model? In most cases, you should include the
 separate main effects when investigating an interaction, but in the odd
@@ -575,22 +571,21 @@ model1 %&gt;%
 ## lm(formula = sleep.quality ~ c.stress * c.support, data = data1.clean)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -8.8346 -2.3341  0.1891  2.9969  7.6914 
+##    Min     1Q Median     3Q    Max 
+## -7.743 -1.846  0.036  2.049  7.704 
 ## 
 ## Coefficients:
-##                    Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        16.07526           NA    0.49529  32.457   &lt;2e-16 ***
-## c.stress           -0.35104     -0.18988    0.23477  -1.495    0.140    
-## c.support           0.06819      0.10735    0.07985   0.854    0.396    
-## c.stress:c.support -0.01288     -0.03849    0.04227  -0.305    0.762    
+##                     Estimate Standardized Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        14.884772           NA   0.293256  50.757   &lt;2e-16 ***
+## c.stress           -0.102404    -0.100071   0.095166  -1.076    0.284    
+## c.support          -0.014343    -0.018619   0.071918  -0.199    0.842    
+## c.stress:c.support -0.006075    -0.026804   0.021151  -0.287    0.774    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 3.962 on 61 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.04673,    Adjusted R-squared:  -0.0001562 
-## F-statistic: 0.9967 on 3 and 61 DF,  p-value: 0.4005</code></pre>
+## Residual standard error: 3.202 on 116 degrees of freedom
+## Multiple R-squared:  0.01041,    Adjusted R-squared:  -0.01518 
+## F-statistic: 0.4068 on 3 and 116 DF,  p-value: 0.7484</code></pre>
 </div>
 <div id="plot-data" class="section level3">
 <h3>3. Plot data</h3>
@@ -659,12 +654,12 @@ effect is our third predictor).</p>
 <blockquote>
 <p>We used a linear regression to predict sleep quality from the level
 of perceived stress, level of social support, and the interaction
-between the two. We found that model explained 4.67% of the variance
-(F(3,61) = 1, p = 0.401). Regression coefficients are reported in Table
-1. There was no significant main effect of stress on sleep quality.
-There was no significant main effect of social support on sleep quality.
-The interaction between perceived stress and social support was not
-significant.</p>
+between the two. We found that model explained 1.04% of the variance
+(F(3,116) = 0.41, p = 0.748). Regression coefficients are reported in
+Table 1. There was no significant main effect of stress on sleep
+quality. There was no significant main effect of social support on sleep
+quality. The interaction between perceived stress and social support was
+not significant.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting
 stress.</p>
@@ -686,21 +681,21 @@ stress.</p>
 <tbody>
 <tr class="odd">
 <td>Perceived Stress</td>
-<td>-0.19</td>
-<td>-1.5</td>
-<td>0.14</td>
+<td>-0.1</td>
+<td>-1.08</td>
+<td>0.284</td>
 </tr>
 <tr class="even">
 <td>Social Support</td>
-<td>0.11</td>
-<td>0.85</td>
-<td>0.396</td>
+<td>-0.02</td>
+<td>-0.2</td>
+<td>0.842</td>
 </tr>
 <tr class="odd">
 <td>PS * SS</td>
-<td>-0.04</td>
-<td>-0.3</td>
-<td>0.762</td>
+<td>-0.03</td>
+<td>-0.29</td>
+<td>0.774</td>
 </tr>
 </tbody>
 </table>
@@ -737,13 +732,11 @@ order to get output that is interpretable, you can pipe the result to
 the <code>summary()</code> function.</p>
 <pre class="r"><code>aov(introvert ~ cat.dog*video.games,data = clean.data2) %&gt;%
   summary()</code></pre>
-<pre><code>##                     Df Sum Sq Mean Sq F value Pr(&gt;F)  
-## cat.dog              1   48.3   48.32   2.974  0.096 .
-## video.games          1    2.9    2.91   0.179  0.676  
-## cat.dog:video.games  1    0.0    0.05   0.003  0.957  
-## Residuals           27  438.7   16.25                 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre><code>##                     Df Sum Sq Mean Sq F value Pr(&gt;F)
+## cat.dog              1    0.1   0.121   0.011  0.918
+## video.games          1    8.0   7.959   0.697  0.406
+## cat.dog:video.games  1    0.0   0.013   0.001  0.973
+## Residuals           95 1084.6  11.417</code></pre>
 <p>Similar to a one-way ANOVA, the two-way ANOVA will tell you whether
 or not there is a difference, but it will not tell you where that
 difference is. In order to determine this, you will need to calculate
@@ -762,10 +755,10 @@ comparisons.</p>
 ## # Groups:   video.games [2]
 ##   video.games cat.dog count  mean    sd
 ##   &lt;chr&gt;       &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 No          cat         4  15.8  2.99
-## 2 No          dog        13  12.8  4.38
-## 3 Yes         cat         4  15    2.16
-## 4 Yes         dog        10  12.2  4.32</code></pre>
+## 1 No          cat        29  15.2  3.74
+## 2 No          dog        29  15.3  3.42
+## 3 Yes         cat        19  15.8  2.67
+## 4 Yes         dog        22  15.9  3.36</code></pre>
 </div>
 <div id="multiple-comparisons" class="section level4">
 <h4>Multiple Comparisons</h4>
@@ -780,25 +773,25 @@ depending on whether they play video-games or not.</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 1.6089, df = 10.934, p-value = 0.1361
+## t = -0.02285, df = 38.771, p-value = 0.9819
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -1.033337  6.633337
+##  -1.927851  1.884789
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##              15.0              12.2</code></pre>
+##          15.84211          15.86364</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(clean.data2,video.games == &quot;No&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 1.5485, df = 7.4704, p-value = 0.1628
+## t = -0.073264, df = 55.573, p-value = 0.9419
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -1.513594  7.475133
+##  -1.954999  1.817068
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          15.75000          12.76923</code></pre>
+##          15.24138          15.31034</code></pre>
 </div>
 </div>
 <div id="plot-data-1" class="section level3">
@@ -823,27 +816,28 @@ need to specify which variable to separate the plot on.</p>
 However, the <code>aov()</code> can also run an ANOVA when one (or both)
 IVs are within-subjects. These are known as mixed-designs ANOVAs (or
 repeated-measures ANOVA if both IVs are within-subjects).</p>
-<p>In the example below, we will test whether receiving positive
-feedback while filling in a long questionnaire (compared to receiving no
-feedback) moderates the change in mood at the start and at the end of
-filling in the survey. Here, whether or not participants received
-positive feedback is a between-subjects categorical variable (as
-participants are either assigned to one condition or the other), while
-time (start vs. end) is a within-subjects categorical variable. Our DV,
-mood, is measured on a continuous scale. As such, a mixed-design ANOVA
-is appropriate to test this interaction.</p>
+<p>In the example below, we will test whether being a cat- or dog-person
+moderates the change in mood after viewing a cute cat video. Here,
+whether or not participants are a cat- or dog-person is a
+between-subjects categorical variable (as participants are either in one
+or the other), while time (before vs. after) is a within-subjects
+categorical variable. Our DV, mood, is measured on a continuous scale.
+As such, a mixed-design ANOVA is appropriate to test this
+interaction.</p>
 <div id="clean-data-for-analysis." class="section level3">
 <h3>1. Clean data for analysis.</h3>
 <p>Below, we select the key variables for analysis and reshape the data.
-This second step is necessary since we are dealing with within-subjects
-variables. Also, since we will be group data by the
-<code>student.no</code>, we will need to ensure that R treats it as a
-factor. Also note that we have removed participants with missing
-data.</p>
+Note that we will only include participants who identify as either a cat
+or a dog-person (not neither or both). It is necessary to re-shape the
+data since we are dealing with within-subjects variables. Also, since we
+will be group data by the <code>student.no</code>, we will need to
+ensure that R treats it as a factor. Also note that we have removed
+participants with missing data.</p>
 <pre class="r"><code>mx.data &lt;- data %&gt;%
-  select(student.no,mood.start,mood.end,progress.update) %&gt;%
-  filter(!is.na(mood.start),!is.na(mood.end)) %&gt;%
-  gather(key = &quot;time&quot;,value = &quot;mood&quot;,mood.start,mood.end) %&gt;%
+  select(student.no,cat.dog,pre.mood,post.mood) %&gt;%
+  filter(cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;) %&gt;%
+  filter(!is.na(pre.mood),!is.na(post.mood)) %&gt;%
+  gather(key = &quot;time&quot;,value = &quot;mood&quot;,pre.mood,post.mood) %&gt;%
   mutate(student.no = as.factor(student.no))</code></pre>
 </div>
 <div id="conduct-statistical-test." class="section level3">
@@ -861,31 +855,31 @@ within-subjects variable, and 2) how that within-subjects variable is
 grouped. In our example, <code>condition</code> is the within-subjects
 variable, and since the data is within-participants, we will use
 <code>student.no</code> to tell R which observations are linked.</p>
-<pre class="r"><code>aov(mood ~ time*progress.update + Error(student.no/time),data = mx.data) %&gt;%
+<pre class="r"><code>aov(mood ~ time*cat.dog + Error(student.no/time),data = mx.data) %&gt;%
   summary()</code></pre>
 <pre><code>## 
 ## Error: student.no
-##                 Df Sum Sq Mean Sq F value Pr(&gt;F)
-## progress.update  1     47    46.8   0.057  0.812
-## Residuals       58  47692   822.3               
+##           Df Sum Sq Mean Sq F value Pr(&gt;F)
+## cat.dog    1    418   417.5   0.495  0.483
+## Residuals 97  81788   843.2               
 ## 
 ## Error: student.no:time
-##                      Df Sum Sq Mean Sq F value Pr(&gt;F)
-## time                  1     23   22.53   0.207  0.651
-## time:progress.update  1      9    9.49   0.087  0.769
-## Residuals            58   6329  109.12</code></pre>
+##              Df Sum Sq Mean Sq F value Pr(&gt;F)
+## time          1     21    21.3   0.031  0.861
+## time:cat.dog  1    711   711.0   1.032  0.312
+## Residuals    97  66823   688.9</code></pre>
 <p>Notice in the output above that there are two ANOVA tables. The first
 is the between-subjects effects, which reports the main effect for
-<code>progress.update</code> on alcohol consumption. In the example
-above this is not significant, indicating that, overall, there was no
-difference in mood between the two conditions.. The second table has the
-within-subjects effects. This includes the main effect of
+<code>cat.dog</code> on mood. In the example above this is not
+significant, indicating that, overall, there was no difference in mood
+between the two conditions (as should be expected).. The second table
+has the within-subjects effects. This includes the main effect of
 <code>Time</code>, plus the interaction between our two IVs. In the
 example above, the main effect of time is non-significant, indicating
-there is no overall change in mood at the start and end of the
-questionnaire. The interaction is also non-significant, indicating that
-receiving positive feedback during the questionnaire does not influence
-the change in mood between timepoints.</p>
+there is no overall viewing a cute cat video did not change
+participants’ mood. The interaction is also non-significant, indicating
+that being a cat- or dog-person did not influence the change in mood
+before and after the video.</p>
 </div>
 </div>
 <div id="within-subjects-anova-also-known-as-a-repeated-measures-anova"

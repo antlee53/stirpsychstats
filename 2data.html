@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Workbook 2 - Data Skills: Data Frames and Descriptive Statistics</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -144,11 +144,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -177,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -186,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -426,9 +423,9 @@ files).</li>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/data_2022.csv download>Click here to download the
-data used in these workbooks.</a> (You may need to right-click and
-select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2023.csv download>Click here to
+download the data used in these workbooks.</a> (You may need to
+right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -734,7 +731,7 @@ information on indexing.</a></p>
 <pre class="r"><code>table(data$aus.animal)</code></pre>
 <pre><code>## 
 ##  echidna kangaroo    koala platypus   wombat 
-##        3       12       37       10        5</code></pre>
+##       28       24       27       21       20</code></pre>
 <p>So above, we see that there are five separate values (if we ignore
 missing data), and the most frequent response was
 <code>koala</code>.</p>
@@ -790,7 +787,7 @@ the code to calculate the mean and standard deviation of the variable
 <pre><code>## # A tibble: 1 × 2
 ##   stats_exp.mean stats_exp.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.07         2.11</code></pre>
+## 1           5.05         2.61</code></pre>
 <p>A couple of things to note. First, I have broken the above code
 across several lines. This is just to make it easier to read (remember R
 ignores white space inside an incomplete command). Second, it doesn’t
@@ -808,7 +805,7 @@ multiple variables:</p>
 <pre><code>## # A tibble: 1 × 4
 ##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.07         2.11           6.24         1.95</code></pre>
+## 1           5.05         2.61           5.02         2.60</code></pre>
 <p>Note: An annoying thing about the <code>summarise()</code> function
 is that sometimes it will not show results to two-decimal places (which
 is the requirement for APA format). To see all the decimal places, you

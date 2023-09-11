@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Simulations</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -144,11 +144,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -177,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -186,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -426,9 +423,8 @@ below we randomly sample 40 objects who are either in the ‘cat’ group or
 the ‘dog’ group. To see more about how this function works, read
 <code>help(sample)</code>.</p>
 <pre class="r"><code>sample(c(&quot;cat&quot;,&quot;dog&quot;),40,replace = TRUE)</code></pre>
-<pre><code>##  [1] &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot;
-## [15] &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot;
-## [29] &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot;</code></pre>
+<pre><code>##  [1] &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot;
+## [32] &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot;</code></pre>
 <p><code>rnorm()</code></p>
 <p>This function creates a random continuous variable that is normally
 distributed. This function is ideal for sampling a continuous variable
@@ -437,12 +433,9 @@ normal distribution with a mean of 0 and a standard deviation of 1. To
 see more about how this function works, read
 <code>help(rnorm)</code>.</p>
 <pre class="r"><code>rnorm(40,mean = 0,sd = 1)</code></pre>
-<pre><code>##  [1] -0.44527553  0.68809609  0.29894003  1.67971633  1.31878148  1.52471448 -0.08203429
-##  [8] -0.27119096 -0.10036778 -1.23401378  1.40474376  0.35806381 -1.56023651 -1.51337388
-## [15]  1.15857056 -0.83571692 -0.53534662 -0.15099331  0.32398993  0.07307368 -0.56032552
-## [22]  0.17819781 -0.70908656  0.54291373  1.56099607 -0.21003605  0.38735957  1.87417976
-## [29]  0.43554027 -2.28990971  0.05753476 -0.63090508 -0.11758848  0.36972128  0.30326983
-## [36]  0.35260350 -0.53170530 -1.05955033 -0.73285787  1.16694966</code></pre>
+<pre><code>##  [1]  2.473507935  0.318214649 -0.196585517  1.585283584  0.809287734  0.969562626 -0.499847502 -0.769984010 -1.317505830  0.441953637  0.273009889  1.083308586 -2.658974985  1.569111467
+## [15] -0.561173483  0.888998890 -1.141618264  0.020409702 -0.080611315  1.671664941  0.098661261  2.162733874 -0.249649670  1.231287518 -0.414890645 -1.207304641  1.382494183 -0.498723456
+## [29]  0.611496994  2.074914053 -0.063963488  0.451637216 -0.507141664 -1.583936715  0.404411047 -1.801778784 -0.008195683 -0.385039219  0.216594384  0.011111742</code></pre>
 <p>We now have the tools to create our simulate data function, which we
 will save as <code>create_dataset</code>. For now, it will take one
 argument, n, which specifies the number of participants in the
@@ -458,26 +451,26 @@ dataset.</p>
 <p>Let’s test it out:</p>
 <pre class="r"><code>create_dataset(20)</code></pre>
 <pre><code>##    group introvert
-## 1    dog  15.99199
-## 2    cat  21.26184
-## 3    dog  23.75067
-## 4    dog  23.73591
-## 5    cat  20.94255
-## 6    cat  23.15640
-## 7    cat  21.62964
-## 8    dog  23.31189
-## 9    dog  24.78853
-## 10   cat  20.39230
-## 11   dog  14.23728
-## 12   cat  21.33127
-## 13   dog  24.65131
-## 14   cat  19.92920
-## 15   cat  22.87452
-## 16   dog  24.08815
-## 17   dog  22.51765
-## 18   cat  23.78100
-## 19   dog  18.38866
-## 20   dog  27.57106</code></pre>
+## 1    dog  16.11014
+## 2    cat  19.31052
+## 3    dog  16.37441
+## 4    cat  21.41206
+## 5    cat  18.73293
+## 6    cat  19.24835
+## 7    cat  20.96404
+## 8    cat  23.81555
+## 9    dog  22.38028
+## 10   dog  22.13631
+## 11   cat  18.34982
+## 12   cat  21.01335
+## 13   cat  23.66319
+## 14   dog  21.04188
+## 15   cat  20.85500
+## 16   cat  22.36167
+## 17   dog  24.67273
+## 18   cat  21.04410
+## 19   cat  19.65611
+## 20   dog  21.43339</code></pre>
 <p>As you can see above, our function is creating a data.frame with 20
 participants, and their scores on the <code>group</code> and
 <code>introvert</code> variables are randomly determined from the
@@ -495,13 +488,13 @@ completely random, so we would expect a non-significant result here.</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by group
-## t = 0.84388, df = 17.34, p-value = 0.4102
+## t = 0.045441, df = 15.176, p-value = 0.9643
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -1.553910  3.630759
+##  -3.006206  3.137312
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          21.76707          20.72864</code></pre>
+##          21.29965          21.23410</code></pre>
 <p>Let’s expand the function above. How about creating a function that
 simulates a dataset, then runs a t-test, and then returns the results of
 that test? We can do this by including the function that runs a t.test
@@ -516,7 +509,7 @@ easily access the results from the t-test.</p>
   return(test$estimate)
 }</code></pre>
 <pre class="r"><code>simulate_test(20)</code></pre>
-<pre><code>## [1] 0.7806202</code></pre>
+<pre><code>## [1] -1.527018</code></pre>
 <p>Let’s go another step further and say we want to run a t-tests on
 simulated data 1000 times. Doing so will give us a distribution of
 estimates given a certain statistical test and sample size. We can do
@@ -587,17 +580,17 @@ which is coded as TRUE = 1 and FALSE = 0. Therefore, we can use the
 power &lt;- mean(sim.results &lt; .05)
 
 power</code></pre>
-<pre><code>## [1] 0.23</code></pre>
+<pre><code>## [1] 0.215</code></pre>
 <p>The convention is that the analysis is sufficiently powered if it can
 detect an effect that is present 80% of the time. The power calculated
-for a sample size of 20 was 23%, which falls quite short of this
+for a sample size of 20 was 21.5%, which falls quite short of this
 threshold. What if we increased our sample size?</p>
 <pre class="r"><code>sim.results &lt;- replicate(200,simulate_test2(240,cat.dog_difference))
 
 power &lt;- mean(sim.results &lt; .05)
 
 power</code></pre>
-<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 0.995</code></pre>
 <p>By running the above simulations at different sample sizes, we will
 be able to determine the sample sizes needed to detect this effect at
 80% power. Below is code to automatically run the

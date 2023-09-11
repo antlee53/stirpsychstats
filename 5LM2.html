@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Workbook 6 - The General Linear Model: Correlation and Regression</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -144,11 +144,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -177,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -186,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -422,9 +419,9 @@ continuous DV, including:</li>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
-<p><a href = files/data_2022.csv download>Click here to download the
-data used in these workbooks.</a> (You may need to right-click and
-select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2023.csv download>Click here to
+download the data used in these workbooks.</a> (You may need to
+right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -500,20 +497,20 @@ symbol:</p>
 ##  Pearson&#39;s product-moment correlation
 ## 
 ## data:  stress and sleep.quality
-## t = -1.6981, df = 63, p-value = 0.09442
+## t = -0.5044, df = 118, p-value = 0.6149
 ## alternative hypothesis: true correlation is not equal to 0
 ## 95 percent confidence interval:
-##  -0.43111002  0.03655575
+##  -0.2237650  0.1339712
 ## sample estimates:
-##        cor 
-## -0.2092086</code></pre>
+##         cor 
+## -0.04638399</code></pre>
 <p>The key parts of the output that we are interested in are:</p>
 <ul>
 <li>The r-statistic - this is specified at the bottom of the output
-under ‘cor’, and equals -0.21 above.</li>
+under ‘cor’, and equals -0.05 above.</li>
 <li>The p-value - this tells you whether the test is significant or not.
 Above, p &lt; .001.</li>
-<li>The degrees of freedom (df), which above is 63.</li>
+<li>The degrees of freedom (df), which above is 118.</li>
 </ul>
 </div>
 <div id="plot-data" class="section level3">
@@ -557,7 +554,7 @@ following information:</p>
 see where each of the numbers came from in the output above?):</p>
 <blockquote>
 <p>There was no significant correlation between perceived stress and
-sleep quality, <em>r</em>(63) = -0.21, <em>p</em> = 0.094.</p>
+sleep quality, <em>r</em>(118) = -0.05, <em>p</em> = 0.615.</p>
 </blockquote>
 </div>
 </div>
@@ -598,19 +595,18 @@ model2</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -9.9076 -2.8224 -0.2798  3.6350  9.8907 
+## -8.9004 -2.1746  0.1518  1.9560  9.2041 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  24.6833     3.5563   6.941 2.54e-09 ***
-## stress       -0.4574     0.2694  -1.698   0.0944 .  
+## (Intercept) 18.52716    1.07729  17.198   &lt;2e-16 ***
+## stress      -0.05223    0.10355  -0.504    0.615    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.618 on 63 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.04377,    Adjusted R-squared:  0.02859 
-## F-statistic: 2.884 on 1 and 63 DF,  p-value: 0.09442</code></pre>
+## Residual standard error: 3.508 on 118 degrees of freedom
+## Multiple R-squared:  0.002151,   Adjusted R-squared:  -0.006305 
+## F-statistic: 0.2544 on 1 and 118 DF,  p-value: 0.6149</code></pre>
 <p>In order to report a regression in APA format, we are required to
 have standardised coefficients. To do this, we can use the
 <code>lm.beta()</code> function from the lm.beta package. The
@@ -629,19 +625,18 @@ model2.standardised</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -9.9076 -2.8224 -0.2798  3.6350  9.8907 
+## -8.9004 -2.1746  0.1518  1.9560  9.2041 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  24.6833           NA     3.5563   6.941 2.54e-09 ***
-## stress       -0.4574      -0.2092     0.2694  -1.698   0.0944 .  
+## (Intercept) 18.52716           NA    1.07729  17.198   &lt;2e-16 ***
+## stress      -0.05223     -0.04638    0.10355  -0.504    0.615    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.618 on 63 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.04377,    Adjusted R-squared:  0.02859 
-## F-statistic: 2.884 on 1 and 63 DF,  p-value: 0.09442</code></pre>
+## Residual standard error: 3.508 on 118 degrees of freedom
+## Multiple R-squared:  0.002151,   Adjusted R-squared:  -0.006305 
+## F-statistic: 0.2544 on 1 and 118 DF,  p-value: 0.6149</code></pre>
 <p>Notice that in the summary table above, an additional column named
 <code>Standardized</code> is added. Everytime you calculate the
 standardised coefficients, the estimate for the intercept will equal 0.
@@ -684,10 +679,10 @@ regression is identical to a correlation, so you’re better off reporting
 it that way to avoid confusion and the extra hassle, but we will go
 through the write-up below just to demonstrate:</p>
 <blockquote>
-<p>Linear regression indicated that 4.38% of variance in sleep quality
-could be explained by the predictor, (<em>F</em>(1, 63) = 2.88,
-<em>p</em> = 0.094). Perceived stress did not significantly predict
-sleep quality (<em>Beta</em> = -0.21, <em>p</em> = 0.094).</p>
+<p>Linear regression indicated that 0.22% of variance in sleep quality
+could be explained by the predictor, (<em>F</em>(1, 118) = 0.25,
+<em>p</em> = 0.615). Perceived stress did not significantly predict
+sleep quality (<em>Beta</em> = -0.05, <em>p</em> = 0.615).</p>
 </blockquote>
 <p>For one or two predictors, it is simple enough to include the
 coefficients and p-value of predictors in-text like above. However, as
@@ -727,20 +722,19 @@ summary(model3)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -10.581  -2.584  -0.400   3.274   9.639 
+## -8.9763 -2.2163  0.1765  1.9036  9.3614 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 22.11384    4.17063   5.302 1.62e-06 ***
-## support      0.10858    0.09278   1.170   0.2464    
-## stress      -0.49020    0.27003  -1.815   0.0743 .  
+## (Intercept) 19.22884    2.02359   9.502 3.25e-16 ***
+## support     -0.03222    0.07854  -0.410    0.682    
+## stress      -0.05606    0.10433  -0.537    0.592    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.604 on 62 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.06443,    Adjusted R-squared:  0.03426 
-## F-statistic: 2.135 on 2 and 62 DF,  p-value: 0.1269</code></pre>
+## Residual standard error: 3.52 on 117 degrees of freedom
+## Multiple R-squared:  0.003584,   Adjusted R-squared:  -0.01345 
+## F-statistic: 0.2104 on 2 and 117 DF,  p-value: 0.8105</code></pre>
 <pre class="r"><code>#Standardised Model
 model3 %&gt;%
   lm.beta() %&gt;%
@@ -751,20 +745,19 @@ model3 %&gt;%
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -10.581  -2.584  -0.400   3.274   9.639 
+## -8.9763 -2.2163  0.1765  1.9036  9.3614 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 22.11384           NA    4.17063   5.302 1.62e-06 ***
-## support      0.10858      0.14454    0.09278   1.170   0.2464    
-## stress      -0.49020     -0.22421    0.27003  -1.815   0.0743 .  
+## (Intercept) 19.22884           NA    2.02359   9.502 3.25e-16 ***
+## support     -0.03222     -0.03801    0.07854  -0.410    0.682    
+## stress      -0.05606     -0.04978    0.10433  -0.537    0.592    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.604 on 62 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.06443,    Adjusted R-squared:  0.03426 
-## F-statistic: 2.135 on 2 and 62 DF,  p-value: 0.1269</code></pre>
+## Residual standard error: 3.52 on 117 degrees of freedom
+## Multiple R-squared:  0.003584,   Adjusted R-squared:  -0.01345 
+## F-statistic: 0.2104 on 2 and 117 DF,  p-value: 0.8105</code></pre>
 </div>
 <div id="plot-data-2" class="section level3">
 <h3>3. Plot data</h3>
@@ -797,8 +790,8 @@ coefficients in a table, you still need to describe the pattern of
 results in words.</p>
 <blockquote>
 <p>We used multiple regression to predict sleep quality from perceived
-stress and social support. We found that both predictors explained 6.44%
-of the variance (<em>F</em>(2, 62) = 2.14, <em>p</em> = 0.127).
+stress and social support. We found that both predictors explained 0.36%
+of the variance (<em>F</em>(2, 117) = 0.21, <em>p</em> = 0.811).
 Regression coefficients are reported in Table 1. Neither perceived
 stress or social support significantly predicted sleep quality.</p>
 </blockquote>
@@ -822,15 +815,15 @@ intention to exercise.</p>
 <tbody>
 <tr class="odd">
 <td>Stress</td>
-<td>0.14</td>
-<td>1.17</td>
-<td>0.25</td>
+<td>-0.04</td>
+<td>-0.41</td>
+<td>0.68</td>
 </tr>
 <tr class="even">
 <td>Support</td>
-<td>-0.22</td>
-<td>-1.82</td>
-<td>0.07</td>
+<td>-0.05</td>
+<td>-0.54</td>
+<td>0.59</td>
 </tr>
 </tbody>
 </table>

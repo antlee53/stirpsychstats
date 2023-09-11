@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Quantitative Methods in Psychological Research</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -144,11 +144,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -177,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -186,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -404,7 +401,7 @@ Psychological Research</h1>
 </div>
 
 
-<p>Last updated: Mon Dec 5 10:34:03 2022</p>
+<p>Last updated: Mon Sep 11 10:42:21 2023</p>
 <p>This module is designed to teach students the basic skills needed to
 conduct quantitative research in R. This module covers basic data
 skills, data tidying, plotting data, and analysing datasets in R. This
@@ -455,7 +452,7 @@ workbook, it is a good idea to complete this survey yourself, as 1) it
 will give you an idea on how the data we are analysing was collected,
 and 2) if no one does the survey, then we won’t have any data to
 analyse!</p>
-<p><a href = "https://stirlingpsych.eu.qualtrics.com/jfe/form/SV_8wTPyPWWH2b6BeK">You
+<p><a href = "https://research.sc/participant/login/dynamic/14C12A4D-E98F-4636-AAC1-1AA8B6CCD162">You
 can access the survey by clicking here.</a></p>
 </div>
 <div id="download-r" class="section level2">
@@ -512,9 +509,10 @@ etc.)</li>
 <p>Note: Downloading both R and RStudio will usually results two
 different icons that can be opened to start R. For all material in this
 course, make sure to open RStudio, and not R.</p>
-<div class="figure">
-<img src="images/RvsRstudio.png" alt="" />
-<p class="caption">Make sure to open RStudio and not R</p>
+<div class="float">
+<img src="images/RvsRstudio.png"
+alt="Make sure to open RStudio and not R" />
+<div class="figcaption">Make sure to open RStudio and not R</div>
 </div>
 </div>
 </div>

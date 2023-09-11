@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Workbook 9 - Path Analysis and Structural Equation Modelling</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -144,11 +144,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -177,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -186,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -620,14 +617,14 @@ indicators, and ‘rsquare’ to <code>TRUE</code> to get an r-square
 statistics for the model.</p>
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)</code></pre>
 <pre class="r"><code>summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-11 ended normally after 1 iterations
+<pre><code>## lavaan 0.6.16 ended normally after 1 iteration
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                         5
-##                                                       
+## 
 ##   Number of observations                            66
-##                                                       
+## 
 ## Model Test User Model:
 ##                                                       
 ##   Test statistic                                 0.000
@@ -651,14 +648,15 @@ statistics for the model.</p>
 ##                                                       
 ##   Akaike (AIC)                                 825.281
 ##   Bayesian (BIC)                               836.229
-##   Sample-size adjusted Bayesian (BIC)          820.488
+##   Sample-size adjusted Bayesian (SABIC)        820.488
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
 ##   RMSEA                                          0.000
 ##   90 Percent confidence interval - lower         0.000
 ##   90 Percent confidence interval - upper         0.000
-##   P-value RMSEA &lt;= 0.05                             NA
+##   P-value H_0: RMSEA &lt;= 0.050                       NA
+##   P-value H_0: RMSEA &gt;= 0.080                       NA
 ## 
 ## Standardized Root Mean Square Residual:
 ## 
@@ -719,9 +717,9 @@ intentions to exercise, and exercise behaviour, but also now investigate
 norms surrounding fitness and perceived behavioural control. The model
 we will fit is based on the Theory of Planned Behaviour, and is depicted
 below.</p>
-<div class="figure">
-<img src="images/TPB.png" alt="" />
-<p class="caption">Theory of Planned Behaviour</p>
+<div class="float">
+<img src="images/TPB.png" alt="Theory of Planned Behaviour" />
+<div class="figcaption">Theory of Planned Behaviour</div>
 </div>
 <p>In words, we predict that attitudes towards exercise, norms about
 exercise, and perceived behavioural control regarding exercise will
@@ -765,14 +763,14 @@ behaviour.</p>
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data2.clean)</code></pre>
 <pre class="r"><code>summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-11 ended normally after 41 iterations
+<pre><code>## lavaan 0.6.16 ended normally after 41 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                        14
-##                                                       
+## 
 ##   Number of observations                            66
-##                                                       
+## 
 ## Model Test User Model:
 ##                                                       
 ##   Test statistic                                 2.501
@@ -797,14 +795,15 @@ behaviour.</p>
 ##                                                       
 ##   Akaike (AIC)                                1974.637
 ##   Bayesian (BIC)                              2005.292
-##   Sample-size adjusted Bayesian (BIC)         1961.217
+##   Sample-size adjusted Bayesian (SABIC)       1961.217
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
 ##   RMSEA                                          0.151
 ##   90 Percent confidence interval - lower         0.000
 ##   90 Percent confidence interval - upper         0.397
-##   P-value RMSEA &lt;= 0.05                          0.143
+##   P-value H_0: RMSEA &lt;= 0.050                    0.143
+##   P-value H_0: RMSEA &gt;= 0.080                    0.811
 ## 
 ## Standardized Root Mean Square Residual:
 ## 
@@ -895,11 +894,12 @@ use is called <code>anova()</code>, not to be confused with
 two models we are comparing as the two arguments. This will conduct a
 chi-square difference test.</p>
 <pre class="r"><code>anova(sem.model,sem.model2)</code></pre>
-<pre><code>## Chi-Squared Difference Test
+<pre><code>## 
+## Chi-Squared Difference Test
 ## 
-##            Df    AIC    BIC   Chisq Chisq diff Df diff Pr(&gt;Chisq)    
-## sem.model   1 1974.6 2005.3  2.5007                                  
-## sem.model2  3 1995.3 2021.6 27.2148     24.714       2  4.299e-06 ***
+##            Df    AIC    BIC   Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)    
+## sem.model   1 1974.6 2005.3  2.5007                                          
+## sem.model2  3 1995.3 2021.6 27.2148     24.714 0.41482       2  4.299e-06 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Above, we find that there is a significant difference between the two
@@ -924,15 +924,15 @@ of the individual items.</p>
 
 attitude.model &lt;- sem(attitude.formula,data = data)</code></pre>
 <pre class="r"><code>summary(attitude.model,standardized = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-11 ended normally after 24 iterations
+<pre><code>## lavaan 0.6.16 ended normally after 24 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                        10
-##                                                       
+## 
 ##                                                   Used       Total
 ##   Number of observations                            66          67
-##                                                                   
+## 
 ## Model Test User Model:
 ##                                                       
 ##   Test statistic                                 4.424

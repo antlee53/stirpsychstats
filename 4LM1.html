@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Workbook 5 - The General Linear Model: t-tests and ANOVA</title>
 
-<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -144,11 +144,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -177,8 +181,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -186,16 +190,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -431,9 +428,9 @@ DV, including:</li>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/data_2022.csv download>Click here to download the
-data used in these workbooks.</a> (You may need to right-click and
-select ‘Save Linked File’ option)</p>
+<p><a href = files/simulated.data_2023.csv download>Click here to
+download the data used in these workbooks.</a> (You may need to
+right-click and select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -539,21 +536,21 @@ called <code>data1.clean</code>.</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 2.3009, df = 21.846, p-value = 0.03132
+## t = -0.10353, df = 96.745, p-value = 0.9178
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  0.2804645 5.4260572
+##  -1.409036  1.269330
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          15.37500          12.52174</code></pre>
+##          15.47917          15.54902</code></pre>
 <p>The output from the statistical test gives you a lot of information,
 but there are a couple bits that are particularly important:</p>
 <ul>
 <li>The t-statistic - this is the value for the test statistic (above
-this equals 2.3)</li>
-<li>The degrees of freedom (above this equals 21.85)</li>
+this equals -0.1)</li>
+<li>The degrees of freedom (above this equals 96.75)</li>
 <li>The p-value - this tells you whether the test is significant or not
-(above this equals 0.031)</li>
+(above this equals 0.918)</li>
 </ul>
 <p>Can you see where each of these values come from in the output
 above?</p>
@@ -621,8 +618,8 @@ data1.summary</code></pre>
 <pre><code>## # A tibble: 2 × 3
 ##   cat.dog introvert_mean introvert_sd
 ##   &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;
-## 1 cat               15.4         2.45
-## 2 dog               12.5         4.26</code></pre>
+## 1 cat               15.5         3.34
+## 2 dog               15.5         3.37</code></pre>
 <p>Once we have all the required information, we can write-up! A few
 things to note about APA formatting:</p>
 <ul>
@@ -632,10 +629,10 @@ p-values which are rounded to 3 decimal points.</li>
 italicised.</li>
 </ul>
 <blockquote>
-<p>An independent-samples t-test found that there was a significant
-difference on introversion between cat-people (<em>M</em> = 15.38,
-<em>SD</em> = 2.45) and dog-people (<em>M</em> = 12.52, <em>SD</em> =
-4.26), <em>t</em>(21.85) = 2.3, <em>p</em> = 0.031.</p>
+<p>An independent-samples t-test found that there was no significant
+difference on introversion between cat-people (<em>M</em> = 15.48,
+<em>SD</em> = 3.34) and dog-people (<em>M</em> = 15.55, <em>SD</em> =
+3.37), <em>t</em>(96.75) = -0.1, <em>p</em> = 0.918.</p>
 </blockquote>
 <div id="bar-graphs" class="section level4">
 <h4>Bar Graphs</h4>
@@ -694,9 +691,9 @@ pipe it to the <code>summary()</code> function to get interpretable
 output.</p>
 <pre class="r"><code>aov(introvert ~ cat.dog,data = data3.clean) %&gt;%
   summary()</code></pre>
-<pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)
-## cat.dog      3   49.5   16.51   1.457  0.235
-## Residuals   63  713.9   11.33</code></pre>
+<pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)
+## cat.dog       3   30.9   10.30   0.946  0.421
+## Residuals   116 1263.7   10.89</code></pre>
 <p>The table above tells us whether there is a significant difference
 between any of the groups, but it does not tell us which groups are
 significantly different. In order to do this, we need to do follow-up
@@ -714,26 +711,26 @@ participants who are in the dog ‘or’ cat group.</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 2.3009, df = 21.846, p-value = 0.03132
+## t = -0.10353, df = 96.745, p-value = 0.9178
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  0.2804645 5.4260572
+##  -1.409036  1.269330
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          15.37500          12.52174</code></pre>
+##          15.47917          15.54902</code></pre>
 <p>Now, we are only including participants in the dog or both group:</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;both&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 0.81533, df = 38.317, p-value = 0.4199
+## t = 0.065972, df = 19.371, p-value = 0.9481
 ## alternative hypothesis: true difference in means between group both and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -1.271114  2.986256
+##  -2.03640  2.16913
 ## sample estimates:
 ## mean in group both  mean in group dog 
-##           13.37931           12.52174</code></pre>
+##           15.61538           15.54902</code></pre>
 <p>We continue to repeat this process until we have tested all possible
 linear combinations:</p>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;dog&quot; | cat.dog == &quot;neither&quot;))</code></pre>
@@ -741,49 +738,49 @@ linear combinations:</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -1.1085, df = 26.337, p-value = 0.2777
+## t = 1.9715, df = 11.012, p-value = 0.07431
 ## alternative hypothesis: true difference in means between group dog and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  -3.402510  1.017417
+##  -0.2381587  4.3361980
 ## sample estimates:
 ##     mean in group dog mean in group neither 
-##              12.52174              13.71429</code></pre>
+##              15.54902              13.50000</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;cat&quot; | cat.dog == &quot;both&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -1.9347, df = 13.567, p-value = 0.07416
+## t = 0.1348, df = 19.67, p-value = 0.8941
 ## alternative hypothesis: true difference in means between group both and group cat is not equal to 0
 ## 95 percent confidence interval:
-##  -4.214744  0.223365
+##  -1.974025  2.246461
 ## sample estimates:
 ## mean in group both  mean in group cat 
-##           13.37931           15.37500</code></pre>
+##           15.61538           15.47917</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;cat&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 1.5727, df = 12.147, p-value = 0.1415
+## t = 1.8962, df = 11.185, p-value = 0.08405
 ## alternative hypothesis: true difference in means between group cat and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  -0.6370078  3.9584363
+##  -0.3134668  4.2718001
 ## sample estimates:
 ##     mean in group cat mean in group neither 
-##              15.37500              13.71429</code></pre>
+##              15.47917              13.50000</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(data3.clean,cat.dog == &quot;both&quot; | cat.dog == &quot;neither&quot;))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = -0.40514, df = 17.932, p-value = 0.6902
+## t = 1.6488, df = 17.278, p-value = 0.1173
 ## alternative hypothesis: true difference in means between group both and group neither is not equal to 0
 ## 95 percent confidence interval:
-##  -2.072542  1.402591
+##  -0.5882034  4.8189726
 ## sample estimates:
 ##    mean in group both mean in group neither 
-##              13.37931              13.71429</code></pre>
+##              15.61538              13.50000</code></pre>
 <p>Remember, in your interpretation to adjust the significance level
 (alpha) to account for family-wise error rate. Since we conducted six
 comparisons, the significance level should be reduced to 0.008 (that is,
@@ -827,15 +824,15 @@ this for the t-test.</p>
 <pre><code>## # A tibble: 4 × 3
 ##   cat.dog dv_mean dv_sd
 ##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;
-## 1 both       13.4  3.03
-## 2 cat        15.4  2.45
-## 3 dog        12.5  4.26
-## 4 neither    13.7  1.60</code></pre>
+## 1 both       15.6  3.20
+## 2 cat        15.5  3.34
+## 3 dog        15.5  3.37
+## 4 neither    13.5  2.62</code></pre>
 <p>Once you have all this information, the write-up becomes:</p>
 <blockquote>
 <p>A one-way between subjects ANOVA found no significant difference
-between groups on introversion, <em>F</em>(3, 63) = 1.46, <em>p</em> =
-0.235.</p>
+between groups on introversion, <em>F</em>(3, 116) = 0.95, <em>p</em> =
+0.421.</p>
 </blockquote>
 </div>
 </div>
@@ -848,10 +845,11 @@ samples t-test is used when data is collected from the same participant
 in two separate conditions (i.e., a within-subjects design). A common
 example of this is testing for significant differences in an outcome
 variable before and after a treatment or intervention.</p>
-<p>In the example below, we test whether intended alcohol consumption is
-influenced by exposure to the <a
-href="https://www.gov.scot/publications/lower-risk-drinking-guidelines-factsheet/">Scottish
-Government’s drinking guidelines</a>.</p>
+<p>In the example below, we test whether mood is influenced by exposure
+to a cute cat video. <a
+href="https://www.youtube.com/watch?v=1CXmnm_epTM">Click here to see
+that video.</a>. We would expect that mood would improve after viewing
+the cat video.</p>
 <div id="prepare-the-data-for-analysis.-2" class="section level3">
 <h3>1. Prepare the data for analysis.</h3>
 <p>When conducting a statistical test, we follow the same procedure as
@@ -861,18 +859,18 @@ analysis, we also need to re-shape the data using the
 <code>gather()</code> function so that each observation is on a separate
 row (rather than each participant). The gather function works by first
 specifying a column name that distinguishes between observations made by
-the same participant (i.e., between <code>pre.drink</code> and
-<code>post.drink</code>), then a variable name the the response (i.e.,
-the number of standard drinks participants report). Then, you specify
+the same participant (i.e., between <code>pre.mood</code> and
+<code>post.mood</code>), then a variable name that corresponds with the
+response (i.e., the number corresponding with mood). Then, you specify
 the variables that you want to reshape.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
-  filter(!is.na(pre.drink)) %&gt;%
-  filter(!is.na(post.drink)) %&gt;%
-  select(student.no,pre.drink,post.drink) %&gt;%
-  gather(key = &quot;condition&quot;,value = &quot;alcohol&quot;,pre.drink,post.drink) %&gt;%
-  mutate(condition = factor(condition,levels = c(&quot;pre.drink&quot;,&quot;post.drink&quot;)))</code></pre>
-<p>Note: The last line above is only used so that the pre-drink and
-post-drink variables are in the right order when we plot the data
+  filter(!is.na(pre.mood)) %&gt;%
+  filter(!is.na(post.mood)) %&gt;%
+  select(student.no,pre.mood,post.mood) %&gt;%
+  gather(key = &quot;time&quot;,value = &quot;mood&quot;,pre.mood,post.mood) %&gt;%
+  mutate(time = factor(time,levels = c(&quot;pre.mood&quot;,&quot;post.mood&quot;)))</code></pre>
+<p>Note: The last line above is only used so that the pre-mood and
+post-mood variables are in the right order when we plot the data
 below.</p>
 </div>
 <div id="run-the-statistical-test.-2" class="section level3">
@@ -880,40 +878,40 @@ below.</p>
 <p>We use the same function as with the independent-samples t-test to
 run a paired-samples t-test, the only difference is we must include the
 argument ‘paired’ and set it to <code>TRUE</code>.</p>
-<pre class="r"><code>t.test(alcohol ~ condition,data = data2.clean,paired = TRUE)</code></pre>
+<pre class="r"><code>t.test(mood ~ time,data = data2.clean,paired = TRUE)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
-## data:  alcohol by condition
-## t = -0.76689, df = 45, p-value = 0.4472
+## data:  mood by time
+## t = 0.011926, df = 119, p-value = 0.9905
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -1.3401679  0.6010375
+##  -6.876366  6.959700
 ## sample estimates:
 ## mean difference 
-##      -0.3695652</code></pre>
+##      0.04166667</code></pre>
 <p>Alternatively, if you want to avoid reshaping the data, you can also
 use the following technique, but note that the arguments supplied here
 are different to almost all other analyses we will be covering in this
 module. The first and second arguments are the columns we want to
 compare. In this example, this is the ‘before’ and ‘after’ column. How
 we specify this is using the following syntax:
-<code>data$pre.drink</code>. This is short-hand for specifying the
-‘pre.drink’ column in the ‘data’ data.frame. Again, we have to set
+<code>data$pre.mood</code>. This is short-hand for specifying the
+‘pre.mood’ column in the ‘data’ data.frame. Again, we have to set
 ‘paired’ to <code>TRUE</code>; however, we do not have to supply a
 data.frame. So the code looks like:</p>
-<pre class="r"><code>t.test(data$pre.drink,data$post.drink,paired = TRUE)</code></pre>
+<pre class="r"><code>t.test(data$pre.mood,data$post.mood,paired = TRUE)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
-## data:  data$pre.drink and data$post.drink
-## t = -0.76689, df = 45, p-value = 0.4472
+## data:  data$pre.mood and data$post.mood
+## t = 0.011926, df = 119, p-value = 0.9905
 ## alternative hypothesis: true mean difference is not equal to 0
 ## 95 percent confidence interval:
-##  -1.3401679  0.6010375
+##  -6.876366  6.959700
 ## sample estimates:
 ## mean difference 
-##      -0.3695652</code></pre>
+##      0.04166667</code></pre>
 </div>
 <div id="visualise-the-data.-2" class="section level3">
 <h3>3. Visualise the data.</h3>
@@ -926,13 +924,13 @@ conditions. We also adjust the opacity of the points and lines using the
 <code>alpha</code> aesthetic, just so that the graph isn’t a complete
 mess. Note that the graphic below is made with the reshaped data.frame
 <code>data2.clean</code>.</p>
-<pre class="r"><code>ggplot(data = data2.clean,aes(x = condition,y = alcohol)) +
-  geom_violin(aes(fill = condition)) +
+<pre class="r"><code>ggplot(data = data2.clean,aes(x = time,y = mood)) +
+  geom_violin(aes(fill = time)) +
   stat_summary() +
   geom_point(alpha = .2) +
   geom_line(aes(group = student.no),alpha = .2) +
-  xlab(&quot;Condition (Before or After Exposure)&quot;) +
-  ylab(&quot;Intended Number of Alcoholic Drinks&quot;) +
+  xlab(&quot;Exposure Time (Before or After Video)&quot;) +
+  ylab(&quot;Mood Rating&quot;) +
   theme(legend.position = &quot;none&quot;) +
   theme_classic()</code></pre>
 <p><img src="4LM1_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
@@ -943,32 +941,31 @@ mess. Note that the graphic below is made with the reshaped data.frame
 the mean and standard deviation for each condition. This code is exactly
 the same as above.</p>
 <pre class="r"><code>data2.summary &lt;- data2.clean %&gt;%
-  group_by(condition) %&gt;%
-  summarise(dv_mean = mean(alcohol),
-            dv_sd = sd(alcohol))
+  group_by(time) %&gt;%
+  summarise(dv_mean = mean(mood),
+            dv_sd = sd(mood))
 
 data2.summary</code></pre>
 <pre><code>## # A tibble: 2 × 3
-##   condition  dv_mean dv_sd
-##   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt;
-## 1 pre.drink     5     5.74
-## 2 post.drink    5.37  5.80</code></pre>
+##   time      dv_mean dv_sd
+##   &lt;fct&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1 pre.mood     53.3  28.7
+## 2 post.mood    53.3  27.1</code></pre>
 <p>Or if you have not reshaped the data:</p>
 <pre class="r"><code>data2.summary &lt;- data %&gt;%
-  summarise(pre.mean = mean(pre.drink,na.rm = TRUE),
-            pre.sd = sd(pre.drink,na.rm = TRUE),
-            pst.mean = mean(post.drink,na.rm = TRUE),
-            pst.sd = sd(post.drink,na.rm = TRUE))
+  summarise(pre.mean = mean(pre.mood,na.rm = TRUE),
+            pre.sd = sd(pre.mood,na.rm = TRUE),
+            pst.mean = mean(post.mood,na.rm = TRUE),
+            pst.sd = sd(post.mood,na.rm = TRUE))
 
 data2.summary</code></pre>
 <pre><code>##   pre.mean   pre.sd pst.mean   pst.sd
-## 1 4.358491 5.595652 4.862745 5.720208</code></pre>
+## 1   53.325 28.74436 53.28333 27.09528</code></pre>
 <blockquote>
 <p>A paired-samples t-test found that there was no significant
-difference on intended alcohol consumption before (<em>M</em> = 4.36,
-<em>SD</em> = 5.6) and after (<em>M</em> = 4.86 , <em>SD</em> = 5.72)
-exposure to the Scottish Government’s anti-drinking campaign ad,
-<em>t</em>(45) = -0.77, <em>p</em> = 0.447.</p>
+difference on mood before (<em>M</em> = 53.33, <em>SD</em> = 28.74) and
+after (<em>M</em> = 53.28 , <em>SD</em> = 27.1) viewing a cute cat
+video, <em>t</em>(119) = 0.01, <em>p</em> = 0.991.</p>
 </blockquote>
 </div>
 </div>
