@@ -6,9 +6,10 @@ output: html_document
 ```{r load.data}
 library(broom)
 library(tidyverse)
-if(!("data.name" %in% ls())){
-  data.name <- "data_2022.csv"
-}
+
+#UPDATE FILE BEFORE RUNNING
+data.name <- "data_2023.csv"
+
 data <- read.csv(data.name,stringsAsFactors = FALSE)
 ```
 

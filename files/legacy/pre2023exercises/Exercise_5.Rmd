@@ -1,0 +1,791 @@
+---
+title: "Exercise 5"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+list.of.packages <- c("learnr","shiny","tidyverse","broom")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+library(learnr)
+require(tidyverse)
+require(broom)
+
+knitr::opts_chunk$set(echo = FALSE)
+
+checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
+  
+  envir_result
+  out <- list(message = sample(c("Good Job!",
+                                 "Well done!",
+                                 "Great stuff!",
+                                 "That is correct!",
+                                 "Correct! You are really good at this."),1), correct = TRUE, location = "append")
+  
+  #Question 2
+if (label == "question_2"){
+	correct_coffee.data <- data.frame(ID = 1:40,
+							coffee_condition = c('no_coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','no_coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','coffee','coffee','coffee','coffee','no_coffee','no_coffee','no_coffee','no_coffee','coffee','coffee'),
+							rt = c(0.76,1.18,0.46,1.47,0.88,1.32,0.28,1.45,0.04,0.51,1.46,0.61,0.79,2.2,0.84,0.34,0.66,0.77,0.8,0.87,0.05,0.27,1.35,0.02,0.82,0,0.45,0.53,0.1,1.83,0.27,0.25,1.48,1.62,1.22,0.86,1.56,0.04,0.74,0.05)) %>% mutate(rt = ifelse(coffee_condition == "coffee",rt,rt + .5))
+	correct_coffee.summary <- correct_coffee.data %>%
+  group_by(coffee_condition) %>%
+  summarise(rt_mean = mean(rt),
+            rt_sd = sd(rt))
+
+	if(!exists("coffee.data")){
+		out <- list(message = "The data.frame coffee.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(coffee.data,correct_coffee.data)){
+			out <- list(message = "The data.frame coffee.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("coffee.summary")){
+				out <- list(message = "No object saved as `coffee.summary`. Make sure to save the final result as this for checking purposes.", correct = FALSE, location = "append")
+			} else {
+				if(!is.data.frame(coffee.summary)){
+					out <- list(message = "The object `coffee.summary` does not appear to be a data.frame. Make sure you use the `summarise()` function to get the descriptive statistics.", correct = FALSE, location = "append")
+				} else {
+					if(("coffee" %in% coffee.summary$coffee_condition) == FALSE | ("no_coffee" %in% coffee.summary$coffee_condition) == FALSE){
+						out <- list(message = "The summary table does not appear to be grouped by the correct variable. Make sure to use the `group_by()` function before using the `summarise()` function.", correct = FALSE, location = "append")
+					} else {
+						if("rt_mean" %in% colnames(coffee.summary) == FALSE | "rt_sd" %in% colnames(coffee.summary) == FALSE){
+							out <- list(message = "The new column names of `coffee.summary` do not match those specified. Make sure to name the new columns `rt_mean` and `rt_sd` when calculating the mean and standard deviation respectively.", correct = FALSE, location = "append")
+						} else {
+							if(coffee.summary$rt_mean != correct_coffee.summary$rt_mean){
+								out <- list(message = "The means calculated do not match the correct answers. Check there are no errors in the code.", correct = FALSE, location = "append")
+							} else {
+								if(coffee.summary$rt_sd != correct_coffee.summary$rt_sd){
+									out <- list(message = "The standard deviations calculated do not match the correct answers. Check there are no errors in the code.", correct = FALSE, location = "append")
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+#Question 3
+if (label == "question_3"){
+	correct_coffee.data <- data.frame(ID = 1:40,
+							coffee_condition = c('no_coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','no_coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','coffee','coffee','coffee','coffee','no_coffee','no_coffee','no_coffee','no_coffee','coffee','coffee'),
+							rt = c(0.76,1.18,0.46,1.47,0.88,1.32,0.28,1.45,0.04,0.51,1.46,0.61,0.79,2.2,0.84,0.34,0.66,0.77,0.8,0.87,0.05,0.27,1.35,0.02,0.82,0,0.45,0.53,0.1,1.83,0.27,0.25,1.48,1.62,1.22,0.86,1.56,0.04,0.74,0.05)) %>% mutate(rt = ifelse(coffee_condition == "coffee",rt,rt + .5))
+	
+	correct_coffee.t.test <- t.test(rt ~ coffee_condition,data = correct_coffee.data)
+
+	if(!exists("coffee.data")){
+		out <- list(message = "The data.frame coffee.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(coffee.data,correct_coffee.data)){
+			out <- list(message = "The data.frame coffee.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("coffee.t.test")){
+				out <- list(message = "There is no object saved as `coffee.t.test`. Save the result of the t-test as this.", correct = FALSE, location = "append")
+			} else {
+				if(class(coffee.t.test) != "htest"){
+					out <- list(message = "The object saved as `coffee.t.test` does not appear to be output for a t-test. Make sure you use the correct function to conduct a t.test.", correct = FALSE, location = "append")
+				} else {
+					if(!identical(coffee.t.test,correct_coffee.t.test)){
+					out <- list(message = "The t-test does not appear to match the correct answer. Check that there is no error in the code.", correct = FALSE, location = "append")
+					}
+				}
+			}
+		}
+	}
+}
+
+#Question 5
+if (label == "question_5"){
+	correct_hc_data <- data.frame(ID = 1:50,
+							gender = c('woman','woman','woman','man','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','man','woman','woman','woman','woman','man','woman','woman','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman'),
+							hc_use = c('no','yes','no','yes','yes','yes','yes','no','yes','no','no','yes','yes','yes','no','no','yes','no','yes','yes','yes','no','yes','yes','yes','yes','yes','yes','no','no','no','no','no','yes','yes','no','yes','yes','no','no','yes','no','no','no','yes','no','no','no','no','no'),
+							risk_taking = c(9,14,5,17,18,11,29,9,14,6,5,9,15,8,26,17,17,22,33,34,16,18,22,18,30,24,18,5,6,15,29,5,20,30,28,6,34,33,20,33,35,30,28,24,29,34,8,17,35,20))
+	
+	correct_hc_data_women_only <- filter(correct_hc_data,gender == "woman")
+
+	correct_hc_t.test <- t.test(risk_taking ~ hc_use,data = correct_hc_data_women_only)
+
+	if(!exists("hc_data")){
+		out <- list(message = "The data.frame hc_data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(hc_data,correct_hc_data)){
+			out <- list(message = "The data.frame hc_data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("hc_data_women_only")){
+				out <- list(message = "There is no object saved as hc_data_women_only. Make sure to save the dataset without men as `hc_data_women_only`.", correct = FALSE, location = "append")
+			} else {
+				if(!identical(hc_data_women_only,correct_hc_data_women_only)){
+					out <- list(message = "The object saved as hc_data_women_only does not appear to be a data.frame where men have been removed. Make sure you use the correct tidyverse function to filter out the men.", correct = FALSE, location = "append")
+				} else {
+					if(!exists("hc_t.test")){
+						out <- list(message = "There is no object saved as hc_t.test. Make sure to save the output of the t.test as `hc_t.test`.", correct = FALSE, location = "append")
+					} else {
+						if(!identical(hc_t.test,correct_hc_t.test)){
+							out <- list(message = "The output saved as hc_t.test does not match the correct answer. Make sure you are conducting the t.test on the correct data.frame.", correct = FALSE, location = "append")
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+#Question 6
+if (label == "question_6"){
+	correct_exercise_data <- data.frame(ID = 1:80,
+							group = c('group1','group1','group4','group4','group1','group2','group4','group1','group2','group4','group2','group1','group3','group1','group4','group2','group3','group1','group2','group4','group1','group3','group1','group3','group4','group1','group3','group4','group4','group3','group2','group1','group2','group1','group1','group1','group2','group3','group1','group4','group3','group1','group3','group1','group1','group3','group2','group1','group4','group4','group4','group2','group4','group3','group2','group3','group4','group2','group2','group4','group2','group4','group1','group2','group2','group3','group1','group1','group4','group3','group4','group3','group1','group2','group4','group4','group4','group2','group2','group2'),
+							DV = c(2,3,7,6,9,7,4,9,8,7,5,3,8,3,3,1,8,7,1,5,5,5,2,5,6,2,9,2,2,9,3,3,9,1,3,9,8,3,8,8,3,4,1,4,6,4,5,3,6,4,5,1,9,5,8,6,9,5,4,2,4,5,8,2,1,6,4,7,5,2,8,1,2,8,9,8,4,8,4,5))
+	
+	correct_aov.results <- aov(DV ~ group,data = exercise_data) %>%
+  tidy()
+
+	if(!exists("exercise_data")){
+		out <- list(message = "The data.frame hc_data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(exercise_data,correct_exercise_data)){
+			out <- list(message = "The data.frame hc_data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("aov.results")){
+				out <- list(message = "There is no object saved as aov.results. Make sure to save the output of the ANOVA as `aov.results`.", correct = FALSE, location = "append")
+			} else {
+				if(!identical(aov.results,correct_aov.results)){
+					out <- list(message = "The ANOVA output saved as `aov.results` does not appear to be correct. Make sure there is no errors in the code.", correct = FALSE, location = "append")
+				}
+			}
+		}
+	}
+
+}
+
+#Question 7
+if (label == "question_7"){
+	
+	correct_time.data <- data.frame(ID = 1:40,
+						species = c(rep("human child",10),rep("chimpanzee",8),rep("orangutan",5),rep("gibbon",10),rep("macaque",7)),
+						performance = c(0.6,0.5,0.7,0.7,0.5,0.9,0.9,0.7,0.7,0.9,0.5,0.5,0,0.2,0.3,0.6,0.5,0.6,0.2,0.1,0.5,0.4,0.5,0.3,0.4,0.1,0,0.3,0.3,0,0.2,0.2,0.3,0.1,0.2,0.1,0.2,0.2,0.1,0.1))
+	
+	correct_time.aov <- aov(performance ~ species,data = time.data) %>%
+ 		 summary()
+ 	
+ 	if (!exists("time.data")){
+ 		out <- list(message = "The data.frame time.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 	} else {
+ 		if(!identical(time.data,correct_time.data)){
+ 			out <- list(message = "The data.frame time.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 		} else {
+ 			if(!exists("time.aov")){
+ 				out <- list(message = "There is no object saved as time.aov. Make sure to save the output from the ANOVA as `time.aov`.", correct = FALSE, location = "append")
+ 			} else {
+ 				if(!("summary.aov" %in% class(time.aov))){
+ 					out <- list(message = "It doesn't appear as if the `summary()` function has been used. Make sure to use it to give you interpretable output.", correct = FALSE, location = "append")
+ 				} else {
+ 					if(!identical(time.aov,correct_time.aov)){
+ 						out <- list(message = "The object saved as `time.aov` does not match the correct answer. Please double-check there are no errors in the submitted code.", correct = FALSE, location = "append")
+ 					}
+ 				}
+ 			}
+ 		}
+ 	}
+}
+
+#Question 8
+ if(label == "question_8"){
+
+correct_time.data <- data.frame(ID = 1:40,
+						species = c(rep("human child",10),rep("chimpanzee",8),rep("orangutan",5),rep("gibbon",10),rep("macaque",7)),
+						performance = c(0.6,0.5,0.7,0.7,0.5,0.9,0.9,0.7,0.7,0.9,0.5,0.5,0,0.2,0.3,0.6,0.5,0.6,0.2,0.1,0.5,0.4,0.5,0.3,0.4,0.1,0,0.3,0.3,0,0.2,0.2,0.3,0.1,0.2,0.1,0.2,0.2,0.1,0.1))
+ 	
+ 	if(!exists("time.data")){
+ 		out <- list(message = "No object saved as looking.data. Do not alter the object called `looking.data`.", correct = FALSE, location = "append")
+ 	} else {
+ 		if(!identical(time.data,correct_time.data)){
+ 			out <- list(message = "The object `looking.data` appears to have been alter. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 		} else {
+ 			
+ 			if(!exists("time.plot")){
+ 				out <- list(message = "There is no object called `plot.output`. Save the final plot as this object.", correct = FALSE, location = "append")
+ 			} else {
+ 				out <- list(message = "Unfortunately the checker cannot determine whether you have the correct answer for this question, but there is an example of a possible solution if you click through all the hints above.", correct = TRUE, location = "append")
+ 			}
+ 		}
+ 	}
+ }
+    
+return(out)
+}
+
+tutorial_options(exercise.checker = checker)
+```
+
+## Introduction
+
+This is the fifth weekly exercise. These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R.If you are struggling, each exercise comes with a number of hints that may be helpful.
+
+## Basic Exercises
+
+### Question 1
+
+```{r question_1}
+quiz(
+  question("You want to predict an individual's emotional stability from the amount of social support they receive and their level of perfectionism. Select the correct formula below that would be used in an analysis in R.",
+    answer("emotional_stability ~ social_support + perfectionism",correct = TRUE),
+    answer("social_support + perfectionism ~ emotional_stability"),
+    answer("emotional_stability ~ social_support ~ perfectionism"),
+    answer("social support ~ emotional_stability + perfectionism"),
+  allow_retry = TRUE,random_answer_order = TRUE)
+)
+```
+
+### Question 2
+
+You've measured the reaction time of participants who have either drunk coffee or not. Use the `group_by()` and `summarise()` functions to calculate the mean and standard deviation. Data.frame is saved below as an object called `coffee.data`. Save the result as `coffee.summary` and name the variables `rt_mean` and `rt_sd` respectively.
+
+```{r,echo = FALSE}
+coffee.data <- data.frame(ID = 1:40,
+coffee_condition = c('no_coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','no_coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','coffee','coffee','coffee','coffee','no_coffee','no_coffee','no_coffee','no_coffee','coffee','coffee'),
+rt = c(0.76,1.18,0.46,1.47,0.88,1.32,0.28,1.45,0.04,0.51,1.46,0.61,0.79,2.2,0.84,0.34,0.66,0.77,0.8,0.87,0.05,0.27,1.35,0.02,0.82,0,0.45,0.53,0.1,1.83,0.27,0.25,1.48,1.62,1.22,0.86,1.56,0.04,0.74,0.05)) %>% mutate(rt = ifelse(coffee_condition == "coffee",rt,rt + .5))
+
+coffee.data
+```
+
+```{r question_2-setup}
+coffee.data <- data.frame(ID = 1:40,
+coffee_condition = c('no_coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','no_coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','coffee','coffee','coffee','coffee','no_coffee','no_coffee','no_coffee','no_coffee','coffee','coffee'),
+rt = c(0.76,1.18,0.46,1.47,0.88,1.32,0.28,1.45,0.04,0.51,1.46,0.61,0.79,2.2,0.84,0.34,0.66,0.77,0.8,0.87,0.05,0.27,1.35,0.02,0.82,0,0.45,0.53,0.1,1.83,0.27,0.25,1.48,1.62,1.22,0.86,1.56,0.04,0.74,0.05)) %>% mutate(rt = ifelse(coffee_condition == "coffee",rt,rt + .5))
+```
+
+```{r question_2, exercise=TRUE,exercise.lines = 8}
+#coffee.data
+
+coffee.summary <- 
+  
+coffee.summary
+```
+
+```{r question_2-hint-1}
+You may want to look at coffee.data to get an idea of the data.frame structure (e.g., column names).
+```
+
+```{r question_2-hint-2}
+You can use functions like `mean()` or `sd()` within the `summarise()` function to get descriptive statistics of variables within data.frames.
+
+Next hint will show the solution...
+```
+
+```{r question_2-solution}
+coffee.summary <- coffee.data %>%
+  group_by(coffee_condition) %>%
+  summarise(rt_mean = mean(rt),
+            rt_sd = sd(rt))
+```
+
+```{r question_2-check}
+checker()
+```
+
+### Question 3
+
+Conduct an independent-samples t-test using the `coffee.data` above. Save the result as `coffee.t.test`.
+
+```{r question_3-setup}
+coffee.data <- data.frame(ID = 1:40,
+coffee_condition = c('no_coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','no_coffee','no_coffee','coffee','coffee','no_coffee','coffee','no_coffee','no_coffee','coffee','coffee','coffee','coffee','coffee','no_coffee','no_coffee','no_coffee','no_coffee','coffee','coffee'),
+rt = c(0.76,1.18,0.46,1.47,0.88,1.32,0.28,1.45,0.04,0.51,1.46,0.61,0.79,2.2,0.84,0.34,0.66,0.77,0.8,0.87,0.05,0.27,1.35,0.02,0.82,0,0.45,0.53,0.1,1.83,0.27,0.25,1.48,1.62,1.22,0.86,1.56,0.04,0.74,0.05)) %>% mutate(rt = ifelse(coffee_condition == "coffee",rt,rt + .5))
+```
+
+```{r question_3, exercise=TRUE,exercise.lines = 8}
+#coffee.data
+
+coffee.t.test <- 
+  
+coffee.t.test
+```
+
+```{r question_3-hint-1}
+Base R has a function that conducts an independent-samples t-test for you...
+```
+
+```{r question_3-hint-2}
+Remember, analyses functions usually take two arguments. A formula, and a data.frame...
+
+Next hint will show the solution...
+```
+
+```{r question_3-solution}
+coffee.t.test <- t.test(rt ~ coffee_condition,data = coffee.data)
+```
+
+```{r question_3-check}
+checker()
+```
+
+```{r question_3-quiz}
+quiz(
+  question("Is the result above statistically significant?",
+    answer("Yes, p < .05"),
+    answer("No, p > .05",correct = TRUE),
+  allow_retry = TRUE)
+)
+```
+
+### Question 4
+
+You decide to replicate your study above using a within-subjects design. So rather than have separate groups who have either had coffee or not, you test 40 participants twice each, once before they've had coffee, and once after. Conduct a paired-samples t-test from the `coffee.data2` data.frame below. Then select the correct option from the ones below.
+
+```{r,echo = FALSE}
+coffee.data2 <- coffee.data2 <- data.frame(ID = 1:40,
+							rt_before = c(0.46,1.54,0.54,0.55,0.61,1.4,0.13,0.41,0.7,0.14,1.87,0.94,1.11,0.94,0.01,0.32,2.13,1.4,1.25,0.2,1.34,0.13,0.07,1.49,0.57,0.77,1.59,0.75,0.37,0.51,1.12,1.15,0.53,1.01,0.19,0.88,0.65,0.14,0.29,0.25), e = c(0,0.33,0.14,0.31,0.02,0.14,0.06,0.35,0.18,0.13,0.11,0.12,0.41,0.4,0.02,0.02,0.02,0.08,0.17,0.15,0.11,0.4,0.13,0.04,0.17,0.13,0.05,0.24,0.23,0.29,0.1,0.28,0.11,0.02,0.02,0.21,0.17,0.04,0.01,0.24)) %>% mutate(rt_after = abs(rt_before - e)) %>%
+	select(ID,rt_before,rt_after)
+
+coffee.data2
+```
+
+```{r question_4-setup}
+coffee.data2 <- coffee.data2 <- data.frame(ID = 1:40,
+							rt_before = c(0.46,1.54,0.54,0.55,0.61,1.4,0.13,0.41,0.7,0.14,1.87,0.94,1.11,0.94,0.01,0.32,2.13,1.4,1.25,0.2,1.34,0.13,0.07,1.49,0.57,0.77,1.59,0.75,0.37,0.51,1.12,1.15,0.53,1.01,0.19,0.88,0.65,0.14,0.29,0.25), e = c(0,0.33,0.14,0.31,0.02,0.14,0.06,0.35,0.18,0.13,0.11,0.12,0.41,0.4,0.02,0.02,0.02,0.08,0.17,0.15,0.11,0.4,0.13,0.04,0.17,0.13,0.05,0.24,0.23,0.29,0.1,0.28,0.11,0.02,0.02,0.21,0.17,0.04,0.01,0.24)) %>% mutate(rt_after = abs(rt_before - e)) %>%
+	select(ID,rt_before,rt_after)
+```
+
+```{r question_4, exercise=TRUE,exercise.lines = 8}
+#coffee.data2
+
+```
+
+```{r question_4-hint-1}
+There are two ways to conduct a paired-samples t-test in R. One way requires you to reshape the data. You can use the code below to do this:
+  
+coffee.data2_reshaped <- coffee.data2 %>%
+  gather(key = "time",value = "rt",rt_before,rt_after)
+
+```
+
+```{r question_4-hint-2}
+The other way to conduct a paired-samples t-test is to select each column and enter them as arguments in the `t.test()` function separately (e.g., `coffee.data2$rt_before`).
+
+Next hint will show the solution...
+```
+
+```{r question_4-solution}
+#Solution 1:
+coffee.data2_reshaped <- coffee.data2 %>%
+  gather(key = "time",value = "rt",rt_before,rt_after)
+
+t.test(rt ~ time,data = coffee.data2_reshaped,paired = TRUE)
+
+#Solution 2:
+t.test(coffee.data2$rt_before,coffee.data2$rt_after,paired = TRUE)
+```
+
+```{r question_4-quiz}
+quiz(
+  question("The test statistic, degrees of freedom, and p-value for the paired samples t-test above is:",
+    answer("t = 7.00, df = 39, p < .001",correct = TRUE),
+    answer("t = 2.13, df = 39, p < .001"),
+    answer("t = .17, df = 40, p = .137"),
+    answer("t = 2.13, df = 40, p = .007"),
+  allow_retry = TRUE,random_answer_order = TRUE)
+)
+```
+
+### Question 5
+
+You are interested in whether hormonal contraception use in women is associated with risk-taking behaviours. You collect a sample of 50 participants; however, a few participants report being men. First, remove the men from the data.frame, then conduct an independent-samples t-test to determine whether women who are taking hormonal contraception (as oppose to not) are more risk-taking. The data is saved in the object `hc_data`. Save the data without men as `hc_data_women_only`. Save the output for the t-test as `hc_t.test`.
+
+```{r,echo = FALSE}
+hc_data <- data.frame(ID = 1:50,
+							gender = c('woman','woman','woman','man','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','man','woman','woman','woman','woman','man','woman','woman','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman'),
+							hc_use = c('no','yes','no','yes','yes','yes','yes','no','yes','no','no','yes','yes','yes','no','no','yes','no','yes','yes','yes','no','yes','yes','yes','yes','yes','yes','no','no','no','no','no','yes','yes','no','yes','yes','no','no','yes','no','no','no','yes','no','no','no','no','no'),
+							risk_taking = c(9,14,5,17,18,11,29,9,14,6,5,9,15,8,26,17,17,22,33,34,16,18,22,18,30,24,18,5,6,15,29,5,20,30,28,6,34,33,20,33,35,30,28,24,29,34,8,17,35,20))
+
+hc_data
+```
+
+```{r question_5-setup}
+hc_data <- data.frame(ID = 1:50,
+							gender = c('woman','woman','woman','man','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman','man','woman','woman','woman','woman','man','woman','woman','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','man','woman','woman','woman','woman','woman','woman','woman','woman','woman','woman'),
+							hc_use = c('no','yes','no','yes','yes','yes','yes','no','yes','no','no','yes','yes','yes','no','no','yes','no','yes','yes','yes','no','yes','yes','yes','yes','yes','yes','no','no','no','no','no','yes','yes','no','yes','yes','no','no','yes','no','no','no','yes','no','no','no','no','no'),
+							risk_taking = c(9,14,5,17,18,11,29,9,14,6,5,9,15,8,26,17,17,22,33,34,16,18,22,18,30,24,18,5,6,15,29,5,20,30,28,6,34,33,20,33,35,30,28,24,29,34,8,17,35,20))
+```
+
+```{r question_5, exercise=TRUE,exercise.lines = 8}
+hc_data
+
+```
+
+```{r question_5-hint-1}
+Use a tidyverse function to filter out participants you are not interested in.
+
+```
+
+```{r question_5-hint-2}
+Make sure you use the correct function to conduct an independent-samples t-test.
+
+Next hint will show the solution...
+```
+
+```{r question_5-solution}
+hc_data_women_only <- filter(hc_data,gender == "woman")
+
+hc_t.test <- t.test(risk_taking ~ hc_use,data = hc_data_women_only)
+```
+
+```{r question_5-check}
+checker()
+```
+
+### Question 6
+
+Below is code for a One-Way ANOVA. Fix the code so that the analysis runs successfully. There are two errors.
+
+```{r question_6-setup}
+exercise_data <- data.frame(ID = 1:80,
+							group = c('group1','group1','group4','group4','group1','group2','group4','group1','group2','group4','group2','group1','group3','group1','group4','group2','group3','group1','group2','group4','group1','group3','group1','group3','group4','group1','group3','group4','group4','group3','group2','group1','group2','group1','group1','group1','group2','group3','group1','group4','group3','group1','group3','group1','group1','group3','group2','group1','group4','group4','group4','group2','group4','group3','group2','group3','group4','group2','group2','group4','group2','group4','group1','group2','group2','group3','group1','group1','group4','group3','group4','group3','group1','group2','group4','group4','group4','group2','group2','group2'),
+							DV = c(2,3,7,6,9,7,4,9,8,7,5,3,8,3,3,1,8,7,1,5,5,5,2,5,6,2,9,2,2,9,3,3,9,1,3,9,8,3,8,8,3,4,1,4,6,4,5,3,6,4,5,1,9,5,8,6,9,5,4,2,4,5,8,2,1,6,4,7,5,2,8,1,2,8,9,8,4,8,4,5))
+```
+
+```{r question_6, exercise=TRUE,exercise.lines = 8}
+aov.results <- anova(group ~ DV,data = exercise_data) %>%
+  summary()
+
+aov.results
+```
+
+```{r question_6-hint-1}
+You may want to double-check which function is used to conduct a one-way ANOVA in R...
+
+```
+
+```{r question_6-hint-2}
+For formulae in R, the predictors (or the IVs) should be on the right-hand side...
+
+Next hint will show the solution...
+```
+
+```{r question_6-solution}
+aov.results <- aov(DV ~ group,data = exercise_data) %>%
+  summary()
+
+anova.results
+
+#The correction function is called aov(), not anova().
+#Also, the formula was specified in the wrong order.
+```
+
+```{r question_6-check}
+checker()
+```
+
+### Question 7
+
+You're interested in the development of mental time travel across species. You develop a comparative behavioural test and collect data on 40 individuals across 5 species (data.frame saved as `time.data`). Run a one-way ANOVA to determine if there is a difference in performance on the task across species. Save the results from the `aov()` function (after using the `summary()` function) to an object called `time.aov`.
+
+```{r,echo = FALSE}
+time.data <- data.frame(ID = 1:40,
+						species = c(rep("human child",10),rep("chimpanzee",8),rep("orangutan",5),rep("gibbon",10),rep("macaque",7)),
+						performance = c(0.6,0.5,0.7,0.7,0.5,0.9,0.9,0.7,0.7,0.9,0.5,0.5,0,0.2,0.3,0.6,0.5,0.6,0.2,0.1,0.5,0.4,0.5,0.3,0.4,0.1,0,0.3,0.3,0,0.2,0.2,0.3,0.1,0.2,0.1,0.2,0.2,0.1,0.1))
+
+time.data
+```
+
+```{r question_7-setup}
+time.data <- data.frame(ID = 1:40,
+						species = c(rep("human child",10),rep("chimpanzee",8),rep("orangutan",5),rep("gibbon",10),rep("macaque",7)),
+						performance = c(0.6,0.5,0.7,0.7,0.5,0.9,0.9,0.7,0.7,0.9,0.5,0.5,0,0.2,0.3,0.6,0.5,0.6,0.2,0.1,0.5,0.4,0.5,0.3,0.4,0.1,0,0.3,0.3,0,0.2,0.2,0.3,0.1,0.2,0.1,0.2,0.2,0.1,0.1))
+```
+
+```{r question_7, exercise=TRUE,exercise.lines = 8}
+time.data
+
+time.aov <- 
+
+time.aov
+```
+
+```{r question_7-hint-1}
+Have a look at the data.frame saved as `time.data` to get the variable names.
+
+```
+
+```{r question_7-hint-2}
+Make sure you use the `summary()` function to make the ANOVA output interpretable.
+
+Next hint will show the solution...
+```
+
+```{r question_7-solution}
+time.aov <- aov(performance ~ species,data = time.data) %>%
+  summary()
+
+time.aov
+```
+
+```{r question_7-check}
+checker()
+```
+
+### Question 8
+
+Using ggplot functions, create a violin plot from the data from Question 7. Save the plot as `time.plot`.
+
+```{r question_8-setup}
+time.data <- data.frame(ID = 1:40,
+						species = c(rep("human child",10),rep("chimpanzee",8),rep("orangutan",5),rep("gibbon",10),rep("macaque",7)),
+						performance = c(0.6,0.5,0.7,0.7,0.5,0.9,0.9,0.7,0.7,0.9,0.5,0.5,0,0.2,0.3,0.6,0.5,0.6,0.2,0.1,0.5,0.4,0.5,0.3,0.4,0.1,0,0.3,0.3,0,0.2,0.2,0.3,0.1,0.2,0.1,0.2,0.2,0.1,0.1))
+```
+
+```{r question_8, exercise=TRUE,exercise.lines = 8}
+time.data
+
+time.plot <- 
+```
+
+```{r question_8-hint-1}
+Have a look at the data.frame saved as `time.data` to get the variable names.
+
+```
+
+```{r question_8-hint-2}
+If you can't remember how to make a graph using ggplot, review material from last week's demonstration/exercises.
+
+Next hint will show the solution...
+```
+
+```{r question_8-solution}
+time.plot <- ggplot(data = time.data,aes(x = species,y = performance)) +
+  geom_violin()
+
+time.plot
+```
+
+```{r question_8-check}
+checker()
+```
+
+## Advanced Exercises
+
+This week's advanced exercises focuses on conducting non-parametric tests in R.
+
+### Question A1 - Non-parametric Tests
+
+As covered in the lecture series, non-parametric tests are distribution-free tests. They are useful if your data does not meet the assumptions of the parametric test.
+```{r question_a1-quiz}
+quiz(
+  question("As covered in the lecture series, what are valid reasons for choosing a non-parametric test over a parametric test? Select all valid reasons.",
+    answer("When central tendency is better measured by the median than the mean.",correct = TRUE),
+    answer("When you have small sample sizes.",correct = TRUE),
+    answer("The dependent variable is ordinal/ranked/contains outliers and sample sizes are not sufficiently large.",correct = TRUE),
+    answer("You want increased statistical power."),
+    answer("The data is skewed/non-normal, but you have a large sample size."),
+  allow_retry = TRUE,random_answer_order = TRUE)
+)
+```
+
+In the code box below, there are three data.frames named `data1`, `data2`, and `data3`. Each data.frame has a categorical IV and a continuous DV. Determine whether a parametric or non-parametric test is appropriate for each data.frame. You may need to call the data.frame or plot the variables to determine their properties.
+
+```{r question_a1-setup}
+data1 <- data.frame(IV_cat = c(rep("group1",40),rep("group2",40)),
+                    DV_cont = round(c(rnorm(40,100,15),rnorm(40,90,15)),0))
+
+data2 <- data.frame(IV_cat = c(rep("group1",8),rep("group2",8)),
+                    DV_cont = round(rnorm(16,100,15),0))
+
+data3 <- data.frame(IV_cat = c(rep("group1",100),rep("group2",100)),
+                    DV_cont = sample(75:125,200,replace = TRUE))
+```
+
+```{r question_a1, exercise=TRUE,exercise.lines = 8}
+#data1
+
+#data2
+
+#data3
+```
+
+```{r question_a1-hint-1}
+You may want to plot the DV to get an idea of the distributions.
+
+```
+
+```{r question_a1-hint-2}
+Sample size is another important factor when making the decision to use a parametric or non-parametric test.
+
+Next hint will show the solution...
+```
+
+```{r question_a1-solution}
+#data1 has sufficient sample sizes and normally distributed data - parametric test is best.
+
+#data2 has normally distributed data; however, quite small sample sizes - should consider a non-parametric test.
+
+#data3 has a DV with a uniform distribution, however, a large sample size, so parametric test may be sufficient.
+
+#The code below will give you the sample size of each group (you could also just see how many rows are in the data.frame).
+
+data1 %>%
+  group_by(IV_cat) %>%
+  summarise(n = n())
+
+#The code below will plot the DV separated by the IV to give you an idea of the distribution.
+
+ggplot(data2,aes(x = DV_cont,group = IV_cat,colour = IV_cat)) +
+  geom_density()
+```
+
+`data1` has sufficient sample sizes and normally distributed data - parametric test is best. `data2` has normally distributed data; however, quite small sample sizes - should consider a non-parametric test. `data3` has a DV with a uniform distribution, however, a large sample size, so parametric test may be sufficient.
+
+### Question A2 - Mann-Whitney U Test
+
+The Mann-Whitney U Test is a non-parametric test for when you have a categorical IV (with two levels) and a continuous DV. The equivalent parametric test is an independent-samples t-test. The function that runs a Mann-Whitney U Test is the `wilcox.test()` function. It's a bit confusing that the Mann-Whitney U Test uses a function with a different name, but the reason for this is because the Mann-Whitney U Test is also called the Wilcoxon Rank Sum Test (though I avoid using this name as it is easily confused with the Wilcoxon Signed Rank Test).
+
+To conduct a Mann-Whitney U Test, you need to specify the two things needed for all analysis functions: the formula, and the data.frame.
+
+```{r,echo = TRUE,eval = FALSE}
+wilcox.test(DV ~ IV,data = data)
+```
+
+You attempt to conduct an exact replication the same study from Question 2 and 3, investigating the effects of coffee vs no coffee on reaction time. However, you are not able to collect a big sample size this second time around, so you're considering whether a non-parametric test is more appropriate. This data is saved as a data.frame named `coffee.data2`.
+
+Conduct a Mann-Whitney U Test to determine whether there is a significant difference between reaction time between the coffee and no coffee groups.
+
+```{r,echo = FALSE}
+coffee.data2 <- data.frame(ID = 1:16,
+coffee_condition = c('no_coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee'),
+rt = c(4.23,3.93,2.01,3.14,2.81,3.23,4.46,1.92,4.41,2.37,2.77,2.86,4.75,4.48,2.22,2.41)) %>%
+  mutate(rt = ifelse(coffee_condition == "coffee",rt,rt + 1))
+
+coffee.data2
+```
+
+```{r question_a2-setup}
+coffee.data2 <- data.frame(ID = 1:16,
+coffee_condition = c('no_coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee','no_coffee','coffee','no_coffee','coffee','coffee','no_coffee'),
+rt = c(4.23,3.93,2.01,3.14,2.81,3.23,4.46,1.92,4.41,2.37,2.77,2.86,4.75,4.48,2.22,2.41)) %>%
+  mutate(rt = ifelse(coffee_condition == "coffee",rt,rt + 1))
+```
+
+```{r question_a2, exercise=TRUE,exercise.lines = 8}
+#coffee.data2
+```
+
+```{r question_a2-hint-1}
+Use the `wilcox.test()` function to conduct a Mann-Whitney U Test.
+
+```
+
+```{r question_a2-hint-2}
+Make sure you provide the correct formula and data.frame to the function...
+
+Next hint will show the solution...
+```
+
+```{r question_a2-solution}
+wilcox.test(rt ~ coffee_condition,data = coffee.data2)
+```
+
+In the code box above, you may want to compare the p-values from when you conduct a Mann-Whitney U Test and the parametric counterpart, an independent-samples t.test. You will see the the p-values are actually quite similar.
+
+### Question A3 - Wilcoxon Signed Rank Test
+
+The Wilcoxon Signed Rank Test is a non-parametric test for when you have a within-subjects categorical IV (with two levels) and a continuous DV. The equivalent parametric test is an paired-samples t-test. Similar to how an indpendent-samples t-test and a paired-samples t-test use the same function, the Mann-Whitney U Test and the Wilcoxon Signed Rank Test also use the same function: `wilcox.test()`. The difference here is the `paired` argument must be set to `TRUE` - the same as if you were conducting a paired-samples t-test with the `t.test()` function.
+
+```{r,echo = TRUE,eval = FALSE}
+wilcox.test(DV ~ IV,data = data,paired = TRUE)
+```
+
+In the code box below, you run a study investigating the amount of sleep patients with sleep apnoea get before and after a treatment. However, it is difficult to find participants that meet this criteria, so you are only able to collect data on 8 participants. This data.frame is named `sleep.data`.
+
+Conduct a Wilcoxon Signed Rank Test to determine whether there is a significant difference between the amount of sleep patients get before and after treatment.
+
+```{r,echo = FALSE}
+sleep.data <- data.frame(ID = 1:8,
+sleep_before = c(1.2,1.4,5,2.2,2.6,2.5,3,1.1),
+e = c(-0.8,0.7,-0.6,1,0.2,-0.6,1.5,0.6)) %>%
+  mutate(sleep_after = sleep_before + 2 + e) %>%
+  select(-e)
+
+sleep.data
+```
+
+```{r question_a3-setup}
+sleep.data <- data.frame(ID = 1:8,
+sleep_before = c(1.2,1.4,5,2.2,2.6,2.5,3,1.1),
+e = c(-0.8,0.7,-0.6,1,0.2,-0.6,1.5,0.6)) %>%
+  mutate(sleep_after = sleep_before + 2 + e) %>%
+  select(-e)
+```
+
+```{r question_a3, exercise=TRUE,exercise.lines = 8}
+#sleep.data
+```
+
+```{r question_a3-hint-1}
+You may need to reshape the data...
+
+```
+
+```{r question_a3-hint-2}
+Make sure you set the `paired` argument to TRUE in the `wilcox.test()`.
+
+Next hint will show the solution...
+```
+
+```{r question_a3-solution}
+#Solution 1:
+sleep.data_reshaped <- sleep.data %>%
+  gather(key = "time",value = "sleep",sleep_before,sleep_after)
+
+wilcox.test(sleep ~ time,data = sleep.data_reshaped,paired = TRUE)
+
+#Solution 2:
+wilcox.test(sleep.data$sleep_before,sleep.data$sleep_after,paired = TRUE)
+```
+
+Again, you may want to compare the p-values you receive above with a paired-sample t-test in the example above.
+
+### Question A4 - Kruskal-Wallis Test
+
+The Kruskal-Wallis test is a non-parametric alternative to the one-way ANOVA, meaning it is used when you have a categorical IV with more than 2 groups, and a continuous DV. The function to conduct the Kruskal-Wallis test is `kruskal.test()`. Again, with all statistical test functions, you need to supply the formula and the data.frame you wish to analyse.
+
+```{r,echo = TRUE,eval = FALSE}
+kruskal.test(DV ~ IV,data = data)
+```
+
+In the code box below, you have run a study investigating unhealthy mobile phone usage between two separate interventions with a control group. This data.frame is saved as `mobile.data`. Data appears to be skewed, so you consider running a non-parametric test.
+
+Conduct a Kruskal-Wallis Test to determine whether there is a significant difference the three groups.
+
+```{r,echo = FALSE}
+mobile.data <- data.frame(ID = 1:30,
+                          group = c(rep("control",10),rep("treatment1",10),rep("treatment2",10)),
+                          mobile.usage = c(7,5,9,7,8,5,10,8,9,7,8,5,6,9,8,7,6,3,2,8,7,5,9,8,7,4,10,6,9,9))
+
+mobile.data
+```
+
+```{r question_a4-setup}
+mobile.data <- data.frame(ID = 1:30,
+                          group = c(rep("control",10),rep("treatment1",10),rep("treatment2",10)),
+                          mobile.usage = c(7,5,9,7,8,5,10,8,9,7,8,5,6,9,8,7,6,3,2,8,7,5,9,8,7,4,10,6,9,9))
+```
+
+```{r question_a4, exercise=TRUE,exercise.lines = 8}
+#mobile.data
+```
+
+```{r question_a4-hint-1}
+Use the `kruskal.test()` function to conduct this analysis.
+
+```
+
+```{r question_a4-hint-2}
+Using this function is almost exactly the same as any other statistical test function.
+
+Next hint will show the solution...
+```
+
+```{r question_a4-solution}
+kruskal.test(mobile.usage ~ group,data = mobile.data)
+```
+

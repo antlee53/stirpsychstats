@@ -1,0 +1,791 @@
+---
+title: "Exercise 6"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r library, include=FALSE}
+list.of.packages <- c("learnr","shiny","tidyverse","lm.beta")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+library(learnr)
+library(tidyverse)
+library(lm.beta)
+```
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
+  
+  envir_result
+  out <- list(message = sample(c("Good Job!",
+                                 "Well done!",
+                                 "Great stuff!",
+                                 "That is correct!",
+                                 "Correct! You are really good at this."),1), correct = TRUE, location = "append")
+
+#Question 1  
+if(label == "question_1"){
+	
+	correct_cor.data <- data.frame(var1 = c(0.73,0.05,0.94,0.19,-0.99,-0.53,-0.37,1.17,0.44,0.23,0.27,0.31,-0.76,-1.21,0.75,-0.6,0.07,-0.19,0.71,1.42,1.15,0.6,1.71,0.71,-0.44,-0.29,-0.22,0.62,1.39,0.26,-0.55,1.15,-1.28,-0.44,-0.13,0.57,1.4,-0.64,2.81,1.35,0.7,1.39,-0.09,0.98,-1.05,-0.52,1.11,-2.02,2.25,0.66,-1.52,-1.64,0.58,-0.09,2.27,-0.52,-0.18,-0.52,0.47,-2.01),
+	var2 = c(0.03,-0.21,-0.08,-2.44,-0.45,-0.94,-1.23,0.78,0.58,1.98,0.14,0.67,0.62,-0.51,1.1,-0.25,-1.07,0.41,-0.94,0.21,0.05,-0.82,-1.3,-1.61,-1,-1.34,1.22,-0.32,-1.74,-0.08,-0.85,1.39,-1.22,-0.32,2.09,0.09,1.11,0.63,0.5,0.76,1.39,1.49,0.48,0.21,-1.43,0.13,0.72,-2.38,1.59,-0.52,-0.57,-0.81,-0.62,-0.93,0.98,1.18,0.46,-0.66,-0.92,0.13))
+	
+	correct_cor.result <- cor.test(~ var1 + var2,correct_cor.data)
+	
+	if(!exists("cor.data")){
+		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `cor.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(cor.data,correct_cor.data)){
+			out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `cor.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("cor.result")){
+				out <- list(message = "There is no object saved as `cor.result`. Save the correlation output as this object.", correct = FALSE, location = "append")
+			} else {
+				if(class(cor.result) != "htest"){
+					out <- list(message = "The object saved as `cor.result` does not appear to be output from a correlation.", correct = FALSE, location = "append")
+				} else {
+					if(cor.result$estimate != correct_cor.result$estimate){
+						out <- list(message = "The correlation output does not match the correct answer. Please check there are no errors in the code. A common mistake is to not have calculated the mean pain across 5 days correctly.", correct = FALSE, location = "append")
+					}
+				}
+			}
+		}
+	}
+}
+  
+#Question 3
+if(label == "question_3"){
+	
+	correct_pain.data <- data.frame(pain1 = c(1,3,4,3,5,5,2,4,3,2,3,5,1,3,2,2,2,1,4,3,3,2,4,1,3,1,2,4,1,3,4,1,4,3,5,2,4,4,1,1,5,2,3,5,1,1,5,4,1,5,5,3,2,2,2,3,1,5,2,5),
+	pain2 = c(1,4,2,3,4,5,3,3,2,1,5,1,1,5,1,2,3,5,3,4,3,2,2,4,1,5,5,4,2,4,3,1,1,3,1,3,5,1,2,4,2,4,4,1,1,2,3,5,5,3,2,3,1,1,5,5,1,3,3,5),
+	pain3 = c(1,4,4,5,3,1,4,5,3,4,5,2,3,2,1,4,4,5,5,1,3,5,1,2,3,4,3,4,2,3,3,5,2,2,2,3,5,4,5,2,2,4,1,3,4,4,5,2,2,3,3,3,1,4,2,2,2,4,4,1),
+	pain4 = c(1,4,2,4,4,2,5,5,2,3,5,2,2,5,2,4,4,2,3,1,4,3,5,2,1,1,4,3,2,3,1,1,2,1,2,1,2,5,1,3,1,3,1,4,3,2,2,2,5,3,4,5,2,1,4,4,1,2,4,1),
+	pain5 = c(4,4,5,1,5,3,1,5,5,3,4,1,2,4,4,4,3,5,5,1,4,3,4,1,5,3,3,2,4,4,1,3,4,1,2,5,3,5,2,3,1,3,3,2,1,4,1,5,5,1,5,2,2,3,3,5,2,3,3,2),
+	social_support = c(3,4,8,1,1,8,4,3,8,6,4,6,5,5,2,4,2,4,4,1,3,3,7,6,2,1,4,8,7,7,7,5,6,7,2,4,1,9,7,7,3,7,6,3,2,6,8,1,9,1,8,8,9,3,1,5,3,1,2,6))
+	
+	temp.data <- mutate(correct_pain.data,pain_mean = (pain1 + pain2 + pain3 + pain4 + pain5)/5)
+	
+	correct_pain.cor <- cor.test(~ pain_mean + social_support,temp.data)
+	
+	if(!exists("pain.data")){
+		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `pain.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(pain.data,correct_pain.data)){
+			out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `pain.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("pain.cor")){
+				out <- list(message = "There is no object saved as `pain.cor`. Save the correlation output as this object.", correct = FALSE, location = "append")
+			} else {
+				if(class(pain.cor) != "htest"){
+					out <- list(message = "The object saved as `pain.result` does not appear to be output from a correlation.", correct = FALSE, location = "append")
+				} else {
+					if(pain.cor$estimate != correct_pain.cor$estimate){
+						out <- list(message = "The correlation output does not match the correct answer. Please check there are no errors in the code.", correct = FALSE, location = "append")
+					}
+				}
+			}
+		}
+	}
+}
+
+#Question 4
+if (label == "question_4"){
+	correct_lm.data <- data.frame(DV = c(0.94,0.51,0.72,-0.27,1.76,1.72,1.85,-1.21,0.5,0.16,-0.45,-0.31,-0.3,-0.63,-0.03,-0.94,0.21,-0.04,0.14,0.11,2.06,-0.02,-1.6,-0.03,0.23,0.47,-0.16,0.26,1.08,-0.1,-1.38,-0.77,1.05,0.73,0.55,-0.5,-0.95,2.01,-1.14,-0.45,-1.25,-0.99,0.25,-1.82,0.88,0.15,-0.71,-0.24,0.02,0.15,-0.72,0.34,-0.79,2.83,1.05,-0.32,-0.27,0.63,0.37,0.07),
+	IV1 = c(-0.18,-0.13,0.6,-0.36,0.36,0.05,0.25,-0.03,0.13,0.5,0.19,0.4,0.3,-0.22,0.19,-0.73,1.29,0.06,0.11,0.02,-0.51,0.05,0.45,-0.77,-1.05,0.18,0.22,0.28,0.24,-0.6,-0.34,-0.8,1,-0.5,0.43,0.18,0.07,0.26,-0.62,1.08,-0.3,-0.56,-0.17,-0.04,-0.33,0,-0.31,0.35,0.63,-0.1,-0.34,-0.5,0.43,-0.18,-0.25,-0.62,0.28,-0.22,-0.06,-0.17),
+	IV2 = c(0.05,-0.12,-0.65,-0.18,-0.19,-0.03,-0.97,0.44,-0.19,-0.35,0.44,-0.65,-0.01,-0.99,0.48,-0.18,0.59,-0.73,0.1,0.59,0.44,-0.24,-0.06,-0.28,-0.22,0.17,-0.2,0.52,0.05,0.04,-0.06,0.14,-0.2,0.59,-0.65,-1.15,0.14,0.87,-0.54,0.4,-0.1,-0.12,0.24,-0.34,0.22,-0.26,0.77,0.04,0.05,-0.22,-0.48,0.56,0.77,0.55,0.37,-0.04,0.7,0.11,0.36,-0.46))
+	
+	correct_lm.summary <- lm(DV ~ IV1 + IV2,data = correct_lm.data) %>% summary()
+	
+	if(!exists("lm.data")){
+		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `lm.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(lm.data,correct_lm.data)){
+			out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `lm.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("lm.summary")){
+				out <- list(message = "There is no object saved as `lm.summary`. Save the regression output as this object.", correct = FALSE, location = "append")
+			} else {
+				if(class(lm.summary) != "summary.lm"){
+					out <- list(message = "The object saved as `lm.summary` is not the output of a regression. Remember to use the `summary()` function.", correct = FALSE, location = "append")
+				} else {
+					if(!("IV2" %in% rownames(lm.summary$coefficients))){
+						out <- list(message = "The additional predictor of `IV2` was not detected in the regression output. Make sure to add this variable in the formula within the `lm()` function.", correct = FALSE, location = "append")
+					} else {
+						if(round(lm.summary$coefficients["IV2","Estimate"],2) != round(correct_lm.summary$coefficients["IV2","Estimate"],2)){
+							out <- list(message = "There appears to be an error in the output. The estimate for `IV2` is not correct. Please check for errors in the code.", correct = FALSE, location = "append")
+						}
+					}
+				}
+			}
+		}
+	}	
+}
+
+#Question 5
+if(label == "question_5"){
+	
+	correct_CA.data <- data.frame(ID = 1:60,
+	SDO = c(96,19,83,92,90,104,54,50,109,89,108,102,109,30,26,100,82,74,70,85,47,84,52,45,53,101,41,68,63,33,32,41,72,39,63,83,69,82,68,112,111,76,63,40,21,23,63,54,73,73,81,57,58,66,74,20,99,82,60,18),
+	HS = c(65,41,24,61,42,62,19,72,66,42,60,15,11,58,72,65,46,33,20,14,19,71,60,60,60,54,39,16,48,39,62,14,64,33,30,40,57,40,50,11,55,52,38,14,68,50,65,49,54,14,25,68,25,23,43,14,28,74,57,44),
+	BS = c(37,41,65,59,48,16,19,20,46,52,35,21,42,48,12,70,71,40,50,67,67,58,19,36,43,68,60,70,33,26,60,52,59,36,56,25,21,54,57,73,25,21,54,61,24,45,44,51,43,59,39,56,55,38,40,21,40,33,45,31),
+	e = c(0.24,0.08,0.08,-0.16,-0.07,-0.16,-0.15,-0.05,-0.21,0.24,0.19,-0.3,0.11,-0.37,-0.22,-0.33,0.07,-0.36,-0.01,-0.13,-0.36,-0.15,0.2,0.55,-0.21,-0.09,-0.17,0.19,-0.2,-0.22,-0.01,-0.07,-0.34,-0.01,0.21,0,0.11,0.13,0.02,0.46,0.07,0.06,-0.37,0.41,-0.3,0.22,-0.39,-0.01,-0.19,0.01,0.26,0.14,-0.14,-0.05,0.37,-0.1,-0.02,0.13,-0.1,0)) %>%
+	mutate(CA = scale(.3*SDO + .1*HS + .05*BS) %>% round(2) + e) %>%
+	select(-e)
+	
+	correct_CA.summary <- lm(CA ~ SDO + HS + BS,data = correct_CA.data) %>% summary()
+	
+	if(!exists("CA.data")){
+		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `CA.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(CA.data,correct_CA.data)){
+			out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `CA.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("CA.summary")){
+				out <- list(message = "There is no object saved as `CA.summary`. Save the regression output as this object.", correct = FALSE, location = "append")
+			} else {
+				if(class(CA.summary) != "summary.lm"){
+					out <- list(message = "The object saved as `CA.summary` is not the output of a regression. Remember to use the `summary()` function.", correct = FALSE, location = "append")
+				} else {
+					if(!("SDO" %in% rownames(CA.summary$coefficients)) |
+						!("HS" %in% rownames(CA.summary$coefficients)) |
+						!("BS" %in% rownames(CA.summary$coefficients))){
+						out <- list(message = "The regression output saved as `CA.summary` does not appear to have all the relevant predictors. Make sure that all relevant predictors are included in the model.", correct = FALSE, location = "append")
+					} else {
+						if(round(CA.summary$coefficients["SDO","Estimate"],2) != round(correct_CA.summary$coefficients["SDO","Estimate"],2)){
+							out <- list(message = "There appears to be an error in the output. The estimates in the model do not match the correct answer. Please check for errors in the code.", correct = FALSE, location = "append")
+						}
+					}
+				}
+			}
+		}
+	}
+	
+}
+
+#Question 8
+if(label == "question_8"){
+
+correct_memory.data <- data.frame(ID = 1:34,
+	age = c(26,30,22,23,29,32,25,26,21,18,27,26,31,27,25,25,18,32,18,27,22,32,18,29,34,31,30,22,34,22,18,21,34,21),
+	condition = c(0.5,0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,0.5,0.5,0.5,0.5,0.5,0.5,-0.5,-0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,0.5,0.5,0.5,-0.5,-0.5),
+	e = c(782.6,343.5,204.2,1263.4,284.8,1032.8,-143.9,410.9,506.9,-100,162.7,1066.1,-166.1,737.8,847.6,464.8,1197.5,550.9,968.6,535.4,675,1484.1,224.4,1259.6,-96.9,750.1,502.6,913.4,186.3,315.3,669.8,598.6,765.2,324.9)) %>%
+	mutate(recall = abs(e) + 10*(age-25.76) + .2*condition) %>%
+	select(-e)
+
+correct_memory.summary <- lm(recall ~ condition + age,data = memory.data) %>%
+  lm.beta() %>%
+  summary()
+
+	if(!exists("memory.data")){
+			out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `memory.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(memory.data,correct_memory.data)){
+			out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `memory.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("memory.summary")){
+				out <- list(message = "There is no object saved as `memory.summary`. Save the regression output as this object.", correct = FALSE, location = "append")
+			} else {
+				if(!any(class(memory.summary) == "summary.lm")){
+					out <- list(message = "The object saved as `memory.summary` is not the output of a regression summary. Remember to use the `summary()` function.", correct = FALSE, location = "append")
+				} else {
+					if(!("condition" %in% rownames(memory.summary$coefficients))){
+						out <- list(message = "The predictor `condition` was not detected in the regression output. Make sure to add this variable in the formula within the `lm()` function.", correct = FALSE, location = "append")
+					} else {
+						if(!("age" %in% rownames(memory.summary$coefficients))){
+							out <- list(message = "Age does not appear to be controlled for in the model. Make sure to add this variable in the formula within the `lm()` function.", correct = FALSE, location = "append")
+						} else {
+							if(round(memory.summary$coefficients["age","Estimate"],2) != round(correct_memory.summary$coefficients["age","Estimate"],2)){
+								out <- list(message = "There appears to be an error in the output saved as `memory.summary`. The estimates in the model do not match the correct answer. Make sure this is the standardised linear regression and that there are no errors in the code.", correct = FALSE, location = "append")
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+            
+return(out)
+}
+
+tutorial_options(exercise.checker = checker)
+```
+
+## Introduction
+
+This is the sixth of the weekly exercises. These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R. If you are struggling, each exercise comes with a number of hints that may be helpful.
+
+## Basic Exercises
+
+### Question 1
+
+There is an error in the code below. Fix the code so that it runs a correlation between var1 and var2 from the `cor.data` data.frame. Save the correlation output to an object called `cor.result`.
+
+```{r question_1-setup}
+cor.data <- data.frame(var1 = c(0.73,0.05,0.94,0.19,-0.99,-0.53,-0.37,1.17,0.44,0.23,0.27,0.31,-0.76,-1.21,0.75,-0.6,0.07,-0.19,0.71,1.42,1.15,0.6,1.71,0.71,-0.44,-0.29,-0.22,0.62,1.39,0.26,-0.55,1.15,-1.28,-0.44,-0.13,0.57,1.4,-0.64,2.81,1.35,0.7,1.39,-0.09,0.98,-1.05,-0.52,1.11,-2.02,2.25,0.66,-1.52,-1.64,0.58,-0.09,2.27,-0.52,-0.18,-0.52,0.47,-2.01),
+	var2 = c(0.03,-0.21,-0.08,-2.44,-0.45,-0.94,-1.23,0.78,0.58,1.98,0.14,0.67,0.62,-0.51,1.1,-0.25,-1.07,0.41,-0.94,0.21,0.05,-0.82,-1.3,-1.61,-1,-1.34,1.22,-0.32,-1.74,-0.08,-0.85,1.39,-1.22,-0.32,2.09,0.09,1.11,0.63,0.5,0.76,1.39,1.49,0.48,0.21,-1.43,0.13,0.72,-2.38,1.59,-0.52,-0.57,-0.81,-0.62,-0.93,0.98,1.18,0.46,-0.66,-0.92,0.13))
+```
+
+```{r question_1, exercise=TRUE,exercise.lines = 5}
+cor.result <- cor.test(var1 ~ var2,data = cor.data)
+
+cor.result
+```
+
+```{r question_1-hint-1}
+When running the incorrect code, what does the error message say?
+```
+
+```{r question_1-hint-2}
+Correlations cannot infer causality... this may be reflected in the formula...
+
+Next hint will show the solution...
+```
+
+```{r question_1-solution}
+#Notice the formula difference.
+cor.result <- cor.test(~ var1 + var2,data = cor.data)
+
+cor.result
+```
+
+```{r question_1-check}
+checker()
+```
+
+### Question 2
+
+You have measured the dark triad traits (narcissism, machiavellianism, and psychopathy) in 40 participants. This data is saved in a data.frame called `darktriad.data`. Which two of the three traits has the largest, positive correlation between them?
+
+```{r,echo = FALSE}
+darktriad.data <- data.frame(ID = 1:40,
+narcissism = c(-0.01,1.34,1.39,0.19,-1.31,-0.83,-0.36,0.02,-0.38,-0.42,-1.6,1.63,1.35,-0.97,0.98,-0.54,-0.26,-0.37,-0.23,0.82,-0.77,0.31,-0.31,-0.67,-0.25,-1.78,0.34,-0.45,-0.38,0.24,0.12,0.98,-1.04,0.89,1.18,-0.54,-0.05,-0.69,-0.28,-0.55),
+machiavellianism = c(1.1,-0.97,-0.8,-0.18,-0.56,0.1,-0.8,0.3,1.43,0.49,-0.79,0,0.03,-0.09,-0.94,-2.51,2.29,-0.21,-0.45,-0.03,-1.08,0.34,-0.59,0.43,0.1,1.56,0.63,0.36,0.58,-0.69,-1.75,0.36,0.77,-0.92,-0.07,0.02,-0.4,0.63,-0.15,0.2),
+psychopathy = c(0.86,2.08,-1.18,-0.66,0.09,0.25,-0.92,-1.05,0.92,1.52,0.74,0.72,2.21,1.76,-0.59,-0.67,1.86,0.6,1.7,1.46,0.91,-0.28,-0.38,1.13,-0.12,-0.43,1.66,0.25,1.8,0.13,-0.85,-1.27,-1,-0.2,0.76,0.35,-1.56,-0.93,0.8,-1.05))
+
+darktriad.data
+```
+
+```{r question_2-setup}
+darktriad.data <- data.frame(ID = 1:40,
+narcissism = c(-0.01,1.34,1.39,0.19,-1.31,-0.83,-0.36,0.02,-0.38,-0.42,-1.6,1.63,1.35,-0.97,0.98,-0.54,-0.26,-0.37,-0.23,0.82,-0.77,0.31,-0.31,-0.67,-0.25,-1.78,0.34,-0.45,-0.38,0.24,0.12,0.98,-1.04,0.89,1.18,-0.54,-0.05,-0.69,-0.28,-0.55),
+machiavellianism = c(1.1,-0.97,-0.8,-0.18,-0.56,0.1,-0.8,0.3,1.43,0.49,-0.79,0,0.03,-0.09,-0.94,-2.51,2.29,-0.21,-0.45,-0.03,-1.08,0.34,-0.59,0.43,0.1,1.56,0.63,0.36,0.58,-0.69,-1.75,0.36,0.77,-0.92,-0.07,0.02,-0.4,0.63,-0.15,0.2),
+psychopathy = c(0.86,2.08,-1.18,-0.66,0.09,0.25,-0.92,-1.05,0.92,1.52,0.74,0.72,2.21,1.76,-0.59,-0.67,1.86,0.6,1.7,1.46,0.91,-0.28,-0.38,1.13,-0.12,-0.43,1.66,0.25,1.8,0.13,-0.85,-1.27,-1,-0.2,0.76,0.35,-1.56,-0.93,0.8,-1.05))
+```
+
+```{r question_2, exercise=TRUE,exercise.lines = 8}
+#darktriad.data
+```
+
+```{r question_2-hint-1}
+You may need to conduct multiple correlations.
+```
+
+```{r question_2-hint-2}
+Use the following code template to run a correlation between each pair of variables.
+
+cor.test(~ variable1 + variable2,data = data.frame)
+
+Next hint will show the solution...
+```
+
+```{r question_2-solution}
+cor.test(~ narcissism + machiavellianism,data = darktriad.data)
+
+cor.test(~ narcissism + psychopathy,data = darktriad.data)
+
+cor.test(~ machiavellianism + psychopathy,data = darktriad.data)
+```
+
+```{r question_2-quiz}
+quiz(question("Which two traits has the largest, positive correlation between them?",
+              answer("Narcissism and Machiavellianism"),
+              answer("Narcissism and Psychopathy"),
+              answer("Machiavellianism and Psychopathy",correct = TRUE),
+              answer("They all have the same correlation"),allow_retry = TRUE))
+```
+
+### Question 3
+
+In the data.frame `pain.data` below, you've asked participants to rate (on a 5-point scale) how much chronic pain they experience across 5 days. Compute a mean (average) pain rating across the 5 days and test whether this correlates with level of social support. Save the correlation output as `pain.cor`.
+
+```{r,echo = FALSE}
+pain.data <- data.frame(pain1 = c(1,3,4,3,5,5,2,4,3,2,3,5,1,3,2,2,2,1,4,3,3,2,4,1,3,1,2,4,1,3,4,1,4,3,5,2,4,4,1,1,5,2,3,5,1,1,5,4,1,5,5,3,2,2,2,3,1,5,2,5),
+	pain2 = c(1,4,2,3,4,5,3,3,2,1,5,1,1,5,1,2,3,5,3,4,3,2,2,4,1,5,5,4,2,4,3,1,1,3,1,3,5,1,2,4,2,4,4,1,1,2,3,5,5,3,2,3,1,1,5,5,1,3,3,5),
+	pain3 = c(1,4,4,5,3,1,4,5,3,4,5,2,3,2,1,4,4,5,5,1,3,5,1,2,3,4,3,4,2,3,3,5,2,2,2,3,5,4,5,2,2,4,1,3,4,4,5,2,2,3,3,3,1,4,2,2,2,4,4,1),
+	pain4 = c(1,4,2,4,4,2,5,5,2,3,5,2,2,5,2,4,4,2,3,1,4,3,5,2,1,1,4,3,2,3,1,1,2,1,2,1,2,5,1,3,1,3,1,4,3,2,2,2,5,3,4,5,2,1,4,4,1,2,4,1),
+	pain5 = c(4,4,5,1,5,3,1,5,5,3,4,1,2,4,4,4,3,5,5,1,4,3,4,1,5,3,3,2,4,4,1,3,4,1,2,5,3,5,2,3,1,3,3,2,1,4,1,5,5,1,5,2,2,3,3,5,2,3,3,2),
+	social_support = c(3,4,8,1,1,8,4,3,8,6,4,6,5,5,2,4,2,4,4,1,3,3,7,6,2,1,4,8,7,7,7,5,6,7,2,4,1,9,7,7,3,7,6,3,2,6,8,1,9,1,8,8,9,3,1,5,3,1,2,6))
+
+pain.data
+```
+
+```{r question_3-setup}
+pain.data <- data.frame(pain1 = c(1,3,4,3,5,5,2,4,3,2,3,5,1,3,2,2,2,1,4,3,3,2,4,1,3,1,2,4,1,3,4,1,4,3,5,2,4,4,1,1,5,2,3,5,1,1,5,4,1,5,5,3,2,2,2,3,1,5,2,5),
+	pain2 = c(1,4,2,3,4,5,3,3,2,1,5,1,1,5,1,2,3,5,3,4,3,2,2,4,1,5,5,4,2,4,3,1,1,3,1,3,5,1,2,4,2,4,4,1,1,2,3,5,5,3,2,3,1,1,5,5,1,3,3,5),
+	pain3 = c(1,4,4,5,3,1,4,5,3,4,5,2,3,2,1,4,4,5,5,1,3,5,1,2,3,4,3,4,2,3,3,5,2,2,2,3,5,4,5,2,2,4,1,3,4,4,5,2,2,3,3,3,1,4,2,2,2,4,4,1),
+	pain4 = c(1,4,2,4,4,2,5,5,2,3,5,2,2,5,2,4,4,2,3,1,4,3,5,2,1,1,4,3,2,3,1,1,2,1,2,1,2,5,1,3,1,3,1,4,3,2,2,2,5,3,4,5,2,1,4,4,1,2,4,1),
+	pain5 = c(4,4,5,1,5,3,1,5,5,3,4,1,2,4,4,4,3,5,5,1,4,3,4,1,5,3,3,2,4,4,1,3,4,1,2,5,3,5,2,3,1,3,3,2,1,4,1,5,5,1,5,2,2,3,3,5,2,3,3,2),
+	social_support = c(3,4,8,1,1,8,4,3,8,6,4,6,5,5,2,4,2,4,4,1,3,3,7,6,2,1,4,8,7,7,7,5,6,7,2,4,1,9,7,7,3,7,6,3,2,6,8,1,9,1,8,8,9,3,1,5,3,1,2,6))
+```
+
+```{r question_3, exercise=TRUE,exercise.lines = 12}
+#pain.data
+```
+
+```{r question_3-hint-1}
+You will need to calculate the mean pain across the 5 days using a tidyverse function. Remember, the mean is the all the values added together, then divided by the number of values.
+```
+
+```{r question_3-hint-2}
+You can use the following code to calculate the mean pain across the 5 ratings.
+
+pain.data2 <- mutate(correct_pain.data,pain_mean = (pain1 + pain2 + pain3 + pain4 + pain5)/5)
+
+Next hint will show the solution...
+```
+
+```{r question_3-solution}
+#pain.data
+
+pain.data2 <- mutate(pain.data,pain_mean = (pain1 + pain2 + pain3 + pain4 + pain5)/5)
+
+pain.cor <- cor.test(~ pain_mean + social_support,data = pain.data2)
+```
+
+```{r question_3-check}
+checker()
+```
+
+### Question 4
+
+Below is the code that runs an unstandardised linear regression between two variables from the data.frame `lm.data`. Edit the code to include a second predictor, `IV2`, to the model. Save the `summary()` output as `lm.summary`.
+
+```{r question_4-setup}
+lm.data <- data.frame(DV = c(0.94,0.51,0.72,-0.27,1.76,1.72,1.85,-1.21,0.5,0.16,-0.45,-0.31,-0.3,-0.63,-0.03,-0.94,0.21,-0.04,0.14,0.11,2.06,-0.02,-1.6,-0.03,0.23,0.47,-0.16,0.26,1.08,-0.1,-1.38,-0.77,1.05,0.73,0.55,-0.5,-0.95,2.01,-1.14,-0.45,-1.25,-0.99,0.25,-1.82,0.88,0.15,-0.71,-0.24,0.02,0.15,-0.72,0.34,-0.79,2.83,1.05,-0.32,-0.27,0.63,0.37,0.07),
+	IV1 = c(-0.18,-0.13,0.6,-0.36,0.36,0.05,0.25,-0.03,0.13,0.5,0.19,0.4,0.3,-0.22,0.19,-0.73,1.29,0.06,0.11,0.02,-0.51,0.05,0.45,-0.77,-1.05,0.18,0.22,0.28,0.24,-0.6,-0.34,-0.8,1,-0.5,0.43,0.18,0.07,0.26,-0.62,1.08,-0.3,-0.56,-0.17,-0.04,-0.33,0,-0.31,0.35,0.63,-0.1,-0.34,-0.5,0.43,-0.18,-0.25,-0.62,0.28,-0.22,-0.06,-0.17),
+	IV2 = c(0.05,-0.12,-0.65,-0.18,-0.19,-0.03,-0.97,0.44,-0.19,-0.35,0.44,-0.65,-0.01,-0.99,0.48,-0.18,0.59,-0.73,0.1,0.59,0.44,-0.24,-0.06,-0.28,-0.22,0.17,-0.2,0.52,0.05,0.04,-0.06,0.14,-0.2,0.59,-0.65,-1.15,0.14,0.87,-0.54,0.4,-0.1,-0.12,0.24,-0.34,0.22,-0.26,0.77,0.04,0.05,-0.22,-0.48,0.56,0.77,0.55,0.37,-0.04,0.7,0.11,0.36,-0.46))
+```
+
+```{r question_4, exercise=TRUE,exercise.lines = 6}
+#lm.data
+
+lm.model <- lm(DV ~ IV1,data = lm.data)
+
+lm.summary <- summary(lm.model)
+```
+
+```{r question_4-hint-1}
+Use the `lm()` function to conduct a linear regression. If you having trouble remembering how to use this function, you can type `help(lm)` into the console, or google `how to use the lm function in R`.
+```
+
+```{r question_4-hint-2}
+You can add a predictor to the linear regression by editing the formula in the `lm()` function.
+
+Next hint will show the solution...
+```
+
+```{r question_4-solution}
+lm.model <- lm(DV ~ IV1 + IV2,data = lm.data)
+
+lm.summary <- summary(lm.model)
+```
+
+```{r question_4-check}
+checker()
+```
+
+### Question 5
+
+You are interested in factors that predict women's engagement in collective action. You measure a number of personality traits, including Social Dominance Orientation (SDO), Hostile Sexism (HS) and Benevolent Sexism (BS). Run an unstandardised linear regression to determine the unique contribution each has on women's likelihood of engaging in collective action (CA). Save the regression output as `CA.summary`.
+
+```{r,echo = FALSE}
+CA.data <- data.frame(ID = 1:60,
+	SDO = c(96,19,83,92,90,104,54,50,109,89,108,102,109,30,26,100,82,74,70,85,47,84,52,45,53,101,41,68,63,33,32,41,72,39,63,83,69,82,68,112,111,76,63,40,21,23,63,54,73,73,81,57,58,66,74,20,99,82,60,18),
+	HS = c(65,41,24,61,42,62,19,72,66,42,60,15,11,58,72,65,46,33,20,14,19,71,60,60,60,54,39,16,48,39,62,14,64,33,30,40,57,40,50,11,55,52,38,14,68,50,65,49,54,14,25,68,25,23,43,14,28,74,57,44),
+	BS = c(37,41,65,59,48,16,19,20,46,52,35,21,42,48,12,70,71,40,50,67,67,58,19,36,43,68,60,70,33,26,60,52,59,36,56,25,21,54,57,73,25,21,54,61,24,45,44,51,43,59,39,56,55,38,40,21,40,33,45,31),
+	e = c(0.24,0.08,0.08,-0.16,-0.07,-0.16,-0.15,-0.05,-0.21,0.24,0.19,-0.3,0.11,-0.37,-0.22,-0.33,0.07,-0.36,-0.01,-0.13,-0.36,-0.15,0.2,0.55,-0.21,-0.09,-0.17,0.19,-0.2,-0.22,-0.01,-0.07,-0.34,-0.01,0.21,0,0.11,0.13,0.02,0.46,0.07,0.06,-0.37,0.41,-0.3,0.22,-0.39,-0.01,-0.19,0.01,0.26,0.14,-0.14,-0.05,0.37,-0.1,-0.02,0.13,-0.1,0)) %>%
+	mutate(CA = scale(.3*SDO + .1*HS + .05*BS) %>% round(2) + e) %>%
+	select(-e)
+
+CA.data
+```
+
+```{r question_5-setup}
+CA.data <- data.frame(ID = 1:60,
+	SDO = c(96,19,83,92,90,104,54,50,109,89,108,102,109,30,26,100,82,74,70,85,47,84,52,45,53,101,41,68,63,33,32,41,72,39,63,83,69,82,68,112,111,76,63,40,21,23,63,54,73,73,81,57,58,66,74,20,99,82,60,18),
+	HS = c(65,41,24,61,42,62,19,72,66,42,60,15,11,58,72,65,46,33,20,14,19,71,60,60,60,54,39,16,48,39,62,14,64,33,30,40,57,40,50,11,55,52,38,14,68,50,65,49,54,14,25,68,25,23,43,14,28,74,57,44),
+	BS = c(37,41,65,59,48,16,19,20,46,52,35,21,42,48,12,70,71,40,50,67,67,58,19,36,43,68,60,70,33,26,60,52,59,36,56,25,21,54,57,73,25,21,54,61,24,45,44,51,43,59,39,56,55,38,40,21,40,33,45,31),
+	e = c(0.24,0.08,0.08,-0.16,-0.07,-0.16,-0.15,-0.05,-0.21,0.24,0.19,-0.3,0.11,-0.37,-0.22,-0.33,0.07,-0.36,-0.01,-0.13,-0.36,-0.15,0.2,0.55,-0.21,-0.09,-0.17,0.19,-0.2,-0.22,-0.01,-0.07,-0.34,-0.01,0.21,0,0.11,0.13,0.02,0.46,0.07,0.06,-0.37,0.41,-0.3,0.22,-0.39,-0.01,-0.19,0.01,0.26,0.14,-0.14,-0.05,0.37,-0.1,-0.02,0.13,-0.1,0)) %>%
+	mutate(CA = scale(.3*SDO + .1*HS + .05*BS) %>% round(2) + e) %>%
+	select(-e)
+```
+
+```{r question_5, exercise=TRUE,exercise.lines = 8}
+#CA.data
+
+```
+
+```{r question_5-hint-1}
+Use the `lm()` function to conduct a linear regression. If you having trouble remembering how to use this function, you can type help(lm) into the console, or google `how to use the lm function in R`.
+```
+
+```{r question_5-hint-2}
+Remember to use the `summary()` function to get interpretable output for the linear regression.
+
+Next hint will show the solution...
+```
+
+```{r question_5-solution}
+#CA.data
+
+CA.model <- lm(CA ~ SDO + HS + BS,data = CA.data)
+
+CA.summary <- summary(CA.model)
+```
+
+```{r question_5-check}
+checker()
+```
+
+### Question 6
+
+You want to know which predictor from the analysis in Question 6 has the biggest effect; however, the measures of SDO, HS, and BS are on different scales. Therefore, you are required to get standardised coefficients to determine which predictor has the largest effect. For the analysis in Question 6, get the standardised coefficients.
+
+```{r question_6-setup}
+CA.data <- data.frame(ID = 1:60,
+	SDO = c(96,19,83,92,90,104,54,50,109,89,108,102,109,30,26,100,82,74,70,85,47,84,52,45,53,101,41,68,63,33,32,41,72,39,63,83,69,82,68,112,111,76,63,40,21,23,63,54,73,73,81,57,58,66,74,20,99,82,60,18),
+	HS = c(65,41,24,61,42,62,19,72,66,42,60,15,11,58,72,65,46,33,20,14,19,71,60,60,60,54,39,16,48,39,62,14,64,33,30,40,57,40,50,11,55,52,38,14,68,50,65,49,54,14,25,68,25,23,43,14,28,74,57,44),
+	BS = c(37,41,65,59,48,16,19,20,46,52,35,21,42,48,12,70,71,40,50,67,67,58,19,36,43,68,60,70,33,26,60,52,59,36,56,25,21,54,57,73,25,21,54,61,24,45,44,51,43,59,39,56,55,38,40,21,40,33,45,31),
+	e = c(0.24,0.08,0.08,-0.16,-0.07,-0.16,-0.15,-0.05,-0.21,0.24,0.19,-0.3,0.11,-0.37,-0.22,-0.33,0.07,-0.36,-0.01,-0.13,-0.36,-0.15,0.2,0.55,-0.21,-0.09,-0.17,0.19,-0.2,-0.22,-0.01,-0.07,-0.34,-0.01,0.21,0,0.11,0.13,0.02,0.46,0.07,0.06,-0.37,0.41,-0.3,0.22,-0.39,-0.01,-0.19,0.01,0.26,0.14,-0.14,-0.05,0.37,-0.1,-0.02,0.13,-0.1,0)) %>%
+	mutate(CA = scale(.3*SDO + .1*HS + .05*BS) %>% round(2) + e) %>%
+	select(-e)
+```
+
+```{r question_6, exercise=TRUE,exercise.lines = 8}
+#CA.data
+
+```
+
+```{r question_6-hint-1}
+The `lm.beta()` function takes the output of a linear regression from the `lm()` output and includes standardised coefficients.
+```
+
+```{r question_6-hint-2}
+Remember to use the `summary()` function to see the results of the regression.
+
+Next hint will show the solution...
+```
+
+```{r question_6-solution}
+lm(CA ~ SDO + HS + BS,data = CA.data) %>%
+  lm.beta() %>%
+  summary()
+```
+
+```{r question_6-quiz}
+quiz(question("Which predictor has the largest effect on women's likelihood of engaging in Collective Action?",
+        answer("Social Dominance Orientation",correct = TRUE),
+        answer("Hostile Sexism"),
+        answer("Benevolent Sexism"),
+        answer("None of the above"),allow_retry = TRUE))
+```
+
+### Question 7
+
+Using ggplot functions, create a scatterplot with a line-of-best-fit from the data from Question 5 and 6 between Social Dominance Orientation and likelihood of engaging in Collective Action.
+
+```{r question_7-setup}
+CA.data <- data.frame(ID = 1:60,
+	SDO = c(96,19,83,92,90,104,54,50,109,89,108,102,109,30,26,100,82,74,70,85,47,84,52,45,53,101,41,68,63,33,32,41,72,39,63,83,69,82,68,112,111,76,63,40,21,23,63,54,73,73,81,57,58,66,74,20,99,82,60,18),
+	HS = c(65,41,24,61,42,62,19,72,66,42,60,15,11,58,72,65,46,33,20,14,19,71,60,60,60,54,39,16,48,39,62,14,64,33,30,40,57,40,50,11,55,52,38,14,68,50,65,49,54,14,25,68,25,23,43,14,28,74,57,44),
+	BS = c(37,41,65,59,48,16,19,20,46,52,35,21,42,48,12,70,71,40,50,67,67,58,19,36,43,68,60,70,33,26,60,52,59,36,56,25,21,54,57,73,25,21,54,61,24,45,44,51,43,59,39,56,55,38,40,21,40,33,45,31),
+	e = c(0.24,0.08,0.08,-0.16,-0.07,-0.16,-0.15,-0.05,-0.21,0.24,0.19,-0.3,0.11,-0.37,-0.22,-0.33,0.07,-0.36,-0.01,-0.13,-0.36,-0.15,0.2,0.55,-0.21,-0.09,-0.17,0.19,-0.2,-0.22,-0.01,-0.07,-0.34,-0.01,0.21,0,0.11,0.13,0.02,0.46,0.07,0.06,-0.37,0.41,-0.3,0.22,-0.39,-0.01,-0.19,0.01,0.26,0.14,-0.14,-0.05,0.37,-0.1,-0.02,0.13,-0.1,0)) %>%
+	mutate(CA = scale(.3*SDO + .1*HS + .05*BS) %>% round(2) + e) %>%
+	select(-e)
+```
+
+```{r question_7, exercise=TRUE,exercise.lines = 8}
+#CA.data
+
+CA.plot <- 
+```
+
+```{r question_7-hint-1}
+Use geom_point() to create the scatterplot. If you can't remember how to make a graph using ggplot, review material from two weeks ago's workbooks/exercises.
+
+```
+
+```{r question_7-hint-2}
+Use geom_smooth() to create a line-of-best-fit. You will need to include the following argument: method = "lm".
+
+Next hint will show the solution...
+```
+
+```{r question_7-solution}
+ggplot(data = CA.data,aes(x = SDO,y = CA)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+### Question 8
+
+You conducted a study investigating whether priming participants with words about childhood increases the speed of recollection of childhood memory. Participants were assigned to either a prime or no prime condition (coded as -.5 and .5 respectively) before being asked to recall a childhood memory, with recall time being recorded. Run a standardised linear regression using the `lm()` and `lm.beta()` functions to determine whether recall time is associated with the priming condition, while controlling for participant's age. The data.frame for this question is called `memory.data`, save the output of the standardised linear regression as `memory.summary`.
+
+```{r,echo = FALSE}
+memory.data <- data.frame(ID = 1:34,
+	age = c(26,30,22,23,29,32,25,26,21,18,27,26,31,27,25,25,18,32,18,27,22,32,18,29,34,31,30,22,34,22,18,21,34,21),
+	condition = c(0.5,0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,0.5,0.5,0.5,0.5,0.5,0.5,-0.5,-0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,0.5,0.5,0.5,-0.5,-0.5),
+	e = c(782.6,343.5,204.2,1263.4,284.8,1032.8,-143.9,410.9,506.9,-100,162.7,1066.1,-166.1,737.8,847.6,464.8,1197.5,550.9,968.6,535.4,675,1484.1,224.4,1259.6,-96.9,750.1,502.6,913.4,186.3,315.3,669.8,598.6,765.2,324.9)) %>%
+	mutate(recall = abs(e) + 10*(age-25.76) + .2*condition) %>%
+	select(-e)
+
+memory.data
+```
+
+```{r question_8-setup}
+memory.data <- data.frame(ID = 1:34,
+	age = c(26,30,22,23,29,32,25,26,21,18,27,26,31,27,25,25,18,32,18,27,22,32,18,29,34,31,30,22,34,22,18,21,34,21),
+	condition = c(0.5,0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,0.5,0.5,0.5,0.5,0.5,0.5,-0.5,-0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,0.5,-0.5,-0.5,-0.5,0.5,0.5,0.5,-0.5,-0.5),
+	e = c(782.6,343.5,204.2,1263.4,284.8,1032.8,-143.9,410.9,506.9,-100,162.7,1066.1,-166.1,737.8,847.6,464.8,1197.5,550.9,968.6,535.4,675,1484.1,224.4,1259.6,-96.9,750.1,502.6,913.4,186.3,315.3,669.8,598.6,765.2,324.9)) %>%
+	mutate(recall = abs(e) + 10*(age-25.76) + .2*condition) %>%
+	select(-e)
+```
+
+```{r question_8, exercise=TRUE,exercise.lines = 8}
+#memory.data
+
+```
+
+```{r question_8-hint-1}
+Dichotomous variables (i.e., have two variables) can be entered into a standard linear regression if it has been effect coded (one value is coded as -.5, while another value is coded as .5).
+```
+
+```{r question_8-hint-2}
+Entering predictors into a regression will give you the unique association between the predictor and the outcome. Therefore, including a variable as a predictor is one way of controlling for it's effect when assessing the association between two other variables...
+
+Next hint will show the solution...
+```
+
+```{r question_8-solution}
+memory.summary <- lm(recall ~ condition + age,data = memory.data) %>%
+  lm.beta() %>%
+  summary()
+
+memory.summary
+```
+
+```{r question_8-check}
+checker()
+```
+
+## Advanced Exercises
+
+This week's advanced exercises focuses on conducting analyses with a categorical DV.
+
+### Question A1 - Chi-Square Goodness of Fit Test
+
+As covered in the lecture series, the chi-square goodness of fit test is used to compare the observed distribution of a single categorical variable with an expected distribution.
+
+The function that performs a chi-square goodness of fit test is the `chisq.test()` function. There are two inputs we require. First, is a numeric vector with the observed frequencies. Second, is the probability of the expected frequencies (argument named `p`).
+
+For instance, if we conducted a study that counted the frequency of 100 people's favourite colour, and observed 20 people reported "red", 35 people reported "green", and 45 people reported "blue", then the first argument would be:
+
+```{r,echo = TRUE}
+c(20,35,45)
+```
+
+If we expect an equal distribution among the three colours, our expected probabilities would be represented as:
+
+```{r,echo = TRUE}
+c(1/3,1/3,1/3)
+```
+
+Altogether, to conduct the chi-square goodness of fit test, we input these vectors into the `chisq.test()` function:
+
+```{r,echo = TRUE}
+chisq.test(c(20,35,45),p = c(1/3,1/3,1/3))
+```
+
+In the code box below, you have conducted a study investigating people's choices when donating to four different charities. You expect that people would donate to each charity equally. Calculate the frequencies from the data, and conduct a chi-square goodness of fit test. To get the observed frequencies from a vector, you could use the `table()` function.
+
+```{r,echo = FALSE}
+charity.data <- data.frame(ID = 1:80,
+                           charity = c(rep("Red Cross",24),rep("Marie Curie",22),rep("British Heart",18),rep("Anthony Nolan",16)))
+
+charity.data
+```
+
+```{r question_a1-setup}
+charity.data <- data.frame(ID = 1:80,
+                           charity = c(rep("Red Cross",24),rep("Marie Curie",22),rep("British Heart",18),rep("Anthony Nolan",16)))
+```
+
+```{r question_a1, exercise=TRUE,exercise.lines = 8}
+#charity.data
+```
+
+```{r question_a1-hint-1}
+To get the observed frequencies from the `table()` function, you need to enter the vector with the observed data. You can index a column from a data.frame using the `$` symbol.
+```
+
+```{r question_a1-hint-2}
+The expected frequency if we expect people would donate to each charity equally would be .25 for each charity. Make sure to set it to the argument named `p`.
+
+Next hint will show the solution...
+```
+
+```{r question_a1-solution}
+#The following code gets the observed frequencies
+table(charity.data$charity)
+
+#Putting this into the chisq.test() function gives:
+chisq.test(table(charity.data$charity),p = c(.25,.25,.25,.25))
+```
+
+### Question A2 - Chi-Square Test of Independence
+
+The chi-square test of independence is used to determine if the distribution of frequencies of a categorical DV are different at different levels of an IV.
+
+The chi-square test of independence uses the same function as the chi-square goodness of fit test, but the inputs are different. The function is smart enough to know which test to conduct given which inputs it receives.
+
+If you input a contingency table that has 2 variables, then the function knows to conduct a chi-square test of independence. Contingency tables can be created using the `table()` function. A two-variable contingency table will be created from a data.frame that only has two variables in it. Therefore, you can use the `select()` function (covered in Workbook 3) to create a data.frame that only includes the two variables that you're interested in.
+
+For example, the following code will create a contingency table of `var1` and `var2` in the data.frame called `data`:
+```{r,eval = FALSE,echo = TRUE}
+c.table <- select(data,var1,var2) %>%
+  table()
+```
+
+In the code box below, you measure the exercise levels (categorised into 4 categories) of a group of smokers and non-smokers. You predict that non-smokers are more likely to exercise than non-smokers.
+
+```{r,echo = FALSE}
+smoker.data <- data.frame(ID = 1:150,
+                          smoker = c(rep("smoker",59),rep("non-smoker",91)),
+                          exercise = c('medium','low','low','none','medium','high','medium','low','none','none','low','low','high','medium','low','none','medium','high','medium','medium','none','high','medium','low','none','low','low','high','low','medium','low','medium','medium','medium','high','low','low','high','medium','low','low','medium','medium','low','medium','low','high','medium','low','high','low','low','medium','high','none','none','medium','low','high','low','medium','high','high','high','low','high','low','medium','medium','high','low','high','high','medium','medium','low','high','low','medium','high','low','low','high','low','medium','medium','low','low','medium','none','none','none','low','high','low','low','high','medium','high','medium','low','medium','medium','low','low','low','high','low','medium','high','high','high','low','medium','low','medium','low','medium','high','medium','low','high','none','low','none','low','none','low','low','low','high','high','low','high','high','low','low','medium','none','high','low','none','low','high','low','low','high','medium','medium','none'))
+
+smoker.data
+```
+
+```{r question_a2-setup}
+smoker.data <- data.frame(ID = 1:150,
+                          smoker = c(rep("smoker",59),rep("non-smoker",91)),
+                          exercise = c('medium','low','low','none','medium','high','medium','low','none','none','low','low','high','medium','low','none','medium','high','medium','medium','none','high','medium','low','none','low','low','high','low','medium','low','medium','medium','medium','high','low','low','high','medium','low','low','medium','medium','low','medium','low','high','medium','low','high','low','low','medium','high','none','none','medium','low','high','low','medium','high','high','high','low','high','low','medium','medium','high','low','high','high','medium','medium','low','high','low','medium','high','low','low','high','low','medium','medium','low','low','medium','none','none','none','low','high','low','low','high','medium','high','medium','low','medium','medium','low','low','low','high','low','medium','high','high','high','low','medium','low','medium','low','medium','high','medium','low','high','none','low','none','low','none','low','low','low','high','high','low','high','high','low','low','medium','none','high','low','none','low','high','low','low','high','medium','medium','none'))
+```
+
+```{r question_a2, exercise=TRUE,exercise.lines = 8}
+#smoker.data
+```
+
+```{r question_a2-hint-1}
+Use the `table()` function to create a contingency table to use as the input for the `chisq.test()` function.
+```
+
+```{r question_a2-hint-2}
+You can use the following code to create the contingency table:
+  
+c.table <- select(smoker.data,smoker,exercise) %>%
+  table()
+
+Next hint will show the solution...
+```
+
+```{r question_a2-solution}
+c.table <- select(smoker.data,smoker,exercise) %>%
+  table()
+
+chisq.test(c.table)
+```
+
+### Question A3 - Logistic Regression
+
+A logistic regression is used when you have a categorical DV and a continuous IV. The most simple scenario is when the DV is binary (i.e., only has two categories). The two categories of the DV are coded as `0` and `1`.
+
+To conduct a logistic regression in R, you can use the `glm()` function. In this instance, 'glm' stands for Generalised Linear Model, and can be used for many different types of analysis. Like most analysis functions, the `glm()` function accepts a formula and a data.frame. We also need to tell the function which type of analysis to conduct. This is done via the `family` argument. To conduct a binomial logistic regression, we set this argument to "binomial". Much like with the `lm()` function, to view the results in an interpretable way you must use the `summary()` function.
+
+Altogether, this becomes:
+```{r,echo = TRUE,eval = FALSE}
+#The DV must be a categorical variable with two levels.
+model <- glm(DV ~ IV,data = data,family = "binomial")
+summary(model)
+```
+
+In the code box below, you have conducted a study on factors the predict whether someone is admitted to the emergency clinic at a hospital. You predict that the higher level of pain someone reports, the more likely they are to be admitted compared to refused. Conduct a logistic regression to test this hypothesis.
+
+```{r,echo = FALSE}
+ae.data <- data.frame(ID = 1:80,
+                      admitted = c('Yes','Yes','No','No','No','Yes','No','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','No','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','No','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','Yes','Yes','Yes','No','No','No','Yes','Yes','Yes'),
+                      pain = c(4,3,5,3,-3,5,4,5,1,9,7,3,3,2,3,1,8,8,2,7,1,5,7,5,6,5,1,6,9,3,5,4,3,10,5,3,5,2,2,4,5,7,5,2,4,5,5,2,2,7,8,5,6,3,4,6,7,6,5,2,2,7,10,7,4,5,4,5,6,1,9,5,2,7,4,3,9,4,3,5),
+                      blood.loss = c(0,460,0,0,0,0,142,0,0,0,438,0,247,0,389,0,0,27,355,0,354,0,0,229,0,0,0,0,0,0,183,353,106,0,25,161,0,466,262,0,155,70,0,204,281,0,0,364,486,341,98,157,329,0,62,0,0,33,93,0,0,0,0,387,331,0,314,0,218,202,0,411,0,255,0,438,74,398,359,471),
+                      consciousness = c(8,4,8,8,1,2,9,7,9,3,7,5,1,7,7,2,5,1,4,6,3,9,7,7,6,9,7,5,2,7,6,4,9,1,4,6,7,4,9,9,3,9,6,5,1,6,2,7,9,8,4,1,6,7,8,2,5,9,6,5,4,7,8,9,4,6,1,3,3,5,1,5,7,3,9,4,2,9,2,4)
+                      )
+ae.data
+```
+
+```{r question_a3-setup}
+ae.data <- data.frame(ID = 1:80,
+                      admitted = c('Yes','Yes','No','No','No','Yes','No','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','No','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','No','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','Yes','Yes','Yes','No','No','No','Yes','Yes','Yes'),
+                      pain = c(4,3,5,3,-3,5,4,5,1,9,7,3,3,2,3,1,8,8,2,7,1,5,7,5,6,5,1,6,9,3,5,4,3,10,5,3,5,2,2,4,5,7,5,2,4,5,5,2,2,7,8,5,6,3,4,6,7,6,5,2,2,7,10,7,4,5,4,5,6,1,9,5,2,7,4,3,9,4,3,5),
+                      blood.loss = c(0,460,0,0,0,0,142,0,0,0,438,0,247,0,389,0,0,27,355,0,354,0,0,229,0,0,0,0,0,0,183,353,106,0,25,161,0,466,262,0,155,70,0,204,281,0,0,364,486,341,98,157,329,0,62,0,0,33,93,0,0,0,0,387,331,0,314,0,218,202,0,411,0,255,0,438,74,398,359,471),
+                      consciousness = c(8,4,8,8,1,2,9,7,9,3,7,5,1,7,7,2,5,1,4,6,3,9,7,7,6,9,7,5,2,7,6,4,9,1,4,6,7,4,9,9,3,9,6,5,1,6,2,7,9,8,4,1,6,7,8,2,5,9,6,5,4,7,8,9,4,6,1,3,3,5,1,5,7,3,9,4,2,9,2,4)
+                      )
+```
+
+```{r question_a3, exercise=TRUE,exercise.lines = 8}
+#ae.data
+```
+
+```{r question_a3-hint-1}
+Remember to include the `family` argument in the `glm()` function.
+```
+
+```{r question_a3-hint-2}
+Remember to use the `summary()` function to view the results of the model.
+
+Next hint will show the solution...
+```
+
+```{r question_a3-solution}
+model <- glm(admitted ~ pain,data = ae.data,family = "binomial")
+summary(model)
+```
+
+### Question A4 - Logistic Regression with Multiple Predictors
+
+Much like with a normal regression, there can be multiple predictors in a logistic regression.
+
+In the code box below, adapt the code to conduct a logistic regression to find the unique effects of pain ratings, amount of blood loss, and level of consciousness on frequency of being admitted to an emergency clinic.
+
+```{r question_a4-setup}
+ae.data <- data.frame(ID = 1:80,
+                      admitted = c('Yes','Yes','No','No','No','Yes','No','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','No','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','Yes','Yes','Yes','Yes','Yes','Yes','No','Yes','No','Yes','Yes','No','Yes','Yes','No','Yes','Yes','Yes','Yes','No','Yes','Yes','No','No','Yes','Yes','Yes','Yes','No','No','No','Yes','Yes','Yes'),
+                      pain = c(4,3,5,3,-3,5,4,5,1,9,7,3,3,2,3,1,8,8,2,7,1,5,7,5,6,5,1,6,9,3,5,4,3,10,5,3,5,2,2,4,5,7,5,2,4,5,5,2,2,7,8,5,6,3,4,6,7,6,5,2,2,7,10,7,4,5,4,5,6,1,9,5,2,7,4,3,9,4,3,5),
+                      blood.loss = c(0,460,0,0,0,0,142,0,0,0,438,0,247,0,389,0,0,27,355,0,354,0,0,229,0,0,0,0,0,0,183,353,106,0,25,161,0,466,262,0,155,70,0,204,281,0,0,364,486,341,98,157,329,0,62,0,0,33,93,0,0,0,0,387,331,0,314,0,218,202,0,411,0,255,0,438,74,398,359,471),
+                      consciousness = c(8,4,8,8,1,2,9,7,9,3,7,5,1,7,7,2,5,1,4,6,3,9,7,7,6,9,7,5,2,7,6,4,9,1,4,6,7,4,9,9,3,9,6,5,1,6,2,7,9,8,4,1,6,7,8,2,5,9,6,5,4,7,8,9,4,6,1,3,3,5,1,5,7,3,9,4,2,9,2,4)
+                      )
+```
+
+```{r question_a4, exercise=TRUE,exercise.lines = 8}
+#ae.data
+
+model <- glm(admitted ~ pain,data = ae.data,family = "binomial")
+summary(model)
+```
+
+```{r question_a4-hint-1}
+Adding additional predictors in the `glm()` function is identical to adding additional predictors in the `lm()` function.
+```
+
+```{r question_a4-hint-2}
+The formula becomes:
+  
+  admitted ~ pain + blood.loss + consciousness
+
+Next hint will show the solution...
+```
+
+```{r question_a4-solution}
+model <- glm(admitted ~ pain + blood.loss + consciousness,data = ae.data,family = "binomial")
+summary(model)
+```

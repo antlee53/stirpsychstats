@@ -1,0 +1,920 @@
+---
+title: "Exercise 7"
+output: learnr::tutorial
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+list.of.packages <- c("learnr","shiny","psych","lm.beta","tidyverse")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+library(psych)
+library(learnr)
+library(lm.beta)
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE)
+
+checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
+  
+  envir_result
+  out <- list(message = sample(c("Good Job!",
+                                 "Well done!",
+                                 "Great stuff!",
+                                 "That is correct!",
+                                 "Correct! You are really good at this."),1), correct = TRUE, location = "append")
+
+if(label == "question_4_1"){
+	correct_numbers <- numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
+	
+	correct_z.numbers <- scale(correct_numbers,scale = TRUE,center = TRUE) %>% as.vector()
+	if(!exists("numbers")){
+		out <- list(message = "The object `numbers` appears to be altered. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(numbers,correct_numbers)){
+			out <- list(message = "The object `numbers` appears to be altered. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("z.numbers")){
+				out <- list(message = "There is no object saved as `z.numbers`. Make sure to save the standardised vector as this.", correct = FALSE, location = "append")
+			} else {
+				if(round(z.numbers[1],2) != round(correct_z.numbers[1],2)){
+					out <- list(message = "There object saved as `z.numbers` does not match the correct answer. Check there are no errors in the code.", correct = FALSE, location = "append")
+				}
+			}
+		}
+	}
+}  
+    
+#Question 1
+if(label == "question_1"){
+	correct_data <- data.frame(ID = 1:80,
+	var1 = c(36,31,26,95,35,42,89,86,5,44,56,27,100,86,4,78,19,40,30,33,73,81,16,45,68,22,79,93,13,3,43,48,77,91,98,90,60,61,66,44,27,34,80,21,64,13,93,86,7,3,35,72,87,62,94,99,89,18,72,5,54,78,89,97,20,17,67,24,79,18,100,75,44,64,66,30,44,57,66,34),
+	var2 = c(57,91,9,74,94,89,26,28,50,86,81,5,98,41,52,98,65,71,39,68,99,11,82,88,92,6,78,17,36,86,8,15,77,26,70,19,6,93,55,50,3,4,59,4,88,77,39,24,59,72,8,93,58,60,96,65,93,38,12,27,95,39,92,3,2,48,43,87,72,74,44,15,28,51,23,75,99,42,76,24),
+	e = c(-1.48,-1.2,0.94,2.65,0.32,0.23,-0.5,0.15,1.94,-0.73,1.19,1.21,0.04,-1.17,0.11,0.41,0.66,0.01,-1.41,0.25,0.01,0.49,1.37,1.69,-1.02,0.5,-1.1,-1.32,1.18,1.47,1.4,-0.21,-1.59,-0.19,-0.54,0.96,0.61,-0.2,0.6,0.74,0.43,1.33,0.73,0,1.85,0.55,-0.38,-0.37,-0.48,1.91,0.81,0.14,1.28,-1.13,-0.31,0.36,0.98,0.93,1.26,2.14,0.5,0.05,-0.64,1.65,-2.47,-0.73,-0.8,1.02,-0.66,1.3,-0.79,0.33,0.35,0.37,-0.79,-0.41,-1.68,-0.2,-0.82,1.28)) %>%
+	mutate(DV = (.2*var1) + (-.3*var2) + .4*(var1-53)*(var2-.53) + e)
+	
+	correct_lm.model <- lm(DV ~ scale(var1)*scale(var2),data = correct_data)
+	if(!exists("data")){
+		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!identical(data,correct_data)){
+			out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `memory.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+		} else {
+			if(!exists("lm.model")){
+				out <- list(message = "Save the output from the `lm()` function as the object lm.model.", correct = FALSE, location = "append")
+			} else {
+				if(class(lm.model) != "lm"){
+					out <- list(message = "The object `lm.model` is not output from the function `lm()`.", correct = FALSE, location = "append")
+				} else {
+					if(!(630.95 %in% round(lm.model$coefficients,2)) & !(21.22 %in% round(lm.model$coefficients,2))){
+						out <- list(message = "There is still an error in the code. Check that the interaction is specified properly. When conducting a regression with an interaction, you are required to rescale the variables in some way...", correct = FALSE, location = "append")
+					}
+				}
+			}
+		}
+	}
+}
+
+if(label == "question_2"){
+
+correct_marmoset.data <- data.frame(ID = 1:100,
+							age = c(13,2,9,8,14,6,3,12,5,2,5,10,3,10,2,7,3,14,9,11,3,9,14,12,14,3,9,2,5,12,14,2,10,10,11,2,8,2,12,8,9,6,8,10,7,2,3,9,12,4,9,4,2,13,8,11,12,13,4,13,3,3,2,8,8,8,12,3,13,7,2,3,2,12,14,6,7,7,11,6,6,8,8,2,5,3,14,13,8,8,4,12,6,9,7,3,12,4,5,11),
+							conscientiousness = c(-0.99,-0.55,-1.03,0.45,-0.97,0.28,0.87,-0.47,0.63,-0.48,0.32,0.39,1.05,-0.54,-1.89,-1.23,-1.69,0.34,-0.86,1.41,-0.78,-1.57,-0.77,0.48,1.48,1.06,-0.12,0.07,0.54,0.92,1.21,0.13,0.51,0.22,-0.5,-0.8,-2.25,0.29,0,-0.36,-0.94,1.27,0.56,-0.33,-1.66,-0.33,-2.17,-1.11,-0.66,0.39,0.32,-0.6,-1.73,-0.09,0.6,-0.66,1.56,-0.82,0.69,0.09,-1.08,0.87,1.73,0.13,-0.75,-0.21,-1.91,-1.41,-1.21,0.78,1.17,0.67,-0.08,0.05,-2.28,1.68,1.15,0.15,0.12,-0.01,-1.21,-2.29,-0.34,-0.71,0.16,0.2,0.2,-0.07,0.1,-0.98,-0.38,0.27,0.22,0.27,-0.59,0.53,-0.69,1.64,-1.4,-0.87),
+							agreeableness = c(-1.4,0.36,-0.55,-1.28,1.07,-0.84,0.69,-1.63,0.31,0.82,-0.55,1.51,-0.86,-1.63,-3.11,1.46,-0.71,0.21,-0.68,-0.12,-0.62,0.02,0.48,-1.08,0.35,-0.11,0.7,0.29,1.1,-0.83,-0.58,-0.05,1.09,-0.71,-1.17,-0.74,-0.13,0.45,1.79,1.04,-0.5,-0.08,-0.82,0.15,0.63,0.36,-2.22,-0.06,1.69,0.76,-1.52,0.47,-0.58,-0.93,-1.87,0.67,1.98,-1.22,-1.5,0.01,-0.44,2.53,0.02,-2.32,0.42,-0.33,-1.14,-0.43,0.21,-2.28,0.45,1.13,-1.43,2.03,-0.81,-0.16,-0.9,-2.51,-0.81,0.73,0.48,-1.35,0.17,-0.2,0.04,1.52,0.58,-1.41,0.09,0.42,-0.29,0.18,-0.44,0.4,0.61,1.31,0.91,0.46,0.55,0.01),
+							assertiveness = c(0.77,-1.28,0.47,-0.81,-0.17,0.28,-1.34,-1.12,-0.13,-0.42,-2.3,-0.74,-1.78,2.11,-0.18,-0.06,-1.13,-2.13,-0.24,0.06,-2.55,-0.45,-0.77,-0.53,0.35,-0.65,1.27,-1.19,-1.25,0.1,1.67,-0.81,1.13,-1.39,0.34,-2.23,0.96,1.28,0.21,0.04,-1.99,0.04,0.31,-0.32,-0.56,-0.61,-0.04,1.41,-0.62,-2.12,-0.51,0.1,1.37,-1.65,-0.38,0.95,1.09,0.15,-0.28,-0.61,0.55,0.73,1.65,-0.95,-0.25,0.86,-0.81,0.85,0.32,-0.83,-0.54,-0.69,-0.9,1.47,0.47,-1.12,0.09,-0.11,1.08,-2.19,-1.23,0.13,-0.2,-0.95,0.87,-0.04,-0.79,-0.33,0.6,0.69,0.13,0.52,0.59,-0.15,1.03,-0.5,-0.21,-1.8,-0.21,-2.25),
+							patience = c(-0.67,-0.33,-2,1.73,-0.3,0.55,-0.77,-1.47,-0.01,1.02,-1.07,1.78,-1.41,-0.21,0.53,0.33,-1.2,1.11,-0.39,-0.23,-0.32,-0.88,-0.18,1.46,-0.74,2.78,-0.03,-0.07,0.06,-0.66,-1.65,0.16,2.18,1.08,0.64,0.29,-0.35,-1.64,0.21,-0.02,-0.34,0.67,-0.46,-1.21,0.76,0.55,-0.81,-0.17,-0.37,-0.58,-0.18,0.68,1.34,0.83,0.46,0.72,-0.72,0.31,-0.87,-0.58,0.7,0.15,-0.48,-0.27,-0.58,-1.17,0.54,1.25,0.25,-0.09,1.39,0.16,0.95,0.98,-0.87,0.88,-1.6,-0.13,-0.49,0.5,0.83,-0.44,0.41,-0.13,0.23,0.26,0.63,2.32,-1.15,-0.97,-0.35,-0.15,-1.92,-0.98,0.77,0.76,-1.46,-0.47,0.55,-0.58),
+							inquisitiveness = c(0.36,-1.42,1.03,0.44,0.14,-1.24,-0.85,-0.8,-0.51,-1.29,-0.03,0.46,0.58,0.71,0.4,0.96,-1.86,1.07,-1,-0.8,0.26,0.44,0.98,-0.09,1.04,0.17,-0.86,-0.32,-1.01,-0.29,-0.48,2.05,-0.26,-0.96,0.69,-1.64,1.29,-0.73,0.08,-0.43,0.27,1.31,-2.09,0.85,-2.42,1.54,0.4,-1.07,0.22,0.03,0.11,0.48,-0.06,0.62,0.57,0.91,0.22,0.56,0.6,-0.29,1.04,0.93,-0.83,0.84,1.68,-0.65,1.74,0.27,-0.27,-1,-0.82,-0.39,0.99,-0.18,0.27,1.62,0.1,0.7,1.5,-1.5,-0.83,-0.59,-0.45,0.57,-0.84,-1.48,-0.55,1.22,0.02,0.68,-0.36,-0.53,-0.9,-0.28,0.2,0.74,-0.31,0.23,-1.09,1.81)) %>%
+	mutate(i = ((age-7.54)*patience + 0.292178)/3.716451,
+			assertiveness = round(-.8*i + assertiveness,2)) %>%
+	dplyr::select(-i)
+
+correct_marmoset.data.c <- mutate(marmoset.data,
+                    c.patience = scale(patience) %>% as.vector(),
+                    c.age = scale(age) %>% as.vector())
+
+correct_marmoset.beta <- lm(assertiveness ~ c.patience*c.age,data = correct_marmoset.data.c) %>%
+  lm.beta() %>%
+  summary()
+
+
+if(!exists("marmoset.data")){
+	out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `marmoset.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+} else {
+	if(!identical(marmoset.data,correct_marmoset.data)){
+		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `marmoset.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+	} else {
+		if(!exists("marmoset.beta")){
+			out <- list(message = "Make sure to save the standardised betas from the `lm.beta()` and `summary()` function as the object `marmoset.beta`.", correct = FALSE, location = "append")
+		} else {
+			if(!("summary.lm.beta" %in% class(marmoset.beta))){
+				out <- list(message = "Make sure to save the standardised betas from the `lm.beta()` and `summary()` function as the object `marmoset.beta`.", correct = FALSE, location = "append")
+			} else {
+				if(!(-.70 %in% round(marmoset.beta$coefficients[,"Standardized"],2))){
+					out <- list(message = "The estimated coefficients saved as `lm.beta` do not match the correct answer. Check there are no errors in the code.", correct = FALSE, location = "append")
+				}
+			}
+		}
+	}
+}
+
+}
+
+#Question 7
+if (label == "question_a1b"){
+	
+	correct_anxiety.data <- data.frame(ID = 1:120,
+	drug_condition = c(rep("experimental",60),rep("control",60)),
+	dosage = c(rep("low",20),rep("medium",20),rep("high",20),rep("low",20),rep("medium",20),rep("high",20)),
+	anxiety = c(50,43,39,46,43,32,66,33,38,44,39,16,38,45,-3,51,20,43,57,48,30,40,50,60,-1,56,36,42,50,34,33,34,43,34,18,17,19,27,35,31,3,33,28,17,27,41,9,32,15,9,15,33,5,31,24,-11,16,39,-2,36,48,46,37,73,37,40,32,53,38,34,26,35,22,20,74,19,26,51,60,32,45,60,56,28,70,40,45,19,46,57,52,54,35,22,37,10,25,50,36,61,50,29,30,42,58,47,63,58,21,48,78,54,39,29,48,46,69,46,34,54))
+	
+	correct_anxiety.aov <- aov(anxiety ~ drug_condition*dosage,data = anxiety.data) %>%
+  summary()
+ 	
+ 	if (!exists("anxiety.data")){
+ 		out <- list(message = "The data.frame anxiety.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 	} else {
+ 		if(!identical(anxiety.data,correct_anxiety.data)){
+ 			out <- list(message = "The data.frame anxiety.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 		} else {
+ 			if(!exists("anxiety.aov")){
+ 				out <- list(message = "There is no object saved as anxiety.aov. Make sure to save the output from the ANOVA as `anxiety.aov`.", correct = FALSE, location = "append")
+ 			} else {
+ 				if(!("summary.aov" %in% class(anxiety.aov))){
+ 					out <- list(message = "It doesn't appear as if the `summary()` function has been used. Make sure to use it to give you interpretable output.", correct = FALSE, location = "append")
+ 				} else {
+ 					if(!identical(anxiety.aov,correct_anxiety.aov)){
+ 						out <- list(message = "The object saved as `anxiety.aov` does not match the correct answer. Please double-check there are no errors in the submitted code.", correct = FALSE, location = "append")
+ 					}
+ 				}
+ 			}
+ 		}
+ 	}
+} 
+  
+#Question 8
+if (label == "question_a2b"){
+	
+	correct_engagement.data <- data.frame(
+  Subject = c("BF","DK","MS","RV"),
+  Early = c(23,7,11,5),
+  Middle = c(22,14,14,15),
+  Late = c(31,3,11,14))
+	
+  correct_reshaped.data <- gather(engagement.data,key = "Time",value = "Output",Early,Middle,Late) %>%
+  mutate(Subject = as.factor(Subject))
+  
+	correct_engagement.aov <- aov(Output ~ Time + Error(Subject/Time),data = reshaped.data) %>%
+  summary()
+ 	
+ 	if (!exists("engagement.data")){
+ 		out <- list(message = "The data.frame engagement.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 	} else {
+ 		if(!identical(engagement.data,correct_engagement.data)){
+ 			out <- list(message = "The data.frame engagement.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 		} else {
+ 		  if(!exists("reshaped.data")){
+ 		    out <- list(message = "The data.frame reshaped.data appears to be altered. There is no need to alter the code that creates this data.frame. Click the 'Start Over' button if necessary.")
+ 		  } else {
+ 		    if(!identical(reshaped.data,correct_reshaped.data)){
+ 		      out <- list(message = "The data.frame reshaped.data appears to be altered. There is no need to alter the code that creates this data.frame. Click the 'Start Over' button if necessary.")
+ 		    } else {
+ 			if(!exists("engagement.aov")){
+ 				out <- list(message = "There is no object saved as engagement.aov. Make sure to save the output from the ANOVA as `engagement.aov`.", correct = FALSE, location = "append")
+ 			} else {
+ 				if(!("summary.aovlist" %in% class(engagement.aov))){
+ 					out <- list(message = "It doesn't appear as if the `summary()` function has been used. Make sure to use it to give you interpretable output.", correct = FALSE, location = "append")
+ 				} else {
+ 					if(!identical(engagement.aov,correct_engagement.aov)){
+ 						out <- list(message = "The object saved as `engagement.aov` does not match the correct answer. Please double-check there are no errors in the submitted code.", correct = FALSE, location = "append")
+ 					}
+ 				}
+ 			}
+ 		}
+ 	}
+ 	}
+ 	}
+}
+
+#Question 7
+if (label == "question_a3b"){
+	
+	pd <- matrix(c("LN","M",105,100,
+              "DZ","M",104,97,
+              "JL","M",98,95,
+              "MR","M",94,88,
+              "HMC","M",91,78,
+              "DR","D",88,72,
+              "CEY","M",88,82,
+              "SM","R",85,101,
+              "JB","M",80,77,
+              "AW","D",75,88,
+              "CC","F",67,65,
+              "AC","F",64,65,
+              "CAC","M",62,59,
+              "LMC","F",60,49,
+              "DG","D",58,60,
+              "EH","F",57,56,
+              "RM","F",57,62,
+              "HA","D",56,67,
+              "OMI","R",56,53,
+              "RL","D",56,64,
+              "DMS","F",52,52,
+              "MA","D",49,62,
+              "ZB","D",48,52,
+              "AS","R",46,46,
+              "CR","F",45,59,
+              "MC","F",44,38,
+              "JA","M",44,48,
+              "BS","D",31,34),byrow = TRUE,ncol = 4)
+correct_performance.data <- data.frame(ID = as.character(pd[,1]),
+                               regiment = as.character(pd[,2]),
+                               baseline = as.numeric(pd[,3]),
+                               time2 = as.numeric(pd[,4])) %>%
+  gather(key = "test.time",value = "performance",baseline,time2) %>%
+  mutate(ID = as.factor(ID))
+	
+	correct_performance.aov <- aov(performance ~ test.time*regiment + Error(ID/test.time),data = performance.data) %>%
+  summary()
+ 	
+ 	if (!exists("performance.data")){
+ 		out <- list(message = "The data.frame performance.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 	} else {
+ 		if(!identical(performance.data,correct_performance.data)){
+ 			out <- list(message = "The data.frame performance.data appears to be altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
+ 		} else {
+ 			if(!exists("performance.aov")){
+ 				out <- list(message = "There is no object saved as performance.aov. Make sure to save the output from the ANOVA as `anxiety.aov`.", correct = FALSE, location = "append")
+ 			} else {
+ 				if(!("summary.aovlist" %in% class(performance.aov))){
+ 					out <- list(message = "It doesn't appear as if the `summary()` function has been used. Make sure to use it to give you interpretable output.", correct = FALSE, location = "append")
+ 				} else {
+ 					if(!identical(performance.aov,correct_performance.aov)){
+ 						out <- list(message = "The object saved as `performance.aov` does not match the correct answer. Please double-check there are no errors in the submitted code.", correct = FALSE, location = "append")
+ 					}
+ 				}
+ 			}
+ 		}
+ 	}
+}   
+        
+  return(out)
+}
+
+tutorial_options(exercise.checker = checker)
+```
+
+## Introduction
+
+This is the seventh of the weekly exercises. These exercises are designed to reinforce content taught each week. Typically, they consist of quiz questions and R exercises that require you to enter code into a box. These exercises are split into beginner and advance sections. It is expected that students can complete the beginner sections of each weekly exercise, with the advanced sections designed for students who want an extra challenge or learn additional functions in R.If you are struggling, each exercise comes with a number of hints that may be helpful.
+
+## Basic Exercises
+
+### Question 1
+
+Below is a vector of numbers. Standardise the numbers in this vector and save the result as `z.numbers`.
+
+```{r question_4_1-setup}
+numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
+```
+
+```{r question_4_1, exercise=TRUE,exercise.lines = 12}
+numbers <- c(73,77,86,81,75,83,89,121,104,77,113,104,97,107,99,110,103,84,103,99,95,93,113,83,103,92,92,107,111,103,104,110,109,102,96,88,108,101,92,86)
+
+z.numbers
+```
+
+```{r question_4_1-hint-1}
+Use the `scale()` function to get standardised values. Make sure to set the 'scale' and 'center' arguments to `TRUE`.
+```
+
+```{r question_4_1-hint-2}
+Because of a quirk with the `scale()` function, you will need to convert the output to a vector using either the `c()` or the `as.vector()` function.
+
+Next hint will show the solution...
+```
+
+```{r question_4_1-solution}
+z.numbers <- c(scale(numbers,scale = TRUE,center = TRUE))
+#OR
+z.numbers <- scale(numbers,scale = TRUE,center = TRUE) %>% as.vector()
+```
+
+```{r question_4_1-check}
+checker()
+```
+
+### Question 2
+
+Below is code that tests for an interaction effect between two variables. Results from this regression indicate that there is a negative relationship between `var1` and `DV`. However, when running a correlation between the two variables, you find that there is a strong positive association. This would indicate that there is an error in the code for the regression. Fix the code so that the right conclusions can be drawn from the unstandardised linear regression.
+
+```{r question_1-setup}
+data <- data.frame(ID = 1:80,
+	var1 = c(36,31,26,95,35,42,89,86,5,44,56,27,100,86,4,78,19,40,30,33,73,81,16,45,68,22,79,93,13,3,43,48,77,91,98,90,60,61,66,44,27,34,80,21,64,13,93,86,7,3,35,72,87,62,94,99,89,18,72,5,54,78,89,97,20,17,67,24,79,18,100,75,44,64,66,30,44,57,66,34),
+	var2 = c(57,91,9,74,94,89,26,28,50,86,81,5,98,41,52,98,65,71,39,68,99,11,82,88,92,6,78,17,36,86,8,15,77,26,70,19,6,93,55,50,3,4,59,4,88,77,39,24,59,72,8,93,58,60,96,65,93,38,12,27,95,39,92,3,2,48,43,87,72,74,44,15,28,51,23,75,99,42,76,24),
+	e = c(-1.48,-1.2,0.94,2.65,0.32,0.23,-0.5,0.15,1.94,-0.73,1.19,1.21,0.04,-1.17,0.11,0.41,0.66,0.01,-1.41,0.25,0.01,0.49,1.37,1.69,-1.02,0.5,-1.1,-1.32,1.18,1.47,1.4,-0.21,-1.59,-0.19,-0.54,0.96,0.61,-0.2,0.6,0.74,0.43,1.33,0.73,0,1.85,0.55,-0.38,-0.37,-0.48,1.91,0.81,0.14,1.28,-1.13,-0.31,0.36,0.98,0.93,1.26,2.14,0.5,0.05,-0.64,1.65,-2.47,-0.73,-0.8,1.02,-0.66,1.3,-0.79,0.33,0.35,0.37,-0.79,-0.41,-1.68,-0.2,-0.82,1.28)) %>%
+	mutate(DV = (.2*var1) + (-.3*var2) + .4*(var1-53)*(var2-.53) + e)
+```
+
+```{r question_1, exercise=TRUE,exercise.lines = 12}
+cor.test(~ var1 + DV,data = data)
+
+lm.model <- lm(DV ~ var1*var2,data = data)
+summary(lm.model)
+```
+
+```{r question_1-hint-1}
+When including an interaction term, the variables need to be rescaled in some way...
+```
+
+```{r question_1-hint-2}
+The variables need to be centred to ensure that the main effect and the interaction term are not too highly correlated.
+
+Next hint will show the solution...
+```
+
+```{r question_1-solution}
+data2 <- mutate(data,c.var1 = c(scale(var1,center = TRUE)),
+                c.var2 = c(scale(var2,center = TRUE)))
+lm.model <- lm(DV ~ c.var1*c.var2,data = data2)
+
+summary(lm.model)
+```
+
+```{r question_1-check}
+checker()
+```
+
+### Question 3
+
+You measure the personality characteristics of 100 common marmosets on five domains (see data.frame `marmoset.data`). You predict that older marmosets will be more assertive, but only if they are low in patience. Run a linear regression with an interaction term to test this hypothesis. Save standardised regression coefficients from the function `lm.beta()` to an object named `marmoset.beta`.
+
+```{r,echo = FALSE}
+marmoset.data <- data.frame(ID = 1:100,
+							age = c(13,2,9,8,14,6,3,12,5,2,5,10,3,10,2,7,3,14,9,11,3,9,14,12,14,3,9,2,5,12,14,2,10,10,11,2,8,2,12,8,9,6,8,10,7,2,3,9,12,4,9,4,2,13,8,11,12,13,4,13,3,3,2,8,8,8,12,3,13,7,2,3,2,12,14,6,7,7,11,6,6,8,8,2,5,3,14,13,8,8,4,12,6,9,7,3,12,4,5,11),
+							conscientiousness = c(-0.99,-0.55,-1.03,0.45,-0.97,0.28,0.87,-0.47,0.63,-0.48,0.32,0.39,1.05,-0.54,-1.89,-1.23,-1.69,0.34,-0.86,1.41,-0.78,-1.57,-0.77,0.48,1.48,1.06,-0.12,0.07,0.54,0.92,1.21,0.13,0.51,0.22,-0.5,-0.8,-2.25,0.29,0,-0.36,-0.94,1.27,0.56,-0.33,-1.66,-0.33,-2.17,-1.11,-0.66,0.39,0.32,-0.6,-1.73,-0.09,0.6,-0.66,1.56,-0.82,0.69,0.09,-1.08,0.87,1.73,0.13,-0.75,-0.21,-1.91,-1.41,-1.21,0.78,1.17,0.67,-0.08,0.05,-2.28,1.68,1.15,0.15,0.12,-0.01,-1.21,-2.29,-0.34,-0.71,0.16,0.2,0.2,-0.07,0.1,-0.98,-0.38,0.27,0.22,0.27,-0.59,0.53,-0.69,1.64,-1.4,-0.87),
+							agreeableness = c(-1.4,0.36,-0.55,-1.28,1.07,-0.84,0.69,-1.63,0.31,0.82,-0.55,1.51,-0.86,-1.63,-3.11,1.46,-0.71,0.21,-0.68,-0.12,-0.62,0.02,0.48,-1.08,0.35,-0.11,0.7,0.29,1.1,-0.83,-0.58,-0.05,1.09,-0.71,-1.17,-0.74,-0.13,0.45,1.79,1.04,-0.5,-0.08,-0.82,0.15,0.63,0.36,-2.22,-0.06,1.69,0.76,-1.52,0.47,-0.58,-0.93,-1.87,0.67,1.98,-1.22,-1.5,0.01,-0.44,2.53,0.02,-2.32,0.42,-0.33,-1.14,-0.43,0.21,-2.28,0.45,1.13,-1.43,2.03,-0.81,-0.16,-0.9,-2.51,-0.81,0.73,0.48,-1.35,0.17,-0.2,0.04,1.52,0.58,-1.41,0.09,0.42,-0.29,0.18,-0.44,0.4,0.61,1.31,0.91,0.46,0.55,0.01),
+							assertiveness = c(0.77,-1.28,0.47,-0.81,-0.17,0.28,-1.34,-1.12,-0.13,-0.42,-2.3,-0.74,-1.78,2.11,-0.18,-0.06,-1.13,-2.13,-0.24,0.06,-2.55,-0.45,-0.77,-0.53,0.35,-0.65,1.27,-1.19,-1.25,0.1,1.67,-0.81,1.13,-1.39,0.34,-2.23,0.96,1.28,0.21,0.04,-1.99,0.04,0.31,-0.32,-0.56,-0.61,-0.04,1.41,-0.62,-2.12,-0.51,0.1,1.37,-1.65,-0.38,0.95,1.09,0.15,-0.28,-0.61,0.55,0.73,1.65,-0.95,-0.25,0.86,-0.81,0.85,0.32,-0.83,-0.54,-0.69,-0.9,1.47,0.47,-1.12,0.09,-0.11,1.08,-2.19,-1.23,0.13,-0.2,-0.95,0.87,-0.04,-0.79,-0.33,0.6,0.69,0.13,0.52,0.59,-0.15,1.03,-0.5,-0.21,-1.8,-0.21,-2.25),
+							patience = c(-0.67,-0.33,-2,1.73,-0.3,0.55,-0.77,-1.47,-0.01,1.02,-1.07,1.78,-1.41,-0.21,0.53,0.33,-1.2,1.11,-0.39,-0.23,-0.32,-0.88,-0.18,1.46,-0.74,2.78,-0.03,-0.07,0.06,-0.66,-1.65,0.16,2.18,1.08,0.64,0.29,-0.35,-1.64,0.21,-0.02,-0.34,0.67,-0.46,-1.21,0.76,0.55,-0.81,-0.17,-0.37,-0.58,-0.18,0.68,1.34,0.83,0.46,0.72,-0.72,0.31,-0.87,-0.58,0.7,0.15,-0.48,-0.27,-0.58,-1.17,0.54,1.25,0.25,-0.09,1.39,0.16,0.95,0.98,-0.87,0.88,-1.6,-0.13,-0.49,0.5,0.83,-0.44,0.41,-0.13,0.23,0.26,0.63,2.32,-1.15,-0.97,-0.35,-0.15,-1.92,-0.98,0.77,0.76,-1.46,-0.47,0.55,-0.58),
+							inquisitiveness = c(0.36,-1.42,1.03,0.44,0.14,-1.24,-0.85,-0.8,-0.51,-1.29,-0.03,0.46,0.58,0.71,0.4,0.96,-1.86,1.07,-1,-0.8,0.26,0.44,0.98,-0.09,1.04,0.17,-0.86,-0.32,-1.01,-0.29,-0.48,2.05,-0.26,-0.96,0.69,-1.64,1.29,-0.73,0.08,-0.43,0.27,1.31,-2.09,0.85,-2.42,1.54,0.4,-1.07,0.22,0.03,0.11,0.48,-0.06,0.62,0.57,0.91,0.22,0.56,0.6,-0.29,1.04,0.93,-0.83,0.84,1.68,-0.65,1.74,0.27,-0.27,-1,-0.82,-0.39,0.99,-0.18,0.27,1.62,0.1,0.7,1.5,-1.5,-0.83,-0.59,-0.45,0.57,-0.84,-1.48,-0.55,1.22,0.02,0.68,-0.36,-0.53,-0.9,-0.28,0.2,0.74,-0.31,0.23,-1.09,1.81)) %>%
+	mutate(i = ((age-7.54)*patience + 0.292178)/3.716451,
+			assertiveness = round(-.8*i + assertiveness,2)) %>%
+	dplyr::select(-i)
+
+marmoset.data
+```
+
+```{r question_2-setup}
+marmoset.data <- data.frame(ID = 1:100,
+							age = c(13,2,9,8,14,6,3,12,5,2,5,10,3,10,2,7,3,14,9,11,3,9,14,12,14,3,9,2,5,12,14,2,10,10,11,2,8,2,12,8,9,6,8,10,7,2,3,9,12,4,9,4,2,13,8,11,12,13,4,13,3,3,2,8,8,8,12,3,13,7,2,3,2,12,14,6,7,7,11,6,6,8,8,2,5,3,14,13,8,8,4,12,6,9,7,3,12,4,5,11),
+							conscientiousness = c(-0.99,-0.55,-1.03,0.45,-0.97,0.28,0.87,-0.47,0.63,-0.48,0.32,0.39,1.05,-0.54,-1.89,-1.23,-1.69,0.34,-0.86,1.41,-0.78,-1.57,-0.77,0.48,1.48,1.06,-0.12,0.07,0.54,0.92,1.21,0.13,0.51,0.22,-0.5,-0.8,-2.25,0.29,0,-0.36,-0.94,1.27,0.56,-0.33,-1.66,-0.33,-2.17,-1.11,-0.66,0.39,0.32,-0.6,-1.73,-0.09,0.6,-0.66,1.56,-0.82,0.69,0.09,-1.08,0.87,1.73,0.13,-0.75,-0.21,-1.91,-1.41,-1.21,0.78,1.17,0.67,-0.08,0.05,-2.28,1.68,1.15,0.15,0.12,-0.01,-1.21,-2.29,-0.34,-0.71,0.16,0.2,0.2,-0.07,0.1,-0.98,-0.38,0.27,0.22,0.27,-0.59,0.53,-0.69,1.64,-1.4,-0.87),
+							agreeableness = c(-1.4,0.36,-0.55,-1.28,1.07,-0.84,0.69,-1.63,0.31,0.82,-0.55,1.51,-0.86,-1.63,-3.11,1.46,-0.71,0.21,-0.68,-0.12,-0.62,0.02,0.48,-1.08,0.35,-0.11,0.7,0.29,1.1,-0.83,-0.58,-0.05,1.09,-0.71,-1.17,-0.74,-0.13,0.45,1.79,1.04,-0.5,-0.08,-0.82,0.15,0.63,0.36,-2.22,-0.06,1.69,0.76,-1.52,0.47,-0.58,-0.93,-1.87,0.67,1.98,-1.22,-1.5,0.01,-0.44,2.53,0.02,-2.32,0.42,-0.33,-1.14,-0.43,0.21,-2.28,0.45,1.13,-1.43,2.03,-0.81,-0.16,-0.9,-2.51,-0.81,0.73,0.48,-1.35,0.17,-0.2,0.04,1.52,0.58,-1.41,0.09,0.42,-0.29,0.18,-0.44,0.4,0.61,1.31,0.91,0.46,0.55,0.01),
+							assertiveness = c(0.77,-1.28,0.47,-0.81,-0.17,0.28,-1.34,-1.12,-0.13,-0.42,-2.3,-0.74,-1.78,2.11,-0.18,-0.06,-1.13,-2.13,-0.24,0.06,-2.55,-0.45,-0.77,-0.53,0.35,-0.65,1.27,-1.19,-1.25,0.1,1.67,-0.81,1.13,-1.39,0.34,-2.23,0.96,1.28,0.21,0.04,-1.99,0.04,0.31,-0.32,-0.56,-0.61,-0.04,1.41,-0.62,-2.12,-0.51,0.1,1.37,-1.65,-0.38,0.95,1.09,0.15,-0.28,-0.61,0.55,0.73,1.65,-0.95,-0.25,0.86,-0.81,0.85,0.32,-0.83,-0.54,-0.69,-0.9,1.47,0.47,-1.12,0.09,-0.11,1.08,-2.19,-1.23,0.13,-0.2,-0.95,0.87,-0.04,-0.79,-0.33,0.6,0.69,0.13,0.52,0.59,-0.15,1.03,-0.5,-0.21,-1.8,-0.21,-2.25),
+							patience = c(-0.67,-0.33,-2,1.73,-0.3,0.55,-0.77,-1.47,-0.01,1.02,-1.07,1.78,-1.41,-0.21,0.53,0.33,-1.2,1.11,-0.39,-0.23,-0.32,-0.88,-0.18,1.46,-0.74,2.78,-0.03,-0.07,0.06,-0.66,-1.65,0.16,2.18,1.08,0.64,0.29,-0.35,-1.64,0.21,-0.02,-0.34,0.67,-0.46,-1.21,0.76,0.55,-0.81,-0.17,-0.37,-0.58,-0.18,0.68,1.34,0.83,0.46,0.72,-0.72,0.31,-0.87,-0.58,0.7,0.15,-0.48,-0.27,-0.58,-1.17,0.54,1.25,0.25,-0.09,1.39,0.16,0.95,0.98,-0.87,0.88,-1.6,-0.13,-0.49,0.5,0.83,-0.44,0.41,-0.13,0.23,0.26,0.63,2.32,-1.15,-0.97,-0.35,-0.15,-1.92,-0.98,0.77,0.76,-1.46,-0.47,0.55,-0.58),
+							inquisitiveness = c(0.36,-1.42,1.03,0.44,0.14,-1.24,-0.85,-0.8,-0.51,-1.29,-0.03,0.46,0.58,0.71,0.4,0.96,-1.86,1.07,-1,-0.8,0.26,0.44,0.98,-0.09,1.04,0.17,-0.86,-0.32,-1.01,-0.29,-0.48,2.05,-0.26,-0.96,0.69,-1.64,1.29,-0.73,0.08,-0.43,0.27,1.31,-2.09,0.85,-2.42,1.54,0.4,-1.07,0.22,0.03,0.11,0.48,-0.06,0.62,0.57,0.91,0.22,0.56,0.6,-0.29,1.04,0.93,-0.83,0.84,1.68,-0.65,1.74,0.27,-0.27,-1,-0.82,-0.39,0.99,-0.18,0.27,1.62,0.1,0.7,1.5,-1.5,-0.83,-0.59,-0.45,0.57,-0.84,-1.48,-0.55,1.22,0.02,0.68,-0.36,-0.53,-0.9,-0.28,0.2,0.74,-0.31,0.23,-1.09,1.81)) %>%
+	mutate(i = ((age-7.54)*patience + 0.292178)/3.716451,
+			assertiveness = round(-.8*i + assertiveness,2)) %>%
+	dplyr::select(-i)
+```
+
+```{r question_2, exercise=TRUE,exercise.lines = 12}
+#marmoset.data
+```
+
+```{r question_2-hint-1}
+The variables need to be centred to ensure that the main effect and the interaction term are not too highly correlated.
+```
+
+```{r question_2-hint-2}
+Use the `lm.beta()` function to get the standardised coefficients.
+
+Next hint will show the solution...
+```
+
+```{r question_2-solution}
+##Center Variables.
+marmoset.data.c <- mutate(marmoset.data,
+					c.patience = scale(patience) %>% as.vector(),
+					c.age = scale(age) %>% as.vector())
+
+##Run regression and get standardised coefficients.
+marmoset.beta <- lm(assertiveness ~ c.patience*c.age,data = marmoset.data.c) %>%
+  lm.beta() %>%
+  summary()
+
+marmoset.beta
+```
+
+```{r question_2-check}
+checker()
+```
+
+### Question 4
+
+Plot the analysis from Question 3 to determine the correct pattern of results.
+
+```{r question_3-setup}
+marmoset.data <- data.frame(ID = 1:100,
+							age = c(13,2,9,8,14,6,3,12,5,2,5,10,3,10,2,7,3,14,9,11,3,9,14,12,14,3,9,2,5,12,14,2,10,10,11,2,8,2,12,8,9,6,8,10,7,2,3,9,12,4,9,4,2,13,8,11,12,13,4,13,3,3,2,8,8,8,12,3,13,7,2,3,2,12,14,6,7,7,11,6,6,8,8,2,5,3,14,13,8,8,4,12,6,9,7,3,12,4,5,11),
+							conscientiousness = c(-0.99,-0.55,-1.03,0.45,-0.97,0.28,0.87,-0.47,0.63,-0.48,0.32,0.39,1.05,-0.54,-1.89,-1.23,-1.69,0.34,-0.86,1.41,-0.78,-1.57,-0.77,0.48,1.48,1.06,-0.12,0.07,0.54,0.92,1.21,0.13,0.51,0.22,-0.5,-0.8,-2.25,0.29,0,-0.36,-0.94,1.27,0.56,-0.33,-1.66,-0.33,-2.17,-1.11,-0.66,0.39,0.32,-0.6,-1.73,-0.09,0.6,-0.66,1.56,-0.82,0.69,0.09,-1.08,0.87,1.73,0.13,-0.75,-0.21,-1.91,-1.41,-1.21,0.78,1.17,0.67,-0.08,0.05,-2.28,1.68,1.15,0.15,0.12,-0.01,-1.21,-2.29,-0.34,-0.71,0.16,0.2,0.2,-0.07,0.1,-0.98,-0.38,0.27,0.22,0.27,-0.59,0.53,-0.69,1.64,-1.4,-0.87),
+							agreeableness = c(-1.4,0.36,-0.55,-1.28,1.07,-0.84,0.69,-1.63,0.31,0.82,-0.55,1.51,-0.86,-1.63,-3.11,1.46,-0.71,0.21,-0.68,-0.12,-0.62,0.02,0.48,-1.08,0.35,-0.11,0.7,0.29,1.1,-0.83,-0.58,-0.05,1.09,-0.71,-1.17,-0.74,-0.13,0.45,1.79,1.04,-0.5,-0.08,-0.82,0.15,0.63,0.36,-2.22,-0.06,1.69,0.76,-1.52,0.47,-0.58,-0.93,-1.87,0.67,1.98,-1.22,-1.5,0.01,-0.44,2.53,0.02,-2.32,0.42,-0.33,-1.14,-0.43,0.21,-2.28,0.45,1.13,-1.43,2.03,-0.81,-0.16,-0.9,-2.51,-0.81,0.73,0.48,-1.35,0.17,-0.2,0.04,1.52,0.58,-1.41,0.09,0.42,-0.29,0.18,-0.44,0.4,0.61,1.31,0.91,0.46,0.55,0.01),
+							assertiveness = c(0.77,-1.28,0.47,-0.81,-0.17,0.28,-1.34,-1.12,-0.13,-0.42,-2.3,-0.74,-1.78,2.11,-0.18,-0.06,-1.13,-2.13,-0.24,0.06,-2.55,-0.45,-0.77,-0.53,0.35,-0.65,1.27,-1.19,-1.25,0.1,1.67,-0.81,1.13,-1.39,0.34,-2.23,0.96,1.28,0.21,0.04,-1.99,0.04,0.31,-0.32,-0.56,-0.61,-0.04,1.41,-0.62,-2.12,-0.51,0.1,1.37,-1.65,-0.38,0.95,1.09,0.15,-0.28,-0.61,0.55,0.73,1.65,-0.95,-0.25,0.86,-0.81,0.85,0.32,-0.83,-0.54,-0.69,-0.9,1.47,0.47,-1.12,0.09,-0.11,1.08,-2.19,-1.23,0.13,-0.2,-0.95,0.87,-0.04,-0.79,-0.33,0.6,0.69,0.13,0.52,0.59,-0.15,1.03,-0.5,-0.21,-1.8,-0.21,-2.25),
+							patience = c(-0.67,-0.33,-2,1.73,-0.3,0.55,-0.77,-1.47,-0.01,1.02,-1.07,1.78,-1.41,-0.21,0.53,0.33,-1.2,1.11,-0.39,-0.23,-0.32,-0.88,-0.18,1.46,-0.74,2.78,-0.03,-0.07,0.06,-0.66,-1.65,0.16,2.18,1.08,0.64,0.29,-0.35,-1.64,0.21,-0.02,-0.34,0.67,-0.46,-1.21,0.76,0.55,-0.81,-0.17,-0.37,-0.58,-0.18,0.68,1.34,0.83,0.46,0.72,-0.72,0.31,-0.87,-0.58,0.7,0.15,-0.48,-0.27,-0.58,-1.17,0.54,1.25,0.25,-0.09,1.39,0.16,0.95,0.98,-0.87,0.88,-1.6,-0.13,-0.49,0.5,0.83,-0.44,0.41,-0.13,0.23,0.26,0.63,2.32,-1.15,-0.97,-0.35,-0.15,-1.92,-0.98,0.77,0.76,-1.46,-0.47,0.55,-0.58),
+							inquisitiveness = c(0.36,-1.42,1.03,0.44,0.14,-1.24,-0.85,-0.8,-0.51,-1.29,-0.03,0.46,0.58,0.71,0.4,0.96,-1.86,1.07,-1,-0.8,0.26,0.44,0.98,-0.09,1.04,0.17,-0.86,-0.32,-1.01,-0.29,-0.48,2.05,-0.26,-0.96,0.69,-1.64,1.29,-0.73,0.08,-0.43,0.27,1.31,-2.09,0.85,-2.42,1.54,0.4,-1.07,0.22,0.03,0.11,0.48,-0.06,0.62,0.57,0.91,0.22,0.56,0.6,-0.29,1.04,0.93,-0.83,0.84,1.68,-0.65,1.74,0.27,-0.27,-1,-0.82,-0.39,0.99,-0.18,0.27,1.62,0.1,0.7,1.5,-1.5,-0.83,-0.59,-0.45,0.57,-0.84,-1.48,-0.55,1.22,0.02,0.68,-0.36,-0.53,-0.9,-0.28,0.2,0.74,-0.31,0.23,-1.09,1.81)) %>%
+	mutate(i = ((age-7.54)*patience + 0.292178)/3.716451,
+			assertiveness = round(-.8*i + assertiveness,2)) %>%
+	dplyr::select(-i)
+```
+
+```{r question_3, exercise=TRUE,exercise.lines = 12}
+#marmoset.data
+```
+
+```{r question_3-hint-1}
+A good way to determine the nature of an interaction is to plot the data...
+```
+
+```{r question_3-hint-2}
+You may want to split participants by the moderator (e.g., high vs. low patience) to see the effect it has on the relationship between the predictor and the outcome.
+```
+
+```{r question_3-solution}
+#Get mean to split the plot by the moderator.
+mean(marmoset.data$patience)  
+  
+plot.data <- mutate(marmoset.data,cat.patience = ifelse(patience > -0.0043,"high patience","low patience"))
+
+ggplot(plot.data,mapping = aes(x = age, y = assertiveness,group = cat.patience,colour = cat.patience)) +
+  geom_smooth(method = "lm")
+
+#The plot above splits the dataset into high and low scorers on patience, then plots the relationship between age and assertiveness for each. Note that red denotes high patience, while blue denotes low patience.
+```
+
+```{r question_3-quiz}
+quiz(question("The correct interpretation for the analysis above is...",
+     answer("There is no significant interaction between marmoset age and patience on assertiveness."),
+     answer("For marmosets high in patience, age is negatively associated with assertiveness. For marmoset low in patience, age is positively associated with assertiveness.", correct = TRUE),
+     answer("Older marmosets are less assertive; and this is more so for marmosets who are low in patience."),
+     answer("Older marmosets are more assertive; but for marmosets who are high in patience, age is negatively associated with assertiveness."),allow_retry = TRUE))
+```
+
+### Question 5
+
+In the code box below, there is a dataset testing whether the use of an experimental drug helps with anxiety. In a randomised controlled trial, participants are either assigned to the experimental drug condition, or a control group. Participants are also randomly assigned to one of three dosage groups (low, medium, and high). Conduct the appropriate two-way ANOVA to determine whether the use of the drug, as well as dosage levels, helps with levels of anxiety. Save the results from the `aov()` function (after using the `summary()` function) to an object called `anxiety.aov`.
+
+```{r,echo = FALSE}
+anxiety.data <- data.frame(ID = 1:120,
+	drug_condition = c(rep("experimental",60),rep("control",60)),
+	dosage = c(rep("low",20),rep("medium",20),rep("high",20),rep("low",20),rep("medium",20),rep("high",20)),
+	anxiety = c(50,43,39,46,43,32,66,33,38,44,39,16,38,45,-3,51,20,43,57,48,30,40,50,60,-1,56,36,42,50,34,33,34,43,34,18,17,19,27,35,31,3,33,28,17,27,41,9,32,15,9,15,33,5,31,24,-11,16,39,-2,36,48,46,37,73,37,40,32,53,38,34,26,35,22,20,74,19,26,51,60,32,45,60,56,28,70,40,45,19,46,57,52,54,35,22,37,10,25,50,36,61,50,29,30,42,58,47,63,58,21,48,78,54,39,29,48,46,69,46,34,54))
+
+anxiety.data
+```
+
+```{r question_a1b-setup}
+anxiety.data <- data.frame(ID = 1:120,
+	drug_condition = c(rep("experimental",60),rep("control",60)),
+	dosage = c(rep("low",20),rep("medium",20),rep("high",20),rep("low",20),rep("medium",20),rep("high",20)),
+	anxiety = c(50,43,39,46,43,32,66,33,38,44,39,16,38,45,-3,51,20,43,57,48,30,40,50,60,-1,56,36,42,50,34,33,34,43,34,18,17,19,27,35,31,3,33,28,17,27,41,9,32,15,9,15,33,5,31,24,-11,16,39,-2,36,48,46,37,73,37,40,32,53,38,34,26,35,22,20,74,19,26,51,60,32,45,60,56,28,70,40,45,19,46,57,52,54,35,22,37,10,25,50,36,61,50,29,30,42,58,47,63,58,21,48,78,54,39,29,48,46,69,46,34,54))
+```
+
+```{r question_a1b, exercise=TRUE,exercise.lines = 12}
+#anxiety.data
+
+anxiety.aov <-
+  
+anxiety.aov
+
+```
+
+```{r question_a1b-hint-1}
+Use the `aov()` function to conduct the two-way ANOVA. Remember the formula should include the interaction between the two IVs.
+```
+
+```{r question_a1b-hint-2}
+You will need to decide whether a between-subjects ANOVA, a within-subjects ANOVA, or a mixed-design ANOVA is appropriate. This will influence the formula you enter in the `aov()` function.
+
+Next hint will show the solution...
+```
+
+```{r question_a1b-solution}
+anxiety.aov <- aov(anxiety ~ drug_condition*dosage,data = anxiety.data) %>%
+  summary()
+
+anxiety.aov
+```
+
+```{r question_a1b-check}
+checker()
+```
+
+```{r question_a1b-quiz}
+quiz(question("What is the correct interpretation for the analysis above? (You may need to conduct post-hoc comparisons, or plot the data).",
+     answer("There is no significant interaction between condition and dosage level."),
+     answer("Anxiety is negatively associated with dosage, but only in the experimental condition.", correct = TRUE),
+     answer("Overall, anxiety was higher for those in the experimental condition."),
+     answer("Overall, there is a significant main effect of dosage on anxiety levels."),allow_retry = TRUE))
+```
+
+### Question 6
+
+```{r question_a2b-setup}
+engagement.data <- data.frame(
+  Subject = c("BF","DK","MS","RV"),
+  Early = c(23,7,11,5),
+  Middle = c(22,14,14,15),
+  Late = c(31,3,11,14)
+)
+```
+
+In the code box below, there is a dataset testing the engagement of four participants in a group activity. Engagement is measured by the number of outputs produced from the group activity by each individual. We expect that engagement differs across three different time points (early, middle, and late).
+
+```{r question_a2b-quiz}
+quiz(question("Given the description above, what is the appropriate statistical analysis?",
+     answer("One-way Within-Subjects ANOVA", correct = TRUE),
+     answer("Two-way Between-Subjects ANOVA"),
+     answer("Two-way Mixed-Design ANOVA"),
+     answer("Two-way Within-Subjects ANOVA"),allow_retry = TRUE))
+```
+
+```{r,echo = FALSE}
+engagement.data <- data.frame(
+  Subject = c("BF","DK","MS","RV"),
+  Early = c(23,7,11,5),
+  Middle = c(22,14,14,15),
+  Late = c(31,3,11,14)
+)
+
+engagement.data
+```
+
+ Conduct the appropriate ANOVA to test this hypothesis. Save the results from the `aov()` function (after using the `summary()` function) to an object called `engagement.aov`. Note, you may need to reshape the data. If so, the code to reshape the data has been provided.
+
+```{r question_a2b, exercise=TRUE,exercise.lines = 12}
+#engagement.data
+
+reshaped.data <- gather(engagement.data,key = "Time",value = "Output",Early,Middle,Late) %>%
+  mutate(Subject = as.factor(Subject))
+
+engagement.aov <- 
+```
+
+```{r question_a2b-hint-1}
+Given that the IV of "Time" is a within-subjects variable, the appropriate analysis is a repeated-measures one-way ANOVA.
+```
+
+```{r question_a2b-hint-2}
+Remember the formula should include a part that tells the function that a variable is repeated within another variable. This takes the form of `+ Error(.../...)`
+
+Next hint will show the solution...
+```
+
+```{r question_a2b-solution}
+reshaped.data <- gather(engagement.data,key = "Time",value = "Output",Early,Middle,Late) %>%
+  mutate(Subject = as.factor(Subject))
+
+engagement.aov <- aov(Output ~ Time + Error(Subject/Time),data = reshaped.data) %>%
+  summary()
+```
+
+```{r question_a2b-check}
+checker()
+```
+
+### Question 7
+
+```{r question_a3b-setup}
+pd <- matrix(c("LN","M",105,100,
+              "DZ","M",104,97,
+              "JL","M",98,95,
+              "MR","M",94,88,
+              "HMC","M",91,78,
+              "DR","D",88,72,
+              "CEY","M",88,82,
+              "SM","R",85,101,
+              "JB","M",80,77,
+              "AW","D",75,88,
+              "CC","F",67,65,
+              "AC","F",64,65,
+              "CAC","M",62,59,
+              "LMC","F",60,49,
+              "DG","D",58,60,
+              "EH","F",57,56,
+              "RM","F",57,62,
+              "HA","D",56,67,
+              "OMI","R",56,53,
+              "RL","D",56,64,
+              "DMS","F",52,52,
+              "MA","D",49,62,
+              "ZB","D",48,52,
+              "AS","R",46,46,
+              "CR","F",45,59,
+              "MC","F",44,38,
+              "JA","M",44,48,
+              "BS","D",31,34),byrow = TRUE,ncol = 4)
+performance.data <- data.frame(ID = as.character(pd[,1]),
+                               regiment = as.character(pd[,2]),
+                               baseline = as.numeric(pd[,3]),
+                               time2 = as.numeric(pd[,4])) %>%
+  gather(key = "test.time",value = "performance",baseline,time2) %>%
+  mutate(ID = as.factor(ID))
+```
+
+In the code box below, there is a dataset testing the performance of elite athletes before and after a training regiment (higher numbers means greater performance). These athletes were randomly assigned into one of four training regiment (D,M,R,F). Conduct a mixed-design ANOVA to determine whether change in performance between `baseline` and `time2` differs based on the training regiment. Save the results from the `aov()` function (after using the `summary()` function) to an object called `performance.aov`. Note, the dataset below has already been reshaped.
+
+```{r,echo = FALSE}
+pd <- matrix(c("LN","M",105,100,
+              "DZ","M",104,97,
+              "JL","M",98,95,
+              "MR","M",94,88,
+              "HMC","M",91,78,
+              "DR","D",88,72,
+              "CEY","M",88,82,
+              "SM","R",85,101,
+              "JB","M",80,77,
+              "AW","D",75,88,
+              "CC","F",67,65,
+              "AC","F",64,65,
+              "CAC","M",62,59,
+              "LMC","F",60,49,
+              "DG","D",58,60,
+              "EH","F",57,56,
+              "RM","F",57,62,
+              "HA","D",56,67,
+              "OMI","R",56,53,
+              "RL","D",56,64,
+              "DMS","F",52,52,
+              "MA","D",49,62,
+              "ZB","D",48,52,
+              "AS","R",46,46,
+              "CR","F",45,59,
+              "MC","F",44,38,
+              "JA","M",44,48,
+              "BS","D",31,34),byrow = TRUE,ncol = 4)
+performance.data <- data.frame(ID = as.character(pd[,1]),
+                               regiment = as.character(pd[,2]),
+                               baseline = as.numeric(pd[,3]),
+                               time2 = as.numeric(pd[,4])) %>%
+  gather(key = "test.time",value = "performance",baseline,time2) %>%
+  mutate(ID = as.factor(ID))
+
+performance.data %>%
+  arrange(ID)
+```
+
+```{r question_a3b, exercise=TRUE,exercise.lines = 12}
+#performance.data
+
+performance.aov <- 
+```
+
+```{r question_a3b-hint-1}
+Use the `aov()` function to conduct a mixed design ANOVA.
+```
+
+```{r question_a3b-hint-2}
+Remember the formula should include an interaction term and a part that tells the function that a variable is repeated within another variable. This takes the form of `+ Error(.../...)`
+
+Next hint will show the solution...
+```
+
+```{r question_a3b-solution}
+performance.aov <- aov(performance ~ test.time*regiment + Error(ID/test.time),data = performance.data) %>%
+  summary()
+```
+
+```{r question_a3b-check}
+checker()
+```
+
+## Advanced Exercises
+
+This week's advanced exercises focuses on expanding the uses of linear regression.
+
+### Question A1 - Moderation with Control Variables
+
+Often, when conducting linear regressions, we are required to control for extraneous variables. As described in the lectures, simply entering these extraneous variables into the regression analysis with your predictors is a way of including variables as control variables. Essentially the same process occurs when including a control variable when assessing an interaction effect.
+
+Below, we have an example where the relationship being assessed is the interaction between `pred1` and `pred2` on the `outcome` variable. Without a control variable, the formula would like this:
+
+```{r,echo = TRUE,eval = FALSE}
+lm(outcome ~ pred1*pred2,data = data)
+
+#OR
+
+lm(outcome ~ pred1 + pred2 + pred1:pred2,data = data)
+```
+
+To include the control variable, we simply need to add this variable (and its interaction terms with the two predictors) into the model. The way to interpret this is that the interaction term of interest (`pred1:pred2`) is the variance explained by the interaction once the variance explained by the control variable and its interactions (`control`) has been accounted for.
+
+```{r,echo = TRUE,eval = FALSE}
+lm(outcome ~ pred1*pred2 + pred1*control + pred2*control,data = data)
+
+#OR
+
+lm(outcome ~ pred1 + pred2 + control + pred1:pred2 + pred1:control + pred2:control,data = data)
+```
+
+In the code box below, using the marmoset dataset from question 3, conduct a moderation analysis between the influence of patience (predictor 1) and age (predictor 2) on assertiveness (outcome), while controlling for both agreeableness and conscientiousness.
+
+```{r question_a1-setup}
+marmoset.data <- data.frame(ID = 1:100,
+							age = c(13,2,9,8,14,6,3,12,5,2,5,10,3,10,2,7,3,14,9,11,3,9,14,12,14,3,9,2,5,12,14,2,10,10,11,2,8,2,12,8,9,6,8,10,7,2,3,9,12,4,9,4,2,13,8,11,12,13,4,13,3,3,2,8,8,8,12,3,13,7,2,3,2,12,14,6,7,7,11,6,6,8,8,2,5,3,14,13,8,8,4,12,6,9,7,3,12,4,5,11),
+							conscientiousness = c(-0.99,-0.55,-1.03,0.45,-0.97,0.28,0.87,-0.47,0.63,-0.48,0.32,0.39,1.05,-0.54,-1.89,-1.23,-1.69,0.34,-0.86,1.41,-0.78,-1.57,-0.77,0.48,1.48,1.06,-0.12,0.07,0.54,0.92,1.21,0.13,0.51,0.22,-0.5,-0.8,-2.25,0.29,0,-0.36,-0.94,1.27,0.56,-0.33,-1.66,-0.33,-2.17,-1.11,-0.66,0.39,0.32,-0.6,-1.73,-0.09,0.6,-0.66,1.56,-0.82,0.69,0.09,-1.08,0.87,1.73,0.13,-0.75,-0.21,-1.91,-1.41,-1.21,0.78,1.17,0.67,-0.08,0.05,-2.28,1.68,1.15,0.15,0.12,-0.01,-1.21,-2.29,-0.34,-0.71,0.16,0.2,0.2,-0.07,0.1,-0.98,-0.38,0.27,0.22,0.27,-0.59,0.53,-0.69,1.64,-1.4,-0.87),
+							agreeableness = c(-1.4,0.36,-0.55,-1.28,1.07,-0.84,0.69,-1.63,0.31,0.82,-0.55,1.51,-0.86,-1.63,-3.11,1.46,-0.71,0.21,-0.68,-0.12,-0.62,0.02,0.48,-1.08,0.35,-0.11,0.7,0.29,1.1,-0.83,-0.58,-0.05,1.09,-0.71,-1.17,-0.74,-0.13,0.45,1.79,1.04,-0.5,-0.08,-0.82,0.15,0.63,0.36,-2.22,-0.06,1.69,0.76,-1.52,0.47,-0.58,-0.93,-1.87,0.67,1.98,-1.22,-1.5,0.01,-0.44,2.53,0.02,-2.32,0.42,-0.33,-1.14,-0.43,0.21,-2.28,0.45,1.13,-1.43,2.03,-0.81,-0.16,-0.9,-2.51,-0.81,0.73,0.48,-1.35,0.17,-0.2,0.04,1.52,0.58,-1.41,0.09,0.42,-0.29,0.18,-0.44,0.4,0.61,1.31,0.91,0.46,0.55,0.01),
+							assertiveness = c(0.77,-1.28,0.47,-0.81,-0.17,0.28,-1.34,-1.12,-0.13,-0.42,-2.3,-0.74,-1.78,2.11,-0.18,-0.06,-1.13,-2.13,-0.24,0.06,-2.55,-0.45,-0.77,-0.53,0.35,-0.65,1.27,-1.19,-1.25,0.1,1.67,-0.81,1.13,-1.39,0.34,-2.23,0.96,1.28,0.21,0.04,-1.99,0.04,0.31,-0.32,-0.56,-0.61,-0.04,1.41,-0.62,-2.12,-0.51,0.1,1.37,-1.65,-0.38,0.95,1.09,0.15,-0.28,-0.61,0.55,0.73,1.65,-0.95,-0.25,0.86,-0.81,0.85,0.32,-0.83,-0.54,-0.69,-0.9,1.47,0.47,-1.12,0.09,-0.11,1.08,-2.19,-1.23,0.13,-0.2,-0.95,0.87,-0.04,-0.79,-0.33,0.6,0.69,0.13,0.52,0.59,-0.15,1.03,-0.5,-0.21,-1.8,-0.21,-2.25),
+							patience = c(-0.67,-0.33,-2,1.73,-0.3,0.55,-0.77,-1.47,-0.01,1.02,-1.07,1.78,-1.41,-0.21,0.53,0.33,-1.2,1.11,-0.39,-0.23,-0.32,-0.88,-0.18,1.46,-0.74,2.78,-0.03,-0.07,0.06,-0.66,-1.65,0.16,2.18,1.08,0.64,0.29,-0.35,-1.64,0.21,-0.02,-0.34,0.67,-0.46,-1.21,0.76,0.55,-0.81,-0.17,-0.37,-0.58,-0.18,0.68,1.34,0.83,0.46,0.72,-0.72,0.31,-0.87,-0.58,0.7,0.15,-0.48,-0.27,-0.58,-1.17,0.54,1.25,0.25,-0.09,1.39,0.16,0.95,0.98,-0.87,0.88,-1.6,-0.13,-0.49,0.5,0.83,-0.44,0.41,-0.13,0.23,0.26,0.63,2.32,-1.15,-0.97,-0.35,-0.15,-1.92,-0.98,0.77,0.76,-1.46,-0.47,0.55,-0.58),
+							inquisitiveness = c(0.36,-1.42,1.03,0.44,0.14,-1.24,-0.85,-0.8,-0.51,-1.29,-0.03,0.46,0.58,0.71,0.4,0.96,-1.86,1.07,-1,-0.8,0.26,0.44,0.98,-0.09,1.04,0.17,-0.86,-0.32,-1.01,-0.29,-0.48,2.05,-0.26,-0.96,0.69,-1.64,1.29,-0.73,0.08,-0.43,0.27,1.31,-2.09,0.85,-2.42,1.54,0.4,-1.07,0.22,0.03,0.11,0.48,-0.06,0.62,0.57,0.91,0.22,0.56,0.6,-0.29,1.04,0.93,-0.83,0.84,1.68,-0.65,1.74,0.27,-0.27,-1,-0.82,-0.39,0.99,-0.18,0.27,1.62,0.1,0.7,1.5,-1.5,-0.83,-0.59,-0.45,0.57,-0.84,-1.48,-0.55,1.22,0.02,0.68,-0.36,-0.53,-0.9,-0.28,0.2,0.74,-0.31,0.23,-1.09,1.81)) %>%
+	mutate(i = ((age-7.54)*patience + 0.292178)/3.716451,
+			assertiveness = round(-.8*i + assertiveness,2)) %>%
+	dplyr::select(-i)
+```
+
+```{r question_a1, exercise=TRUE,exercise.lines = 8}
+#marmoset.data
+```
+
+```{r question_a1-hint-1}
+Remember to center all the predictors before including them in a linear regression with interaction terms.
+```
+
+```{r question_a1-hint-2}
+You will need to include the interaction term between the control variable and both the predictors.
+
+Next hint will show the solution...
+```
+
+```{r question_a1-solution}
+##Center Variables.
+marmoset.data.c <- mutate(marmoset.data,
+					c.patience = c(scale(patience)),
+					c.age = c(scale(age)),
+					c.agreeableness = c(scale(agreeableness)),
+					c.conscientiousness = c(scale(conscientiousness)))
+
+##Run regression and get standardised coefficients.
+marmoset.beta <- lm(assertiveness ~ c.patience*c.age + c.patience*c.agreeableness + c.patience*c.conscientiousness + c.age*c.agreeableness + c.age*c.conscientiousness,data = marmoset.data.c) %>%
+  lm.beta() %>%
+  summary()
+
+marmoset.beta
+```
+
+### Question A2 - Three-way Interaction Effects
+
+Up to now, when talking about an interaction, we have mentioned that the influence of one variable on the outcome depends on a another variable, but what if we add ANOTHER variable into the mix. A three-way interaction is when three predictors combine to explain variance in our outcome variable. There are a couple of ways you can think about this: one way is that the interaction between two variables depends on a third predictor. Another way is that the association between one variable and the outcome depends on two other variables.
+
+Three-way interactions is just an extension of the normal (two-way) interaction. Rather than multiple two variables together, we now multiple three variables together to create the interaction term. Everything we have learnt about the interactions applies to three-way interactions - we need to centre variables first before entering them into the model. Also, it is usually best to include all lower level terms in the model - this includes main effects for all three variables, and respectively two-way interactions between each pair of predictors.
+
+So, the formula for a three-way interaction becomes:
+
+> outcome ~ predictor1 `*` predictor2 `*` predictor3
+
+The formula above automatically contains all lower level terms, as such, it is the same as:
+
+> outcome ~ predictor1 + predictor2 + predictor3 + predictor1:predictor2 + predictor1:predictor3 + predictor2:predictor3 + predictor1:predictor2:predictor3
+
+In the code box below, conduct a regression analysis with a three-way interaction term between age, patience, and inquisitiveness in predicting assertiveness.
+
+```{r question_a3-setup}
+marmoset.data <- data.frame(ID = 1:100,
+							age = c(13,2,9,8,14,6,3,12,5,2,5,10,3,10,2,7,3,14,9,11,3,9,14,12,14,3,9,2,5,12,14,2,10,10,11,2,8,2,12,8,9,6,8,10,7,2,3,9,12,4,9,4,2,13,8,11,12,13,4,13,3,3,2,8,8,8,12,3,13,7,2,3,2,12,14,6,7,7,11,6,6,8,8,2,5,3,14,13,8,8,4,12,6,9,7,3,12,4,5,11),
+							conscientiousness = c(-0.99,-0.55,-1.03,0.45,-0.97,0.28,0.87,-0.47,0.63,-0.48,0.32,0.39,1.05,-0.54,-1.89,-1.23,-1.69,0.34,-0.86,1.41,-0.78,-1.57,-0.77,0.48,1.48,1.06,-0.12,0.07,0.54,0.92,1.21,0.13,0.51,0.22,-0.5,-0.8,-2.25,0.29,0,-0.36,-0.94,1.27,0.56,-0.33,-1.66,-0.33,-2.17,-1.11,-0.66,0.39,0.32,-0.6,-1.73,-0.09,0.6,-0.66,1.56,-0.82,0.69,0.09,-1.08,0.87,1.73,0.13,-0.75,-0.21,-1.91,-1.41,-1.21,0.78,1.17,0.67,-0.08,0.05,-2.28,1.68,1.15,0.15,0.12,-0.01,-1.21,-2.29,-0.34,-0.71,0.16,0.2,0.2,-0.07,0.1,-0.98,-0.38,0.27,0.22,0.27,-0.59,0.53,-0.69,1.64,-1.4,-0.87),
+							agreeableness = c(-1.4,0.36,-0.55,-1.28,1.07,-0.84,0.69,-1.63,0.31,0.82,-0.55,1.51,-0.86,-1.63,-3.11,1.46,-0.71,0.21,-0.68,-0.12,-0.62,0.02,0.48,-1.08,0.35,-0.11,0.7,0.29,1.1,-0.83,-0.58,-0.05,1.09,-0.71,-1.17,-0.74,-0.13,0.45,1.79,1.04,-0.5,-0.08,-0.82,0.15,0.63,0.36,-2.22,-0.06,1.69,0.76,-1.52,0.47,-0.58,-0.93,-1.87,0.67,1.98,-1.22,-1.5,0.01,-0.44,2.53,0.02,-2.32,0.42,-0.33,-1.14,-0.43,0.21,-2.28,0.45,1.13,-1.43,2.03,-0.81,-0.16,-0.9,-2.51,-0.81,0.73,0.48,-1.35,0.17,-0.2,0.04,1.52,0.58,-1.41,0.09,0.42,-0.29,0.18,-0.44,0.4,0.61,1.31,0.91,0.46,0.55,0.01),
+							assertiveness = c(0.77,-1.28,0.47,-0.81,-0.17,0.28,-1.34,-1.12,-0.13,-0.42,-2.3,-0.74,-1.78,2.11,-0.18,-0.06,-1.13,-2.13,-0.24,0.06,-2.55,-0.45,-0.77,-0.53,0.35,-0.65,1.27,-1.19,-1.25,0.1,1.67,-0.81,1.13,-1.39,0.34,-2.23,0.96,1.28,0.21,0.04,-1.99,0.04,0.31,-0.32,-0.56,-0.61,-0.04,1.41,-0.62,-2.12,-0.51,0.1,1.37,-1.65,-0.38,0.95,1.09,0.15,-0.28,-0.61,0.55,0.73,1.65,-0.95,-0.25,0.86,-0.81,0.85,0.32,-0.83,-0.54,-0.69,-0.9,1.47,0.47,-1.12,0.09,-0.11,1.08,-2.19,-1.23,0.13,-0.2,-0.95,0.87,-0.04,-0.79,-0.33,0.6,0.69,0.13,0.52,0.59,-0.15,1.03,-0.5,-0.21,-1.8,-0.21,-2.25),
+							patience = c(-0.67,-0.33,-2,1.73,-0.3,0.55,-0.77,-1.47,-0.01,1.02,-1.07,1.78,-1.41,-0.21,0.53,0.33,-1.2,1.11,-0.39,-0.23,-0.32,-0.88,-0.18,1.46,-0.74,2.78,-0.03,-0.07,0.06,-0.66,-1.65,0.16,2.18,1.08,0.64,0.29,-0.35,-1.64,0.21,-0.02,-0.34,0.67,-0.46,-1.21,0.76,0.55,-0.81,-0.17,-0.37,-0.58,-0.18,0.68,1.34,0.83,0.46,0.72,-0.72,0.31,-0.87,-0.58,0.7,0.15,-0.48,-0.27,-0.58,-1.17,0.54,1.25,0.25,-0.09,1.39,0.16,0.95,0.98,-0.87,0.88,-1.6,-0.13,-0.49,0.5,0.83,-0.44,0.41,-0.13,0.23,0.26,0.63,2.32,-1.15,-0.97,-0.35,-0.15,-1.92,-0.98,0.77,0.76,-1.46,-0.47,0.55,-0.58),
+							inquisitiveness = c(0.36,-1.42,1.03,0.44,0.14,-1.24,-0.85,-0.8,-0.51,-1.29,-0.03,0.46,0.58,0.71,0.4,0.96,-1.86,1.07,-1,-0.8,0.26,0.44,0.98,-0.09,1.04,0.17,-0.86,-0.32,-1.01,-0.29,-0.48,2.05,-0.26,-0.96,0.69,-1.64,1.29,-0.73,0.08,-0.43,0.27,1.31,-2.09,0.85,-2.42,1.54,0.4,-1.07,0.22,0.03,0.11,0.48,-0.06,0.62,0.57,0.91,0.22,0.56,0.6,-0.29,1.04,0.93,-0.83,0.84,1.68,-0.65,1.74,0.27,-0.27,-1,-0.82,-0.39,0.99,-0.18,0.27,1.62,0.1,0.7,1.5,-1.5,-0.83,-0.59,-0.45,0.57,-0.84,-1.48,-0.55,1.22,0.02,0.68,-0.36,-0.53,-0.9,-0.28,0.2,0.74,-0.31,0.23,-1.09,1.81)) %>%
+	mutate(i = ((age-7.54)*patience + 0.292178)/3.716451,
+			assertiveness = round(-.8*i*(.16*inquisitiveness) + assertiveness,2)) %>%
+	dplyr::select(-i)
+```
+
+```{r question_a3, exercise=TRUE,exercise.lines = 8}
+#marmoset.data
+```
+
+```{r question_a3-hint-1}
+Remember to center all the predictors before including them in a linear regression with interaction terms.
+```
+
+```{r question_a3-hint-2}
+Adding a three way interaction into the formula is as simple as multiplying an additional variable in the interaction term.
+
+Next hint will show the solution...
+```
+
+```{r question_a3-solution}
+##Center Variables.
+marmoset.data.c <- mutate(marmoset.data,
+					c.patience = c(scale(patience)),
+					c.age = c(scale(age)),
+					c.inquisitiveness = c(scale(inquisitiveness)))
+
+##Run regression (with three-way interaction effect) and get standardised coefficients.
+marmoset.beta <- lm(assertiveness ~ c.age*c.patience*c.inquisitiveness,data = marmoset.data.c) %>%
+  lm.beta() %>%
+  summary()
+
+marmoset.beta
+```
+
+Note, as with a normal, two-way interaction, it is often difficult to intuitve what the interaction term represents just by looking at the numbers. In this instance, it is usually easiest to plot the data to determine what a significant interaction is doing.
+
+Above, we have a significant three-way interaction term. Below, we have code that can be used to visualised this interaction. See if you can determine what each line of code is doing.
+
+```{r,echo = FALSE}
+marmoset.data <- data.frame(ID = 1:100,
+							age = c(13,2,9,8,14,6,3,12,5,2,5,10,3,10,2,7,3,14,9,11,3,9,14,12,14,3,9,2,5,12,14,2,10,10,11,2,8,2,12,8,9,6,8,10,7,2,3,9,12,4,9,4,2,13,8,11,12,13,4,13,3,3,2,8,8,8,12,3,13,7,2,3,2,12,14,6,7,7,11,6,6,8,8,2,5,3,14,13,8,8,4,12,6,9,7,3,12,4,5,11),
+							conscientiousness = c(-0.99,-0.55,-1.03,0.45,-0.97,0.28,0.87,-0.47,0.63,-0.48,0.32,0.39,1.05,-0.54,-1.89,-1.23,-1.69,0.34,-0.86,1.41,-0.78,-1.57,-0.77,0.48,1.48,1.06,-0.12,0.07,0.54,0.92,1.21,0.13,0.51,0.22,-0.5,-0.8,-2.25,0.29,0,-0.36,-0.94,1.27,0.56,-0.33,-1.66,-0.33,-2.17,-1.11,-0.66,0.39,0.32,-0.6,-1.73,-0.09,0.6,-0.66,1.56,-0.82,0.69,0.09,-1.08,0.87,1.73,0.13,-0.75,-0.21,-1.91,-1.41,-1.21,0.78,1.17,0.67,-0.08,0.05,-2.28,1.68,1.15,0.15,0.12,-0.01,-1.21,-2.29,-0.34,-0.71,0.16,0.2,0.2,-0.07,0.1,-0.98,-0.38,0.27,0.22,0.27,-0.59,0.53,-0.69,1.64,-1.4,-0.87),
+							agreeableness = c(-1.4,0.36,-0.55,-1.28,1.07,-0.84,0.69,-1.63,0.31,0.82,-0.55,1.51,-0.86,-1.63,-3.11,1.46,-0.71,0.21,-0.68,-0.12,-0.62,0.02,0.48,-1.08,0.35,-0.11,0.7,0.29,1.1,-0.83,-0.58,-0.05,1.09,-0.71,-1.17,-0.74,-0.13,0.45,1.79,1.04,-0.5,-0.08,-0.82,0.15,0.63,0.36,-2.22,-0.06,1.69,0.76,-1.52,0.47,-0.58,-0.93,-1.87,0.67,1.98,-1.22,-1.5,0.01,-0.44,2.53,0.02,-2.32,0.42,-0.33,-1.14,-0.43,0.21,-2.28,0.45,1.13,-1.43,2.03,-0.81,-0.16,-0.9,-2.51,-0.81,0.73,0.48,-1.35,0.17,-0.2,0.04,1.52,0.58,-1.41,0.09,0.42,-0.29,0.18,-0.44,0.4,0.61,1.31,0.91,0.46,0.55,0.01),
+							assertiveness = c(0.77,-1.28,0.47,-0.81,-0.17,0.28,-1.34,-1.12,-0.13,-0.42,-2.3,-0.74,-1.78,2.11,-0.18,-0.06,-1.13,-2.13,-0.24,0.06,-2.55,-0.45,-0.77,-0.53,0.35,-0.65,1.27,-1.19,-1.25,0.1,1.67,-0.81,1.13,-1.39,0.34,-2.23,0.96,1.28,0.21,0.04,-1.99,0.04,0.31,-0.32,-0.56,-0.61,-0.04,1.41,-0.62,-2.12,-0.51,0.1,1.37,-1.65,-0.38,0.95,1.09,0.15,-0.28,-0.61,0.55,0.73,1.65,-0.95,-0.25,0.86,-0.81,0.85,0.32,-0.83,-0.54,-0.69,-0.9,1.47,0.47,-1.12,0.09,-0.11,1.08,-2.19,-1.23,0.13,-0.2,-0.95,0.87,-0.04,-0.79,-0.33,0.6,0.69,0.13,0.52,0.59,-0.15,1.03,-0.5,-0.21,-1.8,-0.21,-2.25),
+							patience = c(-0.67,-0.33,-2,1.73,-0.3,0.55,-0.77,-1.47,-0.01,1.02,-1.07,1.78,-1.41,-0.21,0.53,0.33,-1.2,1.11,-0.39,-0.23,-0.32,-0.88,-0.18,1.46,-0.74,2.78,-0.03,-0.07,0.06,-0.66,-1.65,0.16,2.18,1.08,0.64,0.29,-0.35,-1.64,0.21,-0.02,-0.34,0.67,-0.46,-1.21,0.76,0.55,-0.81,-0.17,-0.37,-0.58,-0.18,0.68,1.34,0.83,0.46,0.72,-0.72,0.31,-0.87,-0.58,0.7,0.15,-0.48,-0.27,-0.58,-1.17,0.54,1.25,0.25,-0.09,1.39,0.16,0.95,0.98,-0.87,0.88,-1.6,-0.13,-0.49,0.5,0.83,-0.44,0.41,-0.13,0.23,0.26,0.63,2.32,-1.15,-0.97,-0.35,-0.15,-1.92,-0.98,0.77,0.76,-1.46,-0.47,0.55,-0.58),
+							inquisitiveness = c(0.36,-1.42,1.03,0.44,0.14,-1.24,-0.85,-0.8,-0.51,-1.29,-0.03,0.46,0.58,0.71,0.4,0.96,-1.86,1.07,-1,-0.8,0.26,0.44,0.98,-0.09,1.04,0.17,-0.86,-0.32,-1.01,-0.29,-0.48,2.05,-0.26,-0.96,0.69,-1.64,1.29,-0.73,0.08,-0.43,0.27,1.31,-2.09,0.85,-2.42,1.54,0.4,-1.07,0.22,0.03,0.11,0.48,-0.06,0.62,0.57,0.91,0.22,0.56,0.6,-0.29,1.04,0.93,-0.83,0.84,1.68,-0.65,1.74,0.27,-0.27,-1,-0.82,-0.39,0.99,-0.18,0.27,1.62,0.1,0.7,1.5,-1.5,-0.83,-0.59,-0.45,0.57,-0.84,-1.48,-0.55,1.22,0.02,0.68,-0.36,-0.53,-0.9,-0.28,0.2,0.74,-0.31,0.23,-1.09,1.81)) %>%
+	mutate(i = ((age-7.54)*patience + 0.292178)/3.716451,
+			assertiveness = round(-.8*i*(.16*inquisitiveness) + assertiveness,2)) %>%
+	dplyr::select(-i)
+```
+
+```{r,warning = FALSE}
+marmoset.data.c <- mutate(marmoset.data,
+					c.patience = c(scale(patience)),
+					c.age = c(scale(age)),
+					c.inquisitiveness = c(scale(inquisitiveness)))
+
+plot.data <- marmoset.data.c %>%
+  mutate(patience_cat = ifelse(patience > 0,"High Patience","Low Patience"),
+         inquisitiveness_cat = ifelse(inquisitiveness > 0,"High Inquisitiveness","Low Inquisitiveness"))
+
+ggplot(data = plot.data,aes(x = age,y = assertiveness,colour = patience_cat)) +
+  geom_smooth(method = "lm") +
+  facet_wrap(~ inquisitiveness_cat)
+```
+
+```{r question_a3-quiz}
+quiz(question("Based on the visualisation above, what is the correct interpretation?",
+              answer("Age and assertiveness has a positive association, except for when patience and inquisitiveness is high.",correct = TRUE),
+              answer("Age and assertiveness has a positive association, except for when patience is high, and inquisitiveness is low."),
+              answer("Age and assertiveness has a negative association, except when patience and inquisitiveness is high."),
+              answer("Age and assertiveness has a positive association, except when patience is low, and inquisitiveness is high."),allow_retry = TRUE))
+```
+
+### Question A3 - Non-linear Effects
+
+Even though we are using a technique called "linear regression", we can still use it to assess non-linear relationships, such as quadratic relationships.
+
+Below we have an example of two variables that has a non-linear relationship. At low levels of `variable_x`, there is a negative relationship with `variable_y`, while at high levels of `variable_x`, there is a strong positive relationship with `variable_y`. One way to conceptualise this is that at different levels of `variable_x`, the relationship between `variable_x` and `variable_y` changes. In other words, this behaves exactly like an interaction, but with only one variable!
+
+```{r}
+plot.data <- data.frame(variable_x = rnorm(100,0,1),
+                        e = rnorm(100,0,.5)) %>%
+  mutate(variable_y = c(scale(variable_x*variable_x + e)))
+
+ggplot(plot.data,aes(x = variable_x,y = variable_y)) +
+  geom_point()
+```
+
+Ideally, the formula for a non-linear relationship would look something like `variable_y ~ variable_x*variable_x`, but unfortunately R assumes you've made a mistake if you specify the same variable twice in a formula. To explicitly tell R that you want to include a non-linear term, you need to use the `poly()` function in the formula:
+
+> outcome ~ poly(predictor,2)
+
+Again, everything we have learnt about the interactions applies to non-linear terms - we need to centre variables first before entering them into the model, and we also need to include the main effect of the predictor (the poly function will automatically include the main effect of the predictor as well as the non-linear term).
+
+In the code box below, there is a data.frame called `performance.data`. This data set aims to assess the relationship between stress and performance. Previous research has indicated that an intermediate level of stress is ideal for performance (known as the Yerkes-Dodson effect). Determine if this is the case for our data.
+
+```{r question_a4-setup}
+performance.data <- data.frame(stress = rnorm(100,0,1),
+                        e = rnorm(100,0,.5)) %>%
+  mutate(performance = -1*c(scale(.5*stress*stress + e))) %>%
+  select(-e)
+```
+
+```{r question_a4, exercise=TRUE,exercise.lines = 8}
+#performance.data
+```
+
+```{r question_a4-hint-1}
+The method for including a non-linear term in the formula is to use the `poly()` function.
+```
+
+```{r question_a4-hint-2}
+It may be easier to determine the nature of a non-linear relationship by plotting it.
+
+Next hint will show the solution...
+```
+
+```{r question_a4-solution}
+##Center Variables.
+performance.data.c <- mutate(performance.data,
+					c.stress = c(scale(stress)))
+
+##Run regression and get standardised coefficients.
+performance.beta <- lm(performance ~ poly(c.stress,2),data = performance.data.c) %>%
+  lm.beta() %>%
+  summary()
+
+performance.beta
+
+##Plot relationship
+ggplot(performance.data,aes(x = stress,y = performance)) +
+  geom_point() +
+  geom_smooth(method = "lm",formula = y ~ poly(x,2))
+```
