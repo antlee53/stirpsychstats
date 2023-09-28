@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Workbook 2 - Data Skills: Data Frames and Descriptive Statistics</title>
 
-<script src="site_libs/header-attrs-2.24/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -423,9 +423,9 @@ files).</li>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/simulated.data_2023.csv download>Click here to
-download the data used in these workbooks.</a> (You may need to
-right-click and select ‘Save Linked File’ option)</p>
+<p><a href = files/data_2023.csv download>Click here to download the
+data used in these workbooks.</a> (You may need to right-click and
+select ‘Save Linked File’ option)</p>
 </div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
@@ -731,7 +731,7 @@ information on indexing.</a></p>
 <pre class="r"><code>table(data$aus.animal)</code></pre>
 <pre><code>## 
 ##  echidna kangaroo    koala platypus   wombat 
-##       28       24       27       21       20</code></pre>
+##        1       15       38       13       12</code></pre>
 <p>So above, we see that there are five separate values (if we ignore
 missing data), and the most frequent response was
 <code>koala</code>.</p>
@@ -787,7 +787,7 @@ the code to calculate the mean and standard deviation of the variable
 <pre><code>## # A tibble: 1 × 2
 ##   stats_exp.mean stats_exp.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;
-## 1           5.05         2.61</code></pre>
+## 1           4.23         2.18</code></pre>
 <p>A couple of things to note. First, I have broken the above code
 across several lines. This is just to make it easier to read (remember R
 ignores white space inside an incomplete command). Second, it doesn’t
@@ -805,7 +805,7 @@ multiple variables:</p>
 <pre><code>## # A tibble: 1 × 4
 ##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;
-## 1           5.05         2.61           5.02         2.60</code></pre>
+## 1           4.23         2.18           6.01         2.12</code></pre>
 <p>Note: An annoying thing about the <code>summarise()</code> function
 is that sometimes it will not show results to two-decimal places (which
 is the requirement for APA format). To see all the decimal places, you
