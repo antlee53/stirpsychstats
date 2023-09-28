@@ -5,10 +5,8 @@ account: stirpsych
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 6397322
-bundleId: 5960091
+bundleId: 7715919
 url: https://stirpsych.shinyapps.io/HPSP131_exercise8/
-when: 1653918056.13439
-lastSyncTime: 1653918056.1344
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: .Rapp.history|Exercise_1.Rmd|Exercise_10.Rmd|Exercise_2.Rmd|Exercise_3.Rmd|Exercise_4.Rmd|Exercise_5.html|Exercise_5.Rmd|Exercise_6.Rmd|Exercise_7.html|Exercise_7.Rmd|Exercise_8.html|Exercise_9.Rmd|images/Question_3.png|images/Question_6.png|Standardise Question.Rmd|Weekly_Exercises.zip|Exercise_7_files
+ignoredFiles: .Rapp.history|Exercise_1.Rmd|Exercise_10.Rmd|Exercise_2.Rmd|Exercise_3.Rmd|Exercise_4.Rmd|Exercise_5.Rmd|Exercise_6.Rmd|Exercise_7.Rmd|Exercise_9.Rmd|images/Question_3.png|images/Question_6.png|Standardise Question.Rmd|Weekly_Exercises.zip|Exercise_7_files

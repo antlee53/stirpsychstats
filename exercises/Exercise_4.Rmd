@@ -4,158 +4,20 @@ output: learnr::tutorial
 runtime: shiny_prerendered
 ---
 ```{r setup, include=FALSE}
-list.of.packages <- c("learnr","shiny","tidyverse","ggplot2")
+list.of.packages <- c("learnr","shiny","tidyverse","ggplot2","remotes")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
 library(learnr)
 require(tidyverse)
 require(ggplot2)
+require(remotes)
+if(!("gradethis" %in% installed.packages())){remotes::install_github("rstudio/gradethis")}
+require(gradethis)
 
 knitr::opts_chunk$set(echo = FALSE)
-```
-```{r eval = FALSE}
-checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
-  
-  envir_result
-  out <- list(message = sample(c("Good Job!",
-                                 "Well done!",
-                                 "Great stuff!",
-                                 "That is correct!",
-                                 "Correct! You are really good at this."),1), correct = TRUE, location = "append")
-  
-#Question 2
-if(label == "question_2"){
 
-	correct_plot.data <- data.frame(var_x = c(0.2,0.32,0.81,-0.38,-0.52,-0.42,-1.52,-0.73,-1.33,1.03,0.53,1.3,-1.28,-0.2,1.51,-0.15,0.02,1.25,1.06,-0.42,2.13,-0.28,-1.2,-1.18,-1.19,-1.36,-0.51,0.08,0.78,0.15,0.27,-0.79,-1.14,-0.84,-0.23,-0.67,-0.9,0.31,0.63,1.42),
-  							var_y = c(-0.42,-0.38,2,-0.43,1.01,-0.19,-0.64,-1.12,-0.25,2.06,-0.53,1.18,-0.12,0.18,1.88,-1.78,0.35,1.23,0.72,1.75,1.02,0.05,-1.49,0.16,-0.56,-0.52,0.27,0.76,-0.45,-1.16,-0.87,-0.85,-2.1,-0.25,-0.78,-0.67,-0.15,0.81,0.31,-0.04))
-  	
-  	correct_plot.output <- ggplot(data = correct_plot.data,aes(x = var_x, y = var_y)) +
-  		geom_point()
-
- 	
- 	if(!exists("plot.data")){
- 		out <- list(message = "No object saved as plot.data. Do not alter the object called `plot.data`.", correct = FALSE, location = "append")
- 	} else {
- 		if(!identical(plot.data,correct_plot.data)){
- 			out <- list(message = "The object `plot.data` appears to have been alter. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
- 		} else {
- 			
- 			if(!exists("plot.output")){
- 				out <- list(message = "There is no object called `plot.output`. Save the final plot as this object.", correct = FALSE, location = "append")
- 			}
- 		}
- 	}
-}
-
-#Label 3
-if(label == "question_3"){
-
-	correct_plot.data <- data.frame(var_x = c(0.2,0.32,0.81,-0.38,-0.52,-0.42,-1.52,-0.73,-1.33,1.03,0.53,1.3,-1.28,-0.2,1.51,-0.15,0.02,1.25,1.06,-0.42,2.13,-0.28,-1.2,-1.18,-1.19,-1.36,-0.51,0.08,0.78,0.15,0.27,-0.79,-1.14,-0.84,-0.23,-0.67,-0.9,0.31,0.63,1.42),
-  							var_y = c(-0.42,-0.38,2,-0.43,1.01,-0.19,-0.64,-1.12,-0.25,2.06,-0.53,1.18,-0.12,0.18,1.88,-1.78,0.35,1.23,0.72,1.75,1.02,0.05,-1.49,0.16,-0.56,-0.52,0.27,0.76,-0.45,-1.16,-0.87,-0.85,-2.1,-0.25,-0.78,-0.67,-0.15,0.81,0.31,-0.04))
-  	
-  	correct_plot.output <- ggplot(data = correct_plot.data,aes(x = var_x, y = var_y)) +
-  		geom_point()
- 	
- 	if(!exists("plot.data")){
- 		out <- list(message = "No object saved as plot.data. Do not alter the object called `plot.data`.", correct = FALSE, location = "append")
- 	} else {
- 		if(!identical(plot.data,correct_plot.data)){
- 			out <- list(message = "The object `plot.data` appears to have been alter. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
- 		} else {
- 			
- 			if(!exists("plot.output")){
- 				out <- list(message = "There is no object called `plot.output`. Save the final plot as this object.", correct = FALSE, location = "append")
- 			} else {
- 				out <- list(message = "Unfortunately the checker cannot determine whether you have the correct answer for this question; however, you can determine whether you have the correct answer yourself by comparing the graphs from this question to that of Question 2. Do the points have a different shape?", correct = TRUE, location = "append")
- 				}
- 			}
- 		}
- 	}
-
-#Question 4
- if(label == "question_4"){
-
-	correct_plot.data <- data.frame(var1 = c(0.2,0.32,0.81,-0.38,-0.52,-0.42,-1.52,-0.73,-1.33,1.03,0.53,1.3,-1.28,-0.2,1.51,-0.15,0.02,1.25,1.06,-0.42,2.13,-0.28,-1.2,-1.18,-1.19,-1.36,-0.51,0.08,0.78,0.15,0.27,-0.79,-1.14,-0.84,-0.23,-0.67,-0.9,0.31,0.63,1.42),
-  							var2 = c(-0.42,-0.38,2,-0.43,1.01,-0.19,-0.64,-1.12,-0.25,2.06,-0.53,1.18,-0.12,0.18,1.88,-1.78,0.35,1.23,0.72,1.75,1.02,0.05,-1.49,0.16,-0.56,-0.52,0.27,0.76,-0.45,-1.16,-0.87,-0.85,-2.1,-0.25,-0.78,-0.67,-0.15,0.81,0.31,-0.04),
-  							group_member = factor(c('group_3','group_2','group_1','group_2','group_2','group_2','group_2','group_3','group_3','group_2','group_2','group_2','group_2','group_2','group_3','group_2','group_2','group_1','group_3','group_1','group_2','group_1','group_1','group_3','group_3','group_1','group_2','group_1','group_2','group_1','group_3','group_2','group_1','group_3','group_3','group_1','group_3','group_2','group_2','group_1')))
-  	
-  	correct_plot.output <- ggplot(data = correct_plot.data,aes(x = var_x, y = var_y)) +
-  		geom_point(aes(colour = group_member))
- 	
- 	if(!exists("plot.data")){
- 		out <- list(message = "No object saved as plot.data. Do not alter the object called `plot.data`.", correct = FALSE, location = "append")
- 	} else {
- 		if(!identical(plot.data,correct_plot.data)){
- 			out <- list(message = "The object `plot.data` appears to have been alter. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
- 		} else {
- 			
- 			if(!exists("plot.output")){
- 				out <- list(message = "There is no object called `plot.output`. Save the final plot as this object.", correct = FALSE, location = "append")
- 			} else {
- 				out <- list(message = "Unfortunately the checker cannot determine whether you have the correct answer for this question, but there is an example of a possible solution if you click through all the hints above.", correct = TRUE, location = "append")
- 			}
- 		}
- 	}
- }
-
-#Question 5
- if(label == "question_5"){
-
-correct_attachment.data <- data.frame(ID = 1:40,
-							attachment = c('secure','secure','anxious ambivalent','anxious avoidant','anxious avoidant','secure','secure','secure','secure','secure','secure','secure','secure','secure','secure','secure','anxious ambivalent','anxious avoidant','secure','anxious avoidant','secure','anxious ambivalent','anxious ambivalent','secure','secure','secure','anxious ambivalent','secure','secure','anxious ambivalent','secure','secure','secure','anxious avoidant','secure','secure','anxious ambivalent','secure','secure','anxious avoidant'))
-
-
-correct_plot.output <- ggplot(data = correct_attachment.data,aes(x = var_x, y = var_y)) +
-  		geom_point(aes(colour = group_member))
- 	
- 	if(!exists("attachment.data")){
- 		out <- list(message = "No object saved as attachment.data. Do not alter the object called `attachment.data`.", correct = FALSE, location = "append")
- 	} else {
- 		if(!identical(attachment.data,correct_attachment.data)){
- 			out <- list(message = "The object `attachment.data` appears to have been alter. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
- 		} else {
- 			
- 			if(!exists("plot.output")){
- 				out <- list(message = "There is no object called `plot.output`. Save the final plot as this object.", correct = FALSE, location = "append")
- 			} else {
- 				out <- list(message = "Unfortunately the checker cannot determine whether you have the correct answer for this question, but there is an example of a possible solution if you click through all the hints above.", correct = TRUE, location = "append")
- 			}
- 		}
- 	}
- }
-
-#Question 6
-
- if(label == "question_6"){
-
-correct_looking.data <- data.frame(ID = 1:30,
-looking.time = c(11.88,19.11,13.32,23.96,10.91,7.44,13.89,11.01,11.36,16.34,9.49,4.29,3.59,3.42,12,6.95,13,8.63,3.01,5.09,13.58,3.07,26.14,10.5,17.87,14.78,1.33,11.05,3.53,0.68))
-
-
-correct_plot.output <- ggplot(data = correct_looking.data,aes(x = var_x, y = var_y)) +
-  		geom_density()
- 	
- 	if(!exists("looking.data")){
- 		out <- list(message = "No object saved as looking.data. Do not alter the object called `looking.data`.", correct = FALSE, location = "append")
- 	} else {
- 		if(!identical(looking.data,correct_looking.data)){
- 			out <- list(message = "The object `looking.data` appears to have been alter. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
- 		} else {
- 			
- 			if(!exists("plot.output")){
- 				out <- list(message = "There is no object called `plot.output`. Save the final plot as this object.", correct = FALSE, location = "append")
- 			} else {
- 				out <- list(message = "Unfortunately the checker cannot determine whether you have the correct answer for this question, but there is an example of a possible solution if you click through all the hints above.", correct = TRUE, location = "append")
- 			}
- 		}
- 	}
- }
-  
-return(out)
-}
-
-tutorial_options(exercise.checker = checker)
+gradethis::gradethis_setup()
 ```
 
 ## Introduction
@@ -213,7 +75,7 @@ plot.data
   							var_y = c(-0.42,-0.38,2,-0.43,1.01,-0.19,-0.64,-1.12,-0.25,2.06,-0.53,1.18,-0.12,0.18,1.88,-1.78,0.35,1.23,0.72,1.75,1.02,0.05,-1.49,0.16,-0.56,-0.52,0.27,0.76,-0.45,-1.16,-0.87,-0.85,-2.1,-0.25,-0.78,-0.67,-0.15,0.81,0.31,-0.04))
 ```
 
-```{r question_2, exercise=TRUE,exercise.lines = 5}
+```{r question_2, exercise=TRUE,exercise.lines = 10}
 #plot.data
 
 plot.output <- ggplot(data = ,aes(x = , y = )) +
@@ -235,10 +97,12 @@ Next hint will show the solution...
 ```{r question_2-solution}
 plot.output <- ggplot(data = plot.data,aes(x = var_x, y = var_y)) +
   geom_point()
+
+plot.output
 ```
 
-```{r question_2-check}
-#checker()
+```{r question_2-code-check}
+grade_code()
 ```
 
 ### Question 3
@@ -250,7 +114,7 @@ Edit the code below so that the points in the figure are a different shape.
   							var_y = c(-0.42,-0.38,2,-0.43,1.01,-0.19,-0.64,-1.12,-0.25,2.06,-0.53,1.18,-0.12,0.18,1.88,-1.78,0.35,1.23,0.72,1.75,1.02,0.05,-1.49,0.16,-0.56,-0.52,0.27,0.76,-0.45,-1.16,-0.87,-0.85,-2.1,-0.25,-0.78,-0.67,-0.15,0.81,0.31,-0.04))
 ```
 
-```{r question_3, exercise=TRUE,exercise.lines = 5}
+```{r question_3, exercise=TRUE,exercise.lines = 10}
 #plot.data
 
 plot.output <- ggplot(data = plot.data,aes(x = var_x, y = var_y)) +
@@ -272,12 +136,15 @@ Next hint will show the solution...
 ```{r question_3-solution}
 plot.output <- ggplot(data = plot.data,aes(x = var_x, y = var_y)) +
   geom_point(shape = 2)
+
+plot.output
 #Changing the number at `shape = 2` will produce different shapes.
 #Why not experiment with this and see what numbers produce which shapes?
+#Note the code checker will expect that you put `2` here.
 ```
 
-```{r question_3-check}
-#checker()
+```{r question_3-code-check}
+grade_code()
 ```
 
 ### Question 4
@@ -298,7 +165,7 @@ plot.data
   							group_member = factor(c('group_3','group_2','group_1','group_2','group_2','group_2','group_2','group_3','group_3','group_2','group_2','group_2','group_2','group_2','group_3','group_2','group_2','group_1','group_3','group_1','group_2','group_1','group_1','group_3','group_3','group_1','group_2','group_1','group_2','group_1','group_3','group_2','group_1','group_3','group_3','group_1','group_3','group_2','group_2','group_1')))
 ```
 
-```{r question_4, exercise=TRUE,exercise.lines = 5}
+```{r question_4, exercise=TRUE,exercise.lines = 10}
 #plot.data
 
 plot.output <- ggplot(data = plot.data,aes(x = var1, y = var2)) +
@@ -321,10 +188,12 @@ Next hint will show the solution...
 plot.output <- ggplot(data = plot.data,aes(x = var1, y = var2)) +
   geom_point(aes(colour = group_member))
 
+plot.output
+
 ```
 
-```{r question_4-check}
-#checker()
+```{r question_4-code-check}
+grade_code()
 ```
 
 ### Question 5
@@ -343,7 +212,7 @@ attachment.data <- data.frame(ID = 1:40,
 							attachment = c('secure','secure','anxious ambivalent','anxious avoidant','anxious avoidant','secure','secure','secure','secure','secure','secure','secure','secure','secure','secure','secure','anxious ambivalent','anxious avoidant','secure','anxious avoidant','secure','anxious ambivalent','anxious ambivalent','secure','secure','secure','anxious ambivalent','secure','secure','anxious ambivalent','secure','secure','secure','anxious avoidant','secure','secure','anxious ambivalent','secure','secure','anxious avoidant'))
 ```
 
-```{r question_5, exercise=TRUE,exercise.lines = 5}
+```{r question_5, exercise=TRUE,exercise.lines = 10}
 #attachment.data
 
 plot.output <- ggplot()
@@ -368,13 +237,13 @@ plot.output <- ggplot(attachment.data,aes(x = attachment)) +
 plot.output
 ```
 
-```{r question_5-check}
-#checker()
+```{r question_5-code-check}
+grade_code()
 ```
 
 ### Question 6
 
-You have conducted a study investigating infant's beliefs in fairness. From thirty 10-month-olds, you measure how long infants attend to (in seconds) a surprising event (a puppet helping another puppet that previously committed a transgression). Plot the the distribution of looking times as either a histogram or density plot and save the result as `plot.output`. The data.frame is saved as the object `looking.data`.
+You have conducted a study investigating infant's beliefs in fairness. From thirty 10-month-olds, you measure how long infants attend to (in seconds) a surprising event (a puppet helping another puppet that previously committed a transgression). Plot the the distribution of looking times as a histogram and save the result as `plot.output`. The data.frame is saved as the object `looking.data`.
 
 ```{r,echo = FALSE}
 looking.data <- data.frame(ID = 1:30,
@@ -388,7 +257,7 @@ looking.data <- data.frame(ID = 1:30,
 looking.time = c(11.88,19.11,13.32,23.96,10.91,7.44,13.89,11.01,11.36,16.34,9.49,4.29,3.59,3.42,12,6.95,13,8.63,3.01,5.09,13.58,3.07,26.14,10.5,17.87,14.78,1.33,11.05,3.53,0.68))
 ```
 
-```{r question_6, exercise=TRUE,exercise.lines = 5}
+```{r question_6, exercise=TRUE,exercise.lines = 10}
 #looking.data
 
 plot.output <- ggplot()
@@ -397,33 +266,31 @@ plot.output
 ```
 
 ```{r question_6-hint-1}
-The geom to create a density plot is `geom_density()`. Alternatively, the geom to create a histogram is `geom_histogram()`.
+The geom to create a histogram is `geom_histogram()`.
 ```
 
 ```{r question_6-hint-2}
-Remember to specify which variable is on the x-axis within the `ggplot()` function. Density plots and histograms are a one variable graphs, so there is no variable on the y-axis.
+Remember to specify which variable is on the x-axis within the `ggplot()` function. Histograms are a one variable graphs, so there is no variable on the y-axis.
 
 Next hint will show the solution...
 ```
 
 ```{r question_6-solution}
 plot.output <- ggplot(looking.data,aes(x = looking.time)) +
-  geom_density()
-
-#OR
-
-plot.output <- ggplot(looking.data,aes(x = looking.time)) +
   geom_histogram()
+
+plot.output
+#Note, you could also use geom_density() to produce a density plot.
 
 ```
 
-```{r question_6-check}
-#checker()
+```{r question_6-code-check}
+grade_code()
 ```
 
 ### Question 7
 
-By default, ggplot will use the variable names for labels on the axes. Use the `xlab()` and `ylab()` to change the axis labels to something more informative (the density plot is the same data from Question 6 above). Also add a title to the plot using `ggtitle()`.
+By default, ggplot will use the variable names for labels on the axes. Use the `xlab()` and `ylab()` to change the axis labels to something more informative (the histogram is the same data from Question 6 above). I would suggest changing one to "Looking Time (in Seconds)" and the other to "Proportion of Responses". Also change the title of the plot to "The Length of Time Infants Spend Looking at a Surprising Event" using `ggtitle()`.
 
 ```{r,echo = FALSE}
 looking.data <- data.frame(ID = 1:30,
@@ -439,7 +306,7 @@ looking.time = c(11.88,19.11,13.32,23.96,10.91,7.44,13.89,11.01,11.36,16.34,9.49
 looking.data
 ```
 
-```{r question_7, exercise=TRUE,exercise.lines = 8}
+```{r question_7, exercise=TRUE,exercise.lines = 10}
 #looking.data
 
 plot.output <- ggplot(looking.data,aes(x = looking.time)) +
@@ -464,6 +331,10 @@ ggplot(looking.data,aes(x = looking.time)) +
   xlab("Looking Time (in Seconds)") +
   ylab("Proportion of Responses") +
   ggtitle("The Length of Time Infants Spend Looking at a Surprising Event")
+```
+
+```{r question_7-code-check}
+grade_code()
 ```
 
 ## Advanced Exercises

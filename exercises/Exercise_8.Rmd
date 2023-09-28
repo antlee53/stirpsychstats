@@ -10,289 +10,18 @@ new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"
 if(length(new.packages)) install.packages(new.packages)
 
 library(learnr)
-library(MASS)
-library(tidyverse)
-library(broom)
-library(pwr)
-library(psych)
+require(MASS)
+require(tidyverse)
+require(broom)
+require(pwr)
+require(psych)
+require(remotes)
+if(!("gradethis" %in% installed.packages())){remotes::install_github("rstudio/gradethis")}
+require(gradethis)
+
 knitr::opts_chunk$set(echo = FALSE)
 
-checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
-  
-  envir_result
-  out <- list(message = sample(c("Good Job!",
-                                 "Well done!",
-                                 "Great stuff!",
-                                 "That is correct!",
-                                 "Correct! You are really good at this."),1), correct = TRUE, location = "append")
-  
-#Question 1
-if(label == "question_1"){
-	if(!exists("custom_function")){
-		out <- list(message = "There is no custom function saved as `custom_function`. Make sure to save the custom function as this object.", correct = FALSE, location = "append")
-	} else {
-		if(custom_function(51) != 53){
-			out <- list(message = "The custom function does not appear to give the desired output. Fix the code to so that the function adds 2 to any numeric input.", correct = FALSE, location = "append")
-		}
-	}
-}
-
-#Question 2
-if(label == "question_2"){
-	if(!exists("multiply")){
-		out <- list(message = "There is no custom function saved as `multiply`. Make sure to save the custom function as this object.", correct = FALSE, location = "append")
-	} else {
-		if(multiply(2,53) != 2*53){
-			out <- list(message = "The custom function does not appear to give the desired output. Make sure there are no errors in your code so that the multiply function accepts two arguments, and return the product of those arguments.", correct = FALSE, location = "append")
-		}
-	}
-}
-
-#Question 3
-if(label == "question_3"){
-	if(!exists("center")){
-		out <- list(message = "There is no custom function saved as `center`. Make sure to save the custom function as this object.", correct = FALSE, location = "append")
-	} else {
-		if(class(center) != "function"){
-			out <- list(message = "The object saved as `center` is not a function. Make sure to save the custom function as this object.", correct = FALSE, location = "append")
-		} else {
-			if(center(c(12,23,34,45,56,67,78,89,90)) != (c(12,23,34,45,56,67,78,89,90) - mean(c(12,23,34,45,56,67,78,89,90)))){
-				out <- list(message = "The custom function does not appear to give the desired output. Make sure there are no errors in your code so that the `center` function accepts a numeric vector, and return the centered values of that numeric vector.", correct = FALSE, location = "append")
-			}
-		}	
-	}
-}
-
-if(label == "question_4"){
-
-correct_exercise.data <- data.frame(ID = 1:40,
-	var1 = c(131,100,76,100,103,107,98,104,116,98,79,88,116,111,108,93,86,130,83,93,81,85,104,73,113,102,89,96,100,102,89,105,88,142,116,95,96,109,106,101),
-	var2 = c(46,42,48,49,45,50,46,55,59,49,45,43,56,48,47,41,54,47,49,48,51,48,41,47,47,50,36,56,47,45,56,41,50,36,57,47,58,40,51,58))
-	
-correct_exercise.data_centered <- mutate(correct_exercise.data,
-                                 c.var1 = center(var1),
-                                 c.var2 = center(var2))
-
-	if(!exists("center")){
-		out <- list(message = "There is no custom function saved as `center`. Make sure to save the custom function as this object.", correct = FALSE, location = "append")
-	} else {
-		if(class(center) != "function"){
-			out <- list(message = "The object saved as `center` is not a function. Make sure to save the custom function as this object.", correct = FALSE, location = "append")
-		} else {
-			if(center(c(12,23,34,45,56,67,78,89,90)) != (c(12,23,34,45,56,67,78,89,90) - mean(c(12,23,34,45,56,67,78,89,90)))){
-				out <- list(message = "The custom function does not appear to give the desired output. Make sure there are no errors in your code so that the 'center' function accepts a numeric vector, and return a numeric vector with the centered values.", correct = FALSE, location = "append")
-			} else {
-				if(!exists("exercise.data")){
-					out <- list(message = "The data.frame `exercise.data` appears to have been altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-				} else {
-					if(!identical(exercise.data,correct_exercise.data)){
-						out <- list(message = "The data.frame `exercise.data` appears to have been altered. Do not alter this data.frame. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-					} else {
-						if(!exists("exercise.data_centered")){
-							out <- list(message = "The data.frame `exercise.data_centered` does not exist. Remember to save the answer as this object.", correct = FALSE, location = "append")
-						} else {
-							if(!("c.var1" %in% colnames(exercise.data_centered)) | !("c.var2" %in% colnames(exercise.data_centered))){
-								out <- list(message = "A variable named 'c.var1' or 'c.var2' is missing from the data.frame called `exercise.data_centered`. Make sure to name the newly centered variables as these.", correct = FALSE, location = "append")
-							} else {
-								if(!identical(exercise.data_centered,correct_exercise.data_centered)){
-								out <- list(message = "The data.frame `exercise.data_centered` does not match the correct answer. Check there are no errors in the code and try again.", correct = FALSE, location = "append")
-								}
-							}
-						}			
-					}
-				}
-			}
-		}	
-	}
-}
-
-#Question 5    
-if(label == "question_5"){
-	if(!exists("sim.data")){
-		out <- list(message = "There is no object saved as `sim.data`. Make sure to save the simulated data.frame as this object.", correct = FALSE, location = "append")
-	} else {
-		if(!is.data.frame(sim.data)){
-			out <- list(message = "The object `sim.data` does not appear to be a data.frame. Make sure to save the simulated data.frame as this object.", correct = FALSE, location = "append")
-		} else {
-			if(!("var1" %in% colnames(sim.data)) | !("var2" %in% colnames(sim.data))){
-				out <- list(message = "The object `sim.data` is missing variables either called 'var1' or 'var2'. Make sure to call the simulated variables by these names.", correct = FALSE, location = "append")
-			} else {
-				if(nrow(sim.data) != 40){
-					out <- list(message = "The simulated data.frame saved as `sim.data` does not have 40 participants. Make sure the data has only 40 participants.", correct = FALSE, location = "append")
-				} else {
-					mv1 <- mean(sim.data$var1)
-					mv2 <- mean(sim.data$var2)
-					sv1 <- sd(sim.data$var1)
-					sv2 <- sd(sim.data$var2)
-					if(!(mv1 > 95 & mv1 < 105) | !(sv1 > 10 & sv1 < 20)){
-						out <- list(message = "The characteristics of the simulated variable 'var1' does not appear to match the requirment of having a mean of 100 and a standard deviation of 15. Check there are no errors in the code. If you believe your code is correct, the simulated data may have fallen out of the acceptable ranges just by chance. If you believe this to be the case, submit your answer again.", correct = FALSE, location = "append")
-					} else {
-						if(!(mv2 > 95 & mv2 < 105) | !(sv2 > 10 & sv2 < 20)){
-							out <- list(message = "The characteristics of the simulated variable 'var2' does not appear to match the requirment of having a mean of 100 and a standard deviation of 15. Check there are no errors in the code. If you believe your code is correct, the simulated data may have fallen out of the acceptable ranges by chance. If you believe this to be the case, submit your answer again.", correct = FALSE, location = "append")
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-#Question 6
-if(label == "question_6"){
-	if(!exists("simulate_data")){
-		out <- list(message = "There is no object saved as `simulate_data`. Make sure to save the custom function as this object.", correct = FALSE, location = "append")
-	} else {
-		if(class(simulate_data) != "function"){
-			out <- list(message = "The object `simulate_data` does not appear to be a function. Make sure to save the custom function as this object.", correct = FALSE, location = "append")
-		} else {
-			
-			test.data <- simulate_data(153)
-			
-			if(!("var1" %in% colnames(test.data)) | !("var2" %in% colnames(test.data))){
-				out <- list(message = "The function `simulate_data()` does not appear to create a data.frame with the correct characteristics. It produces a data.frame that is missing variables either called 'var1' or 'var2'.", correct = FALSE, location = "append")
-			} else {
-				if(nrow(test.data) != 153){
-					out <- list(message = "The simulated data.frame from the function `simulate_data()` does not appear to match what is specified in an argument. Edit the function so that the first argument specifies the sample size of the simulated data.", correct = FALSE, location = "append")
-				} else {
-					mv1 <- mean(test.data$var1)
-					mv2 <- mean(test.data$var2)
-					sv1 <- sd(test.data$var1)
-					sv2 <- sd(test.data$var2)
-					if(!(mv1 > 95 & mv1 < 105) | !(sv1 > 10 & sv1 < 20)){
-						out <- list(message = "The characteristics of the simulated variable 'var1' resulting from the function `simulate_data()` does not appear to match the requirment of having a mean of 100 and a standard deviation of 15. Check there are no errors in the code. If you believe your code is correct, the simulated data may have fallen out of the acceptable ranges by chance. If you believe this to be the case, submit your answer again.", correct = FALSE, location = "append")
-					} else {
-						if(!(mv2 > 95 & mv2 < 105) | !(sv2 > 10 & sv2 < 20)){
-							out <- list(message = "The characteristics of the simulated variable 'var2' resulting from the function `simulate_data()` does not appear to match the requirment of having a mean of 100 and a standard deviation of 15. Check there are no errors in the code. If you believe your code is correct, the simulated data may have fallen out of the acceptable ranges by chance. If you believe this to be the case, submit your answer again.", correct = FALSE, location = "append")
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-if(label == "question_4b"){
-
-correct_imitation.data <- data.frame(ID = 1:60,
-	age = c(9,8,4,10,8,9,3,9,5,7,9,9,10,7,6,8,4,7,5,10,3,3,8,8,6,10,6,7,9,5,9,5,8,3,7,4,10,5,4,5,7,3,6,9,7,9,5,7,8,6,7,5,5,3,8,4,9,8,8,3),
-	imitation = c(0.7,0.79,0.72,0.73,0.26,0.46,0.23,0.56,0.06,0.86,0.68,0.94,0.55,0.75,0.13,1,0.35,0.49,0.05,1,0,0,0.34,0.38,0,0.49,0.57,0.34,0.8,0.52,0.5,0.29,0.48,0.45,0.54,0,1,0.16,0.31,0.34,0.21,0.16,0.2,0.75,0.73,0.3,0.47,0.22,0.29,0.25,0.2,0.36,0.33,0.45,0.7,0,0.25,0.55,0.58,0.58),
-	problem_solving = c(7,6,7,6,4,2,0,2,5,6,6,10,5,7,0,9,7,4,9,9,1,3,1,2,5,3,12,10,13,11,3,1,0,12,6,1,20,0,6,9,2,3,6,16,10,3,1,2,0,3,6,1,4,1,7,2,7,10,1,0))
-	
-correct_y.model <- lm(problem_solving ~ age,data = correct_imitation.data) %>%
-  lm.beta() %>%
-  summary()
-
-correct_y2.model <- lm(problem_solving ~ age + imitation,data = correct_imitation.data) %>%
-  lm.beta() %>%
-  summary()
-
-correct_m.model <- lm(imitation ~ age,data = correct_imitation.data) %>%
-  lm.beta() %>%
-  summary()
-
-if (!exists("imitation.data")){
-	out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-} else {
-	if(!identical(imitation.data,correct_imitation.data)){
-		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-	} else {
-		if(!exists("y.model")){
-			out <- list(message = "No object saved as `y.model`.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("y2.model")){
-				out <- list(message = "No object saved as `y2.model`.", correct = FALSE, location = "append")
-			} else {
-				if(!exists("m.model")){
-					out <- list(message = "No object saved as `m.model`.", correct = FALSE, location = "append")
-				} else {
-					if(!("summary.lm.beta" %in% class(y.model)) | !("summary.lm.beta" %in% class(y2.model)) | !("summary.lm.beta" %in% class(m.model))){
-						out <- list(message = "One of `y.model`, `y2.model`, or `m.model` is not the output from the `lm()` function after using the `lm.beta()` and `summary()` functions. Ensure that this is the case.", correct = FALSE, location = "append")
-					} else {
-						if(!(.29 %in% round(y.model$coefficients[,"Standardized"],2))){
-							out <- list(message = "The object `y.model` does not match the correct answer.", correct = FALSE, location = "append")
-						} else {
-							if(!(.56 %in% round(y2.model$coefficients[,"Standardized"],2))){
-								out <- list(message = "The object `y2.model` does not match the correct answer.", correct = FALSE, location = "append")
-							} else {
-								if(!(.56 %in% round(m.model$coefficients[,"Standardized"],2))){
-									out <- list(message = "The object `m.model` does not match the correct answer.", correct = FALSE, location = "append")
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-	
-}
-
-#Question 7
-if(label == "question_a2"){
-
-correct_imitation.data <- data.frame(ID = 1:60,
-	age = c(9,8,4,10,8,9,3,9,5,7,9,9,10,7,6,8,4,7,5,10,3,3,8,8,6,10,6,7,9,5,9,5,8,3,7,4,10,5,4,5,7,3,6,9,7,9,5,7,8,6,7,5,5,3,8,4,9,8,8,3),
-	imitation = c(0.7,0.79,0.72,0.73,0.26,0.46,0.23,0.56,0.06,0.86,0.68,0.94,0.55,0.75,0.13,1,0.35,0.49,0.05,1,0,0,0.34,0.38,0,0.49,0.57,0.34,0.8,0.52,0.5,0.29,0.48,0.45,0.54,0,1,0.16,0.31,0.34,0.21,0.16,0.2,0.75,0.73,0.3,0.47,0.22,0.29,0.25,0.2,0.36,0.33,0.45,0.7,0,0.25,0.55,0.58,0.58),
-	problem_solving = c(7,6,7,6,4,2,0,2,5,6,6,10,5,7,0,9,7,4,9,9,1,3,1,2,5,3,12,10,13,11,3,1,0,12,6,1,20,0,6,9,2,3,6,16,10,3,1,2,0,3,6,1,4,1,7,2,7,10,1,0),
-	vIQ = c(73,95,120,103,94,95,94,89,122,87,129,89,86,99,86,109,82,62,86,98,121,105,100,92,90,103,103,89,121,89,93,109,94,137,97,106,112,100,96,108,98,107,100,91,94,113,98,85,114,98,68,101,74,100,107,92,91,93,103,115))
-
-if (!exists("imitation.data")){
-	out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-} else {
-	if(!identical(imitation.data,correct_imitation.data)){
-		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-	} else {
-									if(!exists("med.model")){
-										out <- list(message = "No object saved as `med.model`. Save the output from the `mediate()` function as `med.model`.", correct = FALSE, location = "append")
-									} else {
-										if(!("mediate" %in% class(med.model))){
-											out <- list(message = "The object saved as `med.model` does not appear to be the output from the `mediate()` function. Check that there are no errors in the code.", correct = FALSE, location = "append")
-										} else {
-											if(round(med.model$ab,2) != .32){
-												out <- list(message = "There results from the mediate() function does not match the correct answer. Please check there are no errors in the code.", correct = FALSE, location = "append")
-											}
-										}
-									}
-								}
-							}
-	
-}  
-
-#Question 6
-if(label == "question_6b"){
-
-correct_imitation.data <- data.frame(ID = 1:60,
-	age = c(9,8,4,10,8,9,3,9,5,7,9,9,10,7,6,8,4,7,5,10,3,3,8,8,6,10,6,7,9,5,9,5,8,3,7,4,10,5,4,5,7,3,6,9,7,9,5,7,8,6,7,5,5,3,8,4,9,8,8,3),
-	imitation = c(0.7,0.79,0.72,0.73,0.26,0.46,0.23,0.56,0.06,0.86,0.68,0.94,0.55,0.75,0.13,1,0.35,0.49,0.05,1,0,0,0.34,0.38,0,0.49,0.57,0.34,0.8,0.52,0.5,0.29,0.48,0.45,0.54,0,1,0.16,0.31,0.34,0.21,0.16,0.2,0.75,0.73,0.3,0.47,0.22,0.29,0.25,0.2,0.36,0.33,0.45,0.7,0,0.25,0.55,0.58,0.58),
-	problem_solving = c(7,6,7,6,4,2,0,2,5,6,6,10,5,7,0,9,7,4,9,9,1,3,1,2,5,3,12,10,13,11,3,1,0,12,6,1,20,0,6,9,2,3,6,16,10,3,1,2,0,3,6,1,4,1,7,2,7,10,1,0))
-
-if (!exists("imitation.data")){
-	out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-} else {
-	if(!identical(imitation.data,correct_imitation.data)){
-		out <- list(message = "The data appears to be altered. Do not alter the data.frame saved as `imitation.data`. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-	} else {
-									if(!exists("med.model")){
-										out <- list(message = "No object saved as `med.model`. Save the output from the `mediate()` function as `med.model`.", correct = FALSE, location = "append")
-									} else {
-										if(!("mediate" %in% class(med.model))){
-											out <- list(message = "The object saved as `med.model` does not appear to be the output from the `mediate()` function. Check that there are no errors in the code.", correct = FALSE, location = "append")
-										} else {
-											if(round(med.model$ab,2) != .31){
-												out <- list(message = "There results from the mediate() function does not match the correct answer. Please check there are no errors in the code.", correct = FALSE, location = "append")
-											}
-										}
-									}
-								}
-							}
-	
-}  
-          
-return(out)
-}
-
-tutorial_options(exercise.checker = checker)
+gradethis::gradethis_setup()
 ```
 
 ## Introduction
@@ -323,6 +52,10 @@ Make sure to adjust both the `r` argument, and the `power` argument.
 
 ```{r question_1p-solution}
 pwr.r.test(r = .20, power = .95,sig.level = .05)
+```
+
+```{r question_1p-code-check}
+grade_code()
 ```
 
 ```{r question_1p-quiz}
@@ -357,6 +90,10 @@ Remember the output tells you the number of participants you will need per group
 pwr.t.test(d = .80, power = .60,sig.level = .05)
 ```
 
+```{r question_2p-code-check}
+grade_code()
+```
+
 ```{r question_2p-quiz}
 quiz(question("What is the minimum sample size required (rounded-up)?",
      answer("45"),
@@ -389,6 +126,10 @@ You will also need to set the `type` argument to "paired".
 pwr.t.test(d = .35, power = .80,sig.level = .05,type = "paired")
 ```
 
+```{r question_3p-code-check}
+grade_code()
+```
+
 ```{r question_3p-quiz}
 quiz(question("What is the minimum sample size required (rounded-up)?",
      answer("134"),
@@ -419,6 +160,10 @@ Rather than leave the `n` argument blank when determining the minimum sample siz
 
 ```{r question_4p-solution}
 pwr.r.test(n = 100, power = .80,sig.level = .05)
+```
+
+```{r question_4p-code-check}
+grade_code()
 ```
 
 ```{r question_4p-quiz}
@@ -501,8 +246,8 @@ m.model <- lm(imitation ~ age,data = imitation.data) %>%
 m.model
 ```
 
-```{r question_4b-check}
-checker()
+```{r question_4b-code-check}
+grade_code()
 ```
 
 ### Question 6
@@ -530,7 +275,7 @@ imitation.data <- data.frame(ID = 1:60,
 ```{r question_6b, exercise=TRUE,exercise.lines = 12}
 #imitation.data
 
-med.model <- mediate()
+mediate()
 ```
 
 ```{r question_6b-hint-1}
@@ -546,13 +291,11 @@ Next hint will show the solution...
 ```
 
 ```{r question_6b-solution}
-med.model <- mediate(problem_solving ~ age + (imitation),data = imitation.data,std = TRUE)
-
-med.model
+mediate(problem_solving ~ age + (imitation),data = imitation.data,std = TRUE)
 ```
 
-```{r question_6b-check}
-checker()
+```{r question_6b-code-check}
+grade_code()
 ```
 
 ### Question 8
@@ -574,7 +317,7 @@ When using the `mediate()` function, including a control variable in the formula
 
 > outcome ~ predictor + (mediator) -control
 
-In the code box below, using the imitation dataset from Question 5, conduct a mediation analysis to determine whether the association between age and problem-solving score is mediated by imitation behaviour, while controlling for the children's verbal IQ. Save the mediation output as an object called `med.model`.
+In the code box below, using the imitation dataset from Question 5, conduct a mediation analysis to determine whether the association between age and problem-solving score is mediated by imitation behaviour, while controlling for the children's verbal IQ.
 
 ```{r,echo = FALSE}
 imitation.data <- data.frame(ID = 1:60,
@@ -597,7 +340,6 @@ imitation.data <- data.frame(ID = 1:60,
 ```{r question_a2, exercise=TRUE,exercise.lines = 12}
 #imitation.data
 
-med.model <- 
 ```
 
 ```{r question_a2-hint-1}
@@ -616,8 +358,8 @@ med.model <- mediate(problem_solving ~ age + (imitation) - vIQ,data = imitation.
 med.model
 ```
 
-```{r question_a2-check}
-checker()
+```{r question_a2-code-check}
+grade_code()
 ```
 
 ## Advanced Exercises

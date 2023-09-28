@@ -5,348 +5,20 @@ runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
-list.of.packages <- c("learnr","shiny","tidyverse")
+list.of.packages <- c("learnr","shiny","tidyverse","remotes")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
 library(learnr)
 require(tidyverse)
 
+require(remotes)
+if(!("gradethis" %in% installed.packages())){remotes::install_github("rstudio/gradethis")}
+require(gradethis)
+
 knitr::opts_chunk$set(echo = FALSE)
 
-checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
-  
-  envir_result
-  out <- list(message = sample(c("Good Job!",
-                                 "Well done!",
-                                 "Great stuff!",
-                                 "That is correct!",
-                                 "Correct! You are really good at this."),1), correct = TRUE, location = "append")
-  
-#Question 1
-if(label == "question_1"){
-	if(!exists("countries")){
-		out <- list(message = "No object saved as countries. Do not alter the object called `countries`.", correct = FALSE, location = "append")
-    } else {
-		if(!identical(countries,c("Scotland","England","France","Wales","Scotland","Australia","Scotland","England","United States","Iceland","Scotland","Spain","Scotland","Swaziland","Scotland","Switzerland","Scotland","England","France","Wales","Scotland","Australia","Scotland","England","United States","Iceland","Scotland","Spain","Scotland","Swaziland","Scotland","Switzerland"))){
-			out <- list(message = "The object saved as `countries` appears to have been altered. Do not alter this object. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("Scotland_N")){
-				out <- list(message = "No object saved as `Scotland_N`.", correct = FALSE, location = "append")
-			} else {
-				if(Scotland_N != 12){
-					out <- list(message = "The number saved as `answer` is not correct. Check the submitted code for any errors.", correct = FALSE, location = "append")
-				}
-			}
-		}
-	}
-}
-
-#Question 2
-if (label == "question_2"){
-	if(!exists("numbers")){
-		out <- list(message = "No object saved as numbers. Do not alter the object called `numbers`.", correct = FALSE, location = "append")
-	} else {
-		if(!identical(numbers,c(71,66,64,80,19,96,33,60,61,20,37,14,74,45,70,52,43,93,53,42,36,91,82,22,9,26,95,21,75,16,52,7,36,90,45,59,60,54,95,35,38,97,49,71,38,70,6,96,85,43,45,99,51,78,49,72,44,96,62,74,62,85,17,22,89,23,98,5,80,37,17,40,75,48,3,76,88,71,80,46,88,13,34,58,94,24,28,27,68,63,17,97,23,95,37,80,2,40,36,8))){
-			out <- list(message = "The object saved as `numbers` appears to have been altered. Do not alter this object. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("less_than_53")){
-				out <- list(message = "No object saved as `less_than_53`.", correct = FALSE, location = "append")
-			} else {
-				if(less_than_53 != 51){
-					out <- list(message = "The number saved as `less_than_53` is not correct. Check the submitted code for any errors.", correct = FALSE, location = "append")
-				}
-			}
-		}
-	}
-}
-
-#Question 3
-if(label == "question_3"){
-	
-	correct_numbers <- data.frame(ID = 1:100,
-                      remove = c('Include','Exclude','Exclude','Exclude','Exclude','Exclude','Include','Include','Include','Include','Include','Include','Include','Include','Exclude','Include','Exclude','Exclude','Include','Include','Include','Include','Exclude','Include','Exclude','Exclude','Include','Include','Exclude','Exclude','Include','Include','Include','Exclude','Include','Include','Exclude','Include','Include','Exclude','Include','Exclude','Include','Include','Exclude','Exclude','Exclude','Exclude','Exclude','Include','Include','Include','Include','Exclude','Exclude','Exclude','Include','Include','Exclude','Exclude','Include','Exclude','Exclude','Include','Include','Include','Exclude','Include','Exclude','Include','Include','Include','Exclude','Include','Exclude','Include','Include','Exclude','Exclude','Include','Include','Include','Include','Include','Include','Exclude','Include','Include','Exclude','Include','Exclude','Exclude','Include','Include','Exclude','Exclude','Exclude','Exclude','Include','Exclude'),
-                      var1 = c(71,66,64,80,19,96,33,60,61,20,37,14,74,45,70,52,43,93,53,42,36,91,82,22,9,26,95,21,75,16,52,7,36,90,45,59,60,54,95,35,38,97,49,71,38,70,6,96,85,43,45,99,51,78,49,72,44,96,62,74,62,85,17,22,89,23,98,5,80,37,17,40,75,48,3,76,88,71,80,46,88,13,34,58,94,24,28,27,68,63,17,97,23,95,37,80,2,40,36,8))
-	
-	if (!exists("numbers")){
-		out <- list(message = "No object saved as numbers. Do not alter the object called `numbers`.", correct = FALSE, location = "append")
-	} else {
-		if(!identical(numbers,correct_numbers)){
-			out <- list(message = "The object saved as `numbers` appears to have been altered. Do not alter this object. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("numbers_filtered")){
-				out <- list(message = "There is no object named `numbers_filtered`.", correct = FALSE, location = "append")
-			} else {
-				if(!is.data.frame(numbers_filtered)){
-					out <- list(message = "The object saved as `numbers_filtered` is not a data.frame.", correct = FALSE, location = "append")
-				} else {
-					if(!identical(numbers_filtered,filter(correct_numbers,remove != "Exclude"))){
-					out <- list(message = "The data.frame saved as `numbers_filtered` does not match the correct answer. Please check the code for errors.", correct = FALSE, location = "append")
-					}
-				}
-			}
-		}
-	}
-}
-
-#Question 4
-if(label == "question_4"){
-	
-	correct_personality <- data.frame(ID = 1:6,
-                      openness = c(3,5,1,4,2,3),
-                      conscientiousness = c(1,4,2,3,3,2),
-                      extraversion = c(3,5,4,2,2,3),
-                      agreeableness = c(1,3,2,2,5,3),
-                      neuroticism = c(3,3,4,2,1,5))
-	
-	if(!exists("personality")){
-		out <- list(message = "No object saved as personality. Do not alter the object called `personality`.", correct = FALSE, location = "append")
-	} else {
-		if(!identical(personality,correct_personality)){
-			out <- list(message = "The object saved as `personality` appears to have been altered. Do not alter this object. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("personality_cleaned")){
-				out <- list(message = "There is no object named `personality_cleaned`.", correct = FALSE, location = "append")
-			} else {
-				if(!is.data.frame(personality_cleaned)){
-					out <- list(message = "The object saved as `personality_cleaned` is not a data.frame.", correct = FALSE, location = "append")
-				} else {
-					if(!("conscientiousness" %in% colnames(personality_cleaned))){
-						out <- list(message = "The data.frame saved as `personality_cleaned` does not include the conscientiousness variable." , correct = FALSE, location = "append")
-					} else {
-						if(!("neuroticism" %in% colnames(personality_cleaned))){
-							out <- list(message = "The data.frame saved as `personality_cleaned` does not include the neuroticism variable." , correct = FALSE, location = "append")
-						} else {
-							if(!("ID" %in% colnames(personality_cleaned))){
-								out <- list(message = "The data.frame saved as `personality_cleaned` does not include the ID variable." , correct = FALSE, location = "append")
-							} else {
-								if("openness" %in% colnames(personality_cleaned) | "extraversion" %in% colnames(personality_cleaned) | "agreeableness" %in% colnames(personality_cleaned)){
-									out <- list(message = "The data.frame saved as `personality_cleaned` still contains variables that are not the ones specified above." , correct = FALSE, location = "append")
-								} else {
-									if(ncol(personality_cleaned) != 3){
-										out <- list(message = "The data.frame saved as `personality_cleaned` does not match the correct answer. Check for errors in the code above." , correct = FALSE, location = "append")
-									}								
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-if(label == "question_5"){
-	
-	correct_phys_exer <- data.frame(ID = 1:6,
-                      sunday = c(0,15,10,40,0,30),
-                      monday = c(10,40,20,30,0,20),
-                      tuesday = c(30,15,40,20,0,30),
-                      wednesday = c(10,30,20,20,0,30),
-                      thursday = c(30,30,40,20,10,15),
-                      friday = c(5,60,30,10,10,0),
-                      saturday = c(120,0,10,20,10,0))
-	
-	if(!exists("phys_exer")){
-		out <- list(message = "No object saved as phys_exer. Do not alter the object called `phys_exer`.", correct = FALSE, location = "append")
-	} else {
-		if(!identical(phys_exer,correct_phys_exer)){
-			out <- list(message = "The object saved as `phys_exer` appears to have been altered. Do not alter this object. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("phys_exer_total")){
-				out <- list(message = "There is no object named `phys_exer_total`.", correct = FALSE, location = "append")
-			} else {
-				if(!is.data.frame(phys_exer_total)){
-					out <- list(message = "The object saved as `phys_exer_total` is not a data.frame.", correct = FALSE, location = "append")
-				} else {
-					if(!("total" %in% colnames(phys_exer_total))){
-						out <- list(message = "There is no variable called 'total' in the data.frame `phys_exer_total`.", correct = FALSE, location = "append")
-					} else {
-						if(!identical(correct_phys_exer$sunday +
-						              correct_phys_exer$monday +
-						              correct_phys_exer$tuesday +
-						              correct_phys_exer$wednesday +
-						              correct_phys_exer$thursday +
-						              correct_phys_exer$friday +
-						              correct_phys_exer$saturday,phys_exer_total$total)){
-							out <- list(message = "The variable 'total' in the data.frame `phys_exer_total` does not match the correct answer. Check there are no errors in the submitted code.", correct = FALSE, location = "append")
-						}
-					}
-				}
-			}
-		}
-	}
-}  
-
-if(label == "question_6"){
-	
-	correct_phys_exer <- data.frame(ID = 1:6,
-                      sunday = c(0,15,10,40,0,30),
-                      monday = c(10,40,20,30,0,20),
-                      tuesday = c(30,15,40,20,0,30),
-                      wednesday = c(10,30,20,20,0,30),
-                      thursday = c(30,30,40,20,10,15),
-                      friday = c(5,60,30,10,10,0),
-                      saturday = c(120,0,10,20,10,0))
-	
-	if(!exists("phys_exer")){
-		out <- list(message = "No object saved as phys_exer. Do not alter the object called `phys_exer`.", correct = FALSE, location = "append")
-	} else {
-		if(!identical(phys_exer,correct_phys_exer)){
-			out <- list(message = "The object saved as `phys_exer` appears to have been altered. Do not alter this object. Click the `Start Over` button if necessary.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("phys_exer_total")){
-				out <- list(message = "There is no object named `phys_exer_total`.", correct = FALSE, location = "append")
-			} else {
-				if(!is.data.frame(phys_exer_total)){
-					out <- list(message = "The object saved as `phys_exer_total` is not a data.frame.", correct = FALSE, location = "append")
-				} else {
-					if(!("total" %in% colnames(phys_exer_total))){
-						out <- list(message = "There is no variable called 'total' in the data.frame `phys_exer_total`.", correct = FALSE, location = "append")
-					} else {
-						if(identical(correct_phys_exer$sunday +
-						              correct_phys_exer$monday + 
-						              correct_phys_exer$tuesday + 
-						              correct_phys_exer$wednesday + 
-						              correct_phys_exer$thursday + 
-						              correct_phys_exer$friday +
-						              correct_phys_exer$saturday,phys_exer_total$total)){
-							out <- list(message = "The variable 'total' is still the total number of minutes across the week and not the mean number of minutes per day. Edit the code so that 'total' is the mean number of minutes.", correct = FALSE, location = "append")
-						} else {
-							if(!identical((correct_phys_exer$sunday + correct_phys_exer$monday + correct_phys_exer$tuesday + correct_phys_exer$wednesday + correct_phys_exer$thursday + correct_phys_exer$friday + correct_phys_exer$saturday)/7,phys_exer_total$total)){
-							out <- list(message = "The variable 'total' in the data.frame `phys_exer_total` does not match the correct answer. Check there are no errors in the submitted code.", correct = FALSE, location = "append")
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-  
-if(label == "question_7"){
-	
-	correct_dat <- data.frame(ID = 1:6,
-                      var1 = c(10,NA,130,440,50,360),
-                      var2 = c(170,480,290,NA,10,220),
-                      var3 = c(330,145,NA,260,70,380),
-                      var4 = c(190,310,220,230,40,350),
-                      var5 = c(360,NA,NA,290,110,125),
-                      var6 = c(35,640,350,160,170,NA),
-                      var7 = c(1290,10,120,230,NA,50))
-	
-	if(!exists("dat")){
-		out <- list(message = "The data.frame `dat` does not exist. Do not edit this object.", correct = FALSE, location = "append")
-	} else {
-		if(!identical(dat,correct_dat)){
-			out <- list(message = "The data.frame `dat` appears to have been altered. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-		} else {
-			if(exists("data_select.variables")){
-				out <- list(message = "The intermediate data.frame `data_select.variables` still exists in the workspace. One of the advantages of using pipes is that you can avoid saving intermediate objects that clogs up your workspace. Re-write the code to remove this object.", correct = FALSE, location = "append")
-			} else {
-				if(exists("data_remove.missing1")){
-				out <- list(message = "The intermediate data.frame `data_remove.missing1` still exists in the workspace. One of the advantages of using pipes is that you can avoid saving intermediate objects that clogs up your workspace. Re-write the code to remove this object.", correct = FALSE, location = "append")
-				} else {
-					if(exists("data_remove.missing2")){
-						out <- list(message = "The intermediate data.frame `data_remove.missing2` still exists in the workspace. One of the advantages of using pipes is that you can avoid saving intermediate objects that clogs up your workspace. Re-write the code to remove this object.", correct = FALSE, location = "append")
-					} else {
-						if(!exists("data_final")){
-								out <- list(message = "There is no object saved as `data_final`.", correct = FALSE, location = "append")
-						} else {
-								if(!identical(data_final,correct_dat %>% select(ID,var3,var5) %>% filter(!is.na(var3)) %>% filter(!is.na(var5)) %>% mutate(total = var3 + var5))) {
-									out <- list(message = "The `data_final` from the submitted code does not match the `data_final` from the original code. Check that there are no errors in the submitted code.", correct = FALSE, location = "append")
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-if(label == "question_8"){
-	
-	correct_brightside <- data.frame(line = c(1,2,NA,3,4),
-                      word1 = c("coming","and","you","gotta","because"),
-                      band = c("brandon","dave",NA,"mark","ronnie"),
-                      word2 = c("out","I've","sit","gotta","I"),
-                      word3 = c("of","been","there","be","want"),
-                      word4 = c("my","doing","in","down","it"),
-                      word5 = c("cage","just","your",NA,"all"),
-                      word6 = c(NA,"fine","heartache",NA,NA))
-	
-	if(!exists("brightside")){
-		out <- list(message = "The data.frame `brightside` does not exist. Do not edit this object.", correct = FALSE, location = "append")
-	} else {
-		if(!identical(brightside,correct_brightside)){
-			out <- list(message = "The data.frame `brightside` appears to have been altered. Do not alter this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("brightside_final")){
-				out <- list(message = "No object saved as `brightside_final`.", correct = FALSE, location = "append")
-			} else {
-				if(!identical(brightside_final,correct_brightside %>% filter(!is.na(line)) %>% select(line,word1,word2:word6))){
-					out <- list(message = "The object `final_brightside` does not match the correct answer. Check there are no errors in the code.", correct = FALSE, location = "append")
-				}
-			}
-		}
-	}
-}  
-
-if(label == "question_9"){
-	
-	correct_ratings <- data.frame(ID = 1:40,
-                         age = c(75,94,83,88,69,80,76,93,74,60,72,69,85,74,92,61,92,92,66,67,88,82,75,93,89,67,70,64,68,91,80,71,84,89,73,93,90,78,85,60),
-                         stimuli_1 = c(1,7,6,6,6,5,3,1,4,3,6,1,6,3,3,4,5,4,5,1,5,5,3,1,7,5,6,5,5,1,2,7,2,2,4,1,2,7,5,4),
-                         stimuli_2 = c(6,1,5,6,6,7,3,3,7,6,7,7,7,2,1,7,5,5,4,6,3,5,3,3,3,7,2,4,4,2,2,2,5,2,4,5,4,5,4,7),
-                         stimuli_3 = c(7,5,4,2,1,1,4,3,5,5,5,4,4,4,5,1,7,5,4,1,1,1,2,4,6,5,6,2,5,4,3,5,2,6,7,1,1,5,3,7),
-                         stimuli_4 = c(1,1,2,4,5,1,1,5,6,6,4,6,2,1,3,3,4,2,4,6,2,7,5,3,2,1,7,2,6,3,3,7,3,6,6,4,5,7,4,3),
-                         stimuli_5 = c(3,5,3,5,7,7,2,6,6,5,4,1,5,2,4,5,5,2,6,5,5,3,6,3,6,3,3,2,5,7,1,5,7,2,4,3,5,5,4,7),
-                         stimuli_6 = c(2,1,4,7,6,3,1,5,1,2,5,6,5,1,5,2,5,1,1,3,2,6,1,3,7,4,2,7,6,2,5,7,4,1,5,3,1,4,7,5),
-                         stimuli_7 = c(2,7,1,3,3,5,4,4,2,3,4,3,2,1,6,4,7,2,3,5,2,2,2,1,6,3,3,3,3,2,1,4,5,3,3,2,4,1,3,7),
-                         stimuli_8 = c(4,7,3,4,1,5,3,6,3,7,4,4,1,5,6,6,3,4,2,6,6,1,1,2,4,2,1,2,6,4,3,2,7,4,1,7,5,7,7,3),
-                         stimuli_9 = c(6,7,3,4,4,2,3,1,3,7,5,2,3,5,6,6,4,5,4,1,4,3,5,6,3,2,7,5,1,6,1,5,5,7,7,2,1,7,6,3),
-                         stimuli_10 = rep(-99,40),
-                         stimuli_11 = rep(1,40),
-                         stimuli_12 = c(3,7,3,7,5,2,2,4,5,7,3,1,7,6,4,7,4,7,3,4,2,7,7,2,7,4,7,2,6,3,4,7,7,6,5,4,6,7,2,2))
-                         
-    ratings_answer <- correct_ratings %>%
-  select(ID,age,stimuli_1,stimuli_2,stimuli_3,stimuli_4,stimuli_5,stimuli_6,stimuli_7,stimuli_8,stimuli_9,stimuli_12) %>%
-  filter(age >= 65) %>%
-  mutate(total = stimuli_1 + stimuli_2 + stimuli_3 + stimuli_4 + stimuli_5 + stimuli_6 + stimuli_7 + stimuli_8 + stimuli_9 + stimuli_12)
-	
-	if(!exists("ratings")){
-		out <- list(message = "The data.frame `ratings` does not exist. Do not edit this object.", correct = FALSE, location = "append")
-	} else {
-		if(!identical(ratings,correct_ratings)){
-			out <- list(message = "The data.frame `ratings` does not match the original input. Do not edit this object. Click the 'Start Over' button if necessary.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("ratings_final")){
-				out <- list(message = "The data.frame `ratings_final` does not exist. Make sure to save the answer as `ratings_final`.", correct = FALSE, location = "append")
-			} else {
-				if("stimuli_10" %in% colnames(ratings_final) | "stimuli_11" %in% colnames(ratings_final)){
-					out <- list(message = "At least one of the problematic variables are still in the `ratings_final`. Be sure to remove 'stimuli_10' and 'stimuli_11' from the dataset.", correct = FALSE, location = "append")
-				} else {
-					if(nrow(ratings_final) != nrow(ratings_answer)){
-						out <- list(message = "The incorrect number of participants is in the `ratings_final`. Remember, you only want to include participants who are 65-years-old or older.", correct = FALSE, location = "append")
-					} else {
-						if(!("total" %in% colnames(ratings_final))){
-							out <- list(message = "There is no variable called 'total' in the data.frame `ratings_final`. Make sure to compute the sum of valid variables and save it as the variable 'total'.", correct = FALSE, location = "append")
-						} else {
-							if(!identical(ratings_final$total,ratings_answer$total)){
-								out <- list(message = "The variable 'total' does not appear to equal the sum of valid stimuli. Check for any errors in the submitted code.", correct = FALSE, location = "append")
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}  
-      
-return(out)
-}
-
-tutorial_options(exercise.checker = checker)
+gradethis::gradethis_setup()
 ```
 
 ## Introduction
@@ -364,7 +36,7 @@ countries <- c("Scotland","England","France","Wales","Scotland","Australia","Sco
 ```
 
 ```{r question_1, exercise=TRUE,exercise.lines = 5}
-countries
+#countries
 ```
 
 ```{r question_1-hint-1}
@@ -378,17 +50,16 @@ Next hint will show the solution...
 ```
 
 ```{r question_1-solution}
-countries
-
-temp <- countries == "Scotland"
-Scotland_N <- sum(temp)
+Scotland_N <- sum(countries == "Scotland")
 
 #The above could be written in one line of code like this:
-Scotland_N <- sum(countries == "Scotland")
+#temp <- countries == "Scotland"
+#Scotland_N <- sum(temp)
+
 ```
 
-```{r question_1-check}
-checker()
+```{r question_1-code-check}
+grade_code()
 ```
 
 ### Question 2
@@ -400,7 +71,7 @@ numbers <- c(71,66,64,80,19,96,33,60,61,20,37,14,74,45,70,52,43,93,53,42,36,91,8
 ```
 
 ```{r question_2, exercise=TRUE,exercise.lines = 5}
-numbers
+#numbers
 
 ```
 
@@ -418,8 +89,8 @@ Next hint will show the solution...
 less_than_53 <- sum(numbers < 53)
 ```
 
-```{r question_2-check}
-checker()
+```{r question_2-code-check}
+grade_code()
 ```
 
 ### Question 3
@@ -442,7 +113,7 @@ numbers <- data.frame(ID = 1:100,
 ```
 
 ```{r question_3, exercise=TRUE,exercise.lines = 5}
-numbers
+#numbers
 
 ```
 
@@ -458,10 +129,14 @@ Next hint will show the solution...
 
 ```{r question_3-solution}
 numbers_filtered <- filter(numbers,remove != "Exclude")
+
+#OR you could use the following logically equivalent code:
+
+#numbers_filtered <- filter(numbers,remove == "Include")
 ```
 
-```{r question_3-check}
-checker()
+```{r question_3-code-check}
+grade_code()
 ```
 
 ### Question 4
@@ -490,7 +165,7 @@ personality <- data.frame(ID = 1:6,
 ```
 
 ```{r question_4, exercise=TRUE,exercise.lines = 5}
-personality
+#personality
 
 ```
 
@@ -508,8 +183,8 @@ Next hint will show the solution...
 personality_cleaned <- select(personality,ID,conscientiousness,neuroticism)
 ```
 
-```{r question_4-check}
-checker()
+```{r question_4-code-check}
+grade_code()
 ```
 
 ### Question 5
@@ -542,7 +217,7 @@ phys_exer <- data.frame(ID = 1:6,
 ```
 
 ```{r question_5, exercise=TRUE,exercise.lines = 5}
-phys_exer
+#phys_exer
 
 ```
 
@@ -558,10 +233,12 @@ Next hint will show the solution...
 
 ```{r question_5-solution}
 phys_exer_total <- mutate(phys_exer,total = sunday + monday + tuesday + wednesday + thursday + friday + saturday)
+
+#Note: the days of the week could be in any order, but the checker for this question will expect the order above.
 ```
 
-```{r question_5-check}
-checker()
+```{r question_5-code-check}
+grade_code()
 ```
 
 ### Question 6
@@ -580,7 +257,7 @@ phys_exer <- data.frame(ID = 1:6,
 ```
 
 ```{r question_6, exercise=TRUE,exercise.lines = 5}
-phys_exer
+#phys_exer
 
 phys_exer_total <- mutate(phys_exer,total = sunday + monday + tuesday + wednesday + thursday + friday + saturday)
 
@@ -602,8 +279,8 @@ Next hint will show the solution...
 phys_exer_total <- mutate(phys_exer,total = (sunday + monday + tuesday + wednesday + thursday + friday + saturday)/7)
 ```
 
-```{r question_6-check}
-checker()
+```{r question_6-code-check}
+grade_code()
 ```
 
 ### Question 7
@@ -635,7 +312,7 @@ dat <- data.frame(ID = 1:6,
 ```
 
 ```{r question_7, exercise=TRUE,exercise.lines = 8}
-dat
+#dat
 data_select.variables <- select(dat,ID,var3,var5)
 data_remove.missing1 <- filter(data_select.variables,!is.na(var3))
 data_remove.missing2 <- filter(data_remove.missing1,!is.na(var5))
@@ -653,15 +330,15 @@ Next hint will show the solution...
 ```
 
 ```{r question_7-solution}
-dat
+#dat
 data_final <- select(dat,ID,var3,var5) %>%
   filter(!is.na(var3)) %>%
   filter(!is.na(var5)) %>%
   mutate(total = var3 + var5)
 ```
 
-```{r question_7-check}
-checker()
+```{r question_7-code-check}
+grade_code()
 ```
 
 ### Question 8
@@ -702,27 +379,29 @@ brightside_final <- brightside %>%
   filter(!is.na(line)) %>%
   select(line, word1, word2, word3, word4, word5, word6)
 
+brightside_final
+
 #the first argument is not needed for the `filter()` function.
 #there is a missing bracket for the `filter()` function.
 #there is a missing comma for the `select()` function.
 ```
 
-```{r question_8-check}
-checker()
+```{r question_8-code-check}
+grade_code()
 ```
 
 ### Question 9
 
-You are interested in how older adults make judgements of trustworthiness. You have conducted a study with 40 participants, where participants gave ratings of trustworthiness to 12 stimuli. This data is saved as the object `ratings`. However, after collecting the data, you noticed there is an issue with stimuli_10 and stimuli_11, and they needs to be excluded. Prepare the data.frame for data analysis by doing the following:
+You are interested in how older adults are susceptible to scammers. You have conducted a study with 40 participants, where participants receive a susceptibility score (a number between 1 and 7) to 12 stimuli. This data is saved as the object `sus.scores`. However, after collecting the data, you noticed there is an issue with stimuli_10 and stimuli_11, and they needs to be excluded. Prepare the data.frame for data analysis by doing the following:
 
 1. Remove the problematic variables.
 1. Remove participants that are not 65 years or older.
 1. Calculate a new variable called `total` that is the sum of the remaining `stimuli` variables.
 
-Save the new data.frame as `ratings_final`.
+Save the new data.frame as `sus.scores_final`. Note: the checker for this question expects you to use piping.
 
 ```{r,echo = FALSE}
-ratings <- data.frame(ID = 1:40,
+sus.scores <- data.frame(ID = 1:40,
                          age = c(75,94,83,88,69,80,76,93,74,60,72,69,85,74,92,61,92,92,66,67,88,82,75,93,89,67,70,64,68,91,80,71,84,89,73,93,90,78,85,60),
                          stimuli_1 = c(1,7,6,6,6,5,3,1,4,3,6,1,6,3,3,4,5,4,5,1,5,5,3,1,7,5,6,5,5,1,2,7,2,2,4,1,2,7,5,4),
                          stimuli_2 = c(6,1,5,6,6,7,3,3,7,6,7,7,7,2,1,7,5,5,4,6,3,5,3,3,3,7,2,4,4,2,2,2,5,2,4,5,4,5,4,7),
@@ -738,11 +417,11 @@ ratings <- data.frame(ID = 1:40,
                          stimuli_12 = c(3,7,3,7,5,2,2,4,5,7,3,1,7,6,4,7,4,7,3,4,2,7,7,2,7,4,7,2,6,3,4,7,7,6,5,4,6,7,2,2))
 ```
 ```{r}
-ratings
+sus.scores
 ```
 
 ```{r question_9-setup}
-ratings <- data.frame(ID = 1:40,
+sus.scores <- data.frame(ID = 1:40,
                          age = c(75,94,83,88,69,80,76,93,74,60,72,69,85,74,92,61,92,92,66,67,88,82,75,93,89,67,70,64,68,91,80,71,84,89,73,93,90,78,85,60),
                          stimuli_1 = c(1,7,6,6,6,5,3,1,4,3,6,1,6,3,3,4,5,4,5,1,5,5,3,1,7,5,6,5,5,1,2,7,2,2,4,1,2,7,5,4),
                          stimuli_2 = c(6,1,5,6,6,7,3,3,7,6,7,7,7,2,1,7,5,5,4,6,3,5,3,3,3,7,2,4,4,2,2,2,5,2,4,5,4,5,4,7),
@@ -759,11 +438,11 @@ ratings <- data.frame(ID = 1:40,
 ```
 
 ```{r question_9, exercise=TRUE,exercise.lines = 10}
-ratings
+#sus.scores
 ```
 
 ```{r question_9-hint-1}
-Have a look at the `ratings` data.frame so you have an idea of how it is structured.
+Have a look at the `sus.scores` data.frame so you have an idea of how it is structured.
 ```
 
 ```{r question_9-hint-2}
@@ -773,14 +452,16 @@ Next hint will show the solution...
 ```
 
 ```{r question_9-solution}
-ratings_final <- ratings %>%
+sus.scores_final <- sus.scores %>%
   select(ID,age,stimuli_1,stimuli_2,stimuli_3,stimuli_4,stimuli_5,stimuli_6,stimuli_7,stimuli_8,stimuli_9,stimuli_12) %>%
   filter(age >= 65) %>%
   mutate(total = stimuli_1 + stimuli_2 + stimuli_3 + stimuli_4 + stimuli_5 + stimuli_6 + stimuli_7 + stimuli_8 + stimuli_9 + stimuli_12)
+
+#Note: the checker for this question expects you to use piping, though the same could be achieved without using piping.
 ```
 
-```{r question_9-check}
-checker()
+```{r question_9-code-check}
+grade_code()
 ```
 
 ## Advanced Exercises

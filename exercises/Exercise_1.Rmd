@@ -5,166 +5,16 @@ runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
-list.of.packages <- c("learnr","shiny")
+list.of.packages <- c("learnr","shiny","remotes")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
 library(learnr)
-knitr::opts_chunk$set(echo = FALSE)
+require(remotes)
+if(!("gradethis" %in% installed.packages())){remotes::install_github("rstudio/gradethis")}
+require(gradethis)
 
-checker <- function(label,user_code,solution_code,check_code,envir_result,evaluate_result,envir_prep,...){
-  
-  envir_result
-  out <- list(message = sample(c("Good Job!",
-                                 "Well done!",
-                                 "Great stuff!",
-                                 "That is correct!",
-                                 "Correct! You are really good at this."),1), correct = TRUE, location = "append")
-  
-  #Question 2
-  if(label == "question_2"){
-    if(exists("x")){
-          if(x != 7){
-      out <- list(message = "The code doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
-          }
-    } else {
-      out <- list(message = "No object saved as x. Remember, you can save an object named `x` using: `x <-`", correct = FALSE, location = "append")
-    }
-  }
-  
-    #Question 3
-  if(label == "question_3"){
-    if(exists("z")){
-      if(z != 24){
-      out <- list(message = "The code to do with `z` doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
-          }
-    } else {
-      out <- list(message = "No object saved as z. Remember, you can save an object named `z` using: `z <-`", correct = FALSE, location = "append")
-    }
-    if(exists("y")){
-      if(y != 6){
-      out <- list(message = "The code to do with `y` doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
-          }
-    } else {
-      out <- list(message = "No object saved as y. Remember, you can save an object named `y` using: `y <-`", correct = FALSE, location = "append")
-    }
-    if(exists("x")){
-      if(x != 4){
-      out <- list(message = "The code to do with `x` doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
-          }
-    } else {
-      out <- list(message = "No object saved as x. Remember, you can save an object named `x` using: `x <-`", correct = FALSE, location = "append")
-    }
-  }
-  
-  #Question 4
-  if(label == "question_4"){
-    if(exists("y")){
-      if(y != floor(3.14)){
-      out <- list(message = "The code to do with `y` doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
-          }
-    } else {
-      out <- list(message = "No object saved as y.", correct = FALSE, location = "append")
-    }
-    if(exists("x")){
-      if(x != 3.14){
-      out <- list(message = "The code to do with `x` doesn't seem to be correct. You do not need to edit this line...", correct = FALSE, location = "append")
-          }
-    } else {
-      out <- list(message = "No object saved as x.", correct = FALSE, location = "append")
-    }
-  }
-
-  #Question 5
-  if(label == "question_5"){
-    if(exists("y")){
-      if(y != 3.1416){
-      out <- list(message = "The code to do with `y` doesn't seem to be correct. Try again.", correct = FALSE, location = "append")
-          }
-    } else {
-      out <- list(message = "No object saved as y.", correct = FALSE, location = "append")
-    }
-    if(exists("x")){
-      if(x != 3.14159265359){
-      out <- list(message = "The code to do with `x` doesn't seem to be correct. You do not need to edit this line...", correct = FALSE, location = "append")
-          }
-    } else {
-      out <- list(message = "No object saved as x.", correct = FALSE, location = "append")
-    }
-  }  
-
-  #Question 6
-  if(label == "question_6"){
-    if(exists("my_fav_colours")){
-      if(length(my_fav_colours) != 3){
-      out <- list(message = "The object `my_fav_colours` is not a vector with a length of 3.", correct = FALSE, location = "append")
-      } else {
-            if(!is.character(my_fav_colours)){
-              out <- list(message = "The object `my_fav_colours` is not a character vector.", correct = FALSE, location = "append")
-            }
-          }
-    } else {
-      out <- list(message = "No object saved as `my_fav_colours`.", correct = FALSE, location = "append")
-    }
-    if(exists("my_fav_numbers")){
-      if(length(my_fav_numbers) != 3){
-      out <- list(message = "The object `my_fav_numbers` is not a vector with a length of 3.", correct = FALSE, location = "append")
-      } else {
-            if(!is.numeric(my_fav_numbers)){
-              out <- list(message = "The object `my_fav_numbers` is not a numeric vector.", correct = FALSE, location = "append")
-            }
-          }
-    } else {
-      out <- list(message = "No object saved as `my_fav_colours`.", correct = FALSE, location = "append")
-    }
-  } 
-
-  #Question 8
-if (label == "question_8"){
-	if(!exists("fav_numbers_times_3")){
-		out <- list(message = "No object saved as `fav_numbers_times_3`.", correct = FALSE, location = "append")
-	} else {
-		if(!exists("my_fav_numbers")){
-			out <- list(message = "No object saved as `my_fav_numbers`.", correct = FALSE, location = "append")
-		} else {
-			if(length(my_fav_numbers) != 3){
-				out <- list(message = "The object `my_fav_numbers` is not a vector with a length of 3.", correct = FALSE, location = "append")
-			} else {
-				if(length(fav_numbers_times_3) != 3){
-					out <- list(message = "The object `fav_numbers_times_3` is not a vector with a length of 3.", correct = FALSE, location = "append")
-				} else {
-					if(!identical(fav_numbers_times_3/3,my_fav_numbers)){
-						out <- list(message = "The object `fav_numbers_times_3` does not contain elements that are three times that of `my_fav_numbers`.", correct = FALSE, location = "append")
-					}
-				}
-			}
-		}
-	}
-}
-
-#Question 9
-if (label == "question_9"){
-	if(!exists("numbers")){
-		out <- list(message = "Do not alter the numbers object. Please click the 'Start Over` button and try again.", correct = FALSE, location = "append")
-	} else {
-		if(!identical(numbers,c(1,-2,6,-53,-88,100,3.14,-13))){
-			out <- list(message = "Looks like you've written over the numbers object. Please click the 'Start Over` button and try again.", correct = FALSE, location = "append")
-		} else {
-			if(!exists("abs_numbers")){
-				out <- list(message = "There is no object saved as `abs_numbers`.", correct = FALSE, location = "append")
-			} else {
-				if(!identical(abs(numbers),abs_numbers)){
-					out <- list(message = "The result saved as `abs_numbers` doesn't appear to be correct. Please try again.", correct = FALSE, location = "append")
-				}
-			}
-		}
-	}
-}
-  
-  return(out)
-}
-
-tutorial_options(exercise.checker = checker)
+gradethis::gradethis_setup()
 ```
 
 ## Introduction
@@ -175,7 +25,7 @@ This is the first of the weekly exercises. These exercises are designed to reinf
 
 ### Question 1
 
-```{r question_1}
+```{r question_1,echo = FALSE}
 quiz(
   question("If you're struggling with R and coding, where can you find help? Select all correct answers.",
     answer("Google.",correct = TRUE),
@@ -208,10 +58,12 @@ Next hint will show the solution...
 
 ```{r question_2-solution}
 x <- 2 + 5
+
+x
 ```
 
-```{r question_2-check}
-checker()
+```{r question_2-code-check}
+grade_code()
 ```
 
 ### Question 3
@@ -238,8 +90,8 @@ y <- 3 + 3
 z <- x * y
 ```
 
-```{r question_3-check}
-checker()
+```{r question_3-code-check}
+grade_code()
 ```
 
 ### Question 4
@@ -266,8 +118,8 @@ x <- 3.14
 y <- floor(x)
 ```
 
-```{r question_4-check}
-checker()
+```{r question_4-code-check}
+grade_code()
 ```
 
 ### Question 5
@@ -294,13 +146,13 @@ x <- 3.14159265359
 y <- round(x,digits = 4)
 ```
 
-```{r question_5-check}
-checker()
+```{r question_5-code-check}
+grade_code()
 ```
 
 ### Question 6
 
-Edit the following code to save a numeric vector with your three favourite numbers to `my_fav_numbers`. Also, save a character vector with your three favourite colours to `my_fav_colours`.
+My three favourite numbers are 53, 8, and 21, and my three favourite colours are maroon, blue, and gold. Edit the following code to save a numeric vector with my three favourite numbers to `my_fav_numbers`. Also, save a character vector with my three favourite colours to `my_fav_colours`.
 
 ```{r question_6, exercise=TRUE,exercise.lines = 5}
 my_fav_numbers <- c()
@@ -319,14 +171,12 @@ Next hint will show the solution...
 ```
 
 ```{r question_6-solution}
-my_fav_numbers <- c(53,8,42)
-my_fav_colours <- c("blue","gold","maroon")
-
-#Note: your favourite numbers and colours could be different from mine.
+my_fav_numbers <- c(53,8,21)
+my_fav_colours <- c("maroon","blue","gold")
 ```
 
-```{r question_6-check}
-checker()
+```{r question_6-code-check}
+grade_code()
 ```
 
 ### Question 7
@@ -356,20 +206,20 @@ Next hint will show the solution...
 class(mystery.object)
 ```
 
-```{r question_7-quiz}
+```{r question_7-quiz,echo = FALSE}
 quiz(
   question("What class does `mystery.object` have?",
     answer("Numeric"),
     answer("Character"),
     answer("Factor",correct = TRUE),
-    answer("Logical")
+    answer("Logical"),allow_retry = TRUE
   )
 )
 ```
 
 ### Question 8
 
-First, write code that saves a numeric vector with your three favourite numbers to `my_fav_numbers`. Then, use vector operations to multiply your three favourite numbers by 3 and save the result as `fav_numbers_times_3`.
+First, write code that saves a numeric vector with my three favourite numbers (53,8,21) to `my_fav_numbers`. Then, use vector operations to multiply my three favourite numbers by 3 and save the result as `fav_numbers_times_3`.
 
 ```{r question_8, exercise=TRUE,exercise.lines = 5}
 
@@ -387,14 +237,12 @@ Next hint will show the solution...
 ```
 
 ```{r question_8-solution}
-my_fav_numbers <- c(53,8,42)
+my_fav_numbers <- c(53,8,21)
 fav_numbers_times_3 <- my_fav_numbers * 3
-
-#Note: your favourite numbers could be different from mine.
 ```
 
-```{r question_8-check}
-checker()
+```{r question_8-code-check}
+grade_code()
 ```
 
 ### Question 9
@@ -424,15 +272,15 @@ Next hint will show the solution...
 abs_numbers <- abs(numbers)
 ```
 
-```{r question_9-check}
-checker()
+```{r question_9-code-check}
+grade_code()
 ```
 
 ### Question 10
 
 Here are some quiz questions about data tables (or data.frames in R).
 
-```{r question_10-quiz}
+```{r question_10-quiz, echo = FALSE}
 quiz(
   question("Typically, each column in a data table represents:",
     answer("A variable.", correct = TRUE),
@@ -443,7 +291,7 @@ quiz(
 )
 ```
 
-```{r question_11-quiz}
+```{r question_11-quiz,echo = FALSE}
 quiz(
   question("Typically, each row in a data table represents:",
     answer("A variable."),
