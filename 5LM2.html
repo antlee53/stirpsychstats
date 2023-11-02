@@ -470,9 +470,9 @@ the code below to add all the variables that start with the same word to
 avoid typing out all the variable names (handy for long scales). We will
 also use the <code>select()</code> function to only include the
 variables relevant to our analysis.</p>
-<p>Note, usually larger scores on the scale equates to poorer sleep
-quality, which can be a bit confusing, so we will reverse code it so
-that higher score indicate greater sleep quality.</p>
+<p>Note, larger scores on the Perceived Stress Scale and the Sleep
+Quality Scale equates to greater perceived stress and poorer sleep
+quality respectively.</p>
 <pre class="r"><code>data1.clean &lt;- data %&gt;%
   mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,    #Method 1
          sleep.quality = rowSums(select(.,starts_with(&quot;sleep&quot;)))) %&gt;%      #Method 2
@@ -554,7 +554,7 @@ following information:</p>
 see where each of the numbers came from in the output above?):</p>
 <blockquote>
 <p>There was a significant, positive correlation between perceived
-stress and sleep quality, <em>r</em>(71) = 0.47, <em>p</em> &lt;
+stress and poor sleep quality, <em>r</em>(71) = 0.47, <em>p</em> &lt;
 .001.</p>
 </blockquote>
 </div>
@@ -641,10 +641,10 @@ model2.standardised</code></pre>
 ## Multiple R-squared:  0.2191, Adjusted R-squared:  0.2081 
 ## F-statistic: 19.92 on 1 and 71 DF,  p-value: 2.967e-05</code></pre>
 <p>Notice that in the summary table above, an additional column named
-<code>Standardized</code> is added. Everytime you calculate the
-standardised coefficients, the estimate for the intercept will equal 0.
-Therefore, you do not need to report the estimated intercept when
-reporting standardised coefficients.</p>
+<code>Standardized</code> is added. Every time you calculate the
+standardised coefficients, the estimate for the intercept will equal 0
+(shown as NA in the output above). Therefore, you do not need to report
+the estimated intercept when reporting standardised coefficients.</p>
 </div>
 <div id="plot-data-1" class="section level3">
 <h3>3. Plot data</h3>
@@ -684,8 +684,8 @@ through the write-up below just to demonstrate:</p>
 <blockquote>
 <p>Linear regression indicated that 21.91% of variance in sleep quality
 could be explained by the predictor, (<em>F</em>(1, 71) = 19.92,
-<em>p</em> &lt; .001). Perceived stress significantly predicted sleep
-quality (<em>Beta</em> = 0.47, <em>p</em> &lt; .001).</p>
+<em>p</em> &lt; .001). Perceived stress significantly predicted poor
+sleep quality (<em>Beta</em> = 0.47, <em>p</em> &lt; .001).</p>
 </blockquote>
 <p>For one or two predictors, it is simple enough to include the
 coefficients and p-value of predictors in-text like above. However, as
@@ -699,8 +699,8 @@ table instead. More on this later.</p>
 predictor in the model. In the example below, we run a regression with
 sleep quality as the outcome variable, and perceived stress and social
 support as predictors. <a
-href="https://www.jstor.org/stable/2136404?seq=9#metadata_info_tab_contents">For
-more detail on the Stress Scale, click here</a>.</p>
+href="https://www.tandfonline.com/doi/abs/10.1207/s15327752jpa5201_2?journalCode=hjpa20">For
+more detail on the Perceived Social Support Scale, click here</a>.</p>
 <div id="clean-the-data-for-analysis.-2" class="section level3">
 <h3>1. Clean the data for analysis.</h3>
 <p>First, we need to calculate the variables from each individual item.
@@ -798,8 +798,8 @@ results in words.</p>
 stress and social support. We found that both predictors explained
 23.57% of the variance (<em>F</em>(2, 70) = 10.79, <em>p</em> &lt;
 .001). Regression coefficients are reported in Table 1. Social support
-positively predicted sleep quality. There was no significant effect of
-perceived stress.</p>
+positively predicted poor sleep quality. There was no significant effect
+of perceived stress.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting
 intention to exercise.</p>
