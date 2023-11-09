@@ -406,6 +406,7 @@ div.tocify {
 <p>The aim of this week’s workbook is to cover moderation (interaction
 effects). By the end of this workbook, you should be able to:</p>
 <ol style="list-style-type: decimal">
+<li>Standardise variables.</li>
 <li>Perform a multiple regression with interaction effects.</li>
 <li>Plot relationship between data with two continuous IVs and one
 continuous DV, including:</li>
@@ -458,8 +459,8 @@ moderator, and outcome variables are all continuous.</p>
 <p>In the example below, we will extend the regression we conducted last
 week and test the hypothesis that the association between sleep quality
 and stress is moderated by social support (for instance, the
-relationship between sleep quality and stress is stronger (more
-negative) for participants low in social support).</p>
+relationship between poor sleep quality and stress is stronger (more
+positive) for participants low in social support).</p>
 </div>
 <div id="regression-with-interaction-effect" class="section level2">
 <h2>Regression with Interaction Effect</h2>
@@ -468,8 +469,7 @@ negative) for participants low in social support).</p>
 <p>First we must calculate the scores for each scale in the analysis
 from the individual items. As we have done previously, we can do this by
 using the <code>mutate()</code> function. The code below is the same as
-the code we used last week. Remember to reverse code sleep quality so
-that higher scores indicate greater sleep quality.</p>
+the code we used last week.</p>
 <pre class="r"><code>data1.vars  &lt;- data %&gt;%
   mutate(stress = stress.1 + stress.2 + stress.3 + stress.4 + stress.5,
          support = support.1 + support.2 + support.3 + support.4 + support.5,
@@ -552,7 +552,7 @@ summary(model1)</code></pre>
 ## Multiple R-squared:  0.2339, Adjusted R-squared:  0.2006 
 ## F-statistic: 7.024 on 3 and 69 DF,  p-value: 0.0003439</code></pre>
 <p>Looking at the output above, notice how R automatically includes the
-main effects in the model? In most cases, you should include the
+main effects in the model. In most cases, you should include the
 separate main effects when investigating an interaction, but in the odd
 occasion when you want to include the interaction effect without the
 main effect, you can specify it using the <code>:</code> symbol. In
@@ -610,12 +610,11 @@ a participant meets that condition. The third argument is what happens
 if a participant does not meet that condition. So in the code below, we
 are creating a new variable called ‘cat.support’. We want to categorise
 support into two levels, so the condition in the <code>ifelse()</code>
-function is <code>z.support &gt; 0</code>. Since we standardised the
-moderator during the cleaning scale. The mean for support equals 0, so
-we can split the data on this. Participants who meet this condition are
-in the “high support” group, while those that are not are in the “low
-support” group.</p>
-<pre class="r"><code>plot.data &lt;- mutate(data1.clean,cat.support = ifelse(z.support &gt; 0,&quot;high support&quot;,&quot;low support&quot;)) %&gt;%
+function is <code>z.support &gt; median(z.support)</code>. Here, we are
+splitting the data based on the median of <code>z.support</code>.
+Participants who meet this condition are in the “high support” group,
+while those that are not are in the “low support” group.</p>
+<pre class="r"><code>plot.data &lt;- mutate(data1.clean,cat.support = ifelse(z.support &gt; median(z.support),&quot;high support&quot;,&quot;low support&quot;)) %&gt;%
   filter(!is.na(cat.support))</code></pre>
 <p>We then can plot the regression line adding in a ‘group’ and ‘colour’
 aesthetic to separate our data of participants with high and low
@@ -878,7 +877,7 @@ is the between-subjects effects, which reports the main effect for
 significant, indicating that, overall, there was no difference in mood
 between the two conditions (as should be expected).. The second table
 has the within-subjects effects. This includes the main effect of
-<code>Time</code>, plus the interaction between our two IVs. In the
+<code>time</code>, plus the interaction between our two IVs. In the
 example above, the main effect of time is significant, indicating there
 is an overall there was a change in mood after viewing the cute cat
 video. The interaction is also non-significant, indicating that being a
