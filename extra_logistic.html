@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Logistic Regression</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -459,16 +459,16 @@ summary(model)</code></pre>
 ## 
 ## Coefficients:
 ##             Estimate Std. Error z value Pr(&gt;|z|)
-## (Intercept) -0.01526    1.00305  -0.015    0.988
-## introvert   -0.01457    0.07290  -0.200    0.842
+## (Intercept) -0.90482    0.89630   -1.01    0.313
+## introvert    0.03462    0.05672    0.61    0.542
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 92.149  on 66  degrees of freedom
-## Residual deviance: 92.109  on 65  degrees of freedom
-## AIC: 96.109
+##     Null deviance: 162.30  on 119  degrees of freedom
+## Residual deviance: 161.93  on 118  degrees of freedom
+## AIC: 165.93
 ## 
-## Number of Fisher Scoring iterations: 3</code></pre>
+## Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 <div id="write-up-the-results" class="section level3">
 <h3>3. Write-up the Results</h3>
@@ -483,9 +483,9 @@ to convert these to odds-ratios and report 95% confidence intervals. You
 can use the following code if you want to convert the coefficients to
 odds-ratios.</p>
 <pre class="r"><code>exp(cbind(OR = coef(model), confint(model)))</code></pre>
-<pre><code>##                    OR     2.5 %   97.5 %
-## (Intercept) 0.9848551 0.1348669 7.227039
-## introvert   0.9855386 0.8517301 1.137855</code></pre>
+<pre><code>##                    OR      2.5 %   97.5 %
+## (Intercept) 0.4046137 0.06734982 2.314671
+## introvert   1.0352217 0.92637143 1.158811</code></pre>
 </div>
 <div id="visualise-the-data" class="section level3">
 <h3>4. Visualise the Data</h3>

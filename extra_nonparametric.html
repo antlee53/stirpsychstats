@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Non-Parametric Tests</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -440,7 +440,7 @@ needed for all analysis functions: the formula, and the data.frame.</p>
 ##  Wilcoxon rank sum test with continuity correction
 ## 
 ## data:  introvert by cat.dog
-## W = 137, p-value = 0.04366
+## W = 1188.5, p-value = 0.8054
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <div id="visualise-the-data." class="section level3">
@@ -478,12 +478,12 @@ data1.summary</code></pre>
 ##   cat.dog introvert_median
 ##   &lt;chr&gt;              &lt;dbl&gt;
 ## 1 cat                   15
-## 2 dog                   12</code></pre>
+## 2 dog                   16</code></pre>
 <p>Therefore, the write-up becomes:</p>
 <blockquote>
-<p>A Mann-Whitney U test indicated that there was a significant
+<p>A Mann-Whitney U test indicated that there was a non-significant
 differences in introversion between cat-people (Mdn = 15) and dog-people
-(Mdn = 12), U = 137, p = 0.044.</p>
+(Mdn = 16), U = 1188.5, p = 0.805.</p>
 </blockquote>
 </div>
 </div>
@@ -492,20 +492,19 @@ differences in introversion between cat-people (Mdn = 15) and dog-people
 <p>The Wilcoxon Signed Rank Test is a non-parametric test for when you
 have a within-subjects categorical IV (with two levels) and a continuous
 DV. The equivalent parametric test is an paired-samples t-test.</p>
-<p>Let’s re-evaluate the analysis investigating intended alcohol
-consumption before and after exposure to the Scottish government’s
-drinking guidelines in the class dataset, but this time use the
-non-parametric test.</p>
+<p>Let’s re-evaluate the analysis investigating participant’s mood
+before and after watching a cute cat video in the class dataset, but
+this time use the non-parametric test.</p>
 <div id="prepare-the-data-for-analysis." class="section level3">
 <h3>1. Prepare the data for analysis.</h3>
 <p>Again, this code is identical for when we prepared the data for the
 paired-samples t-test.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
-  filter(!is.na(pre.drink)) %&gt;%
-  filter(!is.na(post.drink)) %&gt;%
-  select(student.no,pre.drink,post.drink) %&gt;%
-  gather(key = &quot;condition&quot;,value = &quot;alcohol&quot;,pre.drink,post.drink) %&gt;%
-  mutate(condition = factor(condition,levels = c(&quot;pre.drink&quot;,&quot;post.drink&quot;)))</code></pre>
+  filter(!is.na(pre.mood)) %&gt;%
+  filter(!is.na(post.mood)) %&gt;%
+  select(student.no,pre.mood,post.mood) %&gt;%
+  gather(key = &quot;condition&quot;,value = &quot;mood&quot;,pre.mood,post.mood) %&gt;%
+  mutate(condition = factor(condition,levels = c(&quot;pre.mood&quot;,&quot;post.mood&quot;)))</code></pre>
 </div>
 <div id="run-the-statistical-test.-1" class="section level3">
 <h3>2. Run the statistical test.</h3>
@@ -516,19 +515,19 @@ The difference here is the <code>paired</code> argument must be set to
 <code>TRUE</code> - the same as if you were conducting a paired-samples
 t-test with the <code>t.test()</code> function.</p>
 <p>Therefore, the code becomes:</p>
-<pre class="r"><code>wilcox.test(alcohol ~ condition,data2.clean,paired = TRUE)</code></pre>
+<pre class="r"><code>wilcox.test(mood ~ condition,data2.clean,paired = TRUE)</code></pre>
 <pre><code>## 
 ##  Wilcoxon signed rank test with continuity correction
 ## 
-## data:  alcohol by condition
-## V = 43, p-value = 0.1157
+## data:  mood by condition
+## V = 3574.5, p-value = 0.8646
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <div id="visualise-the-data" class="section level3">
 <h3>3. Visualise the Data</h3>
 <p>Again, we can use a boxplot and violin plot to visualise the
 difference before and after exposure:</p>
-<pre class="r"><code>ggplot(data2.clean,aes(x = condition,y = alcohol,fill = condition)) +
+<pre class="r"><code>ggplot(data2.clean,aes(x = condition,y = mood,fill = condition)) +
   geom_violin() +
   geom_boxplot(width = .2) +
   theme_classic() +
@@ -541,21 +540,20 @@ difference before and after exposure:</p>
 median for each condition. This code is exactly the same as above:</p>
 <pre class="r"><code>data2.summary &lt;- data2.clean %&gt;%
   group_by(condition) %&gt;%
-  summarise(introvert_median = median(alcohol,na.rm = TRUE))
+  summarise(introvert_median = median(mood,na.rm = TRUE))
 
 data2.summary</code></pre>
 <pre><code>## # A tibble: 2 × 2
-##   condition  introvert_median
-##   &lt;fct&gt;                 &lt;dbl&gt;
-## 1 pre.drink                 4
-## 2 post.drink                4</code></pre>
+##   condition introvert_median
+##   &lt;fct&gt;                &lt;dbl&gt;
+## 1 pre.mood              56.5
+## 2 post.mood             54</code></pre>
 <p>We also need the test statistic (W) and the associated p-value. Once
 we have all this information, the final write-up looks like this:</p>
 <blockquote>
 <p>A Wilcoxon signed rank test indicated that there was a
-non-significant difference on intended alcohol consumption before (Mdn =
-4) and after (Mdn = 4) exposure to the Scottish government’s drinking
-guidelines, W = 43, p = 0.116.</p>
+non-significant difference on mood before (Mdn = NA) and after (Mdn =
+NA) watching a short cat video, W = 3574.5, p = 0.865.</p>
 </blockquote>
 </div>
 </div>
@@ -618,10 +616,10 @@ data3.summary</code></pre>
 <pre><code>## # A tibble: 4 × 2
 ##   cat.dog introvert_median
 ##   &lt;chr&gt;              &lt;dbl&gt;
-## 1 both                  13
+## 1 both                  16
 ## 2 cat                   15
-## 3 dog                   12
-## 4 neither               13</code></pre>
+## 3 dog                   16
+## 4 neither               14</code></pre>
 <p>With this information, you can write-up your results. Remember, much
 like with the one-way ANOVA, this Kruskal-Wallis test will tell you
 whether the groups are significantly different, but it does not tell you
@@ -629,9 +627,9 @@ where those differences are. In order to determine this, you will need
 to conduct post-hoc comparisons.</p>
 <blockquote>
 <p>A Kruskal-Wallis test indicated that there was a non-significant
-differences in introversion between cat-people (Mdn = 16), dog-people
-(Mdn = 15), those who like both (Mdn = 12), and those who like neither
-(Mdn =7.5), Chi-square(3) = 6.07, p = 0.108.</p>
+differences in introversion between cat-people (Mdn = 15), dog-people
+(Mdn = 16), those who like both (Mdn = 13.5), and those who like neither
+(Mdn =13.5), Chi-square(3) = 2.63, p = 0.452.</p>
 </blockquote>
 </div>
 </div>

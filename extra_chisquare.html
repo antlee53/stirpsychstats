@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Chi-Square Tests</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -424,7 +424,7 @@ be:</p>
 <pre class="r"><code>table(data$aus.animal)</code></pre>
 <pre><code>## 
 ##  echidna kangaroo    koala platypus   wombat 
-##        3       12       37       10        5</code></pre>
+##       28       24       27       21       20</code></pre>
 <p>However, the <code>table()</code> function can also be used to create
 a contingency table. A two-variable contingency table will be created
 from a data.frame that only has two variables in it. Therefore, you can
@@ -441,8 +441,8 @@ variables from the same dataset as arguments. Here is that code:</p>
 <pre class="r"><code>table(data$video.games,data$program)</code></pre>
 <pre><code>##      
 ##       Conversion MSc Health MSc Other Research MSc
-##   No              20          9                  8
-##   Yes             14          8                  8</code></pre>
+##   No              19         31                 21
+##   Yes             15         16                 18</code></pre>
 </div>
 <div id="chi-square-goodness-of-fit-test" class="section level1">
 <h1>Chi-square Goodness of Fit Test</h1>
@@ -491,7 +491,7 @@ the second argument.</p>
 ##  Chi-squared test for given probabilities
 ## 
 ## data:  table(data$aus.animal)
-## X-squared = 6.721, df = 4, p-value = 0.1514</code></pre>
+## X-squared = 343.83, df = 4, p-value &lt; 2.2e-16</code></pre>
 </div>
 <div id="write-up-the-results" class="section level3">
 <h3>2. Write-up the Results</h3>
@@ -500,10 +500,10 @@ The chi-square statistic (the test statistic). * The degrees of freedom.
 * The p-value.</p>
 <p>Once you have this information, the write-up becomes:</p>
 <blockquote>
-<p>A chi-square goodness of fit test did not find a significant
-difference between the class distribution of favourite Australian
-animals and the expected values based on national rates, chi-square(4) =
-6.72, p = 0.151.</p>
+<p>A chi-square goodness of fit test found a significant difference
+between the class distribution of favourite Australian animals and the
+expected values based on national rates, chi-square(4) = 343.83, p &lt;
+.001.</p>
 </blockquote>
 </div>
 </div>
@@ -533,7 +533,7 @@ chisq.test(c.table)</code></pre>
 ##  Pearson&#39;s Chi-squared test
 ## 
 ## data:  c.table
-## X-squared = 0.39057, df = 2, p-value = 0.8226</code></pre>
+## X-squared = 1.5059, df = 2, p-value = 0.471</code></pre>
 </div>
 <div id="write-up-the-results-1" class="section level3">
 <h3>2. Write-up the Results</h3>
@@ -544,7 +544,7 @@ something like this:</p>
 <blockquote>
 <p>A chi-square test of independence did not find a significant
 difference in videogamers across the three programmes, chi-square(2) =
-0.39, p = 0.823.</p>
+1.51, p = 0.471.</p>
 </blockquote>
 </div>
 </div>
