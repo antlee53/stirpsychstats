@@ -87,7 +87,7 @@ Remember the output tells you the number of participants you will need per group
 ```
 
 ```{r question_2p-solution}
-pwr.t.test(d = .80, power = .60,sig.level = .05)
+pwr.t.test(d = .60, power = .80,sig.level = .05)
 ```
 
 ```{r question_2p-code-check}

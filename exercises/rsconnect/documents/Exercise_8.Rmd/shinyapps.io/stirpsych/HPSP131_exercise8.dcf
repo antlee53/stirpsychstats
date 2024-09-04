@@ -5,7 +5,7 @@ account: stirpsych
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 6397322
-bundleId: 7715919
+bundleId: 7957832
 url: https://stirpsych.shinyapps.io/HPSP131_exercise8/
 asMultiple: FALSE
 asStatic: FALSE
