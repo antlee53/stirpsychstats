@@ -11,7 +11,7 @@
 
 
 
-<title>HPSP131 - Quantitative Methods in Psychological Research</title>
+<title>HPSP131 - Using ChatGPT to help learn R</title>
 
 <script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -398,157 +398,149 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Quantitative Methods in
-Psychological Research</h1>
+<h1 class="title toc-ignore">HPSP131 - Using ChatGPT to help learn
+R</h1>
 
 </div>
 
 
-<p>Last updated: Wed Sep 18 14:44:45 2024</p>
-<p>This module is designed to teach students the basic skills needed to
-conduct quantitative research in R. This module covers basic data
-skills, data tidying, plotting data, and analysing datasets in R. This
-is not meant to be a comprehensive guide to R (such a thing would be
-almost impossible!). Rather, this module is designed to be a gentle
-introduction to R, cover statistical techniques that are common in
-psychological research, and provide a solid base where you can
-investigate advanced techniques on your own. This website contains
-material covered in the demonstrations of the module. Weekly exercises
-are also provided that are designed for you to practice your R skills,
-and introduce new concepts for students looking for an additional
-challenge.</p>
-<div id="syllabus" class="section level1">
-<h1>Syllabus</h1>
-<p>Each week, we will be tackling the following topics:</p>
-<ol style="list-style-type: decimal">
-<li>Introduction to R.</li>
-<li>Datasets in R.</li>
-<li>Data cleaning and data skills.</li>
-<li>Plotting data using ggplot2.</li>
-<li>t-tests and one-way ANOVAs.</li>
-<li>Correlation and regression.</li>
-<li>Moderation - multiple regression and two-way ANOVAs</li>
-<li>Power analyses and mediation.</li>
-<li>Structural Equation Modelling (Path Analysis)</li>
-<li>Mixed Effects Modelling (Multilevel Modelling)</li>
-</ol>
+<p>I asked ChatGPT how students should use it when learning how to code
+in R. I’ve copied the response here, as well as added my own summarising
+thoughts at the end.</p>
+<div
+id="prompt-how-would-you-advise-students-use-you-chatgpt-when-learning-how-to-code-in-r"
+class="section level2">
+<h2>Prompt: How would you advise students use you (ChatGPT) when
+learning how to code in R?</h2>
+<p>Here’s how I would advise students to use me (ChatGPT) effectively
+when learning to code in <strong>R</strong>:</p>
+<div id="concept-clarification-and-explanation" class="section level3">
+<h3>1. <strong>Concept Clarification and Explanation</strong>:</h3>
+<ul>
+<li><strong>Ask me for explanations</strong> of R concepts you’re
+struggling with, such as data types, functions, or specific R
+packages.</li>
+<li>Use me to understand <strong>terminology</strong> (e.g., what a data
+frame or factor is) or <strong>coding principles</strong> (e.g.,
+vectorization, scoping).</li>
+<li>I can also explain <strong>error messages</strong> and suggest ways
+to resolve them.</li>
+</ul>
 </div>
-<div id="weekly-exercises" class="section level1">
-<h1>Weekly Exercises</h1>
-<p>Exercises are available each week and are designed to reinforce
-content. These exercises are split into basic and advance sections. It
-is expected that students can complete the basic sections of each weekly
-exercise, with the advanced sections designed for students who want an
-extra challenge or learn additional functions in R. If you can
-successfully complete these exercises, then you should be able to easily
-complete the marked assessments.</p>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
+<div id="learning-through-code-examples" class="section level3">
+<h3>2. <strong>Learning Through Code Examples</strong>:</h3>
+<ul>
+<li><strong>Request example code</strong> for specific tasks, such as
+data manipulation, plotting, or statistical analysis.</li>
+<li>After seeing my example, <strong>try to tweak the code</strong> on
+your own. Understanding how the code changes behavior will reinforce
+learning.</li>
+<li>If you have a complex task, <strong>break it into parts</strong> and
+ask for help on specific sub-tasks.</li>
+</ul>
 </div>
-<div id="before-you-start" class="section level1">
-<h1>Before You Start…</h1>
-<div id="complete-the-survey" class="section level2">
-<h2>Complete The Survey</h2>
-<p>Within these workbooks, we will be analysing real data collected in a
-survey at the beginning of semester. Before beginning the first
-workbook, it is a good idea to complete this survey yourself, as 1) it
-will give you an idea on how the data we are analysing was collected,
-and 2) if no one does the survey, then we won’t have any data to
-analyse!</p>
-<p><a href = "https://research.sc/participant/login/dynamic/48494255-B600-40DE-B9DC-93C54E84DB63">You
-can access the survey by clicking here.</a></p>
+<div id="debugging-assistance" class="section level3">
+<h3>3. <strong>Debugging Assistance</strong>:</h3>
+<ul>
+<li>If your code isn’t working, <strong>share your code and
+error</strong> with me. I can help identify mistakes and explain how to
+fix them.</li>
+<li>I can also help <strong>optimize code</strong> or suggest more
+efficient approaches if you’re unsure about your current
+implementation.</li>
+</ul>
 </div>
-<div id="download-r" class="section level2">
-<h2>Download R</h2>
-<p>R is a free software environment for statistical computing and
-graphics. If you already have R installed on your computer, make sure
-you have the latest version. Otherwise, you can follow the instructions
-below to install R. R can be installed on most computers and laptops,
-but cannot be installed on tablets and some chromebooks.</p>
-<p>Note: Throughout the process of installing R and RStudio, do not
-change directories or roots. Always select the default options. Changing
-options can break links and cause many headaches down the line.</p>
-<ol style="list-style-type: decimal">
-<li><a href = "https://cran.ma.imperial.ac.uk" target = "_blank">Click
-here to go to the R download website (UK)</a></li>
-<li>Select your operating system (Linux, MacOS, or Windows).</li>
-<li>Windows users will want to click the ‘base’ subdirectory after
-selecting Windows, then click the Download R for Windows link. Mac users
-will want to download the most recent .pkg file.</li>
-<li>Select the latest release for your operating system to download to
-your computer.</li>
-<li>Open the downloaded file and follow the instructions.</li>
-</ol>
+<div id="code-interpretation" class="section level3">
+<h3>4. <strong>Code Interpretation</strong>:</h3>
+<ul>
+<li>If you encounter code you don’t understand, ask me to
+<strong>explain line by line</strong>. I can break down the logic so you
+can see why the code works the way it does.</li>
+<li>I can help you understand <strong>output</strong> or
+<strong>results</strong> from specific R functions, making sure you know
+how to interpret what the code produces.</li>
+</ul>
 </div>
-<div id="windows-users" class="section level2">
-<h2>Windows Users</h2>
-<p>Windows users will also need to download an additional extension
-called Rtools.</p>
-<ol style="list-style-type: decimal">
-<li><a href = https://cran.r-project.org/bin/windows/Rtools/ target = "_blank">Click
-here to go to the Rtools download site.</a></li>
-<li>Select the recommended version of Rtools.</li>
-<li>Open the downloaded install file and follow the instructions.</li>
-</ol>
-<p>Also note, for Windows users, sometimes after going through the
-RStudio install process, RStudio may be installed properly on your
-computer but did not create an icon on the desktop. You may need to
-search for RStudio in the menu (the button in the bottom left corner) to
-find it.</p>
+<div id="project-guidance" class="section level3">
+<h3>5. <strong>Project Guidance</strong>:</h3>
+<ul>
+<li>If you’re working on a larger project or assignment, ask me for help
+with <strong>organizing your workflow</strong> or suggesting
+<strong>best practices</strong> (e.g., code readability, data
+preprocessing).</li>
+<li>For specific problems, ask for advice on which <strong>functions or
+libraries</strong> are most appropriate (e.g., <code>dplyr</code> for
+data manipulation or <code>ggplot2</code> for visualization).</li>
+</ul>
 </div>
-<div id="download-rstudio" class="section level2">
-<h2>Download RStudio</h2>
-<p>RStudio provides a graphical user interface for R. It is designed to
-make R easier to use. All content from this module will be conducted in
-RStudio.</p>
-<ol style="list-style-type: decimal">
-<li><a href = https://www.rstudio.com/products/rstudio/download/ target = "_blank">Click
-here to go to the RStudio download website.</a></li>
-<li>Select the FREE RStudio Desktop Open Source License option.</li>
-<li>Select the version for your operating system (Linux, MacOS, Windows,
-etc.)</li>
-<li>Open the downloaded file and follow the instructions.</li>
-</ol>
-<p>Note: Downloading both R and RStudio will usually results two
-different icons that can be opened to start R. For all material in this
-course, make sure to open RStudio, and not R.</p>
-<div class="float">
-<img src="images/RvsRstudio.png"
-alt="Make sure to open RStudio and not R" />
-<div class="figcaption">Make sure to open RStudio and not R</div>
+<div id="experimentation" class="section level3">
+<h3>6. <strong>Experimentation</strong>:</h3>
+<ul>
+<li>Use me to <strong>try out new coding techniques</strong> or ask for
+ideas on how to achieve something differently (e.g., applying a
+different statistical method or visualization style).</li>
+<li>I can introduce you to <strong>R packages</strong> or tools you may
+not know about that could enhance your coding skills.</li>
+</ul>
+</div>
+<div id="learning-syntax-and-functions" class="section level3">
+<h3>7. <strong>Learning Syntax and Functions</strong>:</h3>
+<ul>
+<li>When you’re unfamiliar with a specific <strong>function’s
+syntax</strong>, I can quickly give you the correct format and explain
+the purpose of each argument.</li>
+<li>You can ask me for <strong>comparisons</strong> between functions
+(e.g., <code>apply()</code> vs. <code>lapply()</code>), so you know when
+and why to use one over the other.</li>
+</ul>
+</div>
+<div id="learning-how-to-read-documentation" class="section level3">
+<h3>8. <strong>Learning How to Read Documentation</strong>:</h3>
+<ul>
+<li>If you struggle with understanding the <strong>R
+documentation</strong>, I can explain what certain parts of it mean and
+how to apply what you’re reading.</li>
+<li>I can also <strong>point out important sections</strong> or break
+down the technical language into simpler terms.</li>
+</ul>
+</div>
+<div id="best-practices-when-using-chatgpt" class="section level3">
+<h3>Best Practices When Using ChatGPT:</h3>
+<ul>
+<li><strong>Practice independently</strong>: After I give you an
+explanation or a solution, try to code on your own to deepen
+understanding.</li>
+<li><strong>Ask specific questions</strong>: The more specific you are,
+the better and more tailored my responses will be.</li>
+<li><strong>Use me to supplement, not replace, learning</strong>: I’m a
+helpful guide, but to truly master R, you need to experiment, debug, and
+work through challenges on your own.</li>
+<li><strong>Iterate</strong>: If you don’t understand an explanation or
+code I provide, ask me to explain it in a different way. Learning coding
+can involve multiple attempts at grasping a concept.</li>
+</ul>
+<p>In summary, think of me as your tutor who can explain, provide
+examples, and troubleshoot in real-time. However, always pair my
+guidance with <strong>hands-on practice</strong> and exploration to
+truly build your R skills.</p>
 </div>
 </div>
-</div>
-<div id="resources" class="section level1">
-<h1>Resources</h1>
-<p>Many online tutorials are available for learning R that can be used
-to compliment the materials here. If you are feeling overwhelmed, or
-just looking for additional content, try some of the following
-courses:</p>
-<ol style="list-style-type: decimal">
-<li><a href="https://swirlstats.com">Swirl</a></li>
-<li><a
-href="https://resources.rstudio.com/webinars/a-gentle-introduction-to-tidy-statistics-in-r">RStudio
-Webinars</a></li>
-<li><a href="http://swcarpentry.github.io/r-novice-gapminder/">R for
-Reproducible Scientific Analysis</a></li>
-<li><a
-href="https://www.computerworld.com/article/2497143/business-intelligence-beginner-s-guide-to-r-introduction.html">ComputerWorld
-Tutorial</a></li>
-<li><a
-href="https://www.datacamp.com/courses/free-introduction-to-r">datacamp</a></li>
-<li><a href="https://www.pluralsight.com/search?q=R">tryR</a></li>
-<li><a
-href="https://www.coursera.org/learn/r-programming">coursera</a></li>
-<li><a
-href="https://www.teamleada.com/courses/r-bootcamp">leada</a></li>
-<li>Google “r tutorials” for more.</li>
-</ol>
-<p>Note: Often there are more than one way to do things in R. During
-this module, I will primarily be teaching R using the tidyverse
-packages, but you may find other ways to achieve the same objective. In
-all cases, you should go with the method that makes the most sense to
-you.</p>
+<div id="my-thoughts" class="section level1">
+<h1>My thoughts…</h1>
+<p>ChatGPT is best used to supplement your own learning. It is great at
+helping you understand code, providing a template that you can adapt for
+your own purposes, or finding simple typo errors in code quickly.
+However, you should not rely on ChatGPT to write code for you. A lack of
+understanding of the code you are running will leave you susceptible to
+other calamitous mistakes that are harder to detect/correct (e.g., the
+code may do something different to what you are expecting, or may not
+apply as easily to your specific data set). ChatGPT is also not great at
+complicated processes, where perhaps you are chaining multiple functions
+together (i.e., ChatGPT is not great at seeing the big picture, which
+you - an intelligent human being - can see with ease). All this to say,
+ChatGPT is a useful resource, but an understanding of R coding is still
+required to truly master the data preparation tasks and statistical
+analyses you are required to conduct in this module.</p>
 </div>
 
 
