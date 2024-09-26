@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Simulations</title>
 
-<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -358,7 +358,7 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="extra_chaptGPT.html">Using ChatGPT to learn R</a>
+      <a href="extra_chatGPT.html">Using ChatGPT to learn R</a>
     </li>
     <li>
       <a href="extra_lists.html">Lists, Matrices, and Indexing</a>
@@ -426,8 +426,9 @@ below we randomly sample 40 objects who are either in the ‘cat’ group or
 the ‘dog’ group. To see more about how this function works, read
 <code>help(sample)</code>.</p>
 <pre class="r"><code>sample(c(&quot;cat&quot;,&quot;dog&quot;),40,replace = TRUE)</code></pre>
-<pre><code>##  [1] &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot;
-## [23] &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot;</code></pre>
+<pre><code>##  [1] &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot;
+## [20] &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;cat&quot; &quot;cat&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot; &quot;dog&quot; &quot;cat&quot;
+## [39] &quot;cat&quot; &quot;cat&quot;</code></pre>
 <p><code>rnorm()</code></p>
 <p>This function creates a random continuous variable that is normally
 distributed. This function is ideal for sampling a continuous variable
@@ -436,10 +437,11 @@ normal distribution with a mean of 0 and a standard deviation of 1. To
 see more about how this function works, read
 <code>help(rnorm)</code>.</p>
 <pre class="r"><code>rnorm(40,mean = 0,sd = 1)</code></pre>
-<pre><code>##  [1]  0.90252098 -0.20657233  0.07579605 -0.58062469  0.31159710  0.61836112 -1.04706701 -0.70006556  1.70770661 -0.01988669 -0.56471965
-## [12] -0.86700151 -0.52562118  0.65605760 -1.35801222 -0.67025060  0.35590943 -0.49197894 -1.06685290  1.10115986 -2.14432248  0.15741751
-## [23] -0.31568980  1.23691734 -0.73386578  1.87817147 -1.44220500 -0.56723589 -1.78315897  0.20566373  0.51066108  0.14413217  1.72273923
-## [34]  0.26645760 -0.37389112 -1.89827963  0.66936649 -0.38536293 -1.05779968  1.14949272</code></pre>
+<pre><code>##  [1]  0.2500989036 -1.6766457003  0.2090951490  1.3862676543 -1.1995003909  2.2782807558 -0.1364705531 -1.1483841080
+##  [9]  0.7603407859  0.5875911182 -0.3382499292 -0.2287903818 -0.0342150725  3.1087707418 -0.1975520870  0.8367793946
+## [17] -0.0678689777 -1.1428417752  1.2507168987  0.0172546042  0.0256790116  0.4917284805  0.0612122561  1.4778080021
+## [25] -0.6098077302 -0.4611790906  0.2056576135 -0.6695575722 -0.1302845370  0.4217411964  1.1783184692  0.9314709620
+## [33]  1.3949007184 -0.4990279510  0.0003737073 -1.0600004900  0.0562417126  0.2598704104  0.7838189885 -2.7595238625</code></pre>
 <p>We now have the tools to create our simulate data function, which we
 will save as <code>create_dataset</code>. For now, it will take one
 argument, n, which specifies the number of participants in the
@@ -455,26 +457,26 @@ dataset.</p>
 <p>Let’s test it out:</p>
 <pre class="r"><code>create_dataset(20)</code></pre>
 <pre><code>##    group introvert
-## 1    cat  20.14749
-## 2    dog  22.42723
-## 3    cat  19.13205
-## 4    cat  23.53442
-## 5    cat  21.13251
-## 6    dog  22.52420
-## 7    dog  21.97295
-## 8    dog  19.55623
-## 9    dog  19.85326
-## 10   dog  23.55788
-## 11   dog  19.66068
-## 12   dog  18.25408
-## 13   cat  22.52115
-## 14   dog  22.16448
-## 15   dog  19.19536
-## 16   dog  20.39676
-## 17   cat  21.60686
-## 18   cat  21.54152
-## 19   dog  16.69139
-## 20   cat  22.31150</code></pre>
+## 1    dog  13.52183
+## 2    dog  22.59701
+## 3    dog  29.53899
+## 4    cat  23.43018
+## 5    dog  23.63777
+## 6    dog  16.42019
+## 7    cat  26.08330
+## 8    dog  21.27146
+## 9    dog  16.53179
+## 10   dog  20.21327
+## 11   cat  21.18969
+## 12   cat  19.89477
+## 13   dog  23.42209
+## 14   dog  20.24304
+## 15   cat  17.52060
+## 16   cat  22.49907
+## 17   cat  25.51841
+## 18   dog  20.67841
+## 19   cat  18.19844
+## 20   dog  26.41278</code></pre>
 <p>As you can see above, our function is creating a data.frame with 20
 participants, and their scores on the <code>group</code> and
 <code>introvert</code> variables are randomly determined from the
@@ -492,13 +494,13 @@ completely random, so we would expect a non-significant result here.</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by group
-## t = 0.25618, df = 7.6461, p-value = 0.8046
+## t = -0.22, df = 6.7572, p-value = 0.8324
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -3.219988  4.017562
+##  -3.592283  2.984806
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          21.56208          21.16329</code></pre>
+##          20.23171          20.53544</code></pre>
 <p>Let’s expand the function above. How about creating a function that
 simulates a dataset, then runs a t-test, and then returns the results of
 that test? We can do this by including the function that runs a t.test
@@ -513,7 +515,7 @@ easily access the results from the t-test.</p>
   return(test$estimate)
 }</code></pre>
 <pre class="r"><code>simulate_test(20)</code></pre>
-<pre><code>## [1] -0.8479207</code></pre>
+<pre><code>## [1] -3.051457</code></pre>
 <p>Let’s go another step further and say we want to run a t-tests on
 simulated data 1000 times. Doing so will give us a distribution of
 estimates given a certain statistical test and sample size. We can do
@@ -584,17 +586,17 @@ which is coded as TRUE = 1 and FALSE = 0. Therefore, we can use the
 power &lt;- mean(sim.results &lt; .05)
 
 power</code></pre>
-<pre><code>## [1] 0.205</code></pre>
+<pre><code>## [1] 0.23</code></pre>
 <p>The convention is that the analysis is sufficiently powered if it can
 detect an effect that is present 80% of the time. The power calculated
-for a sample size of 20 was 20.5%, which falls quite short of this
+for a sample size of 20 was 23%, which falls quite short of this
 threshold. What if we increased our sample size?</p>
 <pre class="r"><code>sim.results &lt;- replicate(200,simulate_test2(240,cat.dog_difference))
 
 power &lt;- mean(sim.results &lt; .05)
 
 power</code></pre>
-<pre><code>## [1] 1</code></pre>
+<pre><code>## [1] 0.975</code></pre>
 <p>By running the above simulations at different sample sizes, we will
 be able to determine the sample sizes needed to detect this effect at
 80% power. Below is code to automatically run the
@@ -610,19 +612,19 @@ up what certain functions do.</p>
 <pre><code>## # A tibble: 10 × 2
 ##    candidate_n power
 ##          &lt;dbl&gt; &lt;dbl&gt;
-##  1          20 0.285
-##  2          40 0.5  
-##  3          60 0.7  
-##  4          80 0.84 
-##  5         100 0.89 
-##  6         120 0.945
-##  7         140 0.975
-##  8         160 0.98 
-##  9         180 1    
-## 10         200 0.99</code></pre>
+##  1          20 0.195
+##  2          40 0.42 
+##  3          60 0.585
+##  4          80 0.7  
+##  5         100 0.84 
+##  6         120 0.875
+##  7         140 0.91 
+##  8         160 0.95 
+##  9         180 0.965
+## 10         200 0.965</code></pre>
 <p>This suggests that to detect a mean difference of 2 on introversion
 between cat-people and dog-people with our data 80% of the time, we
-would require a sample size between 60 and 80 to be confident in our
+would require a sample size between 80 and 100 to be confident in our
 result. We can also plot the simulated power analyses to help determine
 the sample size required.</p>
 <pre class="r"><code>ggplot(data = power.grid,aes(x = candidate_n,y = power)) +
@@ -641,15 +643,15 @@ sample size for each group.</p>
 D &lt;- cat.dog_difference/sqrt((sd.introvert^2 + sd.introvert^2)/2)
 
 D</code></pre>
-<pre><code>## [1] 0.6063691</code></pre>
+<pre><code>## [1] 0.5657714</code></pre>
 <pre class="r"><code>#We then put this effect size into the pwr.t.test() function.
 
 pwr.t.test(d = D,power = .8,sig.level = .05,type = &quot;two.sample&quot;)</code></pre>
 <pre><code>## 
 ##      Two-sample t test power calculation 
 ## 
-##               n = 43.67502
-##               d = 0.6063691
+##               n = 50.01921
+##               d = 0.5657714
 ##       sig.level = 0.05
 ##           power = 0.8
 ##     alternative = two.sided

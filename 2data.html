@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Workbook 2 - Data Skills: Data Frames and Descriptive Statistics</title>
 
-<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -358,7 +358,7 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="extra_chaptGPT.html">Using ChatGPT to learn R</a>
+      <a href="extra_chatGPT.html">Using ChatGPT to learn R</a>
     </li>
     <li>
       <a href="extra_lists.html">Lists, Matrices, and Indexing</a>
@@ -734,7 +734,7 @@ information on indexing.</a></p>
 <pre class="r"><code>table(data$aus.animal)</code></pre>
 <pre><code>## 
 ##  echidna kangaroo    koala platypus   wombat 
-##       28       24       27       21       20</code></pre>
+##       10       13       24       18       15</code></pre>
 <p>So above, we see that there are five separate values (if we ignore
 missing data), and the most frequent response was
 <code>koala</code>.</p>
@@ -790,7 +790,7 @@ the code to calculate the mean and standard deviation of the variable
 <pre><code>## # A tibble: 1 × 2
 ##   stats_exp.mean stats_exp.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;
-## 1           5.05         2.61</code></pre>
+## 1           4.29         2.06</code></pre>
 <p>A couple of things to note. First, I have broken the above code
 across several lines. This is just to make it easier to read (remember R
 ignores white space inside an incomplete command). Second, it doesn’t
@@ -808,7 +808,7 @@ multiple variables:</p>
 <pre><code>## # A tibble: 1 × 4
 ##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;
-## 1           5.05         2.61           5.02         2.60</code></pre>
+## 1           4.29         2.06           5.59         2.30</code></pre>
 <p>Note: An annoying thing about the <code>summarise()</code> function
 is that sometimes it will not show results to two-decimal places (which
 is the requirement for APA format). To see all the decimal places, you
