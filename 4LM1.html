@@ -857,41 +857,46 @@ the cat video.</p>
 <h3>1. Prepare the data for analysis.</h3>
 <p>When conducting a statistical test, we follow the same procedure as
 before. First, we must clean the data. Below, we select the columns we
-need to run the paired-samples t-test. When running any within-subjects
-analysis, we also need to re-shape the data using the
-<code>gather()</code> function so that each observation is on a separate
-row (rather than each participant). The gather function works by first
-specifying a column name that distinguishes between observations made by
-the same participant (i.e., between <code>pre.mood</code> and
-<code>post.mood</code>), then a variable name that corresponds with the
-response (i.e., the number corresponding with mood). Then, you specify
-the variables that you want to reshape.</p>
+need to run the paired-samples t-test and remove any participants with
+missing data on either variable.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
   filter(!is.na(pre.mood)) %&gt;%
   filter(!is.na(post.mood)) %&gt;%
-  select(student.no,pre.mood,post.mood) %&gt;%
-  gather(key = &quot;time&quot;,value = &quot;mood&quot;,pre.mood,post.mood) %&gt;%
-  mutate(time = factor(time,levels = c(&quot;pre.mood&quot;,&quot;post.mood&quot;)))</code></pre>
-<p>Note: The last line above is only used so that the pre-mood and
-post-mood variables are in the right order when we plot the data
-below.</p>
+  select(student.no,pre.mood,post.mood)</code></pre>
 </div>
 <div id="run-the-statistical-test.-2" class="section level3">
 <h3>2. Run the statistical test.</h3>
 <p>We use the same function as with the independent-samples t-test to
-run a paired-samples t-test, the only difference is we must include the
-argument ‘paired’ and set it to <code>TRUE</code>.</p>
-<pre class="r"><code>#t.test(mood ~ time,data = data2.clean,paired = TRUE)</code></pre>
-<p>Alternatively, if you want to avoid reshaping the data, you can also
-use the following technique, but note that the arguments supplied here
-are different to almost all other analyses we will be covering in this
+run a paired-samples t-test, though the formula looks slightly
+different. Rather than have the DV on the left, and the IV on the right,
+we specify both variables on the left within a <code>Pair()</code>
+function. You could consider this is because both columns technically
+contains values of the DV (just at different levels of the IV of time).
+On the right side of the <code>~</code> symbol, we have a
+<code>1</code>.</p>
+<pre class="r"><code>t.test(Pair(pre.mood,post.mood) ~ 1,data = data2.clean)</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  Pair(pre.mood, post.mood)
+## t = -4.7804, df = 79, p-value = 7.957e-06
+## alternative hypothesis: true mean difference is not equal to 0
+## 95 percent confidence interval:
+##  -10.746744  -4.428256
+## sample estimates:
+## mean difference 
+##         -7.5875</code></pre>
+<p>Alternatively, if you don’t want to use a formula, you can also use
+the following technique, but note that the arguments supplied here are
+different to almost all other analyses we will be covering in this
 module. The first and second arguments are the columns we want to
 compare. In this example, this is the ‘before’ and ‘after’ column. How
 we specify this is using the following syntax:
 <code>data$pre.mood</code>. This is short-hand for specifying the
-‘pre.mood’ column in the ‘data’ data.frame. Again, we have to set
-‘paired’ to <code>TRUE</code>; however, we do not have to supply a
-data.frame. So the code looks like:</p>
+‘pre.mood’ column in the ‘data’ data.frame. We also have to set ‘paired’
+to <code>TRUE</code> so that the function knows it’s a paired-sample
+t-test. Note, though, we do not have to supply a data.frame using this
+method. So the code looks like:</p>
 <pre class="r"><code>t.test(data$pre.mood,data$post.mood,paired = TRUE)</code></pre>
 <pre><code>## 
 ##  Paired t-test
@@ -914,9 +919,22 @@ represent this graphically, is to plot the data point for each
 participant, and include a line between their scores across the two
 conditions. We also adjust the opacity of the points and lines using the
 <code>alpha</code> aesthetic, just so that the graph isn’t a complete
-mess. Note that the graphic below is made with the reshaped data.frame
-<code>data2.clean</code>.</p>
-<pre class="r"><code>ggplot(data = data2.clean,aes(x = time,y = mood)) +
+mess.</p>
+<p>To create this plot, we first need to re-shape the data using the
+<code>gather()</code> function so that each observation is on a separate
+row (rather than each participant). The gather function works by first
+specifying a column name that distinguishes between observations made by
+the same participant (i.e., between <code>pre.mood</code> and
+<code>post.mood</code>), then a variable name that corresponds with the
+response (i.e., the number corresponding with mood). Then, you specify
+the variables that you want to reshape. Note: The last line in the code
+that reshapes the data below is only used so that the pre-mood and
+post-mood variables are in the right order when we plot the data.</p>
+<pre class="r"><code>plot.data &lt;- data2.clean %&gt;%
+  gather(key = &quot;time&quot;,value = &quot;mood&quot;,pre.mood,post.mood) %&gt;%
+  mutate(time = factor(time,levels = c(&quot;pre.mood&quot;,&quot;post.mood&quot;)))
+
+ggplot(data = plot.data,aes(x = time,y = mood)) +
   geom_violin(aes(fill = time)) +
   stat_summary() +
   geom_point(alpha = .2) +
@@ -933,18 +951,16 @@ mess. Note that the graphic below is made with the reshaped data.frame
 the mean and standard deviation for each condition. This code is exactly
 the same as above.</p>
 <pre class="r"><code>data2.summary &lt;- data2.clean %&gt;%
-  group_by(time) %&gt;%
-  summarise(dv_mean = mean(mood),
-            dv_sd = sd(mood))
+  summarise(pre.mean = mean(pre.mood),
+            pre.sd = sd(pre.mood),
+            post.mean = mean(pre.mood),
+            post.sd = sd(post.mood))
 
 data2.summary</code></pre>
-<pre><code>## # A tibble: 2 × 3
-##   time      dv_mean dv_sd
-##   &lt;fct&gt;       &lt;dbl&gt; &lt;dbl&gt;
-## 1 pre.mood     64.3  18.1
-## 2 post.mood    71.9  16.8</code></pre>
+<pre><code>##   pre.mean   pre.sd post.mean  post.sd
+## 1  64.3125 18.13005   64.3125 16.77294</code></pre>
 <p>Or if you have not reshaped the data:</p>
-<pre class="r"><code>data2.summary &lt;- data %&gt;%
+<pre class="r"><code>data2.summary &lt;- data2.clean %&gt;%
   summarise(pre.mean = mean(pre.mood,na.rm = TRUE),
             pre.sd = sd(pre.mood,na.rm = TRUE),
             pst.mean = mean(post.mood,na.rm = TRUE),
