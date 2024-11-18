@@ -410,7 +410,7 @@ Mediation</h1>
 analyses in R, as well as conducting mediation analyses. By the end of
 this workbook, you should be able to:</p>
 <ol style="list-style-type: decimal">
-<li>Use functions from the <code>pwr</code> package for power analyses
+<li>Use functions from the <code>pwr</code> packages for power analyses
 for standard statistical tests.</li>
 <li>Conduct a mediation analysis, including:</li>
 </ol>
@@ -435,13 +435,18 @@ exercises.</a></p>
 <h1>Content</h1>
 <p>These are the packages we will be using in this workbook. If you’ve
 been following the workbook sequentially, you should be familiar with
-the tidyverse and lm.beta packages. The pwr package is used to conduct
-standard power analyses, while the psych package has many useful
-functions; however, we will just be using it to run a mediation analysis
-via bootstrapping.</p>
+the <code>tidyverse</code> and <code>lm.beta</code> packages. The
+<code>pwr</code> and <code>pwrss</code> packages are used to conduct
+standard power analyses for common statistical tests, while the
+<code>psych</code> package has many useful functions; however, we will
+just be using it to run a mediation analysis via bootstrapping. As
+always, for the packages that you are encountering for the first time,
+make sure to install them onto your computer first.</p>
 <pre class="r"><code>library(pwr)
+library(pwrss)
 library(tidyverse)
-library(lm.beta)</code></pre>
+library(lm.beta)
+library(psych)</code></pre>
 <div id="pwr-package" class="section level2">
 <h2>pwr Package</h2>
 <p>For most standard analyses, such as an independent-samples t-test,
@@ -456,6 +461,20 @@ is conducted; therefore, this is what we will be focusing on here.</p>
 <p>We will cover four examples: a power analysis for a correlation, an
 independent-samples t-test, a one-way ANOVA, and a multiple
 regression.</p>
+<p>As mentioned above, these functions expect an effect size measure,
+and each pwr function (annoyingly) uses a different effect size measure
+(e.g., r, Cohen’s d, Cohen’s f, etc.). You can view all the effect sizes
+used by these functions and their standard interpretation using the
+<code>cohen.ES()</code> function. To use this function, you simply need
+to state which effect size measure you’re interested in, and the size
+that you expect (either small, medium, or big). Here’s an example:</p>
+<pre class="r"><code>cohen.ES(test = &quot;f2&quot;,size = &quot;medium&quot;)</code></pre>
+<pre><code>## 
+##      Conventional effect size from Cohen (1982) 
+## 
+##            test = f2
+##            size = medium
+##     effect.size = 0.15</code></pre>
 <div id="pwr-and-correlations" class="section level3">
 <h3>pwr and correlations</h3>
 <p>To conduct a power analysis for a correlation, we can use the
@@ -565,6 +584,24 @@ d. Therefore, we can use the following conventions:</p>
 <p>Note that the expected effect size is the minimum for each group.
 Therefore, you would need a total sample of 128 participants
 (rounded-up).</p>
+<p>We can also use the same function to run a power analysis for a
+paired-samples t-test. To do this, we need to set the <code>type</code>
+argument to equal “paired”. In the code below, we see for a
+paired-sample t-test, we require 90 participants (rounding-up) to detect
+a medium effect (Cohen’s d = .30) with 80% power. Note that the n is for
+the number of pairs, so 90 is the total number of participants
+needed.</p>
+<pre class="r"><code>pwr.t.test(d = .30,sig.level = .05,power = .80,type = &quot;paired&quot;)</code></pre>
+<pre><code>## 
+##      Paired t test power calculation 
+## 
+##               n = 89.14938
+##               d = 0.3
+##       sig.level = 0.05
+##           power = 0.8
+##     alternative = two.sided
+## 
+## NOTE: n is number of *pairs*</code></pre>
 </div>
 <div id="pwr-and-anovas" class="section level3">
 <h3>pwr and ANOVAs</h3>
@@ -615,10 +652,15 @@ a total of 159 participants (rounded-up).</p>
 <div id="pwr-and-multiple-regressions" class="section level3">
 <h3>pwr and multiple regressions</h3>
 <p>For a power analysis for a multiple regression, we use
-<code>pwr.f2.test()</code>. Annoyingly, we again have a different
-measure used for effect size again - f2. You can follow this guide to
-get your estimated effect size (I’ve also added a column with the
-corresponding R-square value):</p>
+<code>pwrss.f.reg()</code> - this function comes from a separate
+package, <code>pwrss</code>. Here, for the effect size measure, you can
+use either the R-square (or the coefficient of determination) or a new
+effect size measure called Cohen’s f-squared. Note that this power
+analysis is for the overall model - to conduct a power analysis for the
+effect of one predictor in the model, you would need to use the
+difference in R-square (i.e., how much variance does your predictor
+explain above all the other covariates). See the table below for
+standard interpretations:</p>
 <table>
 <thead>
 <tr class="header">
@@ -645,25 +687,43 @@ corresponding R-square value):</p>
 </tr>
 </tbody>
 </table>
-<p>For the <code>pwr.f2.test()</code> function, you need to also specify
-the number of predictors in the model as the argument <code>u</code>.
+<p>For the <code>pwrss.f.reg()</code> function, you need to also specify
+the number of predictors in the model as the argument <code>k</code>.
 Note, if you have an interaction term in your analysis, this counts as
 an additional predictor. As an example, if you were conducting a
 multiple regression with 4 predictors and expect a medium effect, the
 code for the power analysis would look like:</p>
-<pre class="r"><code>pwr.f2.test(u = 4,f2 = .15,sig.level = .05,power = .80)</code></pre>
-<pre><code>## 
-##      Multiple regression power calculation 
-## 
-##               u = 4
-##               v = 79.44992
-##              f2 = 0.15
-##       sig.level = 0.05
-##           power = 0.8</code></pre>
-<p>Therefore, you would need at least 80 participants for this study.
-Note that the power analysis in this instance is for the overall model
-(i.e., for the variance in the outcome variable that is explained by all
-the predictors in the regression).</p>
+<pre class="r"><code>pwrss.f.reg(k = 4,f2 = .15,alpha = .05,power = .80)</code></pre>
+<pre><code>##  Linear Regression (F test) 
+##  R-squared Deviation from 0 (zero) 
+##  H0: r2 = 0 
+##  HA: r2 &gt; 0 
+##  ------------------------------ 
+##   Statistical power = 0.8 
+##   n = 85 
+##  ------------------------------ 
+##  Numerator degrees of freedom = 4 
+##  Denominator degrees of freedom = 79.45 
+##  Non-centrality parameter = 12.667 
+##  Type I error rate = 0.05 
+##  Type II error rate = 0.2</code></pre>
+<p>Or…</p>
+<pre class="r"><code>pwrss.f.reg(k = 4,r2 = .13,alpha = .05,power = .80)</code></pre>
+<pre><code>##  Linear Regression (F test) 
+##  R-squared Deviation from 0 (zero) 
+##  H0: r2 = 0 
+##  HA: r2 &gt; 0 
+##  ------------------------------ 
+##   Statistical power = 0.8 
+##   n = 85 
+##  ------------------------------ 
+##  Numerator degrees of freedom = 4 
+##  Denominator degrees of freedom = 79.755 
+##  Non-centrality parameter = 12.665 
+##  Type I error rate = 0.05 
+##  Type II error rate = 0.2</code></pre>
+<p>Therefore, you would need at least 85 participants for this
+study.</p>
 </div>
 <div id="power-analyses-via-simulations." class="section level3">
 <h3>Power Analyses via Simulations.</h3>
@@ -794,20 +854,18 @@ relationship between the predictor (attitude) and the mediator
 </div>
 <div id="mediation-analysis" class="section level4">
 <h4>Mediation Analysis</h4>
-<p>While we may or may not meet the conditions for a mediation above, we
-will continue with the analysis to demonstrate the process of conducting
-a mediation analysis regardless.</p>
-<p>In order to conduct a mediation analysis in R, we will load the
-<code>psych</code> package. If you haven’t installed the
-<code>psych</code> package yet, make sure to do this before loading the
-<code>psych</code> package.</p>
+<p>While the above is useful to see whether the conditions for a
+mediation are met. In actuality, they don’t need to be done when
+conducting/reporting a mediation analysis. We can conduct the actual
+mediation analysis in R, which includes all the steps above, using the
+aptly named <code>mediate()</code> function from the <code>psych</code>
+package.</p>
 <pre class="r"><code>library(psych)</code></pre>
-<p>The function that runs the mediation analysis is aptly named
-<code>mediate()</code>. Like all analysis functions, the
-<code>mediate()</code> function accepts a formula and a data.frame, but
-also a couple of options that we will want to change. For the formula,
-the mediate function takes a specific form, where the mediator is put
-inside brackets on the right-hand side of the <code>~</code> symbol:</p>
+<p>Like all analysis functions, the <code>mediate()</code> function
+accepts a formula and a data.frame, but also a couple of options that we
+will want to change. For the formula, the mediate function takes a
+specific form, where the mediator is put inside brackets on the
+right-hand side of the <code>~</code> symbol:</p>
 <pre class="r"><code>DV ~ IV + (Mediator)</code></pre>
 <p>So for our analysis, the code becomes the following. Note, we also
 want to set the ‘std’ argument to <code>TRUE</code> to ensure we receive
@@ -832,7 +890,7 @@ model</code></pre>
 ##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
 <p>Most of the information above is what we have encountered previously
 (e.g., we are given the total and direct effects that could be
-interpretted from the regressions above). The main information we are
+interpreted from the regressions above). The main information we are
 interested in this output is the line on the mean bootstrapped indirect
 effect. A large indirect effect (and consequently a greater drop between
 the total effect and the direct effect) would indicate that mediation is
@@ -855,27 +913,29 @@ effect is through a path diagram. You can do this directly in the
 <code>TRUE</code> or use the <code>mediate.diagram()</code> like
 below:</p>
 <pre class="r"><code>mediate.diagram(model)</code></pre>
-<p><img src="8sim22_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="8sim22_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
 </div>
 <div id="write-up-analysis." class="section level3">
 <h3>4. Write-up analysis.</h3>
 <p>There are several things you need to include when writing up a
-mediation analysis. Writing up a mediation analysis includes the
-write-up for each individual models with and without the mediator (Model
-1 and Model 2 above - these numbers are also included in the output for
-the <code>mediate()</code> function), and also the estimated indirect
-effect and associated confidence intervals. Usually, you would want to
+mediation analysis. Writing up a mediation analysis includes reporting
+the total and direct effects (in Model 1 and Model 3 above respectively,
+but these numbers are also included in the output for the
+<code>mediate()</code> function), and also the estimated indirect effect
+and associated confidence intervals. Usually, you would want to
 accompany the write-up with a path diagram such as the one above.</p>
 <blockquote>
-<p>In the model where attitudes towards exercise predicted variance in
-exercise behaviour, the effect of exercise attitudes was not significant
-(beta = 0.41, p = 0). When including intention to exercise into the
-model, the effect of attitudes on behaviour did not change (beta = 0.37,
-p = 0.001). Mediation analysis revealled a non-significant indirect
-effect of intentions to exercise on the association between attitudes
-towards exercise and exercise behaviour (mean bootstrapped indirect
-effect = 0.37, 95% CI = -0.01, 0.11).</p>
+<p>A mediation analysis via bootstrapping was conducted to assess
+whether the association between attitudes towards exercise and exercise
+behaviour was mediated by intentions to exercise. The total effect of
+exercise attitudes on behaviour was significant (beta = 0.41, p &lt;
+.001). When intentions to exercise was included into the model, the
+direct effect of attitudes on behaviour was still significant (beta =
+0.37, p = 0.001). Mediation analysis found a non-significant indirect
+effect (mean bootstrapped indirect effect = 0.37, 95% CI = -0.01, 0.11).
+This would indicate intentions to exercise does not mediates the
+association between exercise attitudes and exercise behaviour.</p>
 </blockquote>
 <p>Note: While we report the results in text above, it is sometimes also
 easier to report the separate models in a table.</p>
