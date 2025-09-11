@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Non-Parametric Tests</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -386,9 +386,6 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="exercises.html">Exercises</a>
-</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -503,8 +500,8 @@ this time use the non-parametric test.</p>
 <p>Again, this code is identical for when we prepared the data for the
 paired-samples t-test.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
-  filter(!is.na(pre.mood)) %&gt;%
-  filter(!is.na(post.mood)) %&gt;%
+  drop_na(pre.mood) %&gt;%
+  drop_na(post.mood) %&gt;%
   select(student.no,pre.mood,post.mood) %&gt;%
   gather(key = &quot;condition&quot;,value = &quot;mood&quot;,pre.mood,post.mood) %&gt;%
   mutate(condition = factor(condition,levels = c(&quot;pre.mood&quot;,&quot;post.mood&quot;)))</code></pre>
@@ -640,10 +637,8 @@ differences in introversion between cat-people (Mdn = 14), dog-people
 <h1>Advanced Exercises</h1>
 <p>If you would like to practice the skills on this page, weekly
 exercise questions on this content are available in the advanced
-exercises for Week 5. You can download the interactive exercises by
-clicking the link below.</p>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
+exercises for Week 5. For HPSP131 students, you can access the weekly
+exercises through the module Canvas page.</p>
 </div>
 
 

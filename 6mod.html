@@ -11,9 +11,9 @@
 
 
 
-<title>HPSP131 - Workbook 7 - Moderation (Interaction Effects)</title>
+<title>HPSP131 - Demonstration 7 - Moderation (Interaction Effects)</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -386,9 +386,6 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="exercises.html">Exercises</a>
-</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -398,7 +395,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Workbook 7 - Moderation
+<h1 class="title toc-ignore">HPSP131 - Demonstration 7 - Moderation
 (Interaction Effects)</h1>
 
 </div>
@@ -406,8 +403,9 @@ div.tocify {
 
 <div id="objectives" class="section level1">
 <h1>Objectives</h1>
-<p>The aim of this week’s workbook is to cover moderation (interaction
-effects). By the end of this workbook, you should be able to:</p>
+<p>The aim of this week’s demonstration is to cover moderation
+(interaction effects). By the end of this demonstration, you should be
+able to:</p>
 <ol style="list-style-type: decimal">
 <li>Standardise variables.</li>
 <li>Perform a multiple regression with interaction effects.</li>
@@ -425,13 +423,8 @@ and mixed-design)</li>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
 <p><a href = files/data_2024.csv download>Click here to download the
-data used in these workbooks.</a> (You may need to right-click and
+data used in these demonstrations.</a> (You may need to right-click and
 select ‘Save Linked File’ option)</p>
-</div>
-<div id="exercises" class="section level1">
-<h1>Exercises</h1>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
 </div>
 <div id="content" class="section level1">
 <h1>Content</h1>
@@ -441,15 +434,16 @@ exercises.</a></p>
 procedure:</p>
 <ol style="list-style-type: decimal">
 <li>Clean the data for analysis.</li>
+<li>Visualise the data.</li>
 <li>Run the statistical test.</li>
-<li>Plot the data.</li>
 <li>Write-up analysis.</li>
 </ol>
 <p>We will be using the following packages. If this is your first time
 using these packages, remember to install them before loading the
 packages.</p>
 <pre class="r"><code>library(tidyverse)
-library(lm.beta)</code></pre>
+library(lm.beta)
+library(effectsize)</code></pre>
 </div>
 <div id="reminder-moderation-interaction-effects"
 class="section level2">
@@ -523,8 +517,49 @@ data1.clean &lt;- mutate(data1.vars,
          z.support = c(scale(support,center = TRUE,scale = TRUE)),
          z.stress = c(scale(stress,center = TRUE,scale = TRUE)))</code></pre>
 </div>
+<div id="visualise-the-data" class="section level3">
+<h3>2. Visualise the data</h3>
+<p>Interactions can often be difficult to intuit from just looking at
+the numbers in the model. Therefore, it is almost always necessary to
+visualise the data. The most common way to plot an interaction is to
+split the data set in two according to the moderator: one with
+participants who score high on the moderator, and the other with
+participants who score low on the moderator. We can categorise
+participants based on whether they score above or below the mean on the
+variable (like we will do in our example), but you can also use the
+median if that’s more appropriate. In our example, we will split the
+data into participants who are above and below the mean on social
+support. We can do this by creating a new variable using the
+<code>ifelse()</code> function within the <code>mutate()</code>
+function.</p>
+<p>The <code>ifelse()</code> function works by first specify a condition
+as the first argument. The second argument is what happens if data from
+a participant meets that condition. The third argument is what happens
+if a participant does not meet that condition. So in the code below, we
+are creating a new variable called ‘cat.support’. We want to categorise
+support into two levels, so the condition in the <code>ifelse()</code>
+function is <code>z.support &gt; median(z.support)</code>. Here, we are
+splitting the data based on the median of <code>z.support</code>.
+Participants who meet this condition are in the “high support” group,
+while those that are not are in the “low support” group.</p>
+<pre class="r"><code>plot.data &lt;- mutate(data1.clean,cat.support = ifelse(z.support &gt; median(z.support),&quot;high support&quot;,&quot;low support&quot;)) %&gt;%
+  drop_na(cat.support)</code></pre>
+<p>We then can plot the regression line adding in a ‘group’ and ‘colour’
+aesthetic to separate our data of participants with high and low
+support.</p>
+<pre class="r"><code>ggplot(plot.data,mapping = aes(x = stress,y = sleep.quality,group = cat.support,colour = cat.support)) +
+  geom_smooth(method = &quot;lm&quot;) +
+  theme_classic()</code></pre>
+<p><img src="6mod_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>Even better is if can visualise the raw data in a scatterplot:</p>
+<pre class="r"><code>ggplot(plot.data,mapping = aes(x = stress,y = sleep.quality,group = cat.support,colour = cat.support)) +
+  geom_smooth(method = &quot;lm&quot;) +
+  geom_point() +
+  theme_classic()</code></pre>
+<p><img src="6mod_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
 <div id="run-statistical-test" class="section level3">
-<h3>2. Run statistical test</h3>
+<h3>3. Run statistical test</h3>
 <p>Recall that interaction effects are the multiplication of the two
 variable. Therefore, to specify an interaction, we change the formula we
 specify to include the multiplication of the variable whose interaction
@@ -589,47 +624,6 @@ model1 %&gt;%
 ## Residual standard error: 4.382 on 76 degrees of freedom
 ## Multiple R-squared:  0.2068, Adjusted R-squared:  0.1755 
 ## F-statistic: 6.605 on 3 and 76 DF,  p-value: 0.0005023</code></pre>
-</div>
-<div id="plot-data" class="section level3">
-<h3>3. Plot data</h3>
-<p>Interactions can often be difficult to intuit from just looking at
-the numbers in the model. Therefore, it is almost always necessary to
-visualise the data. The most common way to plot an interaction is to
-split the data set in two according to the moderator: one with
-participants who score high on the moderator, and the other with
-participants who score low on the moderator. We can categorise
-participants based on whether they score above or below the mean on the
-variable (like we will do in our example), but you can also use the
-median if that’s more appropriate. In our example, we will split the
-data into participants who are above and below the mean on social
-support. We can do this by creating a new variable using the
-<code>ifelse()</code> function within the <code>mutate()</code>
-function.</p>
-<p>The <code>ifelse()</code> function works by first specify a condition
-as the first argument. The second argument is what happens if data from
-a participant meets that condition. The third argument is what happens
-if a participant does not meet that condition. So in the code below, we
-are creating a new variable called ‘cat.support’. We want to categorise
-support into two levels, so the condition in the <code>ifelse()</code>
-function is <code>z.support &gt; median(z.support)</code>. Here, we are
-splitting the data based on the median of <code>z.support</code>.
-Participants who meet this condition are in the “high support” group,
-while those that are not are in the “low support” group.</p>
-<pre class="r"><code>plot.data &lt;- mutate(data1.clean,cat.support = ifelse(z.support &gt; median(z.support),&quot;high support&quot;,&quot;low support&quot;)) %&gt;%
-  filter(!is.na(cat.support))</code></pre>
-<p>We then can plot the regression line adding in a ‘group’ and ‘colour’
-aesthetic to separate our data of participants with high and low
-support.</p>
-<pre class="r"><code>ggplot(plot.data,mapping = aes(x = stress,y = sleep.quality,group = cat.support,colour = cat.support)) +
-  geom_smooth(method = &quot;lm&quot;) +
-  theme_classic()</code></pre>
-<p><img src="6mod_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>Even better is if can visualise the raw data in a scatterplot:</p>
-<pre class="r"><code>ggplot(plot.data,mapping = aes(x = stress,y = sleep.quality,group = cat.support,colour = cat.support)) +
-  geom_smooth(method = &quot;lm&quot;) +
-  geom_point() +
-  theme_classic()</code></pre>
-<p><img src="6mod_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 <div id="write-up-analysis." class="section level3">
 <h3>4. Write-up analysis.</h3>
@@ -722,8 +716,23 @@ you play video-games or not.</p>
   mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10) %&gt;%
   select(introvert,video.games,cat.dog)</code></pre>
 </div>
+<div id="plot-data" class="section level3">
+<h3>2. Plot data</h3>
+<p>When plotting the data, we want to visualise the relationship between
+introversion and cat-people/dog-people separated by the moderator -
+whether participants play video-games or not. We can do this by adding a
+<code>facet_wrap()</code> to our standard violin plot. Here, we only
+need to specify which variable to separate the plot on.</p>
+<pre class="r"><code>ggplot(clean.data2,aes(x = cat.dog,y = introvert,fill = video.games)) +
+  geom_violin() +
+  stat_summary() +
+  facet_wrap(~ video.games) +
+  theme_classic() +
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="6mod_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+</div>
 <div id="run-statistical-test-1" class="section level3">
-<h3>2. Run statistical test</h3>
+<h3>3. Run statistical test</h3>
 <p>The function to run a two-way ANOVA is the same as a one-way ANOVA:
 <code>aov()</code>. R is smart enough to determine which statistical
 test to run based on how many IVs are in the formula. The formula works
@@ -744,6 +753,27 @@ or not there is a difference, but it will not tell you where that
 difference is. In order to determine this, you will need to calculate
 summary statistics (e.g., means for each cell) and conduct follow-up
 comparisons.</p>
+<div id="calculate-effect-sizes-partial-eta-squared"
+class="section level4">
+<h4>Calculate Effect Sizes (Partial Eta-Squared)</h4>
+<p>To calculate an effect size for a two-way ANOVA, we can use the same
+<code>eta_squared()</code> that we covered when discussing the one-way
+ANOVA in Demonstration 5. However, for a two-way ANOVA, since we have
+multiple IVs, the effect size being estimated is a partial eta-squared.
+Again, we can pipe the output of the <code>aov()</code> function into
+the <code>eta_squared()</code> function:</p>
+<pre class="r"><code>aov(introvert ~ cat.dog*video.games,data = clean.data2) %&gt;%
+  eta_squared()</code></pre>
+<pre><code>## # Effect Size for ANOVA (Type I)
+## 
+## Parameter           | Eta2 (partial) |       95% CI
+## ---------------------------------------------------
+## cat.dog             |       1.10e-03 | [0.00, 1.00]
+## video.games         |           0.04 | [0.00, 1.00]
+## cat.dog:video.games |       8.41e-03 | [0.00, 1.00]
+## 
+## - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+</div>
 <div id="calculate-summary-statistics" class="section level4">
 <h4>Calculate Summary Statistics</h4>
 <pre class="r"><code>clean.data2 %&gt;%
@@ -796,21 +826,6 @@ depending on whether they play video-games or not.</p>
 ##          15.00000          13.73333</code></pre>
 </div>
 </div>
-<div id="plot-data-1" class="section level3">
-<h3>3. Plot data</h3>
-<p>When plotting the data, we want to visualise the relationship between
-introversion and cat-people/dog-people separated by the moderator -
-whether participants play video-games or not. We can do this by adding a
-<code>facet_wrap()</code> to our standard violin plot. Here, we only
-need to specify which variable to separate the plot on.</p>
-<pre class="r"><code>ggplot(clean.data2,aes(x = cat.dog,y = introvert,fill = video.games)) +
-  geom_violin() +
-  stat_summary() +
-  facet_wrap(~ video.games) +
-  theme_classic() +
-  theme(legend.position = &quot;none&quot;)</code></pre>
-<p><img src="6mod_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-</div>
 </div>
 <div id="mixed-design-anova" class="section level2">
 <h2>Mixed-Design ANOVA</h2>
@@ -838,12 +853,20 @@ participants with missing data.</p>
 <pre class="r"><code>mx.data &lt;- data %&gt;%
   select(student.no,cat.dog,pre.mood,post.mood) %&gt;%
   filter(cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;) %&gt;%
-  filter(!is.na(pre.mood),!is.na(post.mood)) %&gt;%
+  drop_na(pre.mood) %&gt;%
+  drop_na(post.mood) %&gt;%
   gather(key = &quot;time&quot;,value = &quot;mood&quot;,pre.mood,post.mood) %&gt;%
   mutate(student.no = as.factor(student.no))</code></pre>
 </div>
+<div id="visualise-the-data." class="section level3">
+<h3>2. Visualise the data.</h3>
+<p>As when we have had a categorical IV and continuous DV, the best way
+to visualise the data is something like a violin plot. This is nearly
+identical to what we have previously covered, so we’ll skip this for
+now.</p>
+</div>
 <div id="conduct-statistical-test." class="section level3">
-<h3>2. Conduct statistical test.</h3>
+<h3>3. Conduct statistical test.</h3>
 <p>Again, we use the <code>aov()</code> function to run our mixed-design
 ANOVA. However, in order to tell R which factor is within-subjects, we
 need to adjust our formula to the following format:</p>
@@ -901,13 +924,11 @@ within-subjects effects), you are only given one table (i.e., only a
 table for the within-subjects effects).</p>
 </div>
 </div>
-<div id="exercises-1" class="section level1">
+<div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p>Now that you’ve completed this week’s workbook, why not give this
-week’s exercises a go? You can download the interactive exercises by
-clicking the link below.</p>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
+<p>Now that you’ve completed this week’s demonstration, why not give
+this week’s exercises a go? For students on HPSP131, you can access the
+interactive exercises through the HPSP131 Canvas page.</p>
 </div>
 
 

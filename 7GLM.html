@@ -11,9 +11,9 @@
 
 
 
-<title>HPSP131 - Workbook 3 - Data Skills: Cleaning</title>
+<title>HPSP131 - Demonstration 3 - Data Skills: Cleaning</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -388,9 +388,6 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="exercises.html">Exercises</a>
-</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -400,7 +397,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Workbook 3 - Data Skills:
+<h1 class="title toc-ignore">HPSP131 - Demonstration 3 - Data Skills:
 Cleaning</h1>
 
 </div>
@@ -409,7 +406,7 @@ Cleaning</h1>
 <div id="objectives" class="section level1">
 <h1>Objectives</h1>
 <p>The aim of this week is to cover tidyverse functions used for data
-cleaning. By the end of this workbook, you should be able to:</p>
+cleaning. By the end of this demonstration, you should be able to:</p>
 <ol style="list-style-type: decimal">
 <li>Understand common practices for cleaning a dataset, including:</li>
 </ol>
@@ -434,13 +431,8 @@ cleaning. By the end of this workbook, you should be able to:</p>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
 <p><a href = files/data_2024.csv download>Click here to download the
-data used in these workbooks.</a> (You may need to right-click and
+data used in these demonstrations.</a> (You may need to right-click and
 select ‘Save Linked File’ option)</p>
-</div>
-<div id="exercises" class="section level1">
-<h1>Exercises</h1>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
 </div>
 <div id="content" class="section level1">
 <h1>Content</h1>
@@ -467,10 +459,10 @@ column.</li>
 functions for data cleaning and manipulation. These functions work like
 all other functions: they take numerous of arguments, such as a
 data.frame and instructions, then returns to you an output, which is
-often another data.frame. In this workbook, we will cover three such
-functions that are commonly used for data cleaning.</p>
+often another data.frame. In this demonstration, we will cover three
+such functions that are commonly used for data cleaning.</p>
 <p>Make sure to load the tidyverse package before starting this
-workbook.</p>
+demonstration.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <div id="select" class="section level3">
 <h3>select()</h3>
@@ -479,7 +471,7 @@ when loading a dataset, there will be columns/variables that are not
 relevant to the analysis you want to conduct. This function can be
 helpful when a dataset contains many columns and you only want to
 include the variables relevant to your analysis.</p>
-<p>For example, the class dataset used in these workbooks include a
+<p>For example, the class dataset used in these demonstrations include a
 large number of variables; however, we will only be working with a few
 of the many variables any given week. Therefore, we may want to select
 only those variables so that the dataset is easier to work with. In the
@@ -589,19 +581,20 @@ class="section level4">
 <h4>Removing Participants with Missing Data</h4>
 <p>A common thing you are required to do when cleaning data is to remove
 participants that have missing data on a variable. As covered last week,
-by default, R codes missing data as <code>NA</code>. Also covered last
-week, there is a function in R that tells you if a value is missing -
-that function is <code>is.na()</code>. We can use this function within
-the <code>filter()</code> function to remove participants from a dataset
-that has missing data on a variable.</p>
-<pre class="r"><code>data_remove.missing &lt;- filter(data,!is.na(var1))</code></pre>
-<p>In the code above, the <code>!</code> can be translated to
-<code>not</code>. So here we are only including participants that do NOT
-have missing data for <code>var1</code>.</p>
+by default, R codes missing data as <code>NA</code>. We can use a
+function called <code>drop_na()</code> to remove participants from a
+dataset that has missing data on a variable. How this function works is
+the first argument is the dataset that you’re working with, while
+subsequent functions are column names to check for NAs. Only rows with
+NAs in those columns will be dropped.</p>
+<pre class="r"><code>data_remove.missing &lt;- drop_na(data,var1)</code></pre>
+<p>In the code above, this keeps rows where <code>var1</code> does not
+have an <code>NA</code> value, but would allow other columns to have
+NAs.</p>
 <p>Note: it is possible that your data could code missing data as a
 different value (e.g., a common practice is to code missing values as
 ‘-99’) - in these instances you would want to remove participants with
-this value, rather than use <code>is.na()</code>.</p>
+this value, rather than use <code>drop_na()</code>.</p>
 <p>Also note: another useful function to remove participants with
 missing data is <code>na.omit()</code>. This function removes all
 participants that have a missing value on any of the variables in the
@@ -691,13 +684,11 @@ which is a hot mess.</p>
 </div>
 </div>
 </div>
-<div id="exercises-1" class="section level1">
+<div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p>Now that you’ve completed this week’s workbook, why not give this
-week’s exercises a go? You can download the interactive exercises by
-clicking the link below.</p>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
+<p>Now that you’ve completed this week’s demonstration, why not give
+this week’s exercises a go? For students on HPSP131, you can access the
+interactive exercises through the HPSP131 Canvas page.</p>
 </div>
 
 

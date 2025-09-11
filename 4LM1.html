@@ -11,9 +11,9 @@
 
 
 
-<title>HPSP131 - Workbook 5 - The General Linear Model: t-tests and ANOVA</title>
+<title>HPSP131 - Demonstration 5 - The General Linear Model: t-tests and ANOVA</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -386,9 +386,6 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="exercises.html">Exercises</a>
-</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -398,8 +395,8 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Workbook 5 - The General Linear
-Model: t-tests and ANOVA</h1>
+<h1 class="title toc-ignore">HPSP131 - Demonstration 5 - The General
+Linear Model: t-tests and ANOVA</h1>
 
 </div>
 
@@ -408,8 +405,8 @@ Model: t-tests and ANOVA</h1>
 <h1>Objectives</h1>
 <p>The aim of this week is to introduce the General Linear Model (GLM)
 in R and provide a practical guide for analysing data with a categorical
-IV and and continuous DV. By the end of this workbook, you should be
-able to:</p>
+IV and and continuous DV. By the end of this demonstration, you should
+be able to:</p>
 <ol style="list-style-type: decimal">
 <li>Perform an independent-samples t-test in R.</li>
 <li>Perform a paired-samples t-test in R.</li>
@@ -432,31 +429,30 @@ DV, including:</li>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
 <p><a href = files/data_2024.csv download>Click here to download the
-data used in these workbooks.</a> (You may need to right-click and
+data used in these demonstrations.</a> (You may need to right-click and
 select ‘Save Linked File’ option)</p>
-</div>
-<div id="exercises" class="section level1">
-<h1>Exercises</h1>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
 </div>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <div id="before-we-begin" class="section level2">
 <h2>Before we begin…</h2>
-<p>These are the packages we will be using in this workbook. If you have
-been following along with the content each week, this package should
-already be installed on your computer. Otherwise, make sure you install
-them using <code>install.packages()</code> if you have not used them
-before.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
+<p>These are the packages we will be using in this demonstration. If you
+have been following along with the content each week, the
+<code>tidyverse</code> package should already be installed on your
+computer. However, this is the first time we have encountered the
+<code>effectsize</code> package. We will be using functions from this
+package to calculate the effect size, which we need to report with our
+statistical test. So make sure you install it using the
+<code>install.packages()</code> function.</p>
+<pre class="r"><code>library(tidyverse)
+library(effectsize)</code></pre>
 <p>Also, something to keep in mind, throughout the next few
 demonstrations, whenever we analyse data, we will roughly be following
 this procedure:</p>
 <ol style="list-style-type: decimal">
 <li>Prepare the data for analysis.</li>
-<li>Run the statistical test.</li>
 <li>Visualise the data.</li>
+<li>Run the statistical test.</li>
 <li>Write-up analysis.</li>
 </ol>
 </div>
@@ -525,8 +521,67 @@ score. We have also only selected the variables we need for our analysis
 - this step is not strictly necessary, but can help you organise your
 data.</p>
 </div>
+<div id="visualise-the-data." class="section level3">
+<h3>2. Visualise the data.</h3>
+<div id="box-plot" class="section level4">
+<h4>Box Plot</h4>
+<p>Box plots are good for representing the range and quantiles of your
+data. To create a box plot, use <code>geom_boxplot()</code>. Make sure
+to set the correct variables on the x- and y-axes (<code>cat.dog</code>
+and <code>introvert</code> respectively). We also map the ‘fill’
+aesthetic to the <code>cat.dog</code> variable so that the colours are
+different.</p>
+<pre class="r"><code>ggplot(data1.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
+  geom_boxplot() +
+  theme_classic()</code></pre>
+<p><img src="4LM1_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="violin-plot" class="section level4">
+<h4>Violin Plot</h4>
+<p>Violin plots are good for representing the distributions of scores on
+the DV between groups, and can be created using
+<code>geom_violin()</code>. All aesthetics are identical to the box plot
+above. If you want to includes visualisations of each individual data
+point, you can use <code>geom_jitter()</code>. You can also visualise
+the mean and standard error using the <code>stat_summary()</code>
+function.</p>
+<pre class="r"><code>ggplot(data1.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
+  geom_violin() +
+  stat_summary() +
+  geom_jitter(width = .1,alpha = .2) +
+  theme_classic()</code></pre>
+<p><img src="4LM1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="bar-graphs" class="section level4">
+<h4>Bar Graphs</h4>
+<p>A common way of reporting data from a t-test is a bar graph.
+Unfortunately, this is a very uninformative way of presenting data (it
+gives no representation for the spread/variability in the data). We
+provide the code here so we you can re-create a bar graph if needed, and
+know how to read one if you see one in a paper, but then we will never
+speak of this evil again. If you need to plot data with a categorical IV
+and continuous DV, aim to use a box plot, or better yet a violin
+plot.</p>
+<p>In a bar graph, the height of the bars represent the mean for each
+group. If you’re lucky, you may get error bars, which usually represents
+the standard error. In the example below, the error bars represents the
+standard error of the mean for each group on the introversion scale.
+Note that we have to calculate the standard error ourselves.</p>
+<pre class="r"><code>data1.summary &lt;- data1.clean %&gt;%
+  group_by(cat.dog) %&gt;%
+  summarise(introvert_mean = mean(introvert,na.rm = TRUE),
+            introvert_sd = sd(introvert,na.rm = TRUE),
+            introvert_se = introvert_sd/sqrt(n()))
+
+ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
+  geom_col() +
+  geom_errorbar(aes(ymin = introvert_mean - introvert_se,ymax = introvert_mean + introvert_se),width = .2) +
+  theme_classic()</code></pre>
+<p><img src="4LM1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+</div>
 <div id="run-the-statistical-test." class="section level3">
-<h3>2. Run the statistical test.</h3>
+<h3>3. Run the statistical test.</h3>
 <p>To run the t-test, we use the function <code>t.test()</code>. As
 mentioned above, the first argument is the formula. In this analysis,
 the DV is called <code>introvert</code> and the IV is called
@@ -558,38 +613,6 @@ this equals 0.26)</li>
 <p>Can you see where each of these values come from in the output
 above?</p>
 </div>
-<div id="visualise-the-data." class="section level3">
-<h3>3. Visualise the data.</h3>
-<div id="box-plot" class="section level4">
-<h4>Box Plot</h4>
-<p>Box plots are good for representing the range and quantiles of your
-data. To create a box plot, use <code>geom_boxplot()</code>. Make sure
-to set the correct variables on the x- and y-axes (<code>cat.dog</code>
-and <code>introvert</code> respectively). We also map the ‘fill’
-aesthetic to the <code>cat.dog</code> variable so that the colours are
-different.</p>
-<pre class="r"><code>ggplot(data1.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
-  geom_boxplot() +
-  theme_classic()</code></pre>
-<p><img src="4LM1_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-</div>
-<div id="violin-plot" class="section level4">
-<h4>Violin Plot</h4>
-<p>Violin plots are good for representing the distributions of scores on
-the DV between groups, and can be created using
-<code>geom_violin()</code>. All aesthetics are identical to the box plot
-above. If you want to includes visualisations of each individual data
-point, you can use <code>geom_jitter()</code>. You can also visualise
-the mean and standard error using the <code>stat_summary()</code>
-function.</p>
-<pre class="r"><code>ggplot(data1.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
-  geom_violin() +
-  stat_summary() +
-  geom_jitter(width = .1,alpha = .2) +
-  theme_classic()</code></pre>
-<p><img src="4LM1_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-</div>
-</div>
 <div id="write-up-analysis." class="section level3">
 <h3>4. Write-up analysis.</h3>
 <p>In order to report a t-test in APA format, we need the following
@@ -600,18 +623,21 @@ test.</li>
 <li>the p-value from the statistical test.</li>
 <li>The mean on the DV for both groups.</li>
 <li>The standard deviations on the DV for both groups.</li>
+<li>The effect size (Cohen’s d)</li>
 </ul>
 <p>The first three items can be obtained from the output of
-<code>t.test()</code> above. However, to get the SDs of the two groups,
-we need to cover a few more tidyverse functions.</p>
-<p>As covered in Workbook 2, <code>summarise()</code> can be used to get
-descriptive statistics by using functions like <code>mean()</code> and
-<code>sd()</code> to get the mean and standard deviation of a variable
-respectively. However, in order to calculate these statistics separately
-for different groups, we need to use the <code>group_by()</code>
-function. <code>group_by()</code> will group data based on a column, and
-perform all subsequent tidyverse functions separately for each group
-until you use the <code>ungroup()</code> function.</p>
+<code>t.test()</code> above; however, we need to do some extra things to
+get the other two.</p>
+<p>First, to get the SDs of the two groups, we need to use a few more
+tidyverse functions. As covered in Demonstration 2,
+<code>summarise()</code> can be used to get descriptive statistics by
+using functions like <code>mean()</code> and <code>sd()</code> to get
+the mean and standard deviation of a variable respectively. However, in
+order to calculate these statistics separately for different groups, we
+need to use the <code>group_by()</code> function.
+<code>group_by()</code> will group data based on a column, and perform
+all subsequent tidyverse functions separately for each group until you
+use the <code>ungroup()</code> function.</p>
 <pre class="r"><code>data1.summary &lt;- data1.clean %&gt;%
   group_by(cat.dog) %&gt;%
   summarise(introvert_mean = mean(introvert,na.rm = TRUE),
@@ -623,47 +649,32 @@ data1.summary</code></pre>
 ##   &lt;chr&gt;            &lt;dbl&gt;        &lt;dbl&gt;
 ## 1 cat               13.4         2.96
 ## 2 dog               13.1         4.06</code></pre>
+<p>To get the Cohen’s d, we will be using the function
+<code>cohens_d()</code> from the <code>effectsize</code> package. This
+function works very similarly to the <code>t.test()</code> function
+above: we need to specify a formula and a dataset. In return, the
+function will calculate our effect size.</p>
+<pre class="r"><code>cohens_d(introvert ~ cat.dog,data = data1.clean)</code></pre>
+<pre><code>## Cohen&#39;s d |        95% CI
+## -------------------------
+## 0.07      | [-0.56, 0.71]
+## 
+## - Estimated using pooled SD.</code></pre>
 <p>Once we have all the required information, we can write-up! A few
 things to note about APA formatting:</p>
 <ul>
 <li>All numerical values are rounded to 2 decimal points, except
 p-values which are rounded to 3 decimal points.</li>
-<li>All letters indicating stats (e.g., M, SD, t, p) should be
+<li>All letters indicating stats (e.g., M, SD, t, p, d) should be
 italicised.</li>
 </ul>
 <blockquote>
 <p>An independent-samples t-test found that there was no significant
 difference on introversion between cat-people (<em>M</em> = 13.38,
 <em>SD</em> = 2.96) and dog-people (<em>M</em> = 13.11, <em>SD</em> =
-4.06), <em>t</em>(29.25) = 0.26, <em>p</em> = 0.799.</p>
+4.06), <em>t</em>(29.25) = 0.26, <em>p</em> = 0.799, Cohen’s <em>d</em>
+= 0.07.</p>
 </blockquote>
-<div id="bar-graphs" class="section level4">
-<h4>Bar Graphs</h4>
-<p>A common way of reporting data from a t-test is a bar graph.
-Unfortunately, this is a very uninformative way of presenting data (it
-gives no representation for the spread/variability in the data). We
-provide the code here so we you can re-create a bar graph if needed, and
-know how to read one if you see one in a paper, but then we will never
-speak of this evil again. If you need to plot data with a categorical IV
-and continuous DV, aim to use a box plot, or better yet a violin
-plot.</p>
-<p>In a bar graph, the height of the bars represent the mean for each
-group. If you’re lucky, you may get error bars, which usually represents
-the standard error. In the example below, the error bars represents the
-standard error of the mean for each group on the introversion scale.
-Note that we have to calculate the standard error ourselves.</p>
-<pre class="r"><code>data1.summary &lt;- data1.clean %&gt;%
-  group_by(cat.dog) %&gt;%
-  summarise(introvert_mean = mean(introvert,na.rm = TRUE),
-            introvert_sd = sd(introvert,na.rm = TRUE),
-            introvert_se = introvert_sd/sqrt(n()))
-
-ggplot(data1.summary,aes(x = cat.dog,y = introvert_mean,fill = cat.dog)) +
-  geom_col() +
-  geom_errorbar(aes(ymin = introvert_mean - introvert_se,ymax = introvert_mean + introvert_se),width = .2) +
-  theme_classic()</code></pre>
-<p><img src="4LM1_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-</div>
 </div>
 </div>
 <div id="one-way-between-subjects-anova-analysis-of-variance"
@@ -687,8 +698,19 @@ have been commented out below).</p>
   mutate(introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10) %&gt;%
   select(cat.dog,introvert)</code></pre>
 </div>
+<div id="visualise-the-data.-1" class="section level3">
+<h3>2. Visualise the Data.</h3>
+<p>Similar to the independent-samples t-test, we can use a violin plot
+to visualise the distributions for each group.</p>
+<pre class="r"><code>ggplot(data3.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
+  geom_violin() +
+  stat_summary() +
+  geom_jitter(width = .2,alpha = .2) +
+  theme_classic()</code></pre>
+<p><img src="4LM1_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
 <div id="run-the-statistical-test.-1" class="section level3">
-<h3>2. Run the statistical test.</h3>
+<h3>3. Run the statistical test.</h3>
 <p>We run the ANOVA using the <code>aov()</code> function. We can then
 pipe it to the <code>summary()</code> function to get interpretable
 output.</p>
@@ -789,17 +811,6 @@ linear combinations:</p>
 comparisons, the significance level should be reduced to 0.008 (that is,
 .05 divided by 6).</p>
 </div>
-<div id="visualise-the-data.-1" class="section level3">
-<h3>3. Visualise the Data.</h3>
-<p>Similar to the independent-samples t-test, we can use a violin plot
-to visualise the distributions for each group.</p>
-<pre class="r"><code>ggplot(data3.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
-  geom_violin() +
-  stat_summary() +
-  geom_jitter(width = .2,alpha = .2) +
-  theme_classic()</code></pre>
-<p><img src="4LM1_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-</div>
 <div id="write-up-analysis.-1" class="section level3">
 <h3>4. Write-up analysis.</h3>
 <p>In order to report a one-way ANOVA in APA format, we need the
@@ -807,8 +818,23 @@ following information:</p>
 <ul>
 <li>The F-statistic for the statistical test.</li>
 <li>The Group and Residual degrees-of-freedom.</li>
-<li>the p-value from the statistical test.</li>
+<li>The p-value from the statistical test.</li>
+<li>The effect size (measured as eta-squared).</li>
 </ul>
+<p>To get the eta-squared value, we can use the
+<code>eta_squared()</code> function from the <code>effectsize</code>
+package. You can pipe the output of the <code>aov()</code> function into
+the <code>eta_squared()</code> function to get the effect size
+estimate.</p>
+<pre class="r"><code>aov(introvert ~ cat.dog,data = data3.clean) %&gt;%
+  eta_squared()</code></pre>
+<pre><code>## # Effect Size for ANOVA
+## 
+## Parameter |     Eta2 |       95% CI
+## -----------------------------------
+## cat.dog   | 3.80e-03 | [0.00, 1.00]
+## 
+## - One-sided CIs: upper bound fixed at [1.00].</code></pre>
 <p>If the ANOVA is significant, then you need to also include the
 post-hoc comparisons. For this, you need the following information
 (essentially the same as if you were writing up a t-test):</p>
@@ -816,6 +842,7 @@ post-hoc comparisons. For this, you need the following information
 <li>The mean on the DV for all groups.</li>
 <li>The standard deviations on the DV for both groups.</li>
 <li>The test-statistics and p-values from the comparisons.</li>
+<li>The effect size for each comparison (measured as Cohen’s d).</li>
 </ul>
 <p>The code below will calculate the mean and standard deviation on the
 dependent variable for all groups. It is identical to the code that does
@@ -835,7 +862,7 @@ this for the t-test.</p>
 <blockquote>
 <p>A one-way between subjects ANOVA found no significant difference
 between groups on introversion, <em>F</em>(3, 76) = 0.1, <em>p</em> =
-0.962.</p>
+0.962, Eta-squared = 0.</p>
 </blockquote>
 </div>
 </div>
@@ -860,12 +887,47 @@ before. First, we must clean the data. Below, we select the columns we
 need to run the paired-samples t-test and remove any participants with
 missing data on either variable.</p>
 <pre class="r"><code>data2.clean &lt;- data %&gt;%
-  filter(!is.na(pre.mood)) %&gt;%
-  filter(!is.na(post.mood)) %&gt;%
+  drop_na(pre.mood) %&gt;%
+  drop_na(post.mood) %&gt;%
   select(student.no,pre.mood,post.mood)</code></pre>
 </div>
+<div id="visualise-the-data.-2" class="section level3">
+<h3>3. Visualise the data.</h3>
+<p>We can plot the data using a violin plot, the same way we visualised
+the data for an independent-samples t-test. However, this does not give
+an indication of the change in scores within a participant. One way to
+represent this graphically, is to plot the data point for each
+participant, and include a line between their scores across the two
+conditions. We also adjust the opacity of the points and lines using the
+<code>alpha</code> aesthetic, just so that the graph isn’t a complete
+mess.</p>
+<p>To create this plot, we first need to re-shape the data using the
+<code>gather()</code> function so that each observation is on a separate
+row (rather than each participant). The gather function works by first
+specifying a column name that distinguishes between observations made by
+the same participant (i.e., between <code>pre.mood</code> and
+<code>post.mood</code>), then a variable name that corresponds with the
+response (i.e., the number corresponding with mood). Then, you specify
+the variables that you want to reshape. Note: The last line in the code
+that reshapes the data below is only used so that the pre-mood and
+post-mood variables are in the right order when we plot the data.</p>
+<pre class="r"><code>plot.data &lt;- data2.clean %&gt;%
+  gather(key = &quot;time&quot;,value = &quot;mood&quot;,pre.mood,post.mood) %&gt;%
+  mutate(time = factor(time,levels = c(&quot;pre.mood&quot;,&quot;post.mood&quot;)))
+
+ggplot(data = plot.data,aes(x = time,y = mood)) +
+  geom_violin(aes(fill = time)) +
+  stat_summary() +
+  geom_point(alpha = .2) +
+  geom_line(aes(group = student.no),alpha = .2) +
+  xlab(&quot;Exposure Time (Before or After Video)&quot;) +
+  ylab(&quot;Mood Rating&quot;) +
+  theme(legend.position = &quot;none&quot;) +
+  theme_classic()</code></pre>
+<p><img src="4LM1_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+</div>
 <div id="run-the-statistical-test.-2" class="section level3">
-<h3>2. Run the statistical test.</h3>
+<h3>3. Run the statistical test.</h3>
 <p>We use the same function as with the independent-samples t-test to
 run a paired-samples t-test, though the formula looks slightly
 different. Rather than have the DV on the left, and the IV on the right,
@@ -910,41 +972,6 @@ method. So the code looks like:</p>
 ## mean difference 
 ##         -7.5875</code></pre>
 </div>
-<div id="visualise-the-data.-2" class="section level3">
-<h3>3. Visualise the data.</h3>
-<p>We can plot the data using a violin plot, the same way we visualised
-the data for an independent-samples t-test. However, this does not give
-an indication of the change in scores within a participant. One way to
-represent this graphically, is to plot the data point for each
-participant, and include a line between their scores across the two
-conditions. We also adjust the opacity of the points and lines using the
-<code>alpha</code> aesthetic, just so that the graph isn’t a complete
-mess.</p>
-<p>To create this plot, we first need to re-shape the data using the
-<code>gather()</code> function so that each observation is on a separate
-row (rather than each participant). The gather function works by first
-specifying a column name that distinguishes between observations made by
-the same participant (i.e., between <code>pre.mood</code> and
-<code>post.mood</code>), then a variable name that corresponds with the
-response (i.e., the number corresponding with mood). Then, you specify
-the variables that you want to reshape. Note: The last line in the code
-that reshapes the data below is only used so that the pre-mood and
-post-mood variables are in the right order when we plot the data.</p>
-<pre class="r"><code>plot.data &lt;- data2.clean %&gt;%
-  gather(key = &quot;time&quot;,value = &quot;mood&quot;,pre.mood,post.mood) %&gt;%
-  mutate(time = factor(time,levels = c(&quot;pre.mood&quot;,&quot;post.mood&quot;)))
-
-ggplot(data = plot.data,aes(x = time,y = mood)) +
-  geom_violin(aes(fill = time)) +
-  stat_summary() +
-  geom_point(alpha = .2) +
-  geom_line(aes(group = student.no),alpha = .2) +
-  xlab(&quot;Exposure Time (Before or After Video)&quot;) +
-  ylab(&quot;Mood Rating&quot;) +
-  theme(legend.position = &quot;none&quot;) +
-  theme_classic()</code></pre>
-<p><img src="4LM1_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
-</div>
 <div id="write-up-analysis.-2" class="section level3">
 <h3>4. Write-up analysis.</h3>
 <p>Similar to the independent-samples t-test, we require information on
@@ -969,22 +996,28 @@ data2.summary</code></pre>
 data2.summary</code></pre>
 <pre><code>##   pre.mean   pre.sd pst.mean   pst.sd
 ## 1  64.3125 18.13005     71.9 16.77294</code></pre>
+<p>We also need the effect size, which is Cohen’s d. Again, we can use
+the <code>cohens_d()</code> function from the <code>effectsize</code>
+package.</p>
+<pre class="r"><code>cohens_d(Pair(pre.mood,post.mood) ~ 1,data = data2.clean)</code></pre>
+<pre><code>## Cohen&#39;s d |         95% CI
+## --------------------------
+## -0.53     | [-0.77, -0.30]</code></pre>
 <blockquote>
 <p>A paired-samples t-test found that there was a significant difference
 on mood before (<em>M</em> = 64.31, <em>SD</em> = 18.13) and after
 (<em>M</em> = 71.9 , <em>SD</em> = 16.77) viewing a cute cat video,
-<em>t</em>(79) = -4.78, <em>p</em> &lt; .001.</p>
+<em>t</em>(79) = -4.78, <em>p</em> &lt; .001, Cohen’s <em>d</em> =
+-0.53.</p>
 </blockquote>
 </div>
 </div>
 </div>
-<div id="exercises-1" class="section level1">
+<div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p>Now that you’ve completed this week’s workbook, why not give this
-week’s exercises a go? You can download the interactive exercises by
-clicking the link below.</p>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
+<p>Now that you’ve completed this week’s demonstration, why not give
+this week’s exercises a go? For students on HPSP131, you can access the
+interactive exercises through the HPSP131 Canvas page.</p>
 </div>
 
 

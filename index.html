@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Quantitative Methods in Psychological Research</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -386,9 +386,6 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="exercises.html">Exercises</a>
-</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -404,19 +401,19 @@ Psychological Research</h1>
 </div>
 
 
-<p>Last updated: Fri Nov 15 11:37:14 2024</p>
+<p>Last updated: Thu Sep 11 09:50:41 2025</p>
 <p>This module is designed to teach students the basic skills needed to
-conduct quantitative research in R. This module covers basic data
-skills, data tidying, plotting data, and analysing datasets in R. This
-is not meant to be a comprehensive guide to R (such a thing would be
-almost impossible!). Rather, this module is designed to be a gentle
-introduction to R, cover statistical techniques that are common in
-psychological research, and provide a solid base where you can
-investigate advanced techniques on your own. This website contains
-material covered in the demonstrations of the module. Weekly exercises
-are also provided that are designed for you to practice your R skills,
-and introduce new concepts for students looking for an additional
-challenge.</p>
+conduct quantitative research in R. It covers data handling, data
+tidying, plotting, and analysing datasets. This is not meant to be a
+comprehensive guide to R (such a thing would be almost impossible!).
+Rather, this module is designed to be a gentle introduction to R, cover
+statistical techniques that are common in psychological research, and
+provide a solid base where you can investigate advanced techniques on
+your own. This website contains material covered in the demonstrations
+of the module. Additional “extra” pages are also available that
+introduce new concepts for students looking for an additional challenge.
+Weekly exercises are also available to students completing HPSP131 on
+Canvas.</p>
 <div id="syllabus" class="section level1">
 <h1>Syllabus</h1>
 <p>Each week, we will be tackling the following topics:</p>
@@ -435,27 +432,26 @@ challenge.</p>
 </div>
 <div id="weekly-exercises" class="section level1">
 <h1>Weekly Exercises</h1>
-<p>Exercises are available each week and are designed to reinforce
-content. These exercises are split into basic and advance sections. It
-is expected that students can complete the basic sections of each weekly
-exercise, with the advanced sections designed for students who want an
-extra challenge or learn additional functions in R. If you can
-successfully complete these exercises, then you should be able to easily
-complete the marked assessments.</p>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
+<p>For students completing HPSP131, exercises are available each week
+and are designed to reinforce content. These exercises are split into
+basic and advanced sections. It is expected that students can complete
+the basic sections of each weekly exercise, with the advanced sections
+designed for students who want an extra challenge or learn additional
+functions in R. If you can successfully complete these exercises, then
+you should be able to easily complete the marked assessments. Exercises
+are available on the HPSP131 Canvas page.</p>
 </div>
 <div id="before-you-start" class="section level1">
 <h1>Before You Start…</h1>
 <div id="complete-the-survey" class="section level2">
 <h2>Complete The Survey</h2>
-<p>Within these workbooks, we will be analysing real data collected in a
-survey at the beginning of semester. Before beginning the first
-workbook, it is a good idea to complete this survey yourself, as 1) it
-will give you an idea on how the data we are analysing was collected,
+<p>Within these demonstrations, we will be analysing real data collected
+in a survey at the beginning of semester. Before beginning the first
+demonstration, it is a good idea to complete this survey yourself, as 1)
+it will give you an idea on how the data we are analysing was collected,
 and 2) if no one does the survey, then we won’t have any data to
 analyse!</p>
-<p><a href = "https://research.sc/participant/login/dynamic/48494255-B600-40DE-B9DC-93C54E84DB63">You
+<p><a href = "https://research.sc/participant/login/dynamic/6E5EF4C3-20FB-4210-AFB6-65A3FA8E7800">You
 can access the survey by clicking here.</a></p>
 </div>
 <div id="download-r" class="section level2">
@@ -464,7 +460,7 @@ can access the survey by clicking here.</a></p>
 graphics. If you already have R installed on your computer, make sure
 you have the latest version. Otherwise, you can follow the instructions
 below to install R. R can be installed on most computers and laptops,
-but cannot be installed on tablets and some chromebooks.</p>
+but cannot generally be installed on tablets or Chromebooks.</p>
 <p>Note: Throughout the process of installing R and RStudio, do not
 change directories or roots. Always select the default options. Changing
 options can break links and cause many headaches down the line.</p>
@@ -490,11 +486,9 @@ here to go to the Rtools download site.</a></li>
 <li>Select the recommended version of Rtools.</li>
 <li>Open the downloaded install file and follow the instructions.</li>
 </ol>
-<p>Also note, for Windows users, sometimes after going through the
-RStudio install process, RStudio may be installed properly on your
-computer but did not create an icon on the desktop. You may need to
-search for RStudio in the menu (the button in the bottom left corner) to
-find it.</p>
+<p>Tip: Sometimes RStudio installs correctly but does not create a
+desktop icon. If this happens, search for “RStudio” using the Start menu
+(bottom-left Windows button).</p>
 </div>
 <div id="download-rstudio" class="section level2">
 <h2>Download RStudio</h2>
@@ -504,14 +498,13 @@ RStudio.</p>
 <ol style="list-style-type: decimal">
 <li><a href = https://www.rstudio.com/products/rstudio/download/ target = "_blank">Click
 here to go to the RStudio download website.</a></li>
-<li>Select the FREE RStudio Desktop Open Source License option.</li>
+<li>Select the RStudio Desktop version.</li>
 <li>Select the version for your operating system (Linux, MacOS, Windows,
 etc.)</li>
 <li>Open the downloaded file and follow the instructions.</li>
 </ol>
-<p>Note: Downloading both R and RStudio will usually results two
-different icons that can be opened to start R. For all material in this
-course, make sure to open RStudio, and not R.</p>
+<p>Note: Installing both R and RStudio will create two different icons.
+For this module, always open RStudio (not R).</p>
 <div class="float">
 <img src="images/RvsRstudio.png"
 alt="Make sure to open RStudio and not R" />
@@ -528,21 +521,13 @@ courses:</p>
 <ol style="list-style-type: decimal">
 <li><a href="https://swirlstats.com">Swirl</a></li>
 <li><a
-href="https://resources.rstudio.com/webinars/a-gentle-introduction-to-tidy-statistics-in-r">RStudio
+href="https://posit.co/resources/videos/a-gentle-introduction-to-tidy-statistics-in-r/">RStudio
 Webinars</a></li>
 <li><a href="http://swcarpentry.github.io/r-novice-gapminder/">R for
 Reproducible Scientific Analysis</a></li>
 <li><a
-href="https://www.computerworld.com/article/2497143/business-intelligence-beginner-s-guide-to-r-introduction.html">ComputerWorld
-Tutorial</a></li>
-<li><a
 href="https://www.datacamp.com/courses/free-introduction-to-r">datacamp</a></li>
-<li><a href="https://www.pluralsight.com/search?q=R">tryR</a></li>
-<li><a
-href="https://www.coursera.org/learn/r-programming">coursera</a></li>
-<li><a
-href="https://www.teamleada.com/courses/r-bootcamp">leada</a></li>
-<li>Google “r tutorials” for more.</li>
+<li>Google “r tutorials” for more or ask ChatGPT.</li>
 </ol>
 <p>Note: Often there are more than one way to do things in R. During
 this module, I will primarily be teaching R using the tidyverse

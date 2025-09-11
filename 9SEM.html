@@ -11,9 +11,9 @@
 
 
 
-<title>HPSP131 - Workbook 9 - Path Analysis and Structural Equation Modelling</title>
+<title>HPSP131 - Demonstration 9 - Path Analysis and Structural Equation Modelling</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -386,9 +386,6 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="exercises.html">Exercises</a>
-</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -398,8 +395,8 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Workbook 9 - Path Analysis and
-Structural Equation Modelling</h1>
+<h1 class="title toc-ignore">HPSP131 - Demonstration 9 - Path Analysis
+and Structural Equation Modelling</h1>
 
 </div>
 
@@ -408,7 +405,7 @@ Structural Equation Modelling</h1>
 <h1>Objectives</h1>
 <p>The aim of this week is to introduce the <code>lavaan</code> package
 for Structural Equation Modelling (e.g., path analysis) in R. By the end
-of this workbook, you should be familiar with:</p>
+of this demonstration, you should be familiar with:</p>
 <ol style="list-style-type: decimal">
 <li>The basics of the lavaan package.</li>
 <li>Run a simple path analysis.</li>
@@ -427,19 +424,14 @@ pdf</a></p>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
 <p><a href = files/data_2024.csv download>Click here to download the
-data used in these workbooks.</a> (You may need to right-click and
+data used in these demonstrations.</a> (You may need to right-click and
 select ‘Save Linked File’ option)</p>
-</div>
-<div id="exercises" class="section level1">
-<h1>Exercises</h1>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
 </div>
 <div id="content" class="section level1">
 <h1>Content</h1>
-<p>We will be using the following packages in this week’s workbook. If
-you’ve been following along with the demonstrations, this is the first
-time we’ve used the <code>lavaan</code> and <code>semPlot</code>
+<p>We will be using the following packages in this week’s demonstration.
+If you’ve been following along with the demonstrations, this is the
+first time we’ve used the <code>lavaan</code> and <code>semPlot</code>
 packages, so make sure to install these first before loading them. The
 <code>lavaan</code> package includes functions that allow us to conduct
 the analyses, while the <code>semPlot</code> package includes functions
@@ -450,12 +442,13 @@ library(semPlot)</code></pre>
 <div id="before-we-continue" class="section level2">
 <h2>Before We Continue…</h2>
 <p>We are about to start using the <code>lavaan</code> package, which is
-used for path analyses and structural equation models. This workbook is
-only meant to serve as an introduction to the <code>lavaan</code>
-package, and therefore we will only discuss some of the basic functions.
-You are able to add a lot of complexity to structural equation models
-that we will not be touching. If you truly wish to master this package,
-you will need to go beyond the content covered here.</p>
+used for path analyses and structural equation models. This
+demonstration is only meant to serve as an introduction to the
+<code>lavaan</code> package, and therefore we will only discuss some of
+the basic functions. You are able to add a lot of complexity to
+structural equation models that we will not be touching. If you truly
+wish to master this package, you will need to go beyond the content
+covered here.</p>
 </div>
 <div id="mediation-analysis-through-structural-equation-modelling-sem"
 class="section level2">
@@ -486,9 +479,9 @@ and exercise behaviour.</p>
          intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5,
          behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5) %&gt;%
   dplyr::select(student.no,attitude,intention,behaviour) %&gt;%
-  filter(!is.na(attitude)) %&gt;%
-  filter(!is.na(intention)) %&gt;%
-  filter(!is.na(behaviour))</code></pre>
+  drop_na(attitude) %&gt;%
+  drop_na(intention) %&gt;%
+  drop_na(behaviour)</code></pre>
 </div>
 <div id="run-statistical-test." class="section level3">
 <h3>2. Run statistical test.</h3>
@@ -542,13 +535,13 @@ constructing a SEM.</p>
 <p>Note: you can also label parameters by using the <code>*</code>
 symbol before variables. If you give two variables the same label, it
 will force the estimates to be the same (this comes in handy sometimes,
-but not something we will use in this workbook). Note: the label you
-give cannot have the same name as a variable in the data.frame
+but not something we will use in this demonstration). Note: the label
+you give cannot have the same name as a variable in the data.frame
 (otherwise R will think you are referring to that variable and multiply
 to two together!).</p>
 <p>Below is the formula to conduct a mediation analysis identical to the
-one we conducted in Workbook 8. See if you can understand each line and
-what relationship it is specifying before reading the breakdown.
+one we conducted in Demonstration 8. See if you can understand each line
+and what relationship it is specifying before reading the breakdown.
 Remember, each line of code can be read as relationships between
 variables in the model.</p>
 <pre class="r"><code>sem.formula &lt;- &#39;
@@ -620,7 +613,7 @@ indicators, and ‘rsquare’ to <code>TRUE</code> to get an r-square
 statistics for the model.</p>
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)</code></pre>
 <pre class="r"><code>summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-18 ended normally after 1 iteration
+<pre><code>## lavaan 0.6-19 ended normally after 1 iteration
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -740,11 +733,11 @@ Something we have done many times now.</p>
          norms = exercise.norms.1 + exercise.norms.2 + exercise.norms.3 + exercise.norms.4 + exercise.norms.5,
          behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5) %&gt;%
   dplyr::select(student.no,attitude,intention,control,norms,behaviour) %&gt;%
-  filter(!is.na(attitude)) %&gt;%
-  filter(!is.na(intention)) %&gt;%
-  filter(!is.na(control)) %&gt;%
-  filter(!is.na(norms)) %&gt;%
-  filter(!is.na(behaviour))</code></pre>
+  drop_na(attitude) %&gt;%
+  drop_na(intention) %&gt;%
+  drop_na(control) %&gt;%
+  drop_na(norms) %&gt;%
+  drop_na(behaviour)</code></pre>
 </div>
 <div id="run-statistical-test.-1" class="section level3">
 <h3>2. Run statistical test.</h3>
@@ -766,7 +759,7 @@ behaviour.</p>
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data2.clean)</code></pre>
 <pre class="r"><code>summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-18 ended normally after 46 iterations
+<pre><code>## lavaan 0.6-19 ended normally after 47 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -927,7 +920,7 @@ of the individual items.</p>
 
 attitude.model &lt;- sem(attitude.formula,data = data)</code></pre>
 <pre class="r"><code>summary(attitude.model,standardized = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-18 ended normally after 28 iterations
+<pre><code>## lavaan 0.6-19 ended normally after 28 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
@@ -1001,13 +994,11 @@ variable.</p>
 <pre class="r"><code>semPaths(sem.model3,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
 <p><img src="9SEM_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 </div>
-<div id="exercises-1" class="section level1">
+<div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p>Now that you’ve completed this week’s workbook, why not give this
-week’s exercises a go? You can download the interactive exercises by
-clicking the link below.</p>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
+<p>Now that you’ve completed this week’s demonstration, why not give
+this week’s exercises a go? For students on HPSP131, you can access the
+interactive exercises through the HPSP131 Canvas page.</p>
 </div>
 
 

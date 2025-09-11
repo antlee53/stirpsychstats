@@ -11,9 +11,9 @@
 
 
 
-<title>HPSP131 - Workbook 8 - Power and Mediation</title>
+<title>HPSP131 - Demonstration 8 - Power and Mediation</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -386,9 +386,6 @@ div.tocify {
     </li>
   </ul>
 </li>
-<li>
-  <a href="exercises.html">Exercises</a>
-</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -398,7 +395,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">HPSP131 - Workbook 8 - Power and
+<h1 class="title toc-ignore">HPSP131 - Demonstration 8 - Power and
 Mediation</h1>
 
 </div>
@@ -408,7 +405,7 @@ Mediation</h1>
 <h1>Objectives</h1>
 <p>There are two separate aims for this week. We will be covering power
 analyses in R, as well as conducting mediation analyses. By the end of
-this workbook, you should be able to:</p>
+this demonstration, you should be able to:</p>
 <ol style="list-style-type: decimal">
 <li>Use functions from the <code>pwr</code> packages for power analyses
 for standard statistical tests.</li>
@@ -423,23 +420,18 @@ for standard statistical tests.</li>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
 <p><a href = files/data_2024.csv download>Click here to download the
-data used in these workbooks.</a> (You may need to right-click and
+data used in these demonstrations.</a> (You may need to right-click and
 select ‘Save Linked File’ option)</p>
-</div>
-<div id="exercises" class="section level1">
-<h1>Exercises</h1>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
 </div>
 <div id="content" class="section level1">
 <h1>Content</h1>
-<p>These are the packages we will be using in this workbook. If you’ve
-been following the workbook sequentially, you should be familiar with
-the <code>tidyverse</code> and <code>lm.beta</code> packages. The
-<code>pwr</code> and <code>pwrss</code> packages are used to conduct
-standard power analyses for common statistical tests, while the
-<code>psych</code> package has many useful functions; however, we will
-just be using it to run a mediation analysis via bootstrapping. As
+<p>These are the packages we will be using in this demonstration. If
+you’ve been following the demonstrations sequentially, you should be
+familiar with the <code>tidyverse</code> and <code>lm.beta</code>
+packages. The <code>pwr</code> and <code>pwrss</code> packages are used
+to conduct standard power analyses for common statistical tests, while
+the <code>psych</code> package has many useful functions; however, we
+will just be using it to run a mediation analysis via bootstrapping. As
 always, for the packages that you are encountering for the first time,
 make sure to install them onto your computer first.</p>
 <pre class="r"><code>library(pwr)
@@ -759,9 +751,9 @@ This process should be fairly familiar by now.</p>
          intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5,
          behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5) %&gt;%
   dplyr::select(student.no,attitude,intention,behaviour) %&gt;%
-  filter(!is.na(attitude)) %&gt;%
-  filter(!is.na(intention)) %&gt;%
-  filter(!is.na(behaviour))</code></pre>
+  drop_na(attitude) %&gt;%
+  drop_na(intention) %&gt;%
+  drop_na(behaviour)</code></pre>
 </div>
 <div id="run-statistical-test" class="section level3">
 <h3>2. Run statistical test</h3>
@@ -884,7 +876,7 @@ model</code></pre>
 ## Total effect(c) of  attitude  on  behaviour  =  0.41   S.E. =  0.1  t  =  3.92  df=  78   with p =  0.00019
 ## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.37   S.E. =  0.11  t  =  3.5  df=  77   with p =  0.00077
 ## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  0.04 
-## Mean bootstrapped indirect effect =  0.04  with standard error =  0.03  Lower CI =  -0.01    Upper CI =  0.11
+## Mean bootstrapped indirect effect =  0.04  with standard error =  0.03  Lower CI =  -0.02    Upper CI =  0.11
 ## R = 0.43 R2 = 0.19   F = 8.96 on 2 and 77 DF   p-value:  3.66e-05 
 ## 
 ##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
@@ -933,7 +925,7 @@ exercise attitudes on behaviour was significant (beta = 0.41, p &lt;
 .001). When intentions to exercise was included into the model, the
 direct effect of attitudes on behaviour was still significant (beta =
 0.37, p = 0.001). Mediation analysis found a non-significant indirect
-effect (mean bootstrapped indirect effect = 0.37, 95% CI = -0.01, 0.11).
+effect (mean bootstrapped indirect effect = 0.37, 95% CI = -0.02, 0.11).
 This would indicate intentions to exercise does not mediates the
 association between exercise attitudes and exercise behaviour.</p>
 </blockquote>
@@ -942,13 +934,11 @@ easier to report the separate models in a table.</p>
 </div>
 </div>
 </div>
-<div id="exercises-1" class="section level1">
+<div id="exercises" class="section level1">
 <h1>Exercises</h1>
-<p>Now that you’ve completed this week’s workbook, why not give this
-week’s exercises a go? You can download the interactive exercises by
-clicking the link below.</p>
-<p><a href = "exercises.html">Click here to download this week’s
-exercises.</a></p>
+<p>Now that you’ve completed this week’s demonstration, why not give
+this week’s exercises a go? For students on HPSP131, you can access the
+interactive exercises through the HPSP131 Canvas page.</p>
 <pre class="r"><code>rm(list=setdiff(ls(), &quot;data.name&quot;))</code></pre>
 </div>
 
