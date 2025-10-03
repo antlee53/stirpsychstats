@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Demonstration 2 - Data Skills: Data Frames and Descriptive Statistics</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -423,7 +423,7 @@ files).</li>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/data_2024.csv download>Click here to download the
+<p><a href = files/data_2025.csv download>Click here to download the
 data used in these demonstrations.</a> (You may need to right-click and
 select ‘Save Linked File’ option)</p>
 </div>
@@ -599,7 +599,7 @@ the class data set is already in the correct format.</p>
 <pre class="r"><code>#Remember to load the tidyverse library if you haven&#39;t already.
 #The exact directory the file is in may differ depending on where the data file is on your computer.
 
-data &lt;- read_csv(&quot;data_2023.csv&quot;)</code></pre>
+data &lt;- read_csv(&quot;data_2025.csv&quot;)</code></pre>
 <p>Once data is loaded, you can view the data.frame by either clicking
 on the data.frame icon in the work space, or using the
 <code>View()</code> function in the console. This will open a tab in the
@@ -726,7 +726,7 @@ information on indexing.</a></p>
 <pre class="r"><code>table(data$aus.animal)</code></pre>
 <pre><code>## 
 ##  echidna kangaroo    koala platypus   wombat 
-##       10       13       24       18       15</code></pre>
+##        5       12       43       13       15</code></pre>
 <p>So above, we see that there are five separate values (if we ignore
 missing data), and the most frequent response was
 <code>koala</code>.</p>
@@ -782,7 +782,7 @@ the code to calculate the mean and standard deviation of the variable
 <pre><code>## # A tibble: 1 × 2
 ##   stats_exp.mean stats_exp.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.29         2.06</code></pre>
+## 1           4.39         2.13</code></pre>
 <p>A couple of things to note. First, I have broken the above code
 across several lines. This is just to make it easier to read (remember R
 ignores white space inside an incomplete command). Second, it doesn’t
@@ -800,12 +800,14 @@ multiple variables:</p>
 <pre><code>## # A tibble: 1 × 4
 ##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.29         2.06           5.59         2.30</code></pre>
+## 1           4.39         2.13           6.23         2.34</code></pre>
 <p>Note: An annoying thing about the <code>summarise()</code> function
 is that sometimes it will not show results to two-decimal places (which
 is the requirement for APA format). To see all the decimal places, you
 can <code>View()</code> the data.frame produced by the
-<code>summarise()</code> function.</p>
+<code>summarise()</code> function or you could run the following code in
+your console.</p>
+<pre class="r"><code>options(pillar.digsit = 10)</code></pre>
 </div>
 </div>
 </div>

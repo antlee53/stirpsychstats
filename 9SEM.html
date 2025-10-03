@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Demonstration 9 - Path Analysis and Structural Equation Modelling</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -619,7 +619,7 @@ statistics for the model.</p>
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                         5
 ## 
-##   Number of observations                            80
+##   Number of observations                            88
 ## 
 ## Model Test User Model:
 ##                                                       
@@ -628,7 +628,7 @@ statistics for the model.</p>
 ## 
 ## Model Test Baseline Model:
 ## 
-##   Test statistic                                20.891
+##   Test statistic                                83.926
 ##   Degrees of freedom                                 3
 ##   P-value                                        0.000
 ## 
@@ -639,12 +639,12 @@ statistics for the model.</p>
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)               -520.013
-##   Loglikelihood unrestricted model (H1)       -520.013
+##   Loglikelihood user model (H0)               -570.526
+##   Loglikelihood unrestricted model (H1)       -570.526
 ##                                                       
-##   Akaike (AIC)                                1050.026
-##   Bayesian (BIC)                              1061.936
-##   Sample-size adjusted Bayesian (SABIC)       1046.170
+##   Akaike (AIC)                                1151.051
+##   Bayesian (BIC)                              1163.438
+##   Sample-size adjusted Bayesian (SABIC)       1147.660
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
@@ -667,26 +667,26 @@ statistics for the model.</p>
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   behaviour ~                                                           
-##     attitude   (c)    0.591    0.165    3.572    0.000    0.591    0.369
-##     intention  (b)    0.177    0.114    1.557    0.119    0.177    0.161
+##     attitude   (c)    0.075    0.124    0.606    0.544    0.075    0.104
+##     intention  (b)   -0.047    0.116   -0.406    0.685   -0.047   -0.069
 ##   intention ~                                                           
-##     attitude   (a)    0.327    0.158    2.064    0.039    0.327    0.225
+##     attitude   (a)    0.831    0.070   11.807    0.000    0.831    0.783
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .behaviour        39.633    6.267    6.325    0.000   39.633    0.811
-##    .intention        38.279    6.052    6.325    0.000   38.279    0.949
+##    .behaviour        41.824    6.305    6.633    0.000   41.824    0.996
+##    .intention        35.068    5.287    6.633    0.000   35.068    0.387
 ## 
 ## R-Square:
 ##                    Estimate
-##     behaviour         0.189
-##     intention         0.051
+##     behaviour         0.004
+##     intention         0.613
 ## 
 ## Defined Parameters:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##     indirect          0.058    0.047    1.243    0.214    0.058    0.036
-##     direct            0.591    0.165    3.572    0.000    0.591    0.369
-##     total             0.649    0.164    3.965    0.000    0.649    0.405</code></pre>
+##     indirect         -0.039    0.097   -0.406    0.685   -0.039   -0.054
+##     direct            0.075    0.124    0.606    0.544    0.075    0.104
+##     total             0.036    0.077    0.464    0.643    0.036    0.049</code></pre>
 <p>If we compare the results here to mediation, we should see that we
 get very similar, if not the same, results.</p>
 </div>
@@ -759,51 +759,51 @@ behaviour.</p>
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data2.clean)</code></pre>
 <pre class="r"><code>summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-19 ended normally after 47 iterations
+<pre><code>## lavaan 0.6-19 ended normally after 56 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                        14
 ## 
-##   Number of observations                            80
+##   Number of observations                            88
 ## 
 ## Model Test User Model:
 ##                                                       
-##   Test statistic                                 2.777
+##   Test statistic                                 3.406
 ##   Degrees of freedom                                 1
-##   P-value (Chi-square)                           0.096
+##   P-value (Chi-square)                           0.065
 ## 
 ## Model Test Baseline Model:
 ## 
-##   Test statistic                                76.303
+##   Test statistic                               197.836
 ##   Degrees of freedom                                10
 ##   P-value                                        0.000
 ## 
 ## User Model versus Baseline Model:
 ## 
-##   Comparative Fit Index (CFI)                    0.973
-##   Tucker-Lewis Index (TLI)                       0.732
+##   Comparative Fit Index (CFI)                    0.987
+##   Tucker-Lewis Index (TLI)                       0.872
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)              -1218.923
-##   Loglikelihood unrestricted model (H1)      -1217.534
+##   Loglikelihood user model (H0)              -1402.655
+##   Loglikelihood unrestricted model (H1)      -1400.952
 ##                                                       
-##   Akaike (AIC)                                2465.845
-##   Bayesian (BIC)                              2499.193
-##   Sample-size adjusted Bayesian (SABIC)       2455.046
+##   Akaike (AIC)                                2833.310
+##   Bayesian (BIC)                              2867.993
+##   Sample-size adjusted Bayesian (SABIC)       2823.815
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
-##   RMSEA                                          0.149
+##   RMSEA                                          0.165
 ##   90 Percent confidence interval - lower         0.000
-##   90 Percent confidence interval - upper         0.370
-##   P-value H_0: RMSEA &lt;= 0.050                    0.129
-##   P-value H_0: RMSEA &gt;= 0.080                    0.821
+##   90 Percent confidence interval - upper         0.372
+##   P-value H_0: RMSEA &lt;= 0.050                    0.095
+##   P-value H_0: RMSEA &gt;= 0.080                    0.859
 ## 
 ## Standardized Root Mean Square Residual:
 ## 
-##   SRMR                                           0.035
+##   SRMR                                           0.027
 ## 
 ## Parameter Estimates:
 ## 
@@ -814,34 +814,34 @@ behaviour.</p>
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   intention ~                                                           
-##     attitude          0.062    0.152    0.410    0.682    0.062    0.043
-##     norms             0.436    0.083    5.256    0.000    0.436    0.495
-##     control           0.427    0.169    2.531    0.011    0.427    0.262
+##     attitude          0.483    0.068    7.096    0.000    0.483    0.455
+##     norms             0.464    0.057    8.083    0.000    0.464    0.524
+##     control           0.001    0.137    0.010    0.992    0.001    0.001
 ##   behaviour ~                                                           
-##     intention         0.125    0.111    1.130    0.258    0.125    0.114
-##     control           0.518    0.195    2.652    0.008    0.518    0.289
-##     attitude          0.407    0.173    2.352    0.019    0.407    0.254
+##     intention        -0.093    0.108   -0.859    0.390   -0.093   -0.136
+##     control           0.720    0.182    3.967    0.000    0.720    0.391
+##     attitude          0.098    0.114    0.863    0.388    0.098    0.136
 ## 
 ## Covariances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   attitude ~~                                                           
-##     norms             4.336    3.549    1.222    0.222    4.336    0.138
-##     control           7.390    2.074    3.563    0.000    7.390    0.434
+##     norms            60.247   12.113    4.974    0.000   60.247    0.625
+##     control           1.598    3.370    0.474    0.635    1.598    0.051
 ##   norms ~~                                                              
-##     control          -1.594    3.143   -0.507    0.612   -1.594   -0.057
+##     control           5.923    4.085    1.450    0.147    5.923    0.156
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .intention        27.569    4.359    6.325    0.000   27.569    0.684
-##    .behaviour        36.430    5.760    6.325    0.000   36.430    0.746
-##     attitude         19.069    3.015    6.325    0.000   19.069    1.000
-##     norms            51.865    8.201    6.325    0.000   51.865    1.000
-##     control          15.185    2.401    6.325    0.000   15.185    1.000
+##    .intention        19.899    3.000    6.633    0.000   19.899    0.220
+##    .behaviour        35.478    5.349    6.633    0.000   35.478    0.845
+##     attitude         80.349   12.113    6.633    0.000   80.349    1.000
+##     norms           115.512   17.414    6.633    0.000  115.512    1.000
+##     control          12.409    1.871    6.633    0.000   12.409    1.000
 ## 
 ## R-Square:
 ##                    Estimate
-##     intention         0.316
-##     behaviour         0.254</code></pre>
+##     intention         0.780
+##     behaviour         0.155</code></pre>
 <p>Notice above in the <code>summary()</code> function, we have included
 the additional arguments to get extra statistics that are helpful when
 it comes to report the analysis.</p>
@@ -894,8 +894,8 @@ chi-square difference test.</p>
 ## Chi-Squared Difference Test
 ## 
 ##            Df    AIC    BIC   Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)    
-## sem.model   1 2465.8 2499.2  2.7772                                          
-## sem.model2  3 2480.4 2509.0 21.3544     18.577 0.32188       2  9.247e-05 ***
+## sem.model   1 2833.3 2868.0  3.4057                                          
+## sem.model2  3 2844.2 2873.9 18.2521     14.846 0.27017       2  0.0005972 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Above, we find that there is a significant difference between the two
@@ -920,19 +920,19 @@ of the individual items.</p>
 
 attitude.model &lt;- sem(attitude.formula,data = data)</code></pre>
 <pre class="r"><code>summary(attitude.model,standardized = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-19 ended normally after 28 iterations
+<pre><code>## lavaan 0.6-19 ended normally after 23 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
 ##   Number of model parameters                        10
 ## 
-##   Number of observations                            80
+##   Number of observations                            88
 ## 
 ## Model Test User Model:
 ##                                                       
-##   Test statistic                                 7.767
+##   Test statistic                                 3.696
 ##   Degrees of freedom                                 5
-##   P-value (Chi-square)                           0.170
+##   P-value (Chi-square)                           0.594
 ## 
 ## Parameter Estimates:
 ## 
@@ -943,20 +943,20 @@ attitude.model &lt;- sem(attitude.formula,data = data)</code></pre>
 ## Latent Variables:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   attitude =~                                                           
-##     exercis.tttd.1    1.000                               0.741    0.638
-##     exercis.tttd.2    1.526    0.286    5.330    0.000    1.131    0.868
-##     exercis.tttd.3   -0.206    0.352   -0.586    0.558   -0.153   -0.072
-##     exercis.tttd.4    0.889    0.193    4.607    0.000    0.659    0.627
-##     exercis.tttd.5    1.331    0.273    4.875    0.000    0.987    0.675
+##     exercis.tttd.1    1.000                               1.646    0.937
+##     exercis.tttd.2    1.179    0.081   14.479    0.000    1.940    0.895
+##     exercis.tttd.3    0.910    0.134    6.793    0.000    1.498    0.611
+##     exercis.tttd.4    1.080    0.061   17.610    0.000    1.778    0.951
+##     exercis.tttd.5    1.043    0.093   11.221    0.000    1.717    0.812
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .exercis.tttd.1    0.800    0.149    5.365    0.000    0.800    0.593
-##    .exercis.tttd.2    0.418    0.173    2.425    0.015    0.418    0.246
-##    .exercis.tttd.3    4.536    0.718    6.318    0.000    4.536    0.995
-##    .exercis.tttd.4    0.671    0.124    5.429    0.000    0.671    0.607
-##    .exercis.tttd.5    1.166    0.228    5.118    0.000    1.166    0.545
-##     attitude          0.550    0.189    2.906    0.004    1.000    1.000</code></pre>
+##    .exercis.tttd.1    0.380    0.087    4.356    0.000    0.380    0.123
+##    .exercis.tttd.2    0.933    0.172    5.409    0.000    0.933    0.199
+##    .exercis.tttd.3    3.760    0.582    6.461    0.000    3.760    0.626
+##    .exercis.tttd.4    0.336    0.091    3.711    0.000    0.336    0.096
+##    .exercis.tttd.5    1.524    0.251    6.064    0.000    1.524    0.341
+##     attitude          2.709    0.467    5.804    0.000    1.000    1.000</code></pre>
 <pre class="r"><code>semPaths(attitude.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
 <p><img src="9SEM_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>How about we compute latent variables for all the variables in the

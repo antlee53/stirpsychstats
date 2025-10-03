@@ -13,7 +13,7 @@
 
 <title>HPSP131 - Demonstration 8 - Power and Mediation</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -419,7 +419,7 @@ for standard statistical tests.</li>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/data_2024.csv download>Click here to download the
+<p><a href = files/data_2025.csv download>Click here to download the
 data used in these demonstrations.</a> (You may need to right-click and
 select ‘Save Linked File’ option)</p>
 </div>
@@ -776,18 +776,18 @@ to conduct a series of linear regressions.</p>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -14.3112  -4.0138   0.4732   3.1144  18.2836 
+## -13.1611  -5.4109  -0.4827   4.2493  17.1601 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  -4.5011           NA     4.5440  -0.991 0.324970    
-## attitude      0.6487       0.4053     0.1657   3.915 0.000192 ***
+## (Intercept) 12.30466           NA    1.94453   6.328 1.08e-08 ***
+## attitude     0.03568      0.04935    0.07787   0.458    0.648    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.472 on 78 degrees of freedom
-## Multiple R-squared:  0.1642, Adjusted R-squared:  0.1535 
-## F-statistic: 15.33 on 1 and 78 DF,  p-value: 0.0001921</code></pre>
+## Residual standard error: 6.548 on 86 degrees of freedom
+## Multiple R-squared:  0.002436,   Adjusted R-squared:  -0.009164 
+## F-statistic:  0.21 on 1 and 86 DF,  p-value: 0.6479</code></pre>
 </div>
 <div id="model-2" class="section level4">
 <h4>Model 2</h4>
@@ -803,19 +803,19 @@ outcome variable (behaviour):</p>
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -15.4020  -3.3048   0.2817   3.1691  18.7324 
+## -13.7671  -5.4029  -0.5625   4.0435  17.1911 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  -7.2219           NA     4.8450  -1.491 0.140154    
-## attitude      0.5908       0.3691     0.1686   3.504 0.000767 ***
-## intention     0.1771       0.1609     0.1160   1.527 0.130739    
+## (Intercept) 12.39304           NA    1.96663   6.302 1.26e-08 ***
+## attitude     0.07497      0.10369    0.12580   0.596    0.553    
+## intention   -0.04725     -0.06940    0.11845  -0.399    0.691    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.417 on 77 degrees of freedom
-## Multiple R-squared:  0.1888, Adjusted R-squared:  0.1678 
-## F-statistic: 8.962 on 2 and 77 DF,  p-value: 0.0003169</code></pre>
+## Residual standard error: 6.58 on 85 degrees of freedom
+## Multiple R-squared:  0.0043, Adjusted R-squared:  -0.01913 
+## F-statistic: 0.1835 on 2 and 85 DF,  p-value: 0.8327</code></pre>
 </div>
 <div id="model-3" class="section level4">
 <h4>Model 3</h4>
@@ -830,19 +830,19 @@ relationship between the predictor (attitude) and the mediator
 ## lm(formula = intention ~ attitude, data = data.clean)
 ## 
 ## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -17.880  -4.212   1.437   4.158  11.793 
+##      Min       1Q   Median       3Q      Max 
+## -14.4894  -3.1130   0.4941   4.2240  15.1626 
 ## 
 ## Coefficients:
 ##             Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  15.3613           NA     4.3996   3.492 0.000794 ***
-## attitude      0.3269       0.2248     0.1604   2.038 0.044957 *  
+## (Intercept)  1.87055           NA    1.77890   1.052    0.296    
+## attitude     0.83149      0.78296    0.07124  11.672   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 6.266 on 78 degrees of freedom
-## Multiple R-squared:  0.05055,    Adjusted R-squared:  0.03838 
-## F-statistic: 4.153 on 1 and 78 DF,  p-value: 0.04496</code></pre>
+## Residual standard error: 5.99 on 86 degrees of freedom
+## Multiple R-squared:  0.613,  Adjusted R-squared:  0.6085 
+## F-statistic: 136.2 on 1 and 86 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div id="mediation-analysis" class="section level4">
 <h4>Mediation Analysis</h4>
@@ -873,11 +873,11 @@ model</code></pre>
 ## 
 ## The DV (Y) was  behaviour . The IV (X) was  attitude . The mediating variable(s) =  intention .
 ## 
-## Total effect(c) of  attitude  on  behaviour  =  0.41   S.E. =  0.1  t  =  3.92  df=  78   with p =  0.00019
-## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.37   S.E. =  0.11  t  =  3.5  df=  77   with p =  0.00077
-## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  0.04 
-## Mean bootstrapped indirect effect =  0.04  with standard error =  0.03  Lower CI =  -0.02    Upper CI =  0.11
-## R = 0.43 R2 = 0.19   F = 8.96 on 2 and 77 DF   p-value:  3.66e-05 
+## Total effect(c) of  attitude  on  behaviour  =  0.05   S.E. =  0.11  t  =  0.46  df=  86   with p =  0.65
+## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.1   S.E. =  0.17  t  =  0.6  df=  85   with p =  0.55
+## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  -0.05 
+## Mean bootstrapped indirect effect =  -0.06  with standard error =  0.14  Lower CI =  -0.34    Upper CI =  0.2
+## R = 0.07 R2 = 0   F = 0.18 on 2 and 85 DF   p-value:  0.907 
 ## 
 ##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
 <p>Most of the information above is what we have encountered previously
@@ -921,11 +921,11 @@ accompany the write-up with a path diagram such as the one above.</p>
 <p>A mediation analysis via bootstrapping was conducted to assess
 whether the association between attitudes towards exercise and exercise
 behaviour was mediated by intentions to exercise. The total effect of
-exercise attitudes on behaviour was significant (beta = 0.41, p &lt;
-.001). When intentions to exercise was included into the model, the
-direct effect of attitudes on behaviour was still significant (beta =
-0.37, p = 0.001). Mediation analysis found a non-significant indirect
-effect (mean bootstrapped indirect effect = 0.37, 95% CI = -0.02, 0.11).
+exercise attitudes on behaviour wasnot significant (beta = 0.05, p =
+0.648). When intentions to exercise was included into the model, the
+direct effect of attitudes on behaviour was now non-significant (beta =
+0.1, p = 0.553). Mediation analysis found a non-significant indirect
+effect (mean bootstrapped indirect effect = 0.1, 95% CI = -0.34, 0.2).
 This would indicate intentions to exercise does not mediates the
 association between exercise attitudes and exercise behaviour.</p>
 </blockquote>
