@@ -405,8 +405,8 @@ Linear Model: t-tests and ANOVA</h1>
 <h1>Objectives</h1>
 <p>The aim of this week is to introduce the General Linear Model (GLM)
 in R and provide a practical guide for analysing data with a categorical
-IV and and continuous DV. By the end of this demonstration, you should
-be able to:</p>
+IV and continuous DV. By the end of this demonstration, you should be
+able to:</p>
 <ol style="list-style-type: decimal">
 <li>Perform an independent-samples t-test in R.</li>
 <li>Perform a paired-samples t-test in R.</li>
@@ -541,7 +541,7 @@ different.</p>
 <p>Violin plots are good for representing the distributions of scores on
 the DV between groups, and can be created using
 <code>geom_violin()</code>. All aesthetics are identical to the box plot
-above. If you want to includes visualisations of each individual data
+above. If you want to include visualisations of each individual data
 point, you can use <code>geom_jitter()</code>. You can also visualise
 the mean and standard error using the <code>stat_summary()</code>
 function.</p>
@@ -564,7 +564,7 @@ and continuous DV, aim to use a box plot, or better yet a violin
 plot.</p>
 <p>In a bar graph, the height of the bars represent the mean for each
 group. If you’re lucky, you may get error bars, which usually represents
-the standard error. In the example below, the error bars represents the
+the standard error. In the example below, the error bars represent the
 standard error of the mean for each group on the introversion scale.
 Note that we have to calculate the standard error ourselves.</p>
 <pre class="r"><code>data1.summary &lt;- data1.clean %&gt;%
@@ -623,7 +623,7 @@ test.</li>
 <li>the p-value from the statistical test.</li>
 <li>The mean on the DV for both groups.</li>
 <li>The standard deviations on the DV for both groups.</li>
-<li>The effect size (Cohen’s d)</li>
+<li>The effect size (Cohen’s d).</li>
 </ul>
 <p>The first three items can be obtained from the output of
 <code>t.test()</code> above; however, we need to do some extra things to
@@ -875,8 +875,8 @@ samples t-test is used when data is collected from the same participant
 in two separate conditions (i.e., a within-subjects design). A common
 example of this is testing for significant differences in an outcome
 variable before and after a treatment or intervention.</p>
-<p>In the example below, we test whether mood is influenced by exposure
-to a cute cat video. <a
+<p>In the example below, we test whether mood improves by exposure to a
+cute cat video. <a
 href="https://www.youtube.com/watch?v=1CXmnm_epTM">Click here to see
 that video.</a>. We would expect that mood would improve after viewing
 the cat video.</p>
