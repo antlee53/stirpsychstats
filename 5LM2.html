@@ -405,7 +405,7 @@ Linear Model: Correlation and Regression</h1>
 <h1>Objectives</h1>
 <p>The aim of this week is to continue working through the General
 Linear Model (GLM) in R and provide a practical guide for analysing data
-with a continuous IV and and continuous DV. By the end of this
+with a continuous IV and continuous DV. By the end of this
 demonstration, you should be able to:</p>
 <ol style="list-style-type: decimal">
 <li>Perform a correlation in R.</li>
@@ -484,7 +484,7 @@ you if your significant correlation is due to a small number of
 outliers.</p>
 <p>Usually in a scatterplot, each point represents a single participant,
 with each variable on the x- and y-axis. Technically this is
-interchangable, but usually your IV and DV (according to your
+interchangeable, but usually your IV and DV (according to your
 hypothesis) would be on the x- and y-axis respectively.</p>
 <p>In the code below, the <code>geom_point()</code> function adds the
 points on the scatterplot. The <code>geom_smooth()</code> function adds
@@ -502,7 +502,7 @@ can also use <code>geom_jitter()</code> instead of
 </div>
 </div>
 <div id="run-statistical-test" class="section level3">
-<h3>3. Run statistical test</h3>
+<h3>3. Run Statistical Test</h3>
 <p>To run the correlation, we can use the <code>cor.test()</code>
 function. Similar to analyses we have covered previously, this function
 requires a formula, and a data.frame.</p>
@@ -576,7 +576,7 @@ as with a correlation, so let’s skip this step as it would be identical
 to what we did above with the correlation.</p>
 </div>
 <div id="run-statistical-test-1" class="section level3">
-<h3>3. Run statistical test</h3>
+<h3>3. Run Statistical Test</h3>
 <p>To run a regression, we use the <code>lm()</code> function, which
 stands for ‘linear model’. Again, the first argument of this function is
 the analysis formula, and the second is the data.frame being analysed.
@@ -797,8 +797,8 @@ was found between perceived stress and poor sleep quality; however, a
 positive relationship was found between social support and sleep
 quality.</p>
 </blockquote>
-<p>Table 1. Regression coefficients for linear model predicting
-intention to exercise.</p>
+<p>Table 1. Regression coefficients for linear model predicting sleep
+quality.</p>
 <table>
 <colgroup>
 <col width="16%" />
@@ -808,7 +808,7 @@ intention to exercise.</p>
 </colgroup>
 <thead>
 <tr class="header">
-<th>predictor</th>
+<th>Predictor</th>
 <th>beta</th>
 <th>t</th>
 <th>p-value</th>
@@ -816,16 +816,16 @@ intention to exercise.</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Stress</td>
+<td>Support</td>
 <td>-0.22</td>
 <td>-2.1</td>
-<td>0.04</td>
+<td>0.039</td>
 </tr>
 <tr class="even">
-<td>Support</td>
+<td>Stress</td>
 <td>0.3</td>
 <td>2.82</td>
-<td>0.01</td>
+<td>0.006</td>
 </tr>
 </tbody>
 </table>
