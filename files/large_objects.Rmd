@@ -8,7 +8,7 @@ library(broom)
 library(tidyverse)
 
 #UPDATE FILE BEFORE RUNNING
-data.name <- "data_2025.csv"
+data.name <- "data_2025_corrected.csv"
 
 data <- read.csv(data.name,stringsAsFactors = FALSE)
 ```
