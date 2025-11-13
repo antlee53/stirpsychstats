@@ -437,6 +437,7 @@ make sure to install them onto your computer first.</p>
 <pre class="r"><code>library(pwr)
 library(pwrss)
 library(tidyverse)
+library(effectsize)
 library(lm.beta)
 library(psych)</code></pre>
 <div id="pwr-package" class="section level2">
@@ -600,26 +601,37 @@ needed.</p>
 <p>For a one-way ANOVA, we can use the <code>pwr.anova.test()</code>
 function. This analysis assumes there will be equal numbers in each
 group. Again, this function uses another measure of effect size, Cohen’s
-f, which you can use the following interpretations:</p>
+f. Typically, in psychology we use eta-squared rather than Cohen’s f as
+an effect size measure for an ANOVA. However, you can easily convert
+eta-squared values to Cohen’s f using the <code>eta2_to_f()</code>
+function from the <code>effectsize</code> package, like below:</p>
+<pre class="r"><code>eta2_to_f(.14)</code></pre>
+<pre><code>## [1] 0.4034733</code></pre>
+<p>Here are the conventional interpretations for both effect size
+measures:</p>
 <table>
 <thead>
 <tr class="header">
 <th>Effect size</th>
 <th>f</th>
+<th>eta-squared</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Small</td>
 <td>.10</td>
+<td>.01</td>
 </tr>
 <tr class="even">
 <td>Medium</td>
 <td>.25</td>
+<td>.06</td>
 </tr>
 <tr class="odd">
 <td>Large</td>
 <td>.40</td>
+<td>.14</td>
 </tr>
 </tbody>
 </table>
@@ -647,12 +659,15 @@ a total of 159 participants (rounded-up).</p>
 <code>pwrss.f.reg()</code> - this function comes from a separate
 package, <code>pwrss</code>. Here, for the effect size measure, you can
 use either the R-square (or the coefficient of determination) or a new
-effect size measure called Cohen’s f-squared. Note that this power
-analysis is for the overall model - to conduct a power analysis for the
-effect of one predictor in the model, you would need to use the
-difference in R-square (i.e., how much variance does your predictor
-explain above all the other covariates). See the table below for
-standard interpretations:</p>
+effect size measure called Cohen’s f-squared. Much like you can convert
+Cohen’s f and eta-squared above, you can convert Cohen’s f-squared to
+R-squared using the <code>f2_to_r2()</code> function from the
+<code>effectsize</code> package.</p>
+<p>Note that this power analysis is for the overall model - to conduct a
+power analysis for the effect of one predictor in the model, you would
+need to use the difference in R-square (i.e., how much variance does
+your predictor explain above all the other covariates). See the table
+below for standard interpretations:</p>
 <table>
 <thead>
 <tr class="header">
@@ -876,7 +891,7 @@ model</code></pre>
 ## Total effect(c) of  attitude  on  behaviour  =  0.05   S.E. =  0.11  t  =  0.46  df=  86   with p =  0.65
 ## Direct effect (c&#39;) of  attitude  on  behaviour  removing  intention  =  0.1   S.E. =  0.17  t  =  0.6  df=  85   with p =  0.55
 ## Indirect effect (ab) of  attitude  on  behaviour  through  intention   =  -0.05 
-## Mean bootstrapped indirect effect =  -0.06  with standard error =  0.13  Lower CI =  -0.33    Upper CI =  0.2
+## Mean bootstrapped indirect effect =  -0.06  with standard error =  0.13  Lower CI =  -0.33    Upper CI =  0.19
 ## R = 0.07 R2 = 0   F = 0.18 on 2 and 85 DF   p-value:  0.907 
 ## 
 ##  To see the longer output, specify short = FALSE in the print statement or ask for the summary</code></pre>
@@ -905,7 +920,7 @@ effect is through a path diagram. You can do this directly in the
 <code>TRUE</code> or use the <code>mediate.diagram()</code> like
 below:</p>
 <pre class="r"><code>mediate.diagram(model)</code></pre>
-<p><img src="8sim22_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="8sim22_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 </div>
 <div id="write-up-analysis." class="section level3">
@@ -925,7 +940,7 @@ exercise attitudes on behaviour wasnot significant (beta = 0.05, p =
 0.648). When intentions to exercise was included into the model, the
 direct effect of attitudes on behaviour was now non-significant (beta =
 0.1, p = 0.553). Mediation analysis found a non-significant indirect
-effect (mean bootstrapped indirect effect = 0.1, 95% CI = -0.33, 0.2).
+effect (mean bootstrapped indirect effect = 0.1, 95% CI = -0.33, 0.19).
 This would indicate intentions to exercise does not mediates the
 association between exercise attitudes and exercise behaviour.</p>
 </blockquote>
