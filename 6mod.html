@@ -422,7 +422,7 @@ and mixed-design)</li>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
-<p><a href = files/data_2025.csv download>Click here to download the
+<p><a href = files/data_2026.csv download>Click here to download the
 data used in these demonstrations.</a> (You may need to right-click and
 select ‘Save Linked File’ option)</p>
 </div>
@@ -574,21 +574,20 @@ summary(model1)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -7.6074 -3.3191 -0.7653  2.7712 11.3012 
+## -8.3343 -2.8617 -0.2535  2.7937  9.9412 
 ## 
 ## Coefficients:
 ##                    Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        14.41662    0.48067  29.993   &lt;2e-16 ***
-## c.stress            0.25693    0.12774   2.011   0.0477 *  
-## c.support          -0.10626    0.08272  -1.285   0.2028    
-## c.stress:c.support -0.03283    0.01957  -1.677   0.0975 .  
+## (Intercept)        13.71789    0.48756  28.136  &lt; 2e-16 ***
+## c.stress            0.62354    0.13141   4.745 9.74e-06 ***
+## c.support          -0.03681    0.08031  -0.458    0.648    
+## c.stress:c.support -0.01627    0.02862  -0.569    0.571    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.273 on 78 degrees of freedom
-##   (6 observations deleted due to missingness)
-## Multiple R-squared:  0.1601, Adjusted R-squared:  0.1278 
-## F-statistic: 4.955 on 3 and 78 DF,  p-value: 0.003357</code></pre>
+## Residual standard error: 4.333 on 75 degrees of freedom
+## Multiple R-squared:  0.233,  Adjusted R-squared:  0.2023 
+## F-statistic: 7.593 on 3 and 75 DF,  p-value: 0.0001681</code></pre>
 <p>Looking at the output above, notice how R automatically includes the
 main effects in the model. In most cases, you should include the
 separate main effects when investigating an interaction, but in the odd
@@ -611,21 +610,20 @@ model1 %&gt;%
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -7.6074 -3.3191 -0.7653  2.7712 11.3012 
+## -8.3343 -2.8617 -0.2535  2.7937  9.9412 
 ## 
 ## Coefficients:
 ##                    Estimate Standardized Std. Error t value Pr(&gt;|t|)    
-## (Intercept)        14.41662           NA    0.48067  29.993   &lt;2e-16 ***
-## c.stress            0.25693      0.21544    0.12774   2.011   0.0477 *  
-## c.support          -0.10626     -0.14792    0.08272  -1.285   0.2028    
-## c.stress:c.support -0.03283     -0.19323    0.01957  -1.677   0.0975 .  
+## (Intercept)        13.71789           NA    0.48756  28.136  &lt; 2e-16 ***
+## c.stress            0.62354      0.48180    0.13141   4.745 9.74e-06 ***
+## c.support          -0.03681     -0.04637    0.08031  -0.458    0.648    
+## c.stress:c.support -0.01627     -0.05776    0.02862  -0.569    0.571    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 4.273 on 78 degrees of freedom
-##   (6 observations deleted due to missingness)
-## Multiple R-squared:  0.1601, Adjusted R-squared:  0.1278 
-## F-statistic: 4.955 on 3 and 78 DF,  p-value: 0.003357</code></pre>
+## Residual standard error: 4.333 on 75 degrees of freedom
+## Multiple R-squared:  0.233,  Adjusted R-squared:  0.2023 
+## F-statistic: 7.593 on 3 and 75 DF,  p-value: 0.0001681</code></pre>
 </div>
 <div id="write-up-analysis." class="section level3">
 <h3>4. Write-up analysis.</h3>
@@ -652,12 +650,12 @@ effect is our third predictor).</p>
 <blockquote>
 <p>We used a linear regression to predict sleep quality from the level
 of perceived stress, level of social support, and the interaction
-between the two. We found that model explained 16.01% of the variance
-(F(3,78) = 4.95, p = 0.003). Regression coefficients are reported in
-Table 1. There was a significant, positive main effect of stress on
-sleep quality. There was no significant main effect of social support on
-sleep quality. The interaction between perceived stress and social
-support was not significant.</p>
+between the two. We found that model explained 23.3% of the variance
+(F(3,75) = 7.59, p = 0). Regression coefficients are reported in Table
+1. There was a significant, positive main effect of stress on sleep
+quality. There was no significant main effect of social support on sleep
+quality. The interaction between perceived stress and social support was
+not significant.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting
 stress.</p>
@@ -679,21 +677,21 @@ stress.</p>
 <tbody>
 <tr class="odd">
 <td>Perceived Stress</td>
-<td>0.22</td>
-<td>2.01</td>
-<td>0.048</td>
+<td>0.48</td>
+<td>4.75</td>
+<td>0</td>
 </tr>
 <tr class="even">
 <td>Social Support</td>
-<td>-0.15</td>
-<td>-1.28</td>
-<td>0.203</td>
+<td>-0.05</td>
+<td>-0.46</td>
+<td>0.648</td>
 </tr>
 <tr class="odd">
 <td>PS * SS</td>
-<td>-0.19</td>
-<td>-1.68</td>
-<td>0.098</td>
+<td>-0.06</td>
+<td>-0.57</td>
+<td>0.571</td>
 </tr>
 </tbody>
 </table>
@@ -745,11 +743,13 @@ order to get output that is interpretable, you can pipe the result to
 the <code>summary()</code> function.</p>
 <pre class="r"><code>aov(introvert ~ cat.dog*video.games,data = clean.data2) %&gt;%
   summary()</code></pre>
-<pre><code>##                     Df Sum Sq Mean Sq F value Pr(&gt;F)
-## cat.dog              1   14.1  14.110   1.117  0.296
-## video.games          1    4.6   4.587   0.363  0.550
-## cat.dog:video.games  1    1.9   1.910   0.151  0.699
-## Residuals           49  619.1  12.635</code></pre>
+<pre><code>##                     Df Sum Sq Mean Sq F value Pr(&gt;F)  
+## cat.dog              1    2.7    2.67   0.192 0.6627  
+## video.games          1   68.6   68.59   4.930 0.0294 *
+## cat.dog:video.games  1   44.9   44.91   3.228 0.0764 .
+## Residuals           75 1043.5   13.91                 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Similar to a one-way ANOVA, the two-way ANOVA will tell you whether
 or not there is a difference, but it will not tell you where that
 difference is. In order to determine this, you will need to calculate
@@ -770,9 +770,9 @@ the <code>eta_squared()</code> function:</p>
 ## 
 ## Parameter           | Eta2 (partial) |       95% CI
 ## ---------------------------------------------------
-## cat.dog             |           0.02 | [0.00, 1.00]
-## video.games         |       7.35e-03 | [0.00, 1.00]
-## cat.dog:video.games |       3.08e-03 | [0.00, 1.00]
+## cat.dog             |       2.55e-03 | [0.00, 1.00]
+## video.games         |           0.06 | [0.00, 1.00]
+## cat.dog:video.games |           0.04 | [0.00, 1.00]
 ## 
 ## - One-sided CIs: upper bound fixed at [1.00].</code></pre>
 </div>
@@ -789,10 +789,10 @@ the <code>eta_squared()</code> function:</p>
 ## # Groups:   video.games [2]
 ##   video.games cat.dog count  mean    sd
 ##   &lt;chr&gt;       &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 No          cat         3  12.7  3.51
-## 2 No          dog        18  12.4  2.81
-## 3 Yes         cat        11  14.1  4.23
-## 4 Yes         dog        21  12.8  3.75</code></pre>
+## 1 No          cat        10  10.2  3.08
+## 2 No          dog        27  11.9  3.88
+## 3 Yes         cat        16  14.3  3.09
+## 4 Yes         dog        26  12.8  4.11</code></pre>
 </div>
 <div id="multiple-comparisons" class="section level4">
 <h4>Multiple Comparisons</h4>
@@ -807,25 +807,25 @@ depending on whether they play video-games or not.</p>
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 0.84564, df = 18.372, p-value = 0.4086
+## t = 1.3815, df = 38.237, p-value = 0.1751
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -1.897476  4.460247
+##  -0.7176501  3.8041886
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          14.09091          12.80952</code></pre>
+##          14.31250          12.76923</code></pre>
 <pre class="r"><code>t.test(introvert ~ cat.dog,data = filter(clean.data2,video.games == &quot;No&quot; &amp; (cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;)))</code></pre>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
 ## data:  introvert by cat.dog
-## t = 0.13023, df = 2.4465, p-value = 0.9063
+## t = -1.4049, df = 20.25, p-value = 0.1752
 ## alternative hypothesis: true difference in means between group cat and group dog is not equal to 0
 ## 95 percent confidence interval:
-##  -7.467877  8.023432
+##  -4.2865873  0.8347354
 ## sample estimates:
 ## mean in group cat mean in group dog 
-##          12.66667          12.38889</code></pre>
+##          10.20000          11.92593</code></pre>
 </div>
 </div>
 </div>
@@ -887,14 +887,14 @@ variable, and since the data is within-participants, we will use
 <pre><code>## 
 ## Error: student.no
 ##           Df Sum Sq Mean Sq F value Pr(&gt;F)
-## cat.dog    1    225   225.2   0.276  0.602
-## Residuals 51  41602   815.7               
+## cat.dog    1     61    61.0   0.091  0.764
+## Residuals 77  51758   672.2               
 ## 
 ## Error: student.no:time
 ##              Df Sum Sq Mean Sq F value   Pr(&gt;F)    
-## time          1   1525  1524.6  14.413 0.000391 ***
-## time:cat.dog  1    325   324.8   3.071 0.085706 .  
-## Residuals    51   5395   105.8                     
+## time          1   2107  2107.1  23.752 5.75e-06 ***
+## time:cat.dog  1    341   341.2   3.846   0.0535 .  
+## Residuals    77   6831    88.7                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Notice in the output above that there are two ANOVA tables. The first

@@ -422,7 +422,7 @@ files).</li>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class Data</h1>
-<p><a href = files/data_2025.csv download>Click here to download the
+<p><a href = files/data_2026.csv download>Click here to download the
 data used in these demonstrations.</a> (You may need to right-click and
 select ‘Save Linked File’ option)</p>
 </div>
@@ -725,7 +725,7 @@ information on indexing.</a></p>
 <pre class="r"><code>table(data$aus.animal)</code></pre>
 <pre><code>## 
 ##  echidna kangaroo    koala platypus   wombat 
-##        5       12       43       13       15</code></pre>
+##        2       15       41       10       11</code></pre>
 <p>So above, we see that there are five separate values (if we ignore
 missing data), and the most frequent response was
 <code>koala</code>.</p>
@@ -781,7 +781,7 @@ the code to calculate the mean and standard deviation of the variable
 <pre><code>## # A tibble: 1 × 2
 ##   stats_exp.mean stats_exp.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.39         2.13</code></pre>
+## 1              4         2.16</code></pre>
 <p>A couple of things to note. First, I have broken the above code
 across several lines. This is just to make it easier to read (remember R
 ignores white space inside an incomplete command). Second, it doesn’t
@@ -799,7 +799,7 @@ multiple variables:</p>
 <pre><code>## # A tibble: 1 × 4
 ##   stats_exp.mean stats_exp.sd stats_anx.mean stats_anx.sd
 ##            &lt;dbl&gt;        &lt;dbl&gt;          &lt;dbl&gt;        &lt;dbl&gt;
-## 1           4.39         2.13           6.23         2.34</code></pre>
+## 1              4         2.16           5.71         2.29</code></pre>
 <p>Note: An annoying thing about the <code>summarise()</code> function
 is that sometimes it will not show results to two-decimal places (which
 is the requirement for APA format). To see all the decimal places, you
