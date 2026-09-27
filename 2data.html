@@ -492,7 +492,8 @@ repository (CRAN) using the <code>install.packages()</code>
 function.</p>
 <p>There is an important distinction between installing a package and
 loading a package. Installing a package is done using
-<code>install.packages()</code>. This is like installing an app on your
+<code>install.packages()</code> or via the drop down menus by clicking
+‘Tools’ then ‘Install Packages…’. This is like installing an app on your
 smartphone: you only have to do it once and the app will remain
 installed until you remove it. Likewise, when you install a package, the
 package will be available (but not loaded) every time you open up R.</p>
@@ -528,7 +529,9 @@ has a separate working directory.</p>
 on:</p>
 <p>Sessions &gt;&gt;&gt; Set Working Directory &gt;&gt;&gt; Choose
 Directory…</p>
-<p>Then select the desired folder.</p>
+<p>Then select the desired folder. Please note, when setting the working
+directory, you are selecting a folder on your computer, not an
+individual file.</p>
 <p>Alternatively, you can use the <code>setwd()</code> function within a
 script. Just note that if you change computers, the file directory path
 will most likely be different.</p>
@@ -598,7 +601,7 @@ the class data set is already in the correct format.</p>
 <pre class="r"><code>#Remember to load the tidyverse library if you haven&#39;t already.
 #The exact directory the file is in may differ depending on where the data file is on your computer.
 
-data &lt;- read_csv(&quot;data_2025.csv&quot;)</code></pre>
+data &lt;- read_csv(&quot;data_2026.csv&quot;)</code></pre>
 <p>Once data is loaded, you can view the data.frame by either clicking
 on the data.frame icon in the work space, or using the
 <code>View()</code> function in the console. This will open a tab in the
@@ -726,9 +729,8 @@ information on indexing.</a></p>
 <pre><code>## 
 ##  echidna kangaroo    koala platypus   wombat 
 ##        2       15       41       10       11</code></pre>
-<p>So above, we see that there are five separate values (if we ignore
-missing data), and the most frequent response was
-<code>koala</code>.</p>
+<p>So above, we see that there are five separate values, and the most
+frequent response (the mode) was <code>koala</code>.</p>
 </div>
 </div>
 <div id="tidyverse-functions" class="section level2">
