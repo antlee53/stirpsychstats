@@ -495,18 +495,16 @@ introverted than those who self-identify as a ‘dog-person’. This is an
 different to participants in the other group.</p>
 <div id="prepare-the-data-for-analysis." class="section level3">
 <h3>1. Prepare the data for analysis.</h3>
-<p>Click <a
+<p>We used the same introversion scale in the demonstration video from
+two week’s ago, though click <a
 href="http://www.jamescmccroskey.com/measures/introversion.htm">here</a>
-for details on the Introversion Scale. To keep things simple, we have
-only used 5 items from this scale. Note: as specified in the link, low
-scores on this scale indicate higher levels of introversion. Therefore,
-to be consistent with the name of the measure, scores have been reversed
-in the dataset (i.e., high scores corresponds with high introversion).
-Also note: sometimes you will need to reverse code the items yourself,
-while we don’t have to do this for this data, I have left the code in
-(commented out) that would reverse score an Item 1 - to do this, we use
-the <code>recode()</code> function within the <code>mutate()</code>
-function.</p>
+for the full details. Remember, to keep things simple, we have only used
+5 items from this scale. Also remember: the items have been
+reverse-coded for you already, but sometimes you will need to reverse
+code the items yourself; while we don’t have to do this for this data, I
+have left the code in below (commented out) that would reverse score an
+Item 1 using the <code>recode()</code> function… just for those of you
+who want to learn something extra.</p>
 <pre class="r"><code>data1.clean &lt;- data %&gt;%
   mutate( #introversion1R = recode(introversion1,`1` = 5,`2` = 4,`3`=3,`4` = 2,`5` = 1),
           introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10) %&gt;%
