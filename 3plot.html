@@ -443,7 +443,9 @@ library(ggplot2)</code></pre>
 <li>It can identify if there is anything weird happening in your
 data.</li>
 </ol>
-<p>However, there is an art to creating an informative plot.
+<p>I would recommend visualising all relationships that you are
+investigating as it would give you the best idea of what is happening in
+your data. However, there is an art to creating an informative plot.
 Unfortunately, there are no good rule-of-thumbs that work for all types
 of data, and each plot requires careful consideration depending on the
 data and the intended audience. The aim of this week is to give you an
@@ -468,8 +470,8 @@ highly customisable by changing properties known as aesthetics; this is
 similar to how on a pizza the same toppings can come in different
 varieties (e.g., you could have green peppers, or red peppers).</p>
 <p>This is what code to make a graph in ggplot looks like:</p>
-<pre class="r"><code>ggplot(data = example.data,aes(x = var1, y = var2)) +
-  geom_point(colour = &quot;red&quot;) +
+<pre class="r"><code>ggplot(data = data,aes(x = stats.exp, y = stats.anx)) +
+  geom_point(colour = &quot;red&quot;,position = position_jitter(width = .5,height = .5)) +
   geom_smooth(method = &quot;lm&quot;) +
   theme_classic()</code></pre>
 <p><img src="3plot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
@@ -491,6 +493,11 @@ something in the data.frame, you must map it using the
 <code>aes()</code> function.</p>
 <p>Just to reiterate, any aesthetics that you specify here will be
 passed to all geoms.</p>
+<p>If you were to create a plot with just the <code>ggplot()</code>
+base, it would look like this… Notice how no components are included,
+just a blank canvas.</p>
+<pre class="r"><code>ggplot(data = data,aes(x = stats.exp,y = stats.anx))</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div id="geometric-objects" class="section level3">
 <h3>Geometric Objects</h3>
@@ -502,6 +509,14 @@ multiple geoms on a plot. You can add as many geoms as you want simply
 by using <code>+</code> symbol. In the example above, there are two
 geoms: <code>geom_point()</code>, which plots the individual points, and
 <code>geom_smooth()</code>, which plots the line-of-best-fit.</p>
+<p>If we were to add the two geoms to our blank canvas, it would look
+like the following. Notice that we now have the elements added to our
+graph, but they are not customised in the same way as the final figure
+above.</p>
+<pre class="r"><code>ggplot(data = data,aes(x = stats.exp,y = stats.anx)) +
+  geom_point() +
+  geom_smooth()</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="aesthetics" class="section level3">
 <h3>Aesthetics</h3>
@@ -525,31 +540,51 @@ could be useful if you want different aesthetics to represent
 differences in your data. Using different aesthetic properties for
 different variables can lead to visualisations that convey a lot of
 information, but are still readily interpretable.</p>
-<p>Below is an example of representing data using multiple aesthetics.
-The data come from Lee, DeBruine, and Jones (2018) and investigates the
-relationship between a country’s life expectancy, and future discounting
-(i.e., the proportion of trial where participants choose a larger reward
-in the future, compared to a smaller, immediate reward). Each point
-represents a different country in the dataset. The country’s life
-expectancy is on the x-axis, while the corresponding proportion on the
-future discounting task is on the y-axis. The region of the world the
-country falls in is represented by colour, while the number of
-participants from that country is represented by the size of the
-point.</p>
-<p>From the code below, can you understand how this plot was put
-together?</p>
-<pre class="r"><code>ggplot(discounting.data,aes(x = life.expectancy,y = dv)) +
-  geom_point(aes(size = n,colour = region)) +
-  theme_classic() +
-  xlab(&quot;Country Life Expectancy&quot;) +
-  ylab(&quot;Future Discounting&quot;)</code></pre>
-<p><img src="3plot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<div id="other-things" class="section level4">
-<h4>Other Things…</h4>
+<p>In the figure below, we have added aesthetic components to our geoms,
+including customising the colour and position aesthetics for
+<code>geom_point()</code>, and setting the method to ‘lm’ for
+<code>geom_smooth()</code> to produce a straight line-of-best-fit.</p>
+<pre class="r"><code>ggplot(data = data,aes(x = stats.exp,y = stats.anx)) +
+  geom_point(colour = &quot;red&quot;,position = position_jitter(width = .5,height = .5)) +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>As mentioned above, if we want to map an aesthetic to a variable in
+the dataset, we need to put it within the <code>aes()</code> function.
+Let’s say that instead of making the points red, we want to have a
+different colour representing responses from participants enrolled in
+the three programme groups. We can map the colour aesthetic to the
+program variable like below:</p>
+<pre class="r"><code>ggplot(data = data,aes(x = stats.exp,y = stats.anx)) +
+  geom_point(aes(colour = program),position = position_jitter(width = .5,height = .5)) +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<div id="customising-the-look" class="section level4">
+<h4>Customising The Look</h4>
 <p>There are also a few other commands that can customise the look of
 your plot. You can change things like axis text size, labels, or split
 your graph into multiple panels. These don’t really fit well within the
 pizza analogy.</p>
+<p>Often to get the figures suitable for publication, or inclusion in a
+dissertation, you will need to customise some aspects of your plot. For
+instance, you will need to change the axis labels, or the theme of the
+plot. By default, ggplot will use the variable names for labels on the
+axes. You can set custom axis labels by adding <code>xlab()</code> or
+<code>ylab()</code> when building your ggplot. You can also add a title
+to the plot by adding <code>ggtitle()</code>. You can also set the theme
+for a plot, which is a set of pre-chosen aesthetics. There are many
+pre-existing themes, but an elegant, simple theme that will suit most
+needs is the classic theme.</p>
+<p>Below, we adjust our axis labels using the <code>xlab()</code> and
+<code>ylab()</code> components, and also change the theme using
+<code>theme_classic()</code>:</p>
+<pre class="r"><code>ggplot(data = data,aes(x = stats.exp,y = stats.anx)) +
+  geom_point(aes(colour = program),position = position_jitter(width = .5,height = .5)) +
+  geom_smooth(method = &quot;lm&quot;) +
+  xlab(&quot;Statistics Experience&quot;) +
+  ylab(&quot;Statistics Anxiety&quot;) +
+  theme_classic() +
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p><img src="3plot_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 </div>
 </div>
@@ -570,7 +605,7 @@ y-axis. We can also make the bars a bright green colour by adjusting the
 ‘fill’ aesthetic… just for fun.</p>
 <pre class="r"><code>ggplot(data = data,mapping = aes(x = aus.animal)) +
   geom_bar(fill = &quot;green&quot;)</code></pre>
-<p><img src="3plot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="3plot_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 <div id="histograms---1-variable-continuous" class="section level3">
 <h3>Histograms - 1 Variable Continuous</h3>
@@ -581,7 +616,7 @@ associated with that value. Below is the code to make a histogram of
 people’s response to height:</p>
 <pre class="r"><code>ggplot(data = data,mapping = aes(x = height)) +
   geom_histogram(binwidth = 2)</code></pre>
-<p><img src="3plot_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="3plot_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>The first thing that should be clear is that there are responses that
 are outside the range of what we could reasonably expect someone’s
 height to be. This could be because participants misunderstood the
@@ -595,7 +630,7 @@ less than 100cm tall and more than 300cm tall.</p>
 
 ggplot(data = plot.data,mapping = aes(x = height)) +
   geom_histogram(binwidth = 2)</code></pre>
-<p><img src="3plot_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="3plot_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>This looks more reasonable. We will continue plotting height
 excluding these participants.</p>
 <p>Related to this is a density plot. Density plots are slightly
@@ -603,7 +638,7 @@ different because, rather than represent counts, they represent
 percentage of responses that fall in a certain bandwidth.</p>
 <pre class="r"><code>ggplot(data = plot.data,mapping = aes(x = height)) +
   geom_density(fill = &quot;purple&quot;)</code></pre>
-<p><img src="3plot_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="3plot_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>By adjusting some of the aesthetic components, we can begin to
 customise our plot, and make more complicated visualisations. In the
 code below, we change the ‘fill’ aesthetic to map onto whether
@@ -613,34 +648,23 @@ adjusting the ‘position’ aesthetic, or the ‘alpha’ aesthetic (which
 adjusts opacity).</p>
 <pre class="r"><code>ggplot(data = plot.data,mapping = aes(x = height)) +
   geom_histogram(aes(fill = video.games),binwidth = 2,position = &quot;dodge&quot;)</code></pre>
-<p><img src="3plot_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="3plot_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>Or…</p>
 <pre class="r"><code>ggplot(data = plot.data,mapping = aes(x = height)) +
   geom_density(aes(fill = video.games),alpha = .5)</code></pre>
-<p><img src="3plot_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="3plot_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 </div>
-<div id="customising-the-look" class="section level2">
-<h2>Customising The Look</h2>
-<p>Often to get the figures suitable for publication, or inclusion in a
-dissertation, you will need to customise some aspects of your plot. For
-instance, you will need to change the axis labels, or the theme of the
-plot.</p>
-<p>By default, ggplot will use the variable names for labels on the
-axes. You can set custom axis labels by adding <code>xlab()</code> or
-<code>ylab()</code> when building your ggplot. You can also add a title
-to the plot by adding <code>ggtitle()</code>. You can also set the theme
-for a plot, which is a set of pre-chosen aesthetics. There are many
-pre-existing themes, but an elegant, simple theme that will suit most
-needs is the classic theme.</p>
-<p>Using these components, we can edit the density plot above:</p>
-<pre class="r"><code>ggplot(data = plot.data,mapping = aes(x = height)) +
-  geom_density(aes(fill = video.games),alpha = .5) +
-  xlab(&quot;Height (cm)&quot;) +
-  ylab(&quot;Density&quot;) +
-  labs(fill = &quot;Plays Video Games&quot;) +
-  theme_classic()</code></pre>
-<p><img src="3plot_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<div id="saving-visualisations" class="section level2">
+<h2>Saving Visualisations</h2>
+<p>Once you have finished creating your masterpiece, you can save it
+onto your computer using the <code>ggsave()</code> function. How this
+function works is that you simply need to specify the filename you wish
+to export your figure as. Remember to give it a filename with an image
+type extension, such as .jpeg or .png. When running the code, R will
+save the figure into your working directory. You can also click “Export”
+above your figure in the bottom right panel.</p>
+<pre class="r"><code>ggsave(&quot;figure1.png&quot;)</code></pre>
 <div id="in-the-coming-weeks" class="section level3">
 <h3>In The Coming Weeks…</h3>
 <p>In the coming weeks, we will be introducing a number of other geoms
