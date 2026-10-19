@@ -422,7 +422,6 @@ able to:</p>
 DV, including:</li>
 </ol>
 <ul>
-<li>box plot</li>
 <li>violin plot</li>
 </ul>
 </div>
@@ -516,32 +515,30 @@ necessary, but can help you organise your data.</p>
 </div>
 <div id="visualise-the-data." class="section level3">
 <h3>2. Visualise the data.</h3>
-<div id="box-plot" class="section level4">
-<h4>Box Plot</h4>
-<p>Box plots are good for representing the range and quantiles of your
-data. To create a box plot, use <code>geom_boxplot()</code>. Make sure
-to set the correct variables on the x- and y-axes (<code>cat.dog</code>
-and <code>introvert</code> respectively). We also map the ‘fill’
-aesthetic to the <code>cat.dog</code> variable so that the colours are
-different.</p>
-<pre class="r"><code>ggplot(data1.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
-  geom_boxplot() +
-  theme_classic()</code></pre>
-<p><img src="4LM1_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-</div>
 <div id="violin-plot" class="section level4">
 <h4>Violin Plot</h4>
 <p>Violin plots are good for representing the distributions of scores on
 the DV between groups, and can be created using
-<code>geom_violin()</code>. All aesthetics are identical to the box plot
-above. If you want to include visualisations of each individual data
-point, you can use <code>geom_jitter()</code>. You can also visualise
-the mean and standard error using the <code>stat_summary()</code>
-function.</p>
+<code>geom_violin()</code>. Make sure to set the correct variables on
+the x- and y-axes (<code>cat.dog</code> and <code>introvert</code>
+respectively). We also map the ‘fill’ aesthetic to the
+<code>cat.dog</code> variable so that the colours are different. If you
+want to include visualisations of each individual data point, you can
+use <code>geom_jitter()</code>. You can also visualise the mean and
+standard error using the <code>stat_summary()</code> function.</p>
 <pre class="r"><code>ggplot(data1.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
   geom_violin() +
   stat_summary() +
   geom_jitter(width = .1,alpha = .2) +
+  theme_classic()</code></pre>
+<p><img src="4LM1_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="box-plot" class="section level4">
+<h4>Box Plot</h4>
+<p>Box plots are good for representing the range and quantiles of your
+data. To create a box plot, use <code>geom_boxplot()</code>.</p>
+<pre class="r"><code>ggplot(data1.clean,aes(x = cat.dog,y = introvert,fill = cat.dog)) +
+  geom_boxplot() +
   theme_classic()</code></pre>
 <p><img src="4LM1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
