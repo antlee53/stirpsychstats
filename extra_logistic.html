@@ -459,16 +459,16 @@ summary(model)</code></pre>
 ## 
 ## Coefficients:
 ##             Estimate Std. Error z value Pr(&gt;|z|)  
-## (Intercept)  2.33519    0.97050   2.406   0.0161 *
-## introvert   -0.14552    0.07028  -2.071   0.0384 *
+## (Intercept)  -1.5666     0.8177  -1.916   0.0554 .
+## introvert     0.1367     0.0638   2.143   0.0321 *
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
 ## (Dispersion parameter for binomial family taken to be 1)
 ## 
-##     Null deviance: 107.68  on 79  degrees of freedom
-## Residual deviance: 103.03  on 78  degrees of freedom
-## AIC: 107.03
+##     Null deviance: 109.20  on 78  degrees of freedom
+## Residual deviance: 104.23  on 77  degrees of freedom
+## AIC: 108.23
 ## 
 ## Number of Fisher Scoring iterations: 4</code></pre>
 </div>
@@ -485,9 +485,9 @@ to convert these to odds-ratios and report 95% confidence intervals. You
 can use the following code if you want to convert the coefficients to
 odds-ratios.</p>
 <pre class="r"><code>exp(cbind(OR = coef(model), confint(model)))</code></pre>
-<pre><code>##                     OR     2.5 %     97.5 %
-## (Intercept) 10.3314267 1.6768661 78.3328287
-## introvert    0.8645688 0.7472052  0.9871924</code></pre>
+<pre><code>##                    OR      2.5 %    97.5 %
+## (Intercept) 0.2087511 0.03910523 0.9922076
+## introvert   1.1465290 1.01619256 1.3078914</code></pre>
 </div>
 <div id="visualise-the-data" class="section level3">
 <h3>4. Visualise the Data</h3>

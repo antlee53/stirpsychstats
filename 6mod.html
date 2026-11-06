@@ -410,12 +410,7 @@ able to:</p>
 <li>Standardise variables.</li>
 <li>Perform a multiple regression with interaction effects.</li>
 <li>Plot relationship between data with two continuous IVs and one
-continuous DV, including:</li>
-</ol>
-<ul>
-<li>interaction plots</li>
-</ul>
-<ol style="list-style-type: decimal">
+continuous DV.</li>
 <li>Perform two-way ANOVAs (including between-subjects, within-subjects,
 and mixed-design)</li>
 </ol>
@@ -438,8 +433,9 @@ procedure:</p>
 <li>Run the statistical test.</li>
 <li>Write-up analysis.</li>
 </ol>
-<p>We will be using the following packages. If this is your first time
-using these packages, remember to install them before loading the
+<p>We will be using the following packages. We have used all of these
+these packages in previous demonstrations, but if this is your first
+time using these packages, remember to install them before loading the
 packages.</p>
 <pre class="r"><code>library(tidyverse)
 library(lm.beta)
@@ -528,7 +524,7 @@ participants who score low on the moderator. We can categorise
 participants based on whether they score above or below the mean on the
 variable (like we will do in our example), but you can also use the
 median if that’s more appropriate. In our example, we will split the
-data into participants who are above and below the mean on social
+data into participants who are above and below the median on social
 support. We can do this by creating a new variable using the
 <code>ifelse()</code> function within the <code>mutate()</code>
 function.</p>
@@ -563,8 +559,10 @@ support.</p>
 <p>Recall that interaction effects are the multiplication of the two
 variable. Therefore, to specify an interaction, we change the formula we
 specify to include the multiplication of the variable whose interaction
-we are interested in. For the unstandardised model, make sure you
-include the centred variables in the formula.</p>
+we are interested in. Remember to use the centred variables we
+calculated above in the formula (you could also use the standardised
+variables - they will give you the same result as the centred
+versions).</p>
 <pre class="r"><code>#Unstandardised Model
 model1 &lt;- lm(sleep.quality ~ c.stress*c.support,data = data1.clean)
 summary(model1)</code></pre>
@@ -642,20 +640,21 @@ the components you need to write up a regression:</p>
 <li>the t-statistic.</li>
 <li>the p-value for that coefficient.</li>
 </ul>
-<p>As mentioned last week, with more than one predictor in the model, it
-may make more sense to report the statistics in a table. This includes
-models with interaction effects (in the case above, the interaction
-effect is our third predictor).</p>
+<p>As mentioned last week, with more than one predictor in the model,
+you can report the statistics for each individual predictor in a table,
+like we have done below. This includes models with interaction effects.
+Alternatively, you could report the statistics in-text, like we have
+done previously.</p>
 <p>Here is an example of the write-up:</p>
 <blockquote>
 <p>We used a linear regression to predict sleep quality from the level
 of perceived stress, level of social support, and the interaction
 between the two. We found that model explained 23.3% of the variance
-(F(3,75) = 7.59, p = 0). Regression coefficients are reported in Table
-1. There was a significant, positive main effect of stress on sleep
-quality. There was no significant main effect of social support on sleep
-quality. The interaction between perceived stress and social support was
-not significant.</p>
+(F(3,75) = 7.59, p &lt; .001). Regression coefficients are reported in
+Table 1. There was a significant, positive main effect of stress on
+sleep quality. There was no significant main effect of social support on
+sleep quality. The interaction between perceived stress and social
+support was not significant.</p>
 </blockquote>
 <p>Table 1. Regression coefficients for linear model predicting
 stress.</p>
@@ -706,13 +705,11 @@ predictors applies with a two-way ANOVA, but with two categorical IVs.
 In the example below, we will test whether there is an association
 between between introversion and identifying as either a cat- or
 dog-person, and whether this association differs depending on whether
-you play video-games or not.</p>
+you play video-games or not… I’m not sure theoretically why you would
+predict this, but let’s find out if it does!</p>
 <div id="clean-the-data-for-analysis.-1" class="section level3">
 <h3>1. Clean the data for analysis.</h3>
 <pre class="r"><code>clean.data2 &lt;- data %&gt;%
-  filter(cat.dog != &quot;both&quot;) %&gt;%
-  filter(cat.dog != &quot;neither&quot;) %&gt;%
-  filter(cat.dog != &quot;&quot;) %&gt;%
   mutate( introvert = introversion2 + introversion5 + introversion7 + introversion8 + introversion10) %&gt;%
   select(introvert,video.games,cat.dog)</code></pre>
 </div>
@@ -721,8 +718,10 @@ you play video-games or not.</p>
 <p>When plotting the data, we want to visualise the relationship between
 introversion and cat-people/dog-people separated by the moderator -
 whether participants play video-games or not. We can do this by adding a
-<code>facet_wrap()</code> to our standard violin plot. Here, we only
-need to specify which variable to separate the plot on.</p>
+<code>facet_wrap()</code> to our standard violin plot. This function
+will create separate panels in your visualisation based on a categorical
+variable. Here, we only need to specify which variable to separate the
+plot on.</p>
 <pre class="r"><code>ggplot(clean.data2,aes(x = cat.dog,y = introvert,fill = video.games)) +
   geom_violin() +
   stat_summary() +
@@ -735,12 +734,12 @@ need to specify which variable to separate the plot on.</p>
 <h3>3. Run statistical test</h3>
 <p>The function to run a two-way ANOVA is the same as a one-way ANOVA:
 <code>aov()</code>. R is smart enough to determine which statistical
-test to run based on how many IVs are in the formula. The formula works
-the same as an interaction in a regression, where both categorical IVs
-are “multiplied” together. R will automatically include the main effects
-for each IV and the interaction. Also, similar to the one-way ANOVA, in
-order to get output that is interpretable, you can pipe the result to
-the <code>summary()</code> function.</p>
+test to run based on the analysis specified in the formula. The formula
+works the same as an interaction in a regression, where both categorical
+IVs are “multiplied” together. R will automatically include the main
+effects for each IV and the interaction. Also, similar to the one-way
+ANOVA, in order to get output that is interpretable, you can pipe the
+result to the <code>summary()</code> function.</p>
 <pre class="r"><code>aov(introvert ~ cat.dog*video.games,data = clean.data2) %&gt;%
   summary()</code></pre>
 <pre><code>##                     Df Sum Sq Mean Sq F value Pr(&gt;F)  
@@ -778,6 +777,16 @@ the <code>eta_squared()</code> function:</p>
 </div>
 <div id="calculate-summary-statistics" class="section level4">
 <h4>Calculate Summary Statistics</h4>
+<p>As with the one-way ANOVA, we will also want to calculate the means
+and SDs of the DV for each group. Before, we used the
+<code>group_by()</code> function with the <code>summarise()</code>
+function to split the data based on a single variable; however, we can
+also split the data on mulitple variables with the
+<code>group_by()</code> function. Below, we specify both the
+<code>video.games</code> and <code>cat.dog</code> variables and
+calculate the means and SDs on the introversion score separately. I’ve
+also included the <code>n()</code> function to count up how many
+participants fall in each group.</p>
 <pre class="r"><code>clean.data2 %&gt;%
   group_by(video.games,cat.dog) %&gt;%
   summarise(
@@ -846,17 +855,13 @@ interaction.</p>
 <div id="clean-data-for-analysis." class="section level3">
 <h3>1. Clean data for analysis.</h3>
 <p>Below, we select the key variables for analysis and reshape the data.
-Note that we will only include participants who identify as either a cat
-or a dog-person (not neither or both). It is necessary to re-shape the
-data since we are dealing with within-subjects variables. Also, since we
-will be group data by the <code>student.no</code>, we will need to
-ensure that R treats it as a factor. Also note that we have removed
-participants with missing data.</p>
+It is also necessary to re-shape the data, which we often need to do
+when dealing with within-subjects variables. Since we will group the
+data by the <code>student.no</code> variable, we will need to ensure
+that R treats this as a factor as well (rather than a numeric variable),
+which we can do using the <code>as.factor()</code> function.</p>
 <pre class="r"><code>mx.data &lt;- data %&gt;%
   select(student.no,cat.dog,pre.mood,post.mood) %&gt;%
-  filter(cat.dog == &quot;cat&quot; | cat.dog == &quot;dog&quot;) %&gt;%
-  drop_na(pre.mood) %&gt;%
-  drop_na(post.mood) %&gt;%
   gather(key = &quot;time&quot;,value = &quot;mood&quot;,pre.mood,post.mood) %&gt;%
   mutate(student.no = as.factor(student.no))</code></pre>
 </div>
@@ -879,7 +884,7 @@ interested in the interaction between the two, we continue to “multiply”
 the IVs together. The new part of the formula comes where we add to the
 formula the “Error” part above. This tells R 1) what is the
 within-subjects variable, and 2) how that within-subjects variable is
-grouped. In our example, <code>condition</code> is the within-subjects
+grouped. In our example, <code>time</code> is the within-subjects
 variable, and since the data is within-participants, we will use
 <code>student.no</code> to tell R which observations are linked.</p>
 <pre class="r"><code>aov(mood ~ time*cat.dog + Error(student.no/time),data = mx.data) %&gt;%
@@ -897,12 +902,12 @@ variable, and since the data is within-participants, we will use
 ## Residuals    77   6831    88.7                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>Notice in the output above that there are two ANOVA tables. The first
-is the between-subjects effects, which reports the main effect for
-<code>cat.dog</code> on mood. In the example above this is not
-significant, indicating that, overall, there was no difference in mood
-between the two conditions (as should be expected).. The second table
-has the within-subjects effects. This includes the main effect of
+<p>As discussed in the lecture, the output above includes two ANOVA
+tables. The first is the between-subjects effects, which reports the
+main effect for <code>cat.dog</code> on mood. In the example above this
+is not significant, indicating that, overall, there was no difference in
+mood between the two conditions (as should be expected). The second
+table has the within-subjects effects. This includes the main effect of
 <code>time</code>, plus the interaction between our two IVs. In the
 example above, the main effect of time is significant, indicating there
 is an overall there was a change in mood after viewing the cute cat
@@ -917,11 +922,15 @@ class="section level2">
 <p>While we will not be going through an example of a within-subjects
 ANOVA here, the method for conducting one is identical to both the
 between-subjects and mixed-designs ANOVA above (i.e., using the
-<code>aov()</code> function). The output is also similar to interpret;
-however, unlike with the mixed-designs ANOVA where two separate tables
-are given (one for the between-subjects effects and one for the
-within-subjects effects), you are only given one table (i.e., only a
-table for the within-subjects effects).</p>
+<code>aov()</code> function). The main difference is that both variables
+(and the interaction term) need to be in the <code>Error()</code> part
+of the formula so that R knows that both variables are within-subjects.
+So the formula looks like this:</p>
+<p><code>DV ~ IV1*IV2 + Error(ID/(IV1*IV2))</code></p>
+<p>The output is also similar to interpret; however, unlike with the
+mixed-designs ANOVA where two separate tables for the between-subjects
+effects and for the within-subjects effects), here you are only given
+tables for within-subjects effects only.</p>
 </div>
 </div>
 <div id="exercises" class="section level1">

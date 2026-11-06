@@ -411,11 +411,8 @@ demonstration, you should be able to:</p>
 <li>Perform a correlation in R.</li>
 <li>Perform a regression in R.</li>
 <li>Plot the relationship between data with a continuous IV and
-continuous DV, including:</li>
+continuous DV using a scatterplot.</li>
 </ol>
-<ul>
-<li>scatterplots</li>
-</ul>
 </div>
 <div id="class-data" class="section level1">
 <h1>Class data</h1>
@@ -441,10 +438,9 @@ the association between stress levels and sleep quality. For more detail
 on the Perceived Stress Scale, <a
 href="https://das.nh.gov/wellness/docs/percieved%20stress%20scale.pdf">click
 here</a>. For more detail on the sleep quality scale, <a
-href="http://www.psychwiki.com/dms/other/labgroup/Measu235sdgse5234234resWeek2/Rocio2/yi2006.pdf">click
-here</a>. Note that we have reversed-coded the sleep quality items so
-that higher scores mean higher sleep quality. Again, we will only be
-using a subset of the items from each scale.</p>
+href="https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1365-2869.2006.00544.x">click
+here</a>. Note, we will only be using a subset of the items from each
+scale.</p>
 <p>Remember, whenever we analyse data, we will roughly be following this
 procedure:</p>
 <ol style="list-style-type: decimal">
@@ -507,12 +503,10 @@ can also use <code>geom_jitter()</code> instead of
 function. Similar to analyses we have covered previously, this function
 requires a formula, and a data.frame.</p>
 <p>Normally, the formula has the form: <code>DV ~ IV</code>. However,
-for a correlation, given that there are no IVs/DVs per se (i.e., we
-cannot infer causality - does decreased sleep quality lead to higher
-perceived stress, or does higher perceived stress lead to decreased
-sleep quality?), this is reflected in the formula for a correlation,
-where both variables are on the right side of the <code>~</code>
-symbol:</p>
+for a correlation, given that there are no IVs/DVs per se (i.e., both
+variables are treated equally mathematically), this is reflected in the
+formula for a correlation, where both variables are on the right side of
+the <code>~</code> symbol:</p>
 <p><code>~ variable1 + variable2</code></p>
 <p>Below is the code and output from a correlation conducted in R.</p>
 <pre class="r"><code>cor.test(~ stress + sleep.quality,data = data1.clean)</code></pre>

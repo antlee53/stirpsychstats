@@ -884,7 +884,7 @@ missing data on either variable.</p>
   select(student.no,pre.mood,post.mood)</code></pre>
 </div>
 <div id="visualise-the-data.-2" class="section level3">
-<h3>3. Visualise the data.</h3>
+<h3>2. Visualise the data.</h3>
 <p>We can plot the data using a violin plot, the same way we visualised
 the data for an independent-samples t-test. However, this does not give
 an indication of the change in scores within a participant. One way to
@@ -972,12 +972,12 @@ the same as above.</p>
 <pre class="r"><code>data2.summary &lt;- data2.clean %&gt;%
   summarise(pre.mean = mean(pre.mood,na.rm = TRUE),
             pre.sd = sd(pre.mood,na.rm = TRUE),
-            post.mean = mean(pre.mood,na.rm = TRUE),
+            post.mean = mean(post.mood,na.rm = TRUE),
             post.sd = sd(post.mood,na.rm = TRUE))
 
 data2.summary</code></pre>
 <pre><code>##   pre.mean   pre.sd post.mean  post.sd
-## 1 69.51899 17.85616  69.51899 20.91543</code></pre>
+## 1 69.51899 17.85616  76.82278 20.91543</code></pre>
 <p>We also need the effect size, which is Cohen’s d. Again, we can use
 the <code>cohens_d()</code> function from the <code>effectsize</code>
 package.</p>
@@ -988,7 +988,7 @@ package.</p>
 <blockquote>
 <p>A paired-samples t-test found that there was a significant difference
 on mood before (<em>M</em> = 69.52, <em>SD</em> = 17.86) and after
-(<em>M</em> = 69.52 , <em>SD</em> = 20.92) viewing a cute cat video,
+(<em>M</em> = 76.82 , <em>SD</em> = 20.92) viewing a cute cat video,
 <em>t</em>(78) = -4.79, <em>p</em> &lt; .001, Cohen’s <em>d</em> =
 -0.54.</p>
 </blockquote>

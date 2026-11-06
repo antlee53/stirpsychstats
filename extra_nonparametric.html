@@ -440,7 +440,7 @@ needed for all analysis functions: the formula, and the data.frame.</p>
 ##  Wilcoxon rank sum test with continuity correction
 ## 
 ## data:  introvert by cat.dog
-## W = 242, p-value = 0.8645
+## W = 744, p-value = 0.5683
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <div id="visualise-the-data." class="section level3">
@@ -477,13 +477,13 @@ data1.summary</code></pre>
 <pre><code>## # A tibble: 2 × 2
 ##   cat.dog introvert_median
 ##   &lt;chr&gt;              &lt;dbl&gt;
-## 1 cat                   14
-## 2 dog                   14</code></pre>
+## 1 cat                   12
+## 2 dog                   12</code></pre>
 <p>Therefore, the write-up becomes:</p>
 <blockquote>
 <p>A Mann-Whitney U test indicated that there was a non-significant
-differences in introversion between cat-people (Mdn = 14) and dog-people
-(Mdn = 14), U = 242, p = 0.864.</p>
+differences in introversion between cat-people (Mdn = 12) and dog-people
+(Mdn = 12), U = 744, p = 0.568.</p>
 </blockquote>
 </div>
 </div>
@@ -520,7 +520,7 @@ t-test with the <code>t.test()</code> function.</p>
 ##  Wilcoxon signed rank test with continuity correction
 ## 
 ## data:  Pair(pre.mood, post.mood)
-## V = 399, p-value = 1.685e-07
+## V = 296, p-value = 3.912e-07
 ## alternative hypothesis: true location shift is not equal to 0</code></pre>
 </div>
 <div id="visualise-the-data" class="section level3">
@@ -545,15 +545,15 @@ median for each condition. This code is exactly the same as above:</p>
 data2.summary</code></pre>
 <pre><code>## # A tibble: 2 × 2
 ##   condition introvert_median
-##   &lt;fct&gt;                &lt;dbl&gt;
-## 1 pre.mood              68.5
-## 2 post.mood             74</code></pre>
+##   &lt;fct&gt;                &lt;int&gt;
+## 1 pre.mood                72
+## 2 post.mood               79</code></pre>
 <p>We also need the test statistic (W) and the associated p-value. Once
 we have all this information, the final write-up looks like this:</p>
 <blockquote>
 <p>A Wilcoxon signed rank test indicated that there was a significant
-difference on mood before (Mdn = 68.5) and after (Mdn = 74) watching a
-short cat video, W = 399, p &lt; .001.</p>
+difference on mood before (Mdn = 72) and after (Mdn = 79) watching a
+short cat video, W = 296, p &lt; .001.</p>
 </blockquote>
 </div>
 </div>
@@ -613,13 +613,11 @@ third point:</p>
   summarise(introvert_median = median(introvert,na.rm = TRUE))
 
 data3.summary</code></pre>
-<pre><code>## # A tibble: 4 × 2
+<pre><code>## # A tibble: 2 × 2
 ##   cat.dog introvert_median
 ##   &lt;chr&gt;              &lt;dbl&gt;
-## 1 both                12.5
-## 2 cat                 14  
-## 3 dog                 14  
-## 4 neither             13</code></pre>
+## 1 cat                   12
+## 2 dog                   12</code></pre>
 <p>With this information, you can write-up your results. Remember, much
 like with the one-way ANOVA, this Kruskal-Wallis test will tell you
 whether the groups are significantly different, but it does not tell you
@@ -627,9 +625,9 @@ where those differences are. In order to determine this, you will need
 to conduct post-hoc comparisons.</p>
 <blockquote>
 <p>A Kruskal-Wallis test indicated that there was a non-significant
-differences in introversion between cat-people (Mdn = 14), dog-people
-(Mdn = 14), those who like both (Mdn = 13.5), and those who like neither
-(Mdn =12), Chi-square(3) = 0.44, p = 0.931.</p>
+differences in introversion between cat-people (Mdn = 12), dog-people
+(Mdn = 12), those who like both (Mdn = NA), and those who like neither
+(Mdn =NA), Chi-square(1) = 0.33, p = 0.565.</p>
 </blockquote>
 </div>
 </div>

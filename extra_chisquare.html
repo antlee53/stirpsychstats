@@ -415,16 +415,15 @@ expects is a contingency table.</p>
 <p>To create a contingency table in R, we can use the
 <code>table()</code> function. We have briefly talked about the
 <code>table()</code> function (to view the frequencies for a single
-variable)[<a
-href="https://antlee53.github.io/stirpsychstats/2data.html#table"
-class="uri">https://antlee53.github.io/stirpsychstats/2data.html#table</a>()_Function],
+variable)[<a href="https://antlee53.github.io/stirpsychstats/2data.html"
+class="uri">https://antlee53.github.io/stirpsychstats/2data.html</a>],
 but as a quick recap, if you wanted to view the frequencies for
 favourite Australian animals in the class dataset, the code would
 be:</p>
 <pre class="r"><code>table(data$aus.animal)</code></pre>
 <pre><code>## 
 ##  echidna kangaroo    koala platypus   wombat 
-##       10       13       24       18       15</code></pre>
+##        2       15       41       10       11</code></pre>
 <p>However, the <code>table()</code> function can also be used to create
 a contingency table. A two-variable contingency table will be created
 from a data.frame that only has two variables in it. Therefore, you can
@@ -441,8 +440,8 @@ variables from the same dataset as arguments. Here is that code:</p>
 <pre class="r"><code>table(data$video.games,data$program)</code></pre>
 <pre><code>##      
 ##       Conversion MSc Health MSc Other Research MSc
-##   No              18         10                  4
-##   Yes             18         17                 13</code></pre>
+##   No              18          9                 10
+##   Yes             21          9                 12</code></pre>
 </div>
 <div id="chi-square-goodness-of-fit-test" class="section level1">
 <h1>Chi-square Goodness of Fit Test</h1>
@@ -491,7 +490,7 @@ the second argument.</p>
 ##  Chi-squared test for given probabilities
 ## 
 ## data:  table(data$aus.animal)
-## X-squared = 63.706, df = 4, p-value = 4.82e-13</code></pre>
+## X-squared = 1.8767, df = 4, p-value = 0.7584</code></pre>
 </div>
 <div id="write-up-the-results" class="section level3">
 <h3>2. Write-up the Results</h3>
@@ -500,10 +499,10 @@ The chi-square statistic (the test statistic). * The degrees of freedom.
 * The p-value.</p>
 <p>Once you have this information, the write-up becomes:</p>
 <blockquote>
-<p>A chi-square goodness of fit test found a significant difference
-between the class distribution of favourite Australian animals and the
-expected values based on national rates, chi-square(4) = 63.71, p &lt;
-.001.</p>
+<p>A chi-square goodness of fit test did not find a significant
+difference between the class distribution of favourite Australian
+animals and the expected values based on national rates, chi-square(4) =
+1.88, p = 0.758.</p>
 </blockquote>
 </div>
 </div>
@@ -533,7 +532,7 @@ chisq.test(c.table)</code></pre>
 ##  Pearson&#39;s Chi-squared test
 ## 
 ## data:  c.table
-## X-squared = 3.5203, df = 2, p-value = 0.172</code></pre>
+## X-squared = 0.096518, df = 2, p-value = 0.9529</code></pre>
 </div>
 <div id="write-up-the-results-1" class="section level3">
 <h3>2. Write-up the Results</h3>
@@ -544,7 +543,7 @@ something like this:</p>
 <blockquote>
 <p>A chi-square test of independence did not find a significant
 difference in videogamers across the three programmes, chi-square(2) =
-3.52, p = 0.172.</p>
+0.1, p = 0.953.</p>
 </blockquote>
 </div>
 </div>
