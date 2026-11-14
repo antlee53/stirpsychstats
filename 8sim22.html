@@ -427,13 +427,14 @@ right-click and select ‘Save Linked File’ option)</p>
 <h1>Content</h1>
 <p>These are the packages we will be using in this demonstration. If
 you’ve been following the demonstrations sequentially, you should be
-familiar with the <code>tidyverse</code> and <code>lm.beta</code>
-packages. The <code>pwr</code> and <code>pwrss</code> packages are used
-to conduct standard power analyses for common statistical tests, while
-the <code>psych</code> package has many useful functions; however, we
-will just be using it to run a mediation analysis via bootstrapping. As
-always, for the packages that you are encountering for the first time,
-make sure to install them onto your computer first.</p>
+familiar with the <code>tidyverse</code>, <code>effectsize</code>, and
+<code>lm.beta</code> packages. The <code>pwr</code> and
+<code>pwrss</code> packages are used to conduct standard power analyses
+for common statistical tests, while the <code>psych</code> package has
+many useful functions; however, we will just be using it to run a
+mediation analysis via bootstrapping. As always, for the packages that
+you are encountering for the first time, make sure to install them onto
+your computer first.</p>
 <pre class="r"><code>library(pwr)
 library(pwrss)
 library(tidyverse)
@@ -458,9 +459,10 @@ regression.</p>
 and each pwr function (annoyingly) uses a different effect size measure
 (e.g., r, Cohen’s d, Cohen’s f, etc.). You can view all the effect sizes
 used by these functions and their standard interpretation using the
-<code>cohen.ES()</code> function. To use this function, you simply need
-to state which effect size measure you’re interested in, and the size
-that you expect (either small, medium, or big). Here’s an example:</p>
+<code>cohen.ES()</code> function from the <code>effectsize</code>
+package. To use this function, you simply need to state which effect
+size measure you’re interested in, and the size that you expect (either
+small, medium, or big). Here’s an example:</p>
 <pre class="r"><code>cohen.ES(test = &quot;f2&quot;,size = &quot;medium&quot;)</code></pre>
 <pre><code>## 
 ##      Conventional effect size from Cohen (1982) 
@@ -658,21 +660,16 @@ a total of 159 participants (rounded-up).</p>
 <p>For a power analysis for a multiple regression, we use
 <code>pwrss.f.reg()</code> - this function comes from a separate
 package, <code>pwrss</code>. Here, for the effect size measure, you can
-use either the R-square (or the coefficient of determination) or a new
-effect size measure called Cohen’s f-squared. Much like you can convert
-Cohen’s f and eta-squared above, you can convert Cohen’s f-squared to
-R-squared using the <code>f2_to_r2()</code> function from the
-<code>effectsize</code> package.</p>
-<p>Note that this power analysis is for the overall model - to conduct a
-power analysis for the effect of one predictor in the model, you would
-need to use the difference in R-square (i.e., how much variance does
-your predictor explain above all the other covariates). See the table
-below for standard interpretations:</p>
+use either the R-square (the coefficient of determination). Note that
+this power analysis is for the overall model - to conduct a power
+analysis for the effect of one predictor in the model, you would need to
+use the difference in R-square (i.e., how much variance does your
+predictor explain above all the other covariates). See the table below
+for standard interpretations:</p>
 <table>
 <thead>
 <tr class="header">
 <th>Effect size</th>
-<th>f2</th>
 <th>R-square</th>
 </tr>
 </thead>
@@ -680,16 +677,13 @@ below for standard interpretations:</p>
 <tr class="odd">
 <td>Small</td>
 <td>.02</td>
-<td>.02</td>
 </tr>
 <tr class="even">
 <td>Medium</td>
-<td>.15</td>
 <td>.13</td>
 </tr>
 <tr class="odd">
 <td>Large</td>
-<td>.35</td>
 <td>.26</td>
 </tr>
 </tbody>
@@ -698,23 +692,8 @@ below for standard interpretations:</p>
 the number of predictors in the model as the argument <code>k</code>.
 Note, if you have an interaction term in your analysis, this counts as
 an additional predictor. As an example, if you were conducting a
-multiple regression with 4 predictors and expect a medium effect, the
-code for the power analysis would look like:</p>
-<pre class="r"><code>pwrss.f.reg(k = 4,f2 = .15,alpha = .05,power = .80)</code></pre>
-<pre><code>##  Linear Regression (F test) 
-##  R-squared Deviation from 0 (zero) 
-##  H0: r2 = 0 
-##  HA: r2 &gt; 0 
-##  ------------------------------ 
-##   Statistical power = 0.8 
-##   n = 85 
-##  ------------------------------ 
-##  Numerator degrees of freedom = 4 
-##  Denominator degrees of freedom = 79.45 
-##  Non-centrality parameter = 12.667 
-##  Type I error rate = 0.05 
-##  Type II error rate = 0.2</code></pre>
-<p>Or…</p>
+multiple regression with 4 predictors and expect a medium effect (for
+the overall model) the code for the power analysis would look like:</p>
 <pre class="r"><code>pwrss.f.reg(k = 4,r2 = .13,alpha = .05,power = .80)</code></pre>
 <pre><code>##  Linear Regression (F test) 
 ##  R-squared Deviation from 0 (zero) 
@@ -765,10 +744,7 @@ This process should be fairly familiar by now.</p>
   mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5,
          intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5,
          behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5) %&gt;%
-  dplyr::select(student.no,attitude,intention,behaviour) %&gt;%
-  drop_na(attitude) %&gt;%
-  drop_na(intention) %&gt;%
-  drop_na(behaviour)</code></pre>
+  dplyr::select(student.no,attitude,intention,behaviour)</code></pre>
 </div>
 <div id="run-statistical-test" class="section level3">
 <h3>2. Run statistical test</h3>
@@ -776,8 +752,10 @@ This process should be fairly familiar by now.</p>
 through a third variable (mediation). If there is an effect in a model
 without the mediator, but that effect is reduced (or disappears) when
 the mediator is included, there is a chance the mediation is happening.
-In order to check whether our variables meet these conditions, we need
-to conduct a series of linear regressions.</p>
+In order to check whether our variables meet these conditions, we could
+run a series of linear regressions. In practice, you don’t need to do
+this and could skip straight to the mediation analysis, but it’s useful
+to see where the numbers come from.</p>
 <div id="model-1" class="section level4">
 <h4>Model 1</h4>
 <p>Here, we test whether there is an association between the predictor
@@ -862,7 +840,7 @@ relationship between the predictor (attitude) and the mediator
 <div id="mediation-analysis" class="section level4">
 <h4>Mediation Analysis</h4>
 <p>While the above is useful to see whether the conditions for a
-mediation are met. In actuality, they don’t need to be done when
+mediation are met. In practice, they don’t need to be done when
 conducting/reporting a mediation analysis. We can conduct the actual
 mediation analysis in R, which includes all the steps above, using the
 aptly named <code>mediate()</code> function from the <code>psych</code>
@@ -915,12 +893,13 @@ have a significant mediation effect.</p>
 <h4>Path Diagram</h4>
 <p>For mediation, there’s no good way to plot the raw data that
 visualises the mediation. The most common way to visualise a mediated
-effect is through a path diagram. You can do this directly in the
-<code>mediate()</code> function by setting the ‘plot’ argument to
-<code>TRUE</code> or use the <code>mediate.diagram()</code> like
-below:</p>
+effect is through a path diagram. You make a rough path diagram directly
+in the <code>mediate()</code> function by setting the ‘plot’ argument to
+<code>TRUE</code> or use the <code>mediate.diagram()</code> like below.
+Note that this is not at publication standard and would need to be
+recreated in a different program.</p>
 <pre class="r"><code>mediate.diagram(model)</code></pre>
-<p><img src="8sim22_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p><img src="8sim22_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
 </div>
 <div id="write-up-analysis." class="section level3">
@@ -929,9 +908,10 @@ below:</p>
 mediation analysis. Writing up a mediation analysis includes reporting
 the total and direct effects (in Model 1 and Model 3 above respectively,
 but these numbers are also included in the output for the
-<code>mediate()</code> function), and also the estimated indirect effect
-and associated confidence intervals. Usually, you would want to
-accompany the write-up with a path diagram such as the one above.</p>
+<code>mediate()</code> function), and also the estimated mean
+bootstrapped indirect effect and associated confidence intervals.
+Usually, you would want to accompany the write-up with a path diagram
+such as the one above.</p>
 <blockquote>
 <p>A mediation analysis via bootstrapping was conducted to assess
 whether the association between attitudes towards exercise and exercise
@@ -939,10 +919,10 @@ behaviour was mediated by intentions to exercise. The total effect of
 exercise attitudes on behaviour was significant (beta = 0.43, p &lt;
 .001). When intentions to exercise was included into the model, the
 direct effect of attitudes on behaviour was still significant (beta =
-0.38, p = 0). Mediation analysis found a non-significant indirect effect
-(mean bootstrapped indirect effect = 0.38, 95% CI = -0.02, 0.13). This
-would indicate intentions to exercise does not mediates the association
-between exercise attitudes and exercise behaviour.</p>
+0.38, p &lt; .001). Mediation analysis found a non-significant indirect
+effect (mean bootstrapped indirect effect = 0.38, 95% CI = -0.02, 0.13).
+This would indicate intentions to exercise does not mediates the
+association between exercise attitudes and exercise behaviour.</p>
 </blockquote>
 <p>Note: While we report the results in text above, it is sometimes also
 easier to report the separate models in a table.</p>
