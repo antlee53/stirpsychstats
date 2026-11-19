@@ -109,7 +109,7 @@ norms ~~ attitude
 attitude ~~ control
 control ~~ norms
 
-behaviour ~ intention + control + attitude
+behaviour ~ intention + control
 '
 
 sem.model <- sem(model,data = data2.clean)
