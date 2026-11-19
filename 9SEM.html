@@ -478,10 +478,7 @@ and exercise behaviour.</p>
   mutate(attitude = exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5,
          intention = exercise.intention.1 + exercise.intention.2 + exercise.intention.3 + exercise.intention.4 + exercise.intention.5,
          behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5) %&gt;%
-  dplyr::select(student.no,attitude,intention,behaviour) %&gt;%
-  drop_na(attitude) %&gt;%
-  drop_na(intention) %&gt;%
-  drop_na(behaviour)</code></pre>
+  dplyr::select(student.no,attitude,intention,behaviour)</code></pre>
 </div>
 <div id="run-statistical-test." class="section level3">
 <h3>2. Run statistical test.</h3>
@@ -534,11 +531,11 @@ constructing a SEM.</p>
 </table>
 <p>Note: you can also label parameters by using the <code>*</code>
 symbol before variables. If you give two variables the same label, it
-will force the estimates to be the same (this comes in handy sometimes,
-but not something we will use in this demonstration). Note: the label
-you give cannot have the same name as a variable in the data.frame
-(otherwise R will think you are referring to that variable and multiply
-to two together!).</p>
+will force the estimates to be equivalent (this comes in handy
+sometimes, but not something we will use in this demonstration). Note:
+the label you give cannot have the same name as a variable in the
+data.frame (otherwise R will think you are referring to that variable
+and multiply to two together!).</p>
 <p>Below is the formula to conduct a mediation analysis identical to the
 one we conducted in Demonstration 8. See if you can understand each line
 and what relationship it is specifying before reading the breakdown.
@@ -610,7 +607,7 @@ data.frame. We also set values for a few other arguments. We set
 ‘standardized’ to <code>TRUE</code> so that we get standardised
 estimates, ‘fit.measures’ to <code>TRUE</code> so we get model fit
 indicators, and ‘rsquare’ to <code>TRUE</code> to get an r-square
-statistics for the model.</p>
+statistics for the endogenous variables in the model.</p>
 <pre class="r"><code>med.sem.model &lt;- sem(sem.formula,data2.clean)</code></pre>
 <pre class="r"><code>summary(med.sem.model,standardized = TRUE, fit.measures = TRUE, rsquare = TRUE)</code></pre>
 <pre><code>## lavaan 0.6-21 ended normally after 1 iteration
@@ -697,10 +694,12 @@ diagram. Unfortunately, this is not easy to do in <code>ggplot2</code>.
 However, we can use the <code>semPaths()</code> function from the
 <code>semPlot</code> package. This function has the advantage of being
 easy to use - all you need to do is load your model estimated in laavan
-and specify which paths you want to see (or hide). The disadvantage is
-that editing the layout or customising the look of your path diagram can
-be difficult. Therefore, in order to create publication worthy graphics,
-you may want to recreate the diagram in another program.</p>
+and specify which paths you want to see (or hide). This means it can
+give a quick visualisation to help understand your model. The
+disadvantage is that editing the layout or customising the look of your
+path diagram can be difficult. Therefore, in order to create publication
+worthy graphics, you may want to recreate the diagram in another
+program.</p>
 <pre class="r"><code>semPaths(med.sem.model,whatLabel = &quot;std&quot;,intercept = FALSE,residuals = FALSE)</code></pre>
 <p><img src="9SEM_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
@@ -732,12 +731,7 @@ Something we have done many times now.</p>
          control = exercise.control.1 + exercise.control.2 + exercise.control.3,
          norms = exercise.norms.1 + exercise.norms.2 + exercise.norms.3 + exercise.norms.4 + exercise.norms.5,
          behaviour = exercise.behaviour.1 + exercise.behaviour.2 + exercise.behaviour.3 + exercise.behaviour.4 + exercise.behaviour.5) %&gt;%
-  dplyr::select(student.no,attitude,intention,control,norms,behaviour) %&gt;%
-  drop_na(attitude) %&gt;%
-  drop_na(intention) %&gt;%
-  drop_na(control) %&gt;%
-  drop_na(norms) %&gt;%
-  drop_na(behaviour)</code></pre>
+  dplyr::select(student.no,attitude,intention,control,norms,behaviour)</code></pre>
 </div>
 <div id="run-statistical-test.-1" class="section level3">
 <h3>2. Run statistical test.</h3>
@@ -752,26 +746,26 @@ control ~~ norms
 
 behaviour ~ intention + control
 &#39;</code></pre>
-<p>To break down the code above: Line 1: Attitudes, norms, and control
-predict intention. Lines 2 to 4: Covariance between predictors is
-specified explicitly. Line 5: Intention, control and attitudes predicts
-behaviour.</p>
+<p>To break down the code above: * Line 1: Attitudes, norms, and control
+predict intention. * Lines 2 to 4: Covariance between predictors is
+specified explicitly. * Line 5: Intention, control and attitudes
+predicts behaviour.</p>
 <p>We then run the SEM model using the <code>sem()</code> function:</p>
 <pre class="r"><code>sem.model &lt;- sem(model,data = data2.clean)</code></pre>
 <pre class="r"><code>summary(sem.model,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
-<pre><code>## lavaan 0.6-21 ended normally after 45 iterations
+<pre><code>## lavaan 0.6-21 ended normally after 44 iterations
 ## 
 ##   Estimator                                         ML
 ##   Optimization method                           NLMINB
-##   Number of model parameters                        14
+##   Number of model parameters                        13
 ## 
 ##   Number of observations                            79
 ## 
 ## Model Test User Model:
 ##                                                       
-##   Test statistic                                 8.968
-##   Degrees of freedom                                 1
-##   P-value (Chi-square)                           0.003
+##   Test statistic                                15.631
+##   Degrees of freedom                                 2
+##   P-value (Chi-square)                           0.000
 ## 
 ## Model Test Baseline Model:
 ## 
@@ -781,29 +775,29 @@ behaviour.</p>
 ## 
 ## User Model versus Baseline Model:
 ## 
-##   Comparative Fit Index (CFI)                    0.893
-##   Tucker-Lewis Index (TLI)                      -0.066
+##   Comparative Fit Index (CFI)                    0.818
+##   Tucker-Lewis Index (TLI)                       0.088
 ## 
 ## Loglikelihood and Information Criteria:
 ## 
-##   Loglikelihood user model (H0)              -1210.510
+##   Loglikelihood user model (H0)              -1213.842
 ##   Loglikelihood unrestricted model (H1)      -1206.026
 ##                                                       
-##   Akaike (AIC)                                2449.020
-##   Bayesian (BIC)                              2482.192
-##   Sample-size adjusted Bayesian (SABIC)       2438.050
+##   Akaike (AIC)                                2453.683
+##   Bayesian (BIC)                              2484.486
+##   Sample-size adjusted Bayesian (SABIC)       2443.496
 ## 
 ## Root Mean Square Error of Approximation:
 ## 
-##   RMSEA                                          0.318
-##   90 Percent confidence interval - lower         0.152
-##   90 Percent confidence interval - upper         0.522
-##   P-value H_0: RMSEA &lt;= 0.050                    0.006
-##   P-value H_0: RMSEA &gt;= 0.080                    0.989
+##   RMSEA                                          0.294
+##   90 Percent confidence interval - lower         0.170
+##   90 Percent confidence interval - upper         0.437
+##   P-value H_0: RMSEA &lt;= 0.050                    0.001
+##   P-value H_0: RMSEA &gt;= 0.080                    0.997
 ## 
 ## Standardized Root Mean Square Residual:
 ## 
-##   SRMR                                           0.069
+##   SRMR                                           0.083
 ## 
 ## Parameter Estimates:
 ## 
@@ -818,9 +812,8 @@ behaviour.</p>
 ##     norms             0.195    0.096    2.019    0.044    0.195    0.193
 ##     control           0.488    0.161    3.026    0.002    0.488    0.308
 ##   behaviour ~                                                           
-##     intention         0.040    0.108    0.373    0.709    0.040    0.043
-##     control           0.416    0.167    2.487    0.013    0.416    0.280
-##     attitude          0.337    0.128    2.637    0.008    0.337    0.297
+##     intention         0.134    0.106    1.259    0.208    0.134    0.143
+##     control           0.533    0.168    3.168    0.002    0.533    0.359
 ## 
 ## Covariances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
@@ -833,7 +826,7 @@ behaviour.</p>
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##    .intention        29.261    4.656    6.285    0.000   29.261    0.672
-##    .behaviour        28.258    4.496    6.285    0.000   28.258    0.739
+##    .behaviour        30.744    4.892    6.285    0.000   30.744    0.804
 ##     attitude         29.792    4.740    6.285    0.000   29.792    1.000
 ##     norms            42.554    6.771    6.285    0.000   42.554    1.000
 ##     control          17.340    2.759    6.285    0.000   17.340    1.000
@@ -841,10 +834,23 @@ behaviour.</p>
 ## R-Square:
 ##                    Estimate
 ##     intention         0.328
-##     behaviour         0.261</code></pre>
+##     behaviour         0.196</code></pre>
 <p>Notice above in the <code>summary()</code> function, we have included
 the additional arguments to get extra statistics that are helpful when
 it comes to report the analysis.</p>
+<p>There are a few key parts to pay attention to. First, when we set
+<code>fit = TRUE</code> in the summary function, the output will start
+with model fit indices, including the model chi-square, the AIC, and the
+RMSEA. If we do not set this argument to <code>TRUE</code>, then this
+information will be excluded from the output.</p>
+<p>Second, the “Regression” part of the output tells you the estimates
+for the causal paths. Standardised estimates are the last column in the
+table, while the test-statistic and p-value are in the middle.</p>
+<p>Third, similar to the “Regression” part, covariances are reported in
+the “Covariance” part.</p>
+<p>Finally, if we set <code>rsquare</code> to equal <code>TRUE</code> we
+get R-squared values (i.e., the proportion of variance explained) for
+all endogenous variables in our model.</p>
 </div>
 <div id="plot-the-model.-1" class="section level3">
 <h3>3. Plot the model.</h3>
@@ -893,9 +899,9 @@ chi-square difference test.</p>
 <pre><code>## 
 ## Chi-Squared Difference Test
 ## 
-##            Df    AIC    BIC   Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)    
-## sem.model   1 2449.0 2482.2  8.9683                                          
-## sem.model2  3 2461.1 2489.6 25.0822     16.114 0.29888       2  0.0003169 ***
+##            Df    AIC    BIC  Chisq Chisq diff   RMSEA Df diff Pr(&gt;Chisq)   
+## sem.model   2 2453.7 2484.5 15.631                                         
+## sem.model2  3 2461.1 2489.6 25.082     9.4508 0.32707       1   0.002111 **
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Above, we find that there is a significant difference between the two
@@ -912,8 +918,9 @@ compare models from other functions, such as <code>lm()</code>.</p>
 adding each item up. However, we could also compute latent variables,
 which are the underlying variables that each item is meant to tap into.
 Essentially, this is conducting a Confirmatory Factor Analysis.</p>
-<p>For example, we could calculate the latent variable ‘norms’ from each
-of the individual items.</p>
+<p>For example, we could calculate the latent variable of ‘exercise
+attitudes’ from each of the individual item from the attitudes
+scale.</p>
 <pre class="r"><code>attitude.formula &lt;- &#39;
   attitude =~ exercise.attitude.1 + exercise.attitude.2 + exercise.attitude.3 + exercise.attitude.4 + exercise.attitude.5
 &#39;
@@ -979,8 +986,7 @@ unweildy.</p>
   behaviour ~ intention + control
 &#39;</code></pre>
 <p>We won’t run the <code>summary()</code> just now because it is very
-unwieldy, but we have covered the interpretation of the output
-above.</p>
+unwieldy.</p>
 <pre class="r"><code>sem.model3 &lt;- sem(model,data = data)
 summary(sem.model3,standardized = TRUE,fit = TRUE, rsquare = TRUE)</code></pre>
 </div>
